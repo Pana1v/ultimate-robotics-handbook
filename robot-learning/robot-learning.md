@@ -39,17 +39,17 @@ A decision tree that has saved me about a year of false starts:
 
 ## Subpages
 
-* [Imitation Learning](imitation-learning.md) — BC, DAgger, ACT, Diffusion Policy. The most practical entry point for manipulation in 2026.
-* [Modern Reinforcement Learning](reinforcement-learning-modern.md) — PPO for locomotion, SERL/HIL-SERL, Eureka, sim-to-real RL pipelines. The legged locomotion playbook.
-* [Foundation Models & VLAs](foundation-models-vla.md) — RT-1/2/X, OpenVLA, π0, Octo. Where the field thinks it is going.
-* [World Models](world-models.md) — DreamerV3, Cosmos, Genie, GAIA. Sample-efficiency and planning via learned simulators.
-* [Sim-to-Real](sim-to-real.md) — Domain/dynamics randomization, Isaac Lab, MuJoCo MJX, Genesis. Why your sim-trained policy will fall over and what to do about it.
-* [Teleoperation & Data Collection](teleop-and-data.md) — ALOHA, Mobile ALOHA, GELLO, AnyTeleop. The hardware that feeds the policies.
-* [Datasets & Benchmarks](datasets-and-benchmarks.md) — Open X-Embodiment, DROID, LIBERO, RoboCasa, BEHAVIOR-1K, BARN.
+* [Imitation Learning](imitation-learning.md) - BC, DAgger, ACT, Diffusion Policy. The most practical entry point for manipulation in 2026.
+* [Modern Reinforcement Learning](reinforcement-learning-modern.md) - PPO for locomotion, SERL/HIL-SERL, Eureka, sim-to-real RL pipelines. The legged locomotion playbook.
+* [Foundation Models & VLAs](foundation-models-vla.md) - RT-1/2/X, OpenVLA, π0, Octo. Where the field thinks it is going.
+* [World Models](world-models.md) - DreamerV3, Cosmos, Genie, GAIA. Sample-efficiency and planning via learned simulators.
+* [Sim-to-Real](sim-to-real.md) - Domain/dynamics randomization, Isaac Lab, MuJoCo MJX, Genesis. Why your sim-trained policy will fall over and what to do about it.
+* [Teleoperation & Data Collection](teleop-and-data.md) - ALOHA, Mobile ALOHA, GELLO, AnyTeleop. The hardware that feeds the policies.
+* [Datasets & Benchmarks](datasets-and-benchmarks.md) - Open X-Embodiment, DROID, LIBERO, RoboCasa, BEHAVIOR-1K, BARN.
 
 ## What does NOT belong here
 
-A lot of robotics ML is just perception (detection, segmentation, depth estimation). That lives in [ML and Perception](../perception-and-computer-vision/ml-and-perception.md). Robot learning is specifically about learning policies, dynamics, or world models — about closing the loop from sensors to actions, not just labeling pixels.
+A lot of robotics ML is just perception (detection, segmentation, depth estimation). That lives in [ML and Perception](../perception-and-computer-vision/ml-and-perception.md). Robot learning is specifically about learning policies, dynamics, or world models - about closing the loop from sensors to actions, not just labeling pixels.
 
 Classical reinforcement learning theory (MDPs, Bellman equations, DQN, the Sutton & Barto material) lives in [Reinforcement Learning](../perception-and-computer-vision/reinforcement-learning.md). This section assumes you have at least skimmed that page.
 
@@ -78,8 +78,8 @@ State of play as of late 2025 / early 2026:
 
 ## Further reading
 
-* Sergey Levine, _"Understanding the World Through Action"_ (2021) — old now but still the clearest framing of why learning matters for robotics: [https://arxiv.org/abs/2110.12543](https://arxiv.org/abs/2110.12543)
-* Chelsea Finn's CS 224R course at Stanford, "Deep Reinforcement Learning" — lectures on YouTube, slides public.
-* LeRobot blog series from HuggingFace ([https://huggingface.co/lerobot](https://huggingface.co/lerobot)) — practical, current, and the closest thing the field has to a textbook.
-* The _Robotics: Science and Systems_ (RSS) and _Conference on Robot Learning_ (CoRL) proceedings — read the last two years' best papers.
-* _State of Robot Learning_ — annual review threads on Twitter/X by Sergey Levine, Chelsea Finn, and Pieter Abbeel are usually more current than any survey paper.
+* Sergey Levine, _"Understanding the World Through Action"_ (2021) - old now but still the clearest framing of why learning matters for robotics: [https://arxiv.org/abs/2110.12543](https://arxiv.org/abs/2110.12543)
+* Chelsea Finn's CS 224R course at Stanford, "Deep Reinforcement Learning" - lectures on YouTube, slides public.
+* LeRobot blog series from HuggingFace ([https://huggingface.co/lerobot](https://huggingface.co/lerobot)) - practical, current, and the closest thing the field has to a textbook.
+* The _Robotics: Science and Systems_ (RSS) and _Conference on Robot Learning_ (CoRL) proceedings - read the last two years' best papers.
+* _State of Robot Learning_ - annual review threads on Twitter/X by Sergey Levine, Chelsea Finn, and Pieter Abbeel are usually more current than any survey paper.

@@ -79,14 +79,14 @@ The field has seen continuous innovation, with key platforms demonstrating growi
 | **NEO Beta / NEO Home** | 1X Technologies (Norway/USA)           | Soft-bodied home humanoid; OpenAI investor. Targeting consumer/home market.                                   |
 | **Apollo**              | Apptronik (USA, ex-NASA Valkyrie team) | Industrial humanoid; Mercedes-Benz pilot 2024.                                                                |
 | **Phoenix**             | Sanctuary AI (Canada)                  | General-purpose humanoid with manipulation-first design.                                                      |
-| **Unitree G1 / H1**     | Unitree Robotics (China)               | G1 (May 2024) — sub-$20k humanoid democratizing access; H1 for higher-payload work.                           |
-| **GR-1 / GR-2**         | Fourier Intelligence (China)           | GR-2 (2024) — rehabilitation roots, now general-purpose.                                                      |
+| **Unitree G1 / H1**     | Unitree Robotics (China)               | G1 (May 2024) - sub-$20k humanoid democratizing access; H1 for higher-payload work.                           |
+| **GR-1 / GR-2**         | Fourier Intelligence (China)           | GR-2 (2024) - rehabilitation roots, now general-purpose.                                                      |
 | **Walker S**            | UBTECH Robotics (China)                | Deployed in BYD/Geely factories.                                                                              |
 | **Iron**                | XPeng (China)                          | Auto-OEM-backed humanoid; first reveal Nov 2024. \[verify]                                                    |
 | **Booster T1**          | Booster Robotics (China)               | Lightweight humanoid, soccer/research focus.                                                                  |
 | **Galbot G1**           | Galbot (China)                         | Foundation-model-driven manipulation. \[verify]                                                               |
 | **Ameca**               | Engineered Arts (UK)                   | Highly expressive face; advanced HRI.                                                                         |
-| **HumanPlus**           | Stanford (USA)                         | Research prototype (Jun 2024) — shadow-learning whole-body humanoid skills via human video + RL.              |
+| **HumanPlus**           | Stanford (USA)                         | Research prototype (Jun 2024) - shadow-learning whole-body humanoid skills via human video + RL.              |
 | **iCub**                | Italian Inst. of Technology            | Open-source cognitive humanoid; long-standing research platform.                                              |
 | **EngineAI Robot**      | EngineAI (China)                       | Demonstrated forward flip Feb 2025.                                                                           |
 
@@ -94,7 +94,7 @@ The field has seen continuous innovation, with key platforms demonstrating growi
 
 ### **4.5. How modern humanoids learn (2024–2026)**
 
-The post-2023 generation of humanoids — Figure, 1X, Tesla Optimus, Unitree G1, Apptronik Apollo — share a common stack underneath the marketing. Understanding it matters because _this_ is what differentiates a 2024+ humanoid from the ASIMO/Atlas-hydraulic era.
+The post-2023 generation of humanoids - Figure, 1X, Tesla Optimus, Unitree G1, Apptronik Apollo - share a common stack underneath the marketing. Understanding it matters because _this_ is what differentiates a 2024+ humanoid from the ASIMO/Atlas-hydraulic era.
 
 **The two-layer paradigm:**
 
@@ -113,9 +113,9 @@ The post-2023 generation of humanoids — Figure, 1X, Tesla Optimus, Unitree G1,
 | **π0 / π0.5**                          | Physical Intelligence (2024–2025)          | Generalist VLA for cross-embodiment manipulation including humanoids.                                 |
 | **RT-2 / OpenVLA on humanoids**        | Google DeepMind / Stanford                 | Vision-language-action models conditioned on natural-language goals.                                  |
 
-For deep dives on all of the above, see the [Robot Learning](../robot-learning/robot-learning.md) section — specifically [Imitation Learning](../robot-learning/imitation-learning.md), [Reinforcement Learning](../robot-learning/reinforcement-learning-modern.md), and [Foundation Models / VLAs](../robot-learning/foundation-models-vla.md).
+For deep dives on all of the above, see the [Robot Learning](../robot-learning/robot-learning.md) section - specifically [Imitation Learning](../robot-learning/imitation-learning.md), [Reinforcement Learning](../robot-learning/reinforcement-learning-modern.md), and [Foundation Models / VLAs](../robot-learning/foundation-models-vla.md).
 
-> **Field note.** The reason 2024+ humanoids look qualitatively better than 2018 humanoids is _not_ better mechatronics — Atlas-hydraulic was already mechanically impressive. It's that the locomotion controllers are now learned policies trained over billions of sim steps, and the manipulation stack is finally conditioned on language and vision foundation models rather than scripted state machines.
+> **Field note.** The reason 2024+ humanoids look qualitatively better than 2018 humanoids is _not_ better mechatronics - Atlas-hydraulic was already mechanically impressive. It's that the locomotion controllers are now learned policies trained over billions of sim steps, and the manipulation stack is finally conditioned on language and vision foundation models rather than scripted state machines.
 
 ***
 
@@ -165,20 +165,20 @@ Humanoids are envisioned for diverse roles :
 | ----------------------------------------- | ------------ | --------------------------------------------------------- |
 | **Boston Dynamics** (Hyundai)             | USA          | Atlas (Electric, 2024)                                    |
 | **Tesla**                                 | USA          | Optimus Gen 2/3                                           |
-| **Figure AI**                             | USA          | Figure 02 — BMW pilot, OpenAI/Microsoft partnership       |
-| **1X Technologies**                       | Norway/USA   | NEO Beta / NEO Home — consumer humanoid; OpenAI-backed    |
-| **Apptronik**                             | USA          | Apollo — Mercedes-Benz pilot                              |
-| **Agility Robotics**                      | USA          | Digit — Amazon, GXO warehouse deployments                 |
-| **Sanctuary AI**                          | Canada       | Phoenix — manipulation-first general-purpose              |
+| **Figure AI**                             | USA          | Figure 02 - BMW pilot, OpenAI/Microsoft partnership       |
+| **1X Technologies**                       | Norway/USA   | NEO Beta / NEO Home - consumer humanoid; OpenAI-backed    |
+| **Apptronik**                             | USA          | Apollo - Mercedes-Benz pilot                              |
+| **Agility Robotics**                      | USA          | Digit - Amazon, GXO warehouse deployments                 |
+| **Sanctuary AI**                          | Canada       | Phoenix - manipulation-first general-purpose              |
 | **Physical Intelligence**                 | USA          | π0 / π0.5 foundation models for humanoid/cross-embodiment |
 | **Skild AI**                              | USA          | Foundation models for robotic intelligence                |
-| **Engineered Arts Ltd**                   | UK           | Ameca — expressive HRI                                    |
+| **Engineered Arts Ltd**                   | UK           | Ameca - expressive HRI                                    |
 | **Unitree Robotics**                      | China        | G1 (sub-$20k), H1                                         |
 | **Fourier Intelligence**                  | China        | GR-1 / GR-2                                               |
-| **UBTECH Robotics**                       | China        | Walker S — BYD/Geely factory pilots                       |
-| **XPeng**                                 | China        | Iron — auto-OEM backed                                    |
-| **Booster Robotics**                      | China        | T1 — research/soccer focus                                |
-| **Galbot**                                | China        | G1 — foundation-model-driven                              |
+| **UBTECH Robotics**                       | China        | Walker S - BYD/Geely factory pilots                       |
+| **XPeng**                                 | China        | Iron - auto-OEM backed                                    |
+| **Booster Robotics**                      | China        | T1 - research/soccer focus                                |
+| **Galbot**                                | China        | G1 - foundation-model-driven                              |
 | **EngineAI**                              | China        | Forward-flip demo Feb 2025                                |
 | **Honda** (legacy)                        | Japan        | ASIMO (retired)                                           |
 | **Toyota**                                | Japan        | T-HR3, human support robots                               |

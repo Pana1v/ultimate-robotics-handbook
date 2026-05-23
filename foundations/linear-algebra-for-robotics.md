@@ -6,7 +6,7 @@ icon: hexagon-divide
 
 ### **Linear Algebra in Robotics and Computer Vision**
 
-Linear algebra provides the mathematical language for describing and solving geometry, motion, perception, and control problems in robotics and computer vision. This overview covers key concepts and applications—from kinematic chains and dynamics to camera modeling, multi‐view geometry, state estimation, and feature extraction.
+Linear algebra provides the mathematical language for describing and solving geometry, motion, perception, and control problems in robotics and computer vision. This overview covers key concepts and applications-from kinematic chains and dynamics to camera modeling, multi‐view geometry, state estimation, and feature extraction.
 
 ***
 
@@ -44,7 +44,7 @@ Orthonormal bases (built via Gram–Schmidt) simplify coordinate transforms and 
 
 **Linear Transformations**
 
-A matrix $A \in \mathbb{R}^{m \times n}$ maps $\mathbb{R}^n \rightarrow \mathbb{R}^m$. Composition is matrix multiplication: $(AB)\mathbf{x} = A(B\mathbf{x})$. Order matters — rotation followed by translation is not the same as translation followed by rotation.
+A matrix $A \in \mathbb{R}^{m \times n}$ maps $\mathbb{R}^n \rightarrow \mathbb{R}^m$. Composition is matrix multiplication: $(AB)\mathbf{x} = A(B\mathbf{x})$. Order matters - rotation followed by translation is not the same as translation followed by rotation.
 
 ***
 
@@ -56,7 +56,7 @@ $$
 \det(A) \neq 0 \Rightarrow A \text{ is invertible}
 $$
 
-Rank deficiency implies singularity — critical in kinematics when Jacobians lose rank.
+Rank deficiency implies singularity - critical in kinematics when Jacobians lose rank.
 
 ***
 
@@ -93,7 +93,7 @@ with minimum norm. In vision, used for decomposing the essential matrix.
 
 #### Rigid-Body Transforms: SO(3), SE(3), and Friends
 
-**Rotation Matrices — the group SO(3)**
+**Rotation Matrices - the group SO(3)**
 
 A 3D rotation is a matrix $R \in SO(3)$ satisfying:
 
@@ -101,7 +101,7 @@ $$
 R^\top R = I,\quad \det(R) = +1
 $$
 
-That's 9 entries with 6 constraints → 3 degrees of freedom (as expected for a 3D rotation). SO(3) is a *Lie group* — smooth, but not a vector space. Don't naively interpolate rotation matrices entry-wise.
+That's 9 entries with 6 constraints → 3 degrees of freedom (as expected for a 3D rotation). SO(3) is a *Lie group* - smooth, but not a vector space. Don't naively interpolate rotation matrices entry-wise.
 
 **Three equivalent ways to represent a 3D rotation:**
 
@@ -114,7 +114,7 @@ That's 9 entries with 6 constraints → 3 degrees of freedom (as expected for a 
 
 **Rule of thumb (Pan's field note):** internal storage and computation → quaternions. User input/display → Euler. Math derivations and dynamics → rotation matrices. Conversions are cheap; pick the right tool per layer.
 
-**Homogeneous Transformations — the group SE(3)**
+**Homogeneous Transformations - the group SE(3)**
 
 A rigid-body pose combines rotation and translation:
 
@@ -129,11 +129,11 @@ $$
 T^{-1} = \begin{bmatrix} R^\top & -R^\top \mathbf{t} \\ \mathbf{0}^\top & 1 \end{bmatrix}
 $$
 
-In ROS 2, `tf2` handles all this for you — but understanding the algebra is essential for SLAM, calibration, and IK.
+In ROS 2, `tf2` handles all this for you - but understanding the algebra is essential for SLAM, calibration, and IK.
 
 **The Lie algebra side: $\mathfrak{so}(3)$ and $\mathfrak{se}(3)$**
 
-Optimization on SO(3)/SE(3) (used in graph SLAM, bundle adjustment, MPC on manifolds) is done by *lifting* to the Lie algebra — a vector space — via the matrix logarithm, performing updates additively, and *retracting* back to the group via the exponential.
+Optimization on SO(3)/SE(3) (used in graph SLAM, bundle adjustment, MPC on manifolds) is done by *lifting* to the Lie algebra - a vector space - via the matrix logarithm, performing updates additively, and *retracting* back to the group via the exponential.
 
 For SO(3): the algebra is the space of 3-vectors $\boldsymbol{\omega} \in \mathbb{R}^3$ (the *rotation vector*), mapped to a rotation by Rodrigues' formula:
 
@@ -143,15 +143,15 @@ $$
 
 where $\theta = \|\boldsymbol{\omega}\|$ and $[\cdot]_\times$ is the skew-symmetric cross-product matrix.
 
-For SE(3): the algebra is 6-dimensional — a *twist* $\boldsymbol{\xi} = (\mathbf{v}, \boldsymbol{\omega}) \in \mathbb{R}^6$ combining linear and angular velocity.
+For SE(3): the algebra is 6-dimensional - a *twist* $\boldsymbol{\xi} = (\mathbf{v}, \boldsymbol{\omega}) \in \mathbb{R}^6$ combining linear and angular velocity.
 
-You don't need to derive this from scratch — GTSAM, Sophus, manif, and `tf2` handle the algebra correctly. But you *do* need to know that "adding two rotations" is undefined; "composing on the manifold via the Lie group" is what you mean.
+You don't need to derive this from scratch - GTSAM, Sophus, manif, and `tf2` handle the algebra correctly. But you *do* need to know that "adding two rotations" is undefined; "composing on the manifold via the Lie group" is what you mean.
 
 **DH Parameters**
 
-$(\theta, d, a, \alpha)$ — the classical Denavit–Hartenberg convention encodes each joint of a kinematic chain in 4 numbers, allowing systematic forward and inverse kinematic derivation. Modified DH (Craig's convention) differs slightly in axis placement; pick one and document it.
+$(\theta, d, a, \alpha)$ - the classical Denavit–Hartenberg convention encodes each joint of a kinematic chain in 4 numbers, allowing systematic forward and inverse kinematic derivation. Modified DH (Craig's convention) differs slightly in axis placement; pick one and document it.
 
-In 2026, URDF/xacro + KDL or Pinocchio supersedes hand-derived DH for most production work — but DH still shows up in classical IK papers and in industry textbooks.
+In 2026, URDF/xacro + KDL or Pinocchio supersedes hand-derived DH for most production work - but DH still shows up in classical IK papers and in industry textbooks.
 
 ***
 

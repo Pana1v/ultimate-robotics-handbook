@@ -32,9 +32,9 @@ I'm a working robotics engineer based in Bangalore - production GPU-accelerated 
 
 If you want to see how the concepts in this handbook translate to shipped code, the [Author's Projects](../authors-projects/authors-projects.md) section walks through them in depth:
 
-* [**Polka**](../authors-projects/polka.md) — ROS 2 multi-LiDAR fusion node (CUDA-accelerated, IMU-deskewed, Humble + Jazzy).
-* [**GO-SLAM**](../authors-projects/go-slam.md) — A full SLAM stack built from scratch (GICP front-end, pose-graph back-end, custom Levenberg–Marquardt solvers, KITTI-benchmarked).
-* [**LEAP**](../authors-projects/leap.md) — Learning-augmented exact optimization for asymmetric pick-and-place sequencing (BRAIn Lab, IIT Patna; manuscript in preparation).
-* [**BARN Challenge 2026**](../authors-projects/barn-challenge.md) — Breadcrumb Explorer for mapless navigation; highest score by an Indian team since the benchmark began.
+* [**Polka**](../authors-projects/polka.md) - ROS 2 multi-LiDAR fusion node (CUDA-accelerated, IMU-deskewed, Humble + Jazzy).
+* [**GO-SLAM**](../authors-projects/go-slam.md) - A full SLAM stack built from scratch (GICP front-end, pose-graph back-end, custom Levenberg–Marquardt solvers, KITTI-benchmarked).
+* [**LEAP**](../authors-projects/leap.md) - Learning-augmented exact optimization for asymmetric pick-and-place sequencing (BRAIn Lab, IIT Patna; manuscript in preparation).
+* [**BARN Challenge 2026**](../authors-projects/barn-challenge.md) - Breadcrumb Explorer for mapless navigation; highest score by an Indian team since the benchmark began.
 
 I also contribute to [Nav2](https://github.com/ros-navigation/navigation2), [PlotJuggler](https://github.com/facontidavide/PlotJuggler), and [Lichtblick](https://github.com/Lichtblick-Suite/lichtblick).
