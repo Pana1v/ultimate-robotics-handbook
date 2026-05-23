@@ -133,7 +133,7 @@ Their ability to move in exact increments makes them ideal for applications requ
 
 ### Pneumatic Actuators
 
-<figure><img src="../../.gitbook/assets/65f854814fd223fc3678f976_Rotary-pneumatic-actuator. (1).gif" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/65f854814fd223fc3678f976_Rotary-pneumatic-actuator..gif" alt=""><figcaption></figcaption></figure>
 
 <figure><img src="../../.gitbook/assets/65f854814fd223fc3678f96e_Linear-pneumatic-actuator..gif" alt=""><figcaption></figcaption></figure>
 

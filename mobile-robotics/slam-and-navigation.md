@@ -2,10 +2,10 @@
 icon: map-location
 ---
 
-# SLAM and Navigation
+# SLAM and Navigation (intro)
 
 {% hint style="info" %}
-**This is the introductory SLAM page.** For the full treatment — modern visual / LiDAR / learned SLAM, sensor fusion, graph optimization, ICP variants, and benchmarking — see the dedicated [SLAM & State Estimation](../slam-and-state-estimation/) section. Pan's case study on building [GO-SLAM from scratch](../authors-projects/go-slam.md) is over there too.
+**This is the introductory SLAM page.** For the full treatment — modern visual / LiDAR / learned SLAM, sensor fusion, graph optimization, ICP variants, and benchmarking — see the dedicated [SLAM & State Estimation](../slam-and-state-estimation/slam-and-state-estimation.md) section. Pan's case study on building [GO-SLAM from scratch](../authors-projects/go-slam.md) is over there too.
 {% endhint %}
 
 ### **Simultaneous Localization and Mapping (SLAM)**

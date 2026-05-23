@@ -54,7 +54,7 @@ Online courses and resources offer accessible ways to learn robotics at your own
 
 This curated list of books, software, and online resources provides a solid foundation and pathways for continuous learning in the exciting and ever-advancing field of robotics.
 
----
+***
 
 ### **4. Modern Robot Learning Resources (2023-2026)**
 
@@ -62,26 +62,26 @@ The classical textbooks above cover kinematics, dynamics, classical control, and
 
 **Foundational papers (read these to ground yourself):**
 
-| Topic | Paper | Link |
-|---|---|---|
-| **Diffusion Policy** | Chi et al., "Diffusion Policy: Visuomotor Policy Learning via Action Diffusion" (RSS 2023) | [arxiv.org/abs/2303.04137](https://arxiv.org/abs/2303.04137) \[verify] |
-| **ACT / ALOHA** | Zhao et al., "Learning Fine-Grained Bimanual Manipulation with Low-Cost Hardware" (RSS 2023) | [tonyzhaozh.github.io/aloha/](https://tonyzhaozh.github.io/aloha/) \[verify] |
-| **RT-2 VLA** | Brohan et al., "RT-2: Vision-Language-Action Models" (CoRL 2023) | [robotics-transformer2.github.io](https://robotics-transformer2.github.io) \[verify] |
-| **OpenVLA** | Kim et al., "OpenVLA: An Open-Source Vision-Language-Action Model" (2024) | [openvla.github.io](https://openvla.github.io) \[verify] |
-| **Open X-Embodiment** | Open X-Embodiment Collaboration (ICRA 2024 Best Paper) | [robotics-transformer-x.github.io](https://robotics-transformer-x.github.io) \[verify] |
-| **HumanPlus** | Fu et al., "HumanPlus: Humanoid Shadowing and Imitation from Humans" (CoRL 2024) | [humanoid-ai.github.io](https://humanoid-ai.github.io) \[verify] |
-| **DreamerV3** | Hafner et al., "Mastering Diverse Domains through World Models" (Nature 2024) | [arxiv.org/abs/2301.04104](https://arxiv.org/abs/2301.04104) \[verify] |
+| Topic                 | Paper                                                                                        | Link                                                                                   |
+| --------------------- | -------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
+| **Diffusion Policy**  | Chi et al., "Diffusion Policy: Visuomotor Policy Learning via Action Diffusion" (RSS 2023)   | [arxiv.org/abs/2303.04137](https://arxiv.org/abs/2303.04137) \[verify]                 |
+| **ACT / ALOHA**       | Zhao et al., "Learning Fine-Grained Bimanual Manipulation with Low-Cost Hardware" (RSS 2023) | [tonyzhaozh.github.io/aloha/](https://tonyzhaozh.github.io/aloha/) \[verify]           |
+| **RT-2 VLA**          | Brohan et al., "RT-2: Vision-Language-Action Models" (CoRL 2023)                             | [robotics-transformer2.github.io](https://robotics-transformer2.github.io) \[verify]   |
+| **OpenVLA**           | Kim et al., "OpenVLA: An Open-Source Vision-Language-Action Model" (2024)                    | [openvla.github.io](https://openvla.github.io) \[verify]                               |
+| **Open X-Embodiment** | Open X-Embodiment Collaboration (ICRA 2024 Best Paper)                                       | [robotics-transformer-x.github.io](https://robotics-transformer-x.github.io) \[verify] |
+| **HumanPlus**         | Fu et al., "HumanPlus: Humanoid Shadowing and Imitation from Humans" (CoRL 2024)             | [humanoid-ai.github.io](https://humanoid-ai.github.io) \[verify]                       |
+| **DreamerV3**         | Hafner et al., "Mastering Diverse Domains through World Models" (Nature 2024)                | [arxiv.org/abs/2301.04104](https://arxiv.org/abs/2301.04104) \[verify]                 |
 
 **Toolkits and frameworks:**
 
-| Tool | What it is | Link |
-|---|---|---|
-| **LeRobot** | HuggingFace's robot-learning library (BC, ACT, Diffusion Policy, π0) | [github.com/huggingface/lerobot](https://github.com/huggingface/lerobot) \[verify] |
-| **Isaac Lab** | NVIDIA's GPU-accelerated RL training framework (successor to Isaac Gym) | [isaac-sim.github.io/IsaacLab](https://isaac-sim.github.io/IsaacLab) \[verify] |
-| **MuJoCo MJX** | DeepMind's GPU/JAX-compatible physics simulator | [mujoco.org](https://mujoco.org) |
-| **Brax** | DeepMind's differentiable physics engine | [github.com/google/brax](https://github.com/google/brax) |
-| **Genesis** | CMU's fast differentiable physics engine (2024) | [genesis-embodied-ai.github.io](https://genesis-embodied-ai.github.io) \[verify] |
-| **Cosmos** | NVIDIA's world foundation model for robotics (CES 2025) | [github.com/NVIDIA/Cosmos](https://github.com/NVIDIA/Cosmos) \[verify] |
+| Tool           | What it is                                                              | Link                                                                               |
+| -------------- | ----------------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
+| **LeRobot**    | HuggingFace's robot-learning library (BC, ACT, Diffusion Policy, π0)    | [github.com/huggingface/lerobot](https://github.com/huggingface/lerobot) \[verify] |
+| **Isaac Lab**  | NVIDIA's GPU-accelerated RL training framework (successor to Isaac Gym) | [isaac-sim.github.io/IsaacLab](https://isaac-sim.github.io/IsaacLab) \[verify]     |
+| **MuJoCo MJX** | DeepMind's GPU/JAX-compatible physics simulator                         | [mujoco.org](https://mujoco.org)                                                   |
+| **Brax**       | DeepMind's differentiable physics engine                                | [github.com/google/brax](https://github.com/google/brax)                           |
+| **Genesis**    | CMU's fast differentiable physics engine (2024)                         | [genesis-embodied-ai.github.io](https://genesis-embodied-ai.github.io) \[verify]   |
+| **Cosmos**     | NVIDIA's world foundation model for robotics (CES 2025)                 | [github.com/NVIDIA/Cosmos](https://github.com/NVIDIA/Cosmos) \[verify]             |
 
 **Communities & blogs to follow in 2026:**
 
@@ -91,19 +91,18 @@ The classical textbooks above cover kinematics, dynamics, classical control, and
 * **NVIDIA Robotics blog** — Isaac platform, Cosmos, Project GR00T updates.
 * **Sergey Levine** (Berkeley) and **Chelsea Finn** (Stanford) on Twitter/X — leading robot learning researchers.
 
-For a deep dive on each of these, see the [Robot Learning](../robot-learning/) section of this handbook.
+For a deep dive on each of these, see the [Robot Learning](../robot-learning/robot-learning.md) section of this handbook.
 
----
+***
 
 ### **5. Useful courses (2024-2026)**
 
-| Course | Instructor / Org | Notes |
-|---|---|---|
-| **CS 285 Deep Reinforcement Learning** | Sergey Levine, UC Berkeley | The canonical modern RL course; YouTube + free materials. |
-| **CS 287 Advanced Robotics** | Pieter Abbeel, UC Berkeley | Manipulation, planning, RL applied to robotics. |
-| **CS 234 Reinforcement Learning** | Emma Brunskill, Stanford | Solid foundations; less robot-specific. |
-| **Modern Robotics** | Kevin Lynch, Northwestern | YouTube + free textbook. Best classical robotics course online. |
-| **Self-Driving Cars Specialization** | Univ. of Toronto, Coursera | Modular AV stack pre-foundation-model era. |
-| **Articulated Robotics** | Josh Newans, YouTube | Practical ROS 2 + URDF + simulation tutorials. The best free ROS 2 channel. |
-| **The Construct ROS 2 courses** | The Construct | Paid but high-quality hands-on ROS 2 / Nav2 / MoveIt 2 courses. |
-
+| Course                                 | Instructor / Org           | Notes                                                                       |
+| -------------------------------------- | -------------------------- | --------------------------------------------------------------------------- |
+| **CS 285 Deep Reinforcement Learning** | Sergey Levine, UC Berkeley | The canonical modern RL course; YouTube + free materials.                   |
+| **CS 287 Advanced Robotics**           | Pieter Abbeel, UC Berkeley | Manipulation, planning, RL applied to robotics.                             |
+| **CS 234 Reinforcement Learning**      | Emma Brunskill, Stanford   | Solid foundations; less robot-specific.                                     |
+| **Modern Robotics**                    | Kevin Lynch, Northwestern  | YouTube + free textbook. Best classical robotics course online.             |
+| **Self-Driving Cars Specialization**   | Univ. of Toronto, Coursera | Modular AV stack pre-foundation-model era.                                  |
+| **Articulated Robotics**               | Josh Newans, YouTube       | Practical ROS 2 + URDF + simulation tutorials. The best free ROS 2 channel. |
+| **The Construct ROS 2 courses**        | The Construct              | Paid but high-quality hands-on ROS 2 / Nav2 / MoveIt 2 courses.             |
