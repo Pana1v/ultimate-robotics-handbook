@@ -156,6 +156,6 @@ def rrt(start, goal, sample_fn, steer_fn, collision_free, max_iter=5000):
 * **Gaussian Processes**: Nonparametric models for regression and uncertainty quantification in terrain modeling
 * **Support Vector Machines (SVM)**: Classification of sensor or vision data in low-dimensional feature spaces
 
-For a deep dive on modern robot learning — imitation, RL, foundation models, world models, sim-to-real — see the [Robot Learning](../robot-learning/robot-learning.md) section.
+For a deep dive on modern robot learning - imitation, RL, foundation models, world models, sim-to-real - see the [Robot Learning](../robot-learning/robot-learning.md) section.
 
 By combining these algorithms-choosing the right filter for robust sensing, the optimal controller for precise motion, and the most suitable planner for agile navigation-robots can perceive, plan, and act reliably in complex, dynamic environments.

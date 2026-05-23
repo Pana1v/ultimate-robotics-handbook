@@ -2,7 +2,7 @@
 icon: brain
 ---
 
-# LEAP — Pick-and-Place Optimization
+# LEAP - Pick-and-Place Optimization
 
 > Pick-and-place sequencing is **not** the symmetric TSP your operations-research textbook covered. The transition cost between any two items depends on _which bin the previous item was placed in_. LEAP formulates the problem as **asymmetric TSP**, replaces the standard Miller-Tucker-Zemlin subtour constraints with a **CP-SAT Hamiltonian circuit formulation** (5-7× solver speedup), then uses an **imitation-learned cycle-aware heterogeneous GNN** to prune the decision-variable space from O(N²) to O(Nk). **17.5× faster than baselines at N=200 with a worst-case optimality gap of 0.06%.**
 
@@ -31,7 +31,7 @@ Consider a real cell:
 * It then moves to pick item `b` from bin `B_b`.
 * **The cost of the (a → b) transition depends on which output bin `a` was placed in.** If `a` was placed in an output bin near `B_b`, the next pick is cheap. If `a` was placed in an output bin on the opposite side of the cell, the next pick is expensive.
 
-In TSP language, the cost matrix is no longer a function of (source, destination) — it's a function of (source, **post-placement state**, destination). The graph isn't even properly directed; it has an embedded _cycle_ (pick → place → pick) that the cost depends on.
+In TSP language, the cost matrix is no longer a function of (source, destination) - it's a function of (source, **post-placement state**, destination). The graph isn't even properly directed; it has an embedded _cycle_ (pick → place → pick) that the cost depends on.
 
 The right model is:
 
@@ -113,7 +113,7 @@ status = solver.Solve(model)
 
 The MTZ formulation falls off a cliff because its LP relaxation gives no tight bound. CP-SAT's circuit propagator doesn't have an LP relaxation at all - it works on the combinatorial structure directly.
 
-> **Note:** this is a known result in the OR community for vanilla ATSP. What's novel for LEAP is showing that the speedup _survives_ when you couple it with a learning-based pruning step (next section) — the two methods compose without interfering.
+> **Note:** this is a known result in the OR community for vanilla ATSP. What's novel for LEAP is showing that the speedup _survives_ when you couple it with a learning-based pruning step (next section) - the two methods compose without interfering.
 
 ***
 
@@ -193,7 +193,7 @@ The headline number is **17.5× speedup** over the full CP-SAT solver at N=200, 
 
 ### Generalization
 
-The GNN was trained on N=20 to N=80 instances. Inference at N=200 is **out-of-distribution by 2.5×**. The fact that the optimality gap stays under 0.1% at this scale is the main empirical contribution — it suggests the GNN learns _structural_ features of the pick-and-place graph that transfer beyond the training size distribution.
+The GNN was trained on N=20 to N=80 instances. Inference at N=200 is **out-of-distribution by 2.5×**. The fact that the optimality gap stays under 0.1% at this scale is the main empirical contribution - it suggests the GNN learns _structural_ features of the pick-and-place graph that transfer beyond the training size distribution.
 
 ***
 

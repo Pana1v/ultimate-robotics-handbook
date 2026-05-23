@@ -4,7 +4,7 @@ icon: brain
 
 # Reinforcement Learning (modern)
 
-The [classical RL page](../perception-and-computer-vision/reinforcement-learning.md) covers MDPs, policy gradients, DQN, SAC, and the rest of the textbook canon. This page is about what actually works on real robots in 2026 — which is a much narrower slice than the textbook would suggest.
+The [classical RL page](../perception-and-computer-vision/reinforcement-learning.md) covers MDPs, policy gradients, DQN, SAC, and the rest of the textbook canon. This page is about what actually works on real robots in 2026 - which is a much narrower slice than the textbook would suggest.
 
 The short version: model-free RL on real robots is _still_ mostly impractical except for narrow domains. Where RL succeeds in production, it almost always means:
 
@@ -31,13 +31,13 @@ This is the most successful real-world RL recipe in robotics, full stop. Every q
 
 The recipe, as established by:
 
-* Lee et al., _"Learning quadrupedal locomotion over challenging terrain"_, Science Robotics 2020 — [https://arxiv.org/abs/2010.11251](https://arxiv.org/abs/2010.11251) \[verify]
-* Margolis & Agrawal, _"Walk These Ways"_, CoRL 2022 — [https://arxiv.org/abs/2212.03238](https://arxiv.org/abs/2212.03238)
-* Kumar et al., _"RMA: Rapid Motor Adaptation for Legged Robots"_, RSS 2021 — [https://arxiv.org/abs/2107.04034](https://arxiv.org/abs/2107.04034)
+* Lee et al., _"Learning quadrupedal locomotion over challenging terrain"_, Science Robotics 2020 - [https://arxiv.org/abs/2010.11251](https://arxiv.org/abs/2010.11251) \[verify]
+* Margolis & Agrawal, _"Walk These Ways"_, CoRL 2022 - [https://arxiv.org/abs/2212.03238](https://arxiv.org/abs/2212.03238)
+* Kumar et al., _"RMA: Rapid Motor Adaptation for Legged Robots"_, RSS 2021 - [https://arxiv.org/abs/2107.04034](https://arxiv.org/abs/2107.04034)
 
 The pipeline:
 
-1. **Train a&#x20;**_**teacher**_**&#x20;policy in sim with privileged info.** The teacher sees ground-truth friction, terrain height, contact forces, base velocity — things the real robot will never have access to. This makes RL much easier; the teacher converges to good locomotion in a few hours on a GPU. Use PPO.
+1. **Train a&#x20;**_**teacher**_**&#x20;policy in sim with privileged info.** The teacher sees ground-truth friction, terrain height, contact forces, base velocity - things the real robot will never have access to. This makes RL much easier; the teacher converges to good locomotion in a few hours on a GPU. Use PPO.
 2. **Distill the teacher into a&#x20;**_**student**_**&#x20;policy that only uses proprioception + history.** Supervised learning from the teacher's actions, conditioned on the limited sensor inputs the real robot actually has.
 3. **Deploy the student.** It implicitly identifies terrain parameters from the history of joint readings.
 
@@ -57,9 +57,9 @@ The pipeline:
 
 **Tools:**
 
-* **Isaac Lab** — [https://github.com/isaac-sim/IsaacLab](https://github.com/isaac-sim/IsaacLab) — the de facto trainer. Replaced Isaac Gym in 2024.
-* **rsl\_rl** — [https://github.com/leggedrobotics/rsl\_rl](https://github.com/leggedrobotics/rsl_rl) — clean PPO impl from ETH RSL, what ANYmal used.
-* **legged\_gym** (now part of Isaac Lab) — task suite for quadruped/humanoid locomotion.
+* **Isaac Lab** - [https://github.com/isaac-sim/IsaacLab](https://github.com/isaac-sim/IsaacLab) - the de facto trainer. Replaced Isaac Gym in 2024.
+* **rsl\_rl** - [https://github.com/leggedrobotics/rsl\_rl](https://github.com/leggedrobotics/rsl_rl) - clean PPO impl from ETH RSL, what ANYmal used.
+* **legged\_gym** (now part of Isaac Lab) - task suite for quadruped/humanoid locomotion.
 
 {% hint style="info" %}
 **Field note.** People talk about "training a quadruped to walk with RL" like it's hard. With Isaac Lab and rsl\_rl you can train a passable walking policy in 30 minutes on a 4090. The hard part is the next 6 months of reward tuning, domain randomization, and sim-to-real debugging to get it to walk on _your_ terrain _robustly_ without bricking the robot.
@@ -110,8 +110,8 @@ SERL (Sample-Efficient Robotic Reinforcement Learning) showed that with the righ
 
 Key ingredients:
 
-* **SAC with RLPD-style replay** — uses prior demonstrations + online data, off-policy critic learns fast.
-* **Forward + backward policy.** Two policies — one to do the task, one to reset the workspace. This solves the reset problem.
+* **SAC with RLPD-style replay** - uses prior demonstrations + online data, off-policy critic learns fast.
+* **Forward + backward policy.** Two policies - one to do the task, one to reset the workspace. This solves the reset problem.
 * **Image encoder pretrained on the demo data.**
 * **Sparse binary reward** ("did the gripper close on the object? did the part insert?"). No reward shaping.
 
@@ -135,8 +135,8 @@ A curriculum is "start the task easy, make it progressively harder as the policy
 
 Automatic curricula (where the system picks the next difficulty automatically) work well:
 
-* **ALP-GMM** (Automatic Learning Progress / Gaussian Mixture Models) — Portelas et al.
-* **Adaptive Curriculum** in Isaac Lab — grid-based terrain difficulty that promotes/demotes the robot based on success rate.
+* **ALP-GMM** (Automatic Learning Progress / Gaussian Mixture Models) - Portelas et al.
+* **Adaptive Curriculum** in Isaac Lab - grid-based terrain difficulty that promotes/demotes the robot based on success rate.
 
 Use a curriculum on anything that does not converge in vanilla training. It often turns "does not work" into "works."
 
@@ -153,9 +153,9 @@ A whole page on this: [Sim-to-Real](sim-to-real.md). The TL;DR for RL specifical
 
 The frontier in 2025–2026 is scaling RL to many tasks and many robots:
 
-* **MTRL / multi-task PPO** — train one policy across many task variations.
-* **PRO-X / Project GR00T** (NVIDIA) — humanoid foundation models trained partly with RL across simulated tasks.
-* **RoboCasa + Isaac Lab combos** — large-scale procedural environments for RL pretraining.
+* **MTRL / multi-task PPO** - train one policy across many task variations.
+* **PRO-X / Project GR00T** (NVIDIA) - humanoid foundation models trained partly with RL across simulated tasks.
+* **RoboCasa + Isaac Lab combos** - large-scale procedural environments for RL pretraining.
 
 These approaches blend into the VLA territory; see [Foundation Models & VLAs](foundation-models-vla.md).
 
@@ -173,14 +173,14 @@ In practice for real robots in 2026:
 
 | Library                                                                                                                                       | Purpose                                                        | Notes                                                  |
 | --------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------- | ------------------------------------------------------ |
-| **Isaac Lab** — [https://github.com/isaac-sim/IsaacLab](https://github.com/isaac-sim/IsaacLab)                                                | Massively parallel sim for RL on Isaac Sim                     | The 2026 default for locomotion/manipulation RL.       |
-| **rsl\_rl** — [https://github.com/leggedrobotics/rsl\_rl](https://github.com/leggedrobotics/rsl_rl)                                           | Clean PPO for legged robots                                    | What ETH/ANYmal uses.                                  |
-| **MuJoCo MJX** — [https://github.com/google-deepmind/mujoco/tree/main/mjx](https://github.com/google-deepmind/mujoco/tree/main/mjx) \[verify] | JAX-based MuJoCo, GPU-parallel                                 | Fastest option for many manipulation envs.             |
-| **Brax** — [https://github.com/google/brax](https://github.com/google/brax)                                                                   | JAX-based physics + RL                                         | Differentiable, GPU-parallel. Older but solid.         |
-| **Genesis** — [https://github.com/Genesis-Embodied-AI/Genesis](https://github.com/Genesis-Embodied-AI/Genesis) \[verify]                      | Differentiable physics, claims to beat Isaac Gym in throughput | New (late 2024). Worth evaluating.                     |
-| **Stable Baselines3** — [https://github.com/DLR-RM/stable-baselines3](https://github.com/DLR-RM/stable-baselines3)                            | PPO, SAC, TD3 in PyTorch                                       | Use for non-Isaac envs.                                |
-| **CleanRL** — [https://github.com/vwxyzjn/cleanrl](https://github.com/vwxyzjn/cleanrl)                                                        | Single-file PPO/SAC implementations                            | Pedagogical, easy to fork.                             |
-| **SERL/HIL-SERL** — [https://github.com/rail-berkeley/serl](https://github.com/rail-berkeley/serl) \[verify]                                  | Real-world RL for manipulation                                 | The reference impl for real-world sample-efficient RL. |
+| **Isaac Lab** - [https://github.com/isaac-sim/IsaacLab](https://github.com/isaac-sim/IsaacLab)                                                | Massively parallel sim for RL on Isaac Sim                     | The 2026 default for locomotion/manipulation RL.       |
+| **rsl\_rl** - [https://github.com/leggedrobotics/rsl\_rl](https://github.com/leggedrobotics/rsl_rl)                                           | Clean PPO for legged robots                                    | What ETH/ANYmal uses.                                  |
+| **MuJoCo MJX** - [https://github.com/google-deepmind/mujoco/tree/main/mjx](https://github.com/google-deepmind/mujoco/tree/main/mjx) \[verify] | JAX-based MuJoCo, GPU-parallel                                 | Fastest option for many manipulation envs.             |
+| **Brax** - [https://github.com/google/brax](https://github.com/google/brax)                                                                   | JAX-based physics + RL                                         | Differentiable, GPU-parallel. Older but solid.         |
+| **Genesis** - [https://github.com/Genesis-Embodied-AI/Genesis](https://github.com/Genesis-Embodied-AI/Genesis) \[verify]                      | Differentiable physics, claims to beat Isaac Gym in throughput | New (late 2024). Worth evaluating.                     |
+| **Stable Baselines3** - [https://github.com/DLR-RM/stable-baselines3](https://github.com/DLR-RM/stable-baselines3)                            | PPO, SAC, TD3 in PyTorch                                       | Use for non-Isaac envs.                                |
+| **CleanRL** - [https://github.com/vwxyzjn/cleanrl](https://github.com/vwxyzjn/cleanrl)                                                        | Single-file PPO/SAC implementations                            | Pedagogical, easy to fork.                             |
+| **SERL/HIL-SERL** - [https://github.com/rail-berkeley/serl](https://github.com/rail-berkeley/serl) \[verify]                                  | Real-world RL for manipulation                                 | The reference impl for real-world sample-efficient RL. |
 
 ## Practical pipeline I recommend (2026)
 
@@ -198,9 +198,9 @@ For someone tackling their first robot RL project:
 
 ## Further reading
 
-* Lee et al., _"Learning quadrupedal locomotion over challenging terrain"_ — [https://arxiv.org/abs/2010.11251](https://arxiv.org/abs/2010.11251) \[verify]
-* Margolis & Agrawal, _"Walk These Ways: Tuning Robot Control for Generalization with Multiplicity of Behavior"_ — [https://arxiv.org/abs/2212.03238](https://arxiv.org/abs/2212.03238)
-* Kumar et al., _"RMA: Rapid Motor Adaptation for Legged Robots"_ — [https://arxiv.org/abs/2107.04034](https://arxiv.org/abs/2107.04034)
-* Ma et al., _"Eureka: Human-Level Reward Design via Coding Large Language Models"_ — [https://arxiv.org/abs/2310.12931](https://arxiv.org/abs/2310.12931)
-* Luo et al., _"SERL: A Software Suite for Sample-Efficient Robotic Reinforcement Learning"_ — [https://serl-robot.github.io/](https://serl-robot.github.io/) \[verify]
-* Schulman et al., _"Proximal Policy Optimization Algorithms"_ (PPO original) — [https://arxiv.org/abs/1707.06347](https://arxiv.org/abs/1707.06347)
+* Lee et al., _"Learning quadrupedal locomotion over challenging terrain"_ - [https://arxiv.org/abs/2010.11251](https://arxiv.org/abs/2010.11251) \[verify]
+* Margolis & Agrawal, _"Walk These Ways: Tuning Robot Control for Generalization with Multiplicity of Behavior"_ - [https://arxiv.org/abs/2212.03238](https://arxiv.org/abs/2212.03238)
+* Kumar et al., _"RMA: Rapid Motor Adaptation for Legged Robots"_ - [https://arxiv.org/abs/2107.04034](https://arxiv.org/abs/2107.04034)
+* Ma et al., _"Eureka: Human-Level Reward Design via Coding Large Language Models"_ - [https://arxiv.org/abs/2310.12931](https://arxiv.org/abs/2310.12931)
+* Luo et al., _"SERL: A Software Suite for Sample-Efficient Robotic Reinforcement Learning"_ - [https://serl-robot.github.io/](https://serl-robot.github.io/) \[verify]
+* Schulman et al., _"Proximal Policy Optimization Algorithms"_ (PPO original) - [https://arxiv.org/abs/1707.06347](https://arxiv.org/abs/1707.06347)

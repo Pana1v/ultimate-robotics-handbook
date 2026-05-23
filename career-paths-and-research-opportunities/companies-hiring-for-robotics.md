@@ -4,7 +4,7 @@ icon: buildings
 
 # Companies Hiring for Robotics
 
-> **Note**: This list reflects a 2026-05 snapshot. The robotics industry moves fast — verify before relying on contact/recruiting info. Funding rounds, acquisitions, and pivots happen monthly. Where I'm not 100% sure on a fact, I've flagged it with `[verify]`.
+> **Note**: This list reflects a 2026-05 snapshot. The robotics industry moves fast - verify before relying on contact/recruiting info. Funding rounds, acquisitions, and pivots happen monthly. Where I'm not 100% sure on a fact, I've flagged it with `[verify]`.
 
 ### **Companies Hiring for Robotics: India and Global Opportunities** <a href="#undefined" id="undefined"></a>
 
@@ -18,15 +18,15 @@ _(Company hiring needs are dynamic. This list provides examples of companies kno
 
 | Job Role                                                     | Top Companies – India                                                                                                      | Top Companies – Global                                                                                                                                |
 | ------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Robotics QA / Test Engineer**                              | Tata Consultancy Services, Infosys, ARCAP Innovations, Addverb, Eternal.ag                                                 | Boston Dynamics, Universal Robots, Agility Robotics, Figure AI, various manufacturing and automation companies                                        |
-| **Sensor Fusion Engineer**                                   | ARCAP Innovations, Quantela, Tata Elxsi, Ati Motors, Eternal.ag, automotive and autonomous systems companies               | Waymo, Wayve, Mobileye, NVIDIA, Tesla, Zoox, automotive Tier 1 suppliers                                                                              |
-| **Embedded Systems Engineer (Robotics Focus)**               | Tata Elxsi, Bosch India, Wipro, L\&T Technology Services, Addverb, numerous IoT and electronics firms                      | NVIDIA, Intel, Qualcomm, Apple, ARM, microcontroller manufacturers, consumer electronics, automotive                                                  |
-| **SLAM Engineer**                                            | Eternal.ag, Ati Motors, GreyOrange, Addverb Technologies, Peer Robotics, Swaayatt Robots, startups in AMRs/drones          | Skydio, Waymo, Wayve, Anduril, Figure AI, 1X, drone companies, vacuum-robot companies (iRobot), warehouse AMR vendors                                 |
+| **Robotics QA / Test Engineer**                              | Tata Consultancy Services, Infosys, ARCAP Innovations, Addverb                                                              | Boston Dynamics, Universal Robots, Agility Robotics, Figure AI, various manufacturing and automation companies                                        |
+| **Sensor Fusion Engineer**                                   | ARCAP Innovations, Quantela, Tata Elxsi, Ati Motors, automotive and autonomous systems companies                            | Waymo, Wayve, Mobileye, NVIDIA, Tesla, Zoox, automotive Tier 1 suppliers                                                                              |
+| **Embedded Systems Engineer (Robotics Focus)**               | Tata Elxsi, Bosch India, Wipro, L\&T Technology Services, Addverb, numerous IoT and electronics firms                       | NVIDIA, Intel, Qualcomm, Apple, ARM, microcontroller manufacturers, consumer electronics, automotive                                                  |
+| **SLAM Engineer**                                            | Ati Motors, GreyOrange, Addverb Technologies, Peer Robotics, Swaayatt Robots, startups in AMRs/drones                       | Skydio, Waymo, Wayve, Anduril, Figure AI, 1X, drone companies, vacuum-robot companies (iRobot), warehouse AMR vendors                                 |
 | **Haptics Engineer**                                         | GE Healthcare India, TCS Research, research labs in IITs/IISc                                                              | Immersion Corporation, Ultraleap, Meta Reality Labs, Apple, Intuitive Surgical, companies developing VR/AR and surgical interfaces                    |
-| **Motion Planning Engineer**                                 | GreyOrange, Addverb, Ati Motors, Eternal.ag, TCS Research, Swaayatt Robots, AMR and AV companies                           | Tesla, Zoox, Waymo, Boston Dynamics, Agility Robotics, Figure, 1X, Apptronik, Symbotic                                                                |
+| **Motion Planning Engineer**                                 | GreyOrange, Addverb, Ati Motors, TCS Research, Swaayatt Robots, AMR and AV companies                                        | Tesla, Zoox, Waymo, Boston Dynamics, Agility Robotics, Figure, 1X, Apptronik, Symbotic                                                                |
 | **Robot Integration Engineer**                               | ABB India, Yaskawa India, KUKA India, FANUC India, system integrators across industrial automation sectors                 | FANUC, KUKA, Universal Robots, ABB, Yaskawa, system integration firms globally                                                                        |
-| **Fleet Management Engineer (Robotics)**                     | Eternal.ag, GreyOrange, Locus Robotics (India ops), Addverb Technologies, Hi-Tech Robotics Systemz (Novus Flow)             | Amazon Robotics, Symbotic, Fetch Robotics (Zebra), Locus Robotics, MiR (Teradyne), warehouse automation providers                                     |
-| **ROS / ROS 2 Developer**                                    | Eternal.ag, Addverb, Ati Motors, Peer Robotics, TCS Research, robotics startups and R\&D labs                              | Open Robotics (Intrinsic/Alphabet), Clearpath Robotics, Canonical (Ubuntu Robotics), Picknik, Apex.AI, most ROS-based product companies               |
+| **Fleet Management Engineer (Robotics)**                     | GreyOrange, Locus Robotics (India ops), Addverb Technologies, Hi-Tech Robotics Systemz (Novus Flow)                          | Amazon Robotics, Symbotic, Fetch Robotics (Zebra), Locus Robotics, MiR (Teradyne), warehouse automation providers                                     |
+| **ROS / ROS 2 Developer**                                    | Addverb, Ati Motors, Peer Robotics, TCS Research, robotics startups and R\&D labs                                            | Open Robotics (Intrinsic/Alphabet), Clearpath Robotics, Canonical (Ubuntu Robotics), Picknik, Apex.AI, most ROS-based product companies               |
 | **Field Service Engineer (Robotics)**                        | ABB India, KUKA India, FANUC India, Yaskawa India, companies selling/maintaining industrial robots                          | FANUC, Yaskawa, Rockwell Automation, ABB, KUKA, Universal Robots, other industrial automation solution providers                                      |
 | **Simulation Engineer (Robotics)**                           | Siemens PLM India, Autodesk India, Tata Elxsi, L\&T Technology Services, engineering simulation service providers           | Siemens, Autodesk, Ansys, Dassault Systèmes, NVIDIA (Isaac Sim), MathWorks, companies heavily using simulation for robot development                  |
 | **LiDAR Engineer**                                           | Tata Elxsi, Quantela, AV / surveying / industrial automation companies                                                     | Hesai, Ouster, Innoviz, Luminar, Bosch, Valeo, other LiDAR manufacturers and automotive Tier 1s                                                       |
@@ -97,7 +97,6 @@ The most production-deployed category. Mature unit economics, real revenue.
 | **Fetch Robotics**       | 2014    | San Jose, CA, USA         | AMRs for material handling; acquired by Zebra Technologies 2021                        | zebra.com (Fetch line)    |
 | **Geek+**                | 2015    | Beijing, China            | Goods-to-person AMRs; large APAC/EMEA deployments                                      | geekplus.com              |
 | **Hai Robotics**         | 2016    | Shenzhen, China           | Autonomous case-handling robots (HaiPick); dense storage focus                          | hairobotics.com           |
-| **Eternal.ag** (Zomato/Blinkit) | 2008 (parent) | Bangalore / Gurgaon, India | Robotics for quick-commerce fulfilment (dark stores, micro-fulfilment); Pan's current employer | eternal.ag                |
 | **Amazon Robotics**      | 2003 (Kiva) | North Reading, MA, USA | Fleet of 750K+ mobile robots across FCs; Sequoia / Sparrow / Proteus lines             | amazon.science/robotics   |
 
 ***
@@ -132,19 +131,57 @@ The "robotics-meets-defense-tech" wave has serious capital behind it from 2024 o
 
 ### **Indian Robotics**
 
-The Indian ecosystem matured between 2022 and 2026 — credible product companies, not just service shops.
+The Indian ecosystem matured between 2022 and 2026 - credible product companies, not just service shops. The list below splits into industrial / AMR, agriculture, manipulation & vision, drones, and consumer / social robotics. All entries should be fact-checked before relying on contact or hiring info; flagged `[verify]` where I'm less than fully confident.
+
+**AMRs / industrial automation**
 
 | Company                    | Founded | HQ                       | Focus / Current Product                                                                | URL                          |
 | -------------------------- | ------- | ------------------------ | -------------------------------------------------------------------------------------- | ---------------------------- |
-| **Addverb Technologies**   | 2016    | Noida, India             | Warehouse automation (AMRs, ASRS, sorters); Reliance-backed; Pan's ex-employer         | addverb.com                  |
-| **10xConstruction.ai**     | 2021 [verify] | Bangalore, India   | Robotics + AI for construction site progress tracking; Pan's ex-employer               | 10xconstruction.ai [verify]  |
-| **Eternal.ag** (Zomato/Blinkit) | 2008 (parent) | Bangalore / Gurgaon | Robotics for quick-commerce fulfilment; Pan's current employer                          | eternal.ag                   |
-| **Niqo Robotics**          | 2017    | Bangalore, India         | Precision agriculture robotics (See & Spray-style targeted spraying)                    | niqo.in [verify]             |
-| **Peer Robotics**          | 2020    | Delhi NCR, India / USA   | Collaborative AMRs for SMB manufacturing                                                | peerrobotics.com             |
-| **Genrobotics**            | 2017    | Trivandrum, Kerala       | Bandicoot manhole-cleaning robot; eliminating manual scavenging                         | genrobotics.com [verify]     |
+| **Addverb Technologies**   | 2016    | Noida, India             | Warehouse automation (AMRs, ASRS, sorters); Reliance-backed                            | addverb.com                  |
 | **Ati Motors**             | 2017    | Bangalore, India         | Sherpa autonomous industrial tugger; outdoor + indoor AMR                               | atimotors.com                |
 | **GreyOrange**             | 2011    | Atlanta / Gurgaon        | Butler AMRs + GreyMatter fulfilment OS; originally Indian, now US-HQ                    | greyorange.com               |
+| **Peer Robotics**          | 2020    | Delhi NCR, India / USA   | Collaborative AMRs for SMB manufacturing                                                | peerrobotics.com             |
+| **Hi-Tech Robotic Systemz** | 2004   | Gurgaon, India           | Novus-class AMRs; long-running player                                                  | hitechroboticsystemz.com [verify] |
+| **Difacto Robotics & Automation** | 2012 | Bangalore, India     | Industrial robotics integration, vision-guided robotics                                 | difacto.com [verify]         |
 | **Asimov Robotics**        | 2012    | Kochi, Kerala            | Industrial and humanoid prototypes; small but long-running                              | asimovrobotics.com [verify]  |
+
+**Manipulation & vision**
+
+| Company                    | Founded | HQ                       | Focus / Current Product                                                                | URL                          |
+| -------------------------- | ------- | ------------------------ | -------------------------------------------------------------------------------------- | ---------------------------- |
+| **CynLr** (Cybernetics Laboratory) | 2019 | Bangalore, India   | Universal robot vision for unstructured grasping; "visual object intelligence"          | cynlr.com [verify]           |
+| **Sastra Robotics**        | 2013    | Kochi, Kerala            | Test-automation robotic arms for medical / automotive / consumer electronics            | sastrarobotics.com [verify]  |
+| **Genrobotics**            | 2017    | Trivandrum, Kerala       | Bandicoot manhole-cleaning robot; eliminating manual scavenging                         | genrobotics.com [verify]     |
+| **Miko**                   | 2015    | Mumbai, India            | Companion social robot for children                                                     | miko.ai [verify]             |
+| **Postman / Postler Robotics** | -   | -                        | Status uncertain; verify before listing                                                 | [verify]                     |
+
+**Agriculture & food**
+
+| Company                    | Founded | HQ                       | Focus / Current Product                                                                | URL                          |
+| -------------------------- | ------- | ------------------------ | -------------------------------------------------------------------------------------- | ---------------------------- |
+| **Niqo Robotics**          | 2017    | Bangalore, India         | Precision agriculture robotics (See & Spray-style targeted spraying)                    | niqo.in [verify]             |
+| **Garuda Aerospace**       | 2015    | Chennai, India           | Agricultural drones, surveillance, delivery; large fleet in operation                   | garuda-aerospace.com [verify]|
+| **TartanSense**            | 2017    | Bangalore, India         | BrijBot cotton-field robot for precision spraying                                       | tartansense.com [verify]     |
+
+**Drones / aerial**
+
+| Company                    | Founded | HQ                       | Focus / Current Product                                                                | URL                          |
+| -------------------------- | ------- | ------------------------ | -------------------------------------------------------------------------------------- | ---------------------------- |
+| **ideaForge Technology**   | 2007    | Mumbai / Navi Mumbai     | Defense and surveillance drones; NSE/BSE-listed                                          | ideaforgetech.com [verify]   |
+| **NewSpace Research & Technologies** | 2017 | Bangalore, India | Defense UAVs and swarm systems                                                          | newspaceresearch.com [verify]|
+| **Asteria Aerospace**      | 2011    | Bangalore, India         | Defense + commercial drones; Reliance-owned                                              | asteria.co.in [verify]       |
+| **Botlab Dynamics**        | 2016    | New Delhi, India         | Drone-light-show choreography and FPV; IIT Delhi spinout                                 | botlabdynamics.com [verify]  |
+| **Aarav Unmanned Systems** | 2013    | Bangalore, India         | Survey / inspection drones; Honeywell partnership                                        | aus.co.in [verify]           |
+| **Detect Technologies**    | 2016    | Chennai / Bangalore      | Industrial inspection drones + analytics for oil & gas, infra                            | detecttechnologies.com [verify] |
+| **Big Bang Boom Solutions**| 2018    | Chennai, India           | Defense robotics / drones                                                                | bbbs.in [verify]             |
+| **The ePlane Company**     | 2019    | Chennai, India           | Electric VTOL aircraft; IIT Madras incubated                                             | eplane.aero [verify]         |
+
+**Adjacent / security & inspection**
+
+| Company                    | Founded | HQ                       | Focus / Current Product                                                                | URL                          |
+| -------------------------- | ------- | ------------------------ | -------------------------------------------------------------------------------------- | ---------------------------- |
+| **Cron Systems**           | 2015    | Delhi NCR, India         | Perimeter security with drones and LiDAR                                                | cronsystems.com [verify]     |
+| **Swaayatt Robots**        | 2015    | Bhopal / Bangalore       | Autonomous driving stack research; lean team                                            | swaayatt.com [verify]        |
 
 ***
 
@@ -152,11 +189,11 @@ The Indian ecosystem matured between 2022 and 2026 — credible product companie
 
 Not robot makers per se, but increasingly central to whoever's hiring.
 
-- **NVIDIA Robotics** (Isaac Sim, GR00T foundation model, Jetson) — nvidia.com/robotics
-- **Google DeepMind Robotics** (RT-X, RT-2 successors) — deepmind.google
-- **Intrinsic** (Alphabet) — flowstate platform; absorbed Open Robotics 2024 — intrinsic.ai
-- **Hugging Face LeRobot** — open-source robot learning library — huggingface.co/lerobot
-- **Covariant** — manipulation foundation models; Amazon acqui-hired the leadership 2024 — covariant.ai [verify]
+- **NVIDIA Robotics** (Isaac Sim, GR00T foundation model, Jetson) - nvidia.com/robotics
+- **Google DeepMind Robotics** (RT-X, RT-2 successors) - deepmind.google
+- **Intrinsic** (Alphabet) - flowstate platform; absorbed Open Robotics 2024 - intrinsic.ai
+- **Hugging Face LeRobot** - open-source robot learning library - huggingface.co/lerobot
+- **Covariant** - manipulation foundation models; Amazon acqui-hired the leadership 2024 - covariant.ai [verify]
 
 ***
 
