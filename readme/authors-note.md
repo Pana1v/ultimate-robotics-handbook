@@ -8,15 +8,13 @@ I hope this will help greatly in knowledge transfer and newer generations both i
 \
 I would like to thank Atul Sir whose lecture materials and knowledge have trickled down into making this guide, especially the Kinematics Part, Yuvaraj Sir, Members of the BRAIn Lab and The Robocon Team for proofreading.
 
+If you wish to help or collaborate/sponsor the Robocon Team please connect
 
+<a href="mailto:robocon@iitp.ac.in?cc=panav_2101ee48@iitp.ac.in" class="button primary">Mail to me and the Team for Collaboration</a>
 
-If you wish to help or collaborate/sponsor the Robocon Team please connect&#x20;
-
-<a href="mailto:robocon@iitp.ac.in?cc=panav_2101ee48@iitp.ac.in" class="button primary">Mail to me and the Team for Collaboration </a>
-
-If you wish to collaborate on maintaining this guide or further opportunities please convey over  <a href="mailto:panav_2101ee48@iitp.ac.in?cc=praajarpit@gmail.com" class="button primary">Mail Panav (me)</a> or <a href="https://www.linkedin.com/in/panavraaj/" class="button primary">Connect with me on LinkedIn</a>\
+If you wish to collaborate on maintaining this guide or further opportunities please convey over <a href="mailto:panav_2101ee48@iitp.ac.in?cc=praajarpit@gmail.com" class="button primary">Mail Panav (me)</a> or <a href="https://www.linkedin.com/in/panavraaj/" class="button primary">Connect with me on LinkedIn</a>\
 \
-You can also reach out to BRAIn lab and Atul Sir for research/funding related opportunities <a href="mailto:athakur@iitp.ac.in?cc=panav_2101ee48@iitp.ac.in" class="button primary">Mail Atul Sir</a>&#x20;
+You can also reach out to BRAIn lab and Atul Sir for research/funding related opportunities <a href="mailto:athakur@iitp.ac.in?cc=panav_2101ee48@iitp.ac.in" class="button primary">Mail Atul Sir</a>
 
 Robocon and Rover Team Site : <a href="https://robocon-iit-patna.github.io" class="button primary">Robocon and Rover Team IIT Patna</a>
 
@@ -32,12 +30,11 @@ I'm currently a Robotics Engineer at **Eternal.ag** (Bangalore), working on GPU-
 
 ### My open-source robotics work
 
-If you want to see how the concepts in this handbook translate to shipped code, the [Author's Projects](../authors-projects/) section walks through them in depth:
+If you want to see how the concepts in this handbook translate to shipped code, the [Author's Projects](../authors-projects/authors-projects.md) section walks through them in depth:
 
-* **[Polka](../authors-projects/polka.md)** — ROS 2 multi-LiDAR fusion node (CUDA-accelerated, IMU-deskewed, Humble + Jazzy).
-* **[GO-SLAM](../authors-projects/go-slam.md)** — A full SLAM stack built from scratch (GICP front-end, pose-graph back-end, custom Levenberg–Marquardt solvers, KITTI-benchmarked).
-* **[LEAP](../authors-projects/leap.md)** — Learning-augmented exact optimization for asymmetric pick-and-place sequencing (BRAIn Lab, IIT Patna; manuscript in preparation).
-* **[BARN Challenge 2026](../authors-projects/barn-challenge.md)** — Breadcrumb Explorer for mapless navigation; highest score by an Indian team since the benchmark began.
+* [**Polka**](../authors-projects/polka.md) — ROS 2 multi-LiDAR fusion node (CUDA-accelerated, IMU-deskewed, Humble + Jazzy).
+* [**GO-SLAM**](../authors-projects/go-slam.md) — A full SLAM stack built from scratch (GICP front-end, pose-graph back-end, custom Levenberg–Marquardt solvers, KITTI-benchmarked).
+* [**LEAP**](../authors-projects/leap.md) — Learning-augmented exact optimization for asymmetric pick-and-place sequencing (BRAIn Lab, IIT Patna; manuscript in preparation).
+* [**BARN Challenge 2026**](../authors-projects/barn-challenge.md) — Breadcrumb Explorer for mapless navigation; highest score by an Indian team since the benchmark began.
 
 I also contribute to [Nav2](https://github.com/ros-navigation/navigation2), [PlotJuggler](https://github.com/facontidavide/PlotJuggler), and [Lichtblick](https://github.com/Lichtblick-Suite/lichtblick).
-

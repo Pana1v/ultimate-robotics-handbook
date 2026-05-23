@@ -5,8 +5,8 @@
 
 ## Foundations
 
-* [Linear Algebra for Robotics](mathematical-and-programming-foundations/linear-algebra-for-robotics.md)
-* [Calculus](mathematical-and-programming-foundations/calculus.md)
+* [Linear Algebra for Robotics](foundations/linear-algebra-for-robotics.md)
+* [Calculus](foundations/calculus.md)
 
 ## Programming for Robotics
 
@@ -24,9 +24,9 @@
   * [Build and Prototyping](hardware/hardware/build-and-prototyping.md)
   * [3D Printing and Machining](hardware/hardware/3d-printing-and-machining.md)
 * [Fabrication Parts](hardware/fabrication-parts.md)
-* [Common Mechanisms](common-mechanisms/README.md)
-  * [Wheels and Drives](common-mechanisms/wheels-and-drives.md)
-  * [Power Transmission](common-mechanisms/power-transmission.md)
+* [Common Mechanisms](hardware/common-mechanisms/README.md)
+  * [Wheels and Drives](hardware/common-mechanisms/wheels-and-drives.md)
+  * [Power Transmission](hardware/common-mechanisms/power-transmission.md)
 
 ## Computer Aided Designs and Simulations
 
@@ -56,7 +56,7 @@
 
 ## ROS 2
 
-* [Overview](ros-2/README.md)
+* [Overview](ros-2/ros-2.md)
 * [Setup](ros-2/setup.md)
 * [DDS and QoS](ros-2/dds-qos.md)
 * [Lifecycle and Composition](ros-2/lifecycle-and-composition.md)
@@ -64,29 +64,29 @@
 * [MoveIt 2](ros-2/moveit2.md)
 * [micro-ROS](ros-2/micro-ros.md)
 * [Visualization (rviz2, Foxglove, Lichtblick, PlotJuggler)](ros-2/visualization.md)
-* [Important Packages and Libraries](ros-advanced/important-packages-and-libraries.md)
+* [Important Packages and Libraries](ros-2/important-packages-and-libraries.md)
 
-### ROS 1 (Legacy)
+## ROS 1 (Legacy)
 
-* [ROS 1 Overview](ros-advanced/ros.md)
-  * [Concepts and Packages (ROS 1)](ros-advanced/ros-1/concepts-and-packages.md)
-  * [Manual and Quick Setup (ROS 1)](ros-advanced/ros-1/manual-and-quick-setup.md)
+* [ROS 1 Overview](ros-1-legacy/ros/README.md)
+  * [Concepts and Packages (ROS 1)](ros-1-legacy/ros/concepts-and-packages.md)
+  * [Manual and Quick Setup (ROS 1)](ros-1-legacy/ros/manual-and-quick-setup.md)
 
 ## Perception & Computer Vision
 
-* [ML and Perception (overview)](ml-and-perception/ml-and-perception.md)
-* [Cameras, Depth Sensors and LiDAR](ml-and-perception/cameras-depth-sensors-and-lidar.md)
-* [Image Processing Basics (OpenCV)](ml-and-perception/image-processing-basics-opencv.md)
-* [Object Detection and Tracking](ml-and-perception/object-detection-and-tracking.md)
-* [Foundation Vision Models (SAM, DINO, Depth Anything)](ml-and-perception/foundation-vision-models.md)
-* [3D Perception (NeRF, Gaussian Splatting)](ml-and-perception/3d-perception.md)
-* [Event Cameras](ml-and-perception/event-cameras.md)
-* [Example of a Vision Pipeline](ml-and-perception/example-of-a-vision-pipeline.md)
-* [Reinforcement Learning (classical foundations)](ml-and-perception/reinforcement-learning.md)
+* [ML and Perception (overview)](perception-and-computer-vision/ml-and-perception.md)
+* [Cameras, Depth Sensors and LiDAR](perception-and-computer-vision/cameras-depth-sensors-and-lidar.md)
+* [Image Processing Basics (OpenCV)](perception-and-computer-vision/image-processing-basics-opencv.md)
+* [Object Detection and Tracking](perception-and-computer-vision/object-detection-and-tracking.md)
+* [Foundation Vision Models (SAM, DINO, Depth Anything)](perception-and-computer-vision/foundation-vision-models.md)
+* [3D Perception (NeRF, Gaussian Splatting)](perception-and-computer-vision/3d-perception.md)
+* [Event Cameras](perception-and-computer-vision/event-cameras.md)
+* [Example of a Vision Pipeline](perception-and-computer-vision/example-of-a-vision-pipeline.md)
+* [Reinforcement Learning (classical foundations)](perception-and-computer-vision/reinforcement-learning.md)
 
 ## SLAM & State Estimation
 
-* [Overview](slam-and-state-estimation/README.md)
+* [Overview](slam-and-state-estimation/slam-and-state-estimation.md)
 * [Filter-Based SLAM](slam-and-state-estimation/filter-slam.md)
 * [Graph SLAM](slam-and-state-estimation/graph-slam.md)
 * [Visual SLAM](slam-and-state-estimation/visual-slam.md)
@@ -109,7 +109,7 @@
 
 ## Robot Learning
 
-* [Overview](robot-learning/README.md)
+* [Overview](robot-learning/robot-learning.md)
 * [Imitation Learning](robot-learning/imitation-learning.md)
 * [Reinforcement Learning (modern)](robot-learning/reinforcement-learning-modern.md)
 * [Foundation Models / VLAs](robot-learning/foundation-models-vla.md)
@@ -137,7 +137,7 @@
 
 ## Author's Projects
 
-* [Author's Projects (overview)](authors-projects/README.md)
+* [Author's Projects (overview)](authors-projects/authors-projects.md)
 * [Polka — Multi-LiDAR Fusion](authors-projects/polka.md)
 * [GO-SLAM — Built from Scratch](authors-projects/go-slam.md)
 * [LEAP — Pick-and-Place Optimization](authors-projects/leap.md)
@@ -148,8 +148,8 @@
 * [Career in Robotics](career-paths-and-research-opportunities/career-in-robotics.md)
 * [Job Roles In Robotics](career-paths-and-research-opportunities/job-roles-in-robotics.md)
 * [Conferences and Journals](career-paths-and-research-opportunities/conferences-and-journals.md)
-* [Companies Hiring for Robotics](companies-hiring-for-robotics.md)
-* [Leading Institutes](leading-institutes.md)
+* [Companies Hiring for Robotics](career-paths-and-research-opportunities/companies-hiring-for-robotics.md)
+* [Leading Institutes](career-paths-and-research-opportunities/leading-institutes.md)
 
 ## Other Resources
 

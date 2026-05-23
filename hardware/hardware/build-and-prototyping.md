@@ -37,7 +37,7 @@ Robotics prototyping transforms design concepts into physical models to validate
 
 * CNC Mill & Lathe: Automated cutting of precise shapes in metals and plastics [3](https://www.3erp.com/blog/cnc-robotics/).
 
-![](https://media3.giphy.com/media/3ohc18suexXv3XWl7W/giphy.gif?cid=6c09b952n8z4nmjnl2y80zp983xsk6si9s57dgexuskx28zm\&ep=v1_internal_gif_by_id\&rid=giphy.gif\&ct=g)![](https://i.gifer.com/BqD8.gif)
+![](https://media3.giphy.com/media/3ohc18suexXv3XWl7W/giphy.gif?cid=6c09b952n8z4nmjnl2y80zp983xsk6si9s57dgexuskx28zm\&ep=v1_internal_gif_by_id\&rid=giphy.gif\&ct=g) ![](https://i.gifer.com/BqD8.gif)
 
 * CNC Router & Laser Cutter: Rapid contouring of softer materials (wood, acrylic) and detailed metal or plastic panels [3](https://www.3erp.com/blog/cnc-robotics/).
 
@@ -69,8 +69,6 @@ Robotics prototyping transforms design concepts into physical models to validate
 
 <figure><img src="../../.gitbook/assets/19-1632725527700_1200x.webp" alt=""><figcaption></figcaption></figure>
 
-
-
 * Wrenches, Hex Keys & Pliers: Assemble and adjust mechanical subassemblies [5](https://en.wikibooks.org/wiki/Robotics/Design_Basics/Tools_and_Equipment).
 
 <figure><img src="../../.gitbook/assets/download (8).jpg" alt=""><figcaption><p>Wrench</p></figcaption></figure>
@@ -83,7 +81,7 @@ Robotics prototyping transforms design concepts into physical models to validate
 
 * Deburring Tools & Files: Remove sharp edges and ensure smooth part interfaces.
 
-<figure><img src="../../.gitbook/assets/Tsubosan-Flat-Hand-File-For-Stainless-Steel-and-Metalwork-1-2024-07-11T02_32_38.730Z_400x400 (1).webp" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/Tsubosan-Flat-Hand-File-For-Stainless-Steel-and-Metalwork-1-2024-07-11T02_32_38.730Z_400x400.webp" alt=""><figcaption></figcaption></figure>
 
 ### Electronics & Soldering Tools <a href="#electronics--soldering-tools" id="electronics--soldering-tools"></a>
 
@@ -110,8 +108,6 @@ Robotics prototyping transforms design concepts into physical models to validate
 * Wire Strippers & Cutters: Prepare conductor ends for reliable electrical connections [7](https://www.linkedin.com/pulse/10-essential-tools-electronics-enthusiasts-hobbyist-rachana-jain-mskmc).
 
 <figure><img src="../../.gitbook/assets/4747.gif" alt=""><figcaption></figcaption></figure>
-
-
 
 * Helping Hands & Magnifier: Holds small components steady during soldering [7](https://www.linkedin.com/pulse/10-essential-tools-electronics-enthusiasts-hobbyist-rachana-jain-mskmc).
 
