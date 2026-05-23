@@ -58,7 +58,7 @@ This curated list of books, software, and online resources provides a solid foun
 
 ### **4. Modern Robot Learning Resources (2023-2026)**
 
-The classical textbooks above cover kinematics, dynamics, classical control, and probabilistic robotics — all foundational. But the post-2022 paradigm of robot learning (imitation, diffusion policies, VLAs, world models) lives mostly in papers, repos, and blog posts. The references below are where to start.
+The classical textbooks above cover kinematics, dynamics, classical control, and probabilistic robotics - all foundational. But the post-2022 paradigm of robot learning (imitation, diffusion policies, VLAs, world models) lives mostly in papers, repos, and blog posts. The references below are where to start.
 
 **Foundational papers (read these to ground yourself):**
 
@@ -85,11 +85,11 @@ The classical textbooks above cover kinematics, dynamics, classical control, and
 
 **Communities & blogs to follow in 2026:**
 
-* **CoRL** (Conference on Robot Learning) — the canonical venue. Workshop papers are often the leading edge.
-* **HuggingFace Robotics** blog — practical write-ups, model cards, demos.
-* **AI Robot Brew** ([airobotbrew.com](https://airobotbrew.com)) — robotics learning research aggregator. \[verify]
-* **NVIDIA Robotics blog** — Isaac platform, Cosmos, Project GR00T updates.
-* **Sergey Levine** (Berkeley) and **Chelsea Finn** (Stanford) on Twitter/X — leading robot learning researchers.
+* **CoRL** (Conference on Robot Learning) - the canonical venue. Workshop papers are often the leading edge.
+* **HuggingFace Robotics** blog - practical write-ups, model cards, demos.
+* **AI Robot Brew** ([airobotbrew.com](https://airobotbrew.com)) - robotics learning research aggregator. \[verify]
+* **NVIDIA Robotics blog** - Isaac platform, Cosmos, Project GR00T updates.
+* **Sergey Levine** (Berkeley) and **Chelsea Finn** (Stanford) on Twitter/X - leading robot learning researchers.
 
 For a deep dive on each of these, see the [Robot Learning](../robot-learning/) section of this handbook.
 

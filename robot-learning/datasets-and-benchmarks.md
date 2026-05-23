@@ -4,7 +4,7 @@ icon: brain
 
 # Datasets & Benchmarks
 
-A field's progress is measured by its benchmarks. Robotics has historically been bad at this — every paper claimed state of the art on a different real-robot setup that nobody else could reproduce. The 2023-2026 wave changed that, partially. There are now genuinely shared datasets and benchmarks, both real and simulated. This page surveys what to use and when.
+A field's progress is measured by its benchmarks. Robotics has historically been bad at this - every paper claimed state of the art on a different real-robot setup that nobody else could reproduce. The 2023-2026 wave changed that, partially. There are now genuinely shared datasets and benchmarks, both real and simulated. This page surveys what to use and when.
 
 The honest caveat: **no benchmark in robotics is as load-bearing as ImageNet was for vision or GLUE was for NLP**. A model that wins on LIBERO might fail on your physical robot. Use benchmarks for ablations and comparing techniques, not as a final verdict on capability.
 
@@ -70,7 +70,7 @@ A diverse multi-task manipulation dataset from CMU. ~100k trajectories. Less mai
 
 HuggingFace hosts hundreds of community-contributed datasets in the LeRobot format. [https://huggingface.co/datasets?other=LeRobot](https://huggingface.co/datasets?other=LeRobot) [verify]
 
-Quality is uneven — some are excellent (SO-100 demos from competent operators), some are unusable. As of 2026 this is the wild west of robotics data; useful for narrow tasks if you find the right one.
+Quality is uneven - some are excellent (SO-100 demos from competent operators), some are unusable. As of 2026 this is the wild west of robotics data; useful for narrow tasks if you find the right one.
 
 ## Simulation benchmarks
 
@@ -107,7 +107,7 @@ RoboCasa is the closest thing in 2026 to a "kitchen ImageNet." If you are traini
 Li, Zhang et al. (Stanford), 2023. [https://behavior.stanford.edu/](https://behavior.stanford.edu/)
 Paper: [https://arxiv.org/abs/2403.09227](https://arxiv.org/abs/2403.09227) [verify]
 
-A simulation benchmark of 1000+ household activities. Built on OmniGibson (Isaac Sim + iGibson). More complex than RoboCasa — full mobile manipulation in cluttered homes, including soft bodies, fluids, cloth.
+A simulation benchmark of 1000+ household activities. Built on OmniGibson (Isaac Sim + iGibson). More complex than RoboCasa - full mobile manipulation in cluttered homes, including soft bodies, fluids, cloth.
 
 Strengths: scope. There is no other benchmark with this breadth of household tasks.
 Weaknesses: hard to train on. The simulator is heavy, the activities are long-horizon, and many tasks involve deformables that no current learning approach handles well.
@@ -144,9 +144,9 @@ The benchmark substrate that LIBERO and RoboCasa build on. A flexible MuJoCo-bas
 
 Comes with built-in task suites:
 
-- **legged_gym** (now part of Isaac Lab) — quadruped + humanoid locomotion
-- **dexterous manipulation** — hand-cube reorientation, allegro tasks
-- **Franka tabletop** — pick-and-place, stack, push
+- **legged_gym** (now part of Isaac Lab) - quadruped + humanoid locomotion
+- **dexterous manipulation** - hand-cube reorientation, allegro tasks
+- **Franka tabletop** - pick-and-place, stack, push
 
 For RL benchmarking these are the canonical environments in 2026.
 
@@ -162,16 +162,16 @@ The Benchmark for Autonomous Robot Navigation. A simulation + real-world challen
 
 The "BARN" environments are procedurally generated obstacle fields between two walls; the robot must navigate from one end to the other without collisions. Brutally hard for purely reactive planners. Good ground truth for evaluating learned vs. classical local planners.
 
-I (Pan) competed in BARN — see [BARN Challenge](../authors-projects/barn-challenge.md) for the project writeup.
+I (Pan) competed in BARN - see [BARN Challenge](../authors-projects/barn-challenge.md) for the project writeup.
 
 ### Habitat ObjectNav / SocialNav
 
 Standardized navigation benchmarks within Meta Habitat:
 
-- **PointNav** — go to a goal coordinate.
-- **ObjectNav** — find an object by semantic label.
-- **ImageNav** — find a location matching a goal image.
-- **SocialNav** — navigate without colliding with humans / agents.
+- **PointNav** - go to a goal coordinate.
+- **ObjectNav** - find an object by semantic label.
+- **ImageNav** - find a location matching a goal image.
+- **SocialNav** - navigate without colliding with humans / agents.
 
 These have annual challenges and active leaderboards. The current SOTA mixes learned policies + classical SLAM + LLM planning.
 
@@ -179,8 +179,8 @@ These have annual challenges and active leaderboards. The current SOTA mixes lea
 
 For autonomous driving (not robot navigation in the indoor sense):
 
-- **nuScenes** — [https://www.nuscenes.org/](https://www.nuscenes.org/) — 1000 driving scenes, multi-modal sensors.
-- **Waymo Open Dataset** — [https://waymo.com/open/](https://waymo.com/open/) — 1000+ hours of driving, large-scale, well-maintained.
+- **nuScenes** - [https://www.nuscenes.org/](https://www.nuscenes.org/) - 1000 driving scenes, multi-modal sensors.
+- **Waymo Open Dataset** - [https://waymo.com/open/](https://waymo.com/open/) - 1000+ hours of driving, large-scale, well-maintained.
 
 Both are foundational for autonomous-driving perception and prediction. The driving / robotics overlap is real but the benchmarks remain distinct.
 
@@ -189,11 +189,11 @@ Both are foundational for autonomous-driving perception and prediction. The driv
 VLA papers in 2024-2026 typically benchmark on a combination of:
 
 - **LIBERO** (sim, manipulation)
-- **SimplerEnv** — [https://simpler-env.github.io/](https://simpler-env.github.io/) [verify] — a simulator designed to *match* real-robot evaluation distributions for OpenX-trained models. Letting you eval a real-trained VLA in sim with reasonable correlation.
-- **Real-world Franka / WidowX evals** — manually scored, on the lab's own setup, often non-reproducible.
-- **CALVIN** — [http://calvin.cs.uni-freiburg.de/](http://calvin.cs.uni-freiburg.de/) [verify] — long-horizon language-conditioned manipulation benchmark.
+- **SimplerEnv** - [https://simpler-env.github.io/](https://simpler-env.github.io/) [verify] - a simulator designed to *match* real-robot evaluation distributions for OpenX-trained models. Letting you eval a real-trained VLA in sim with reasonable correlation.
+- **Real-world Franka / WidowX evals** - manually scored, on the lab's own setup, often non-reproducible.
+- **CALVIN** - [http://calvin.cs.uni-freiburg.de/](http://calvin.cs.uni-freiburg.de/) [verify] - long-horizon language-conditioned manipulation benchmark.
 
-SimplerEnv is the most underrated of these — it provides a sim eval that actually correlates with real-robot results, which is more than LIBERO claims.
+SimplerEnv is the most underrated of these - it provides a sim eval that actually correlates with real-robot results, which is more than LIBERO claims.
 
 ## Comparison table
 
@@ -215,12 +215,12 @@ SimplerEnv is the most underrated of these — it provides a sim eval that actua
 
 ## Benchmarks specifically for sim-to-real
 
-Most "sim-to-real" papers do not use a shared benchmark — they show the same policy in sim and on their lab's robot, and report success rates. This is a real gap in the field.
+Most "sim-to-real" papers do not use a shared benchmark - they show the same policy in sim and on their lab's robot, and report success rates. This is a real gap in the field.
 
 A few attempts at shared sim-to-real benchmarks:
 
-- **RoboHive** — [https://sites.google.com/view/robohive](https://sites.google.com/view/robohive) [verify] — a benchmark suite spanning sim + real for manipulation.
-- **SimplerEnv** (above) — explicitly designed to predict real-robot performance from sim.
+- **RoboHive** - [https://sites.google.com/view/robohive](https://sites.google.com/view/robohive) [verify] - a benchmark suite spanning sim + real for manipulation.
+- **SimplerEnv** (above) - explicitly designed to predict real-robot performance from sim.
 
 The reality is that sim-to-real claims still mostly need to be evaluated on the specific robot in the specific deployment. No benchmark substitutes for that.
 
@@ -253,8 +253,8 @@ The reality is that sim-to-real claims still mostly need to be evaluated on the 
 
 ## Further reading
 
-- Padalkar et al., *"Open X-Embodiment: Robotic Learning Datasets and RT-X Models"* — [https://arxiv.org/abs/2310.08864](https://arxiv.org/abs/2310.08864)
-- Khazatsky et al., *"DROID: A Large-Scale In-The-Wild Robot Manipulation Dataset"* — [https://arxiv.org/abs/2403.12945](https://arxiv.org/abs/2403.12945)
-- Liu et al., *"LIBERO: Benchmarking Knowledge Transfer for Lifelong Robot Learning"* — [https://arxiv.org/abs/2306.03310](https://arxiv.org/abs/2306.03310)
-- Nasiriany et al., *"RoboCasa: Large-Scale Simulation of Everyday Tasks for Generalist Robots"* — [https://arxiv.org/abs/2406.02523](https://arxiv.org/abs/2406.02523)
-- Li et al., *"BEHAVIOR-1K: A Human-Centered, Embodied AI Benchmark with 1,000 Everyday Activities and Realistic Simulation"* — [https://arxiv.org/abs/2403.09227](https://arxiv.org/abs/2403.09227) [verify]
+- Padalkar et al., *"Open X-Embodiment: Robotic Learning Datasets and RT-X Models"* - [https://arxiv.org/abs/2310.08864](https://arxiv.org/abs/2310.08864)
+- Khazatsky et al., *"DROID: A Large-Scale In-The-Wild Robot Manipulation Dataset"* - [https://arxiv.org/abs/2403.12945](https://arxiv.org/abs/2403.12945)
+- Liu et al., *"LIBERO: Benchmarking Knowledge Transfer for Lifelong Robot Learning"* - [https://arxiv.org/abs/2306.03310](https://arxiv.org/abs/2306.03310)
+- Nasiriany et al., *"RoboCasa: Large-Scale Simulation of Everyday Tasks for Generalist Robots"* - [https://arxiv.org/abs/2406.02523](https://arxiv.org/abs/2406.02523)
+- Li et al., *"BEHAVIOR-1K: A Human-Centered, Embodied AI Benchmark with 1,000 Everyday Activities and Realistic Simulation"* - [https://arxiv.org/abs/2403.09227](https://arxiv.org/abs/2403.09227) [verify]

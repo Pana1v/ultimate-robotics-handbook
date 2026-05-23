@@ -2,9 +2,9 @@
 icon: route
 ---
 
-# GO-SLAM — SLAM From Scratch (GICP + Pose Graph)
+# GO-SLAM - SLAM From Scratch (GICP + Pose Graph)
 
-> A full LiDAR SLAM system built from scratch in two months. **GICP front-end**, **pose-graph back-end**, **loop-closure detection**, and **custom Levenberg-Marquardt solvers** for both GICP alignment and the global graph — no Ceres, no g2o, no GTSAM. Integrated with ROS 2 Humble using deskewed LiDAR outputs from [Polka](polka.md). Benchmarked on KITTI sequences against ground truth.
+> A full LiDAR SLAM system built from scratch in two months. **GICP front-end**, **pose-graph back-end**, **loop-closure detection**, and **custom Levenberg-Marquardt solvers** for both GICP alignment and the global graph - no Ceres, no g2o, no GTSAM. Integrated with ROS 2 Humble using deskewed LiDAR outputs from [Polka](polka.md). Benchmarked on KITTI sequences against ground truth.
 
 **Role:** Sole author
 **Stack:** ROS 2 Humble, C++17, Eigen, custom LM solvers
@@ -15,7 +15,7 @@ icon: route
 
 ## Disambiguation
 
-There is an **academic paper** titled "GO-SLAM" by Zhang et al. (ICCV 2023) on neural implicit SLAM with global optimization. **This is not that.** My project shares only the name — it predates and parallels their work in name only. The acronym, in my case, stands roughly for "Graph-Optimized SLAM" and was chosen before I knew the paper existed. If you're looking for Zhang et al.'s neural SLAM, [their paper is here](https://arxiv.org/abs/2309.02436) `[verify arxiv ID]`.
+There is an **academic paper** titled "GO-SLAM" by Zhang et al. (ICCV 2023) on neural implicit SLAM with global optimization. **This is not that.** My project shares only the name - it predates and parallels their work in name only. The acronym, in my case, stands roughly for "Graph-Optimized SLAM" and was chosen before I knew the paper existed. If you're looking for Zhang et al.'s neural SLAM, [their paper is here](https://arxiv.org/abs/2309.02436) `[verify arxiv ID]`.
 
 Mine is a classical geometric pipeline. No neural anything. Just point clouds, ICP variants, and graph optimization done by hand.
 
@@ -28,7 +28,7 @@ The standard advice when you need LiDAR SLAM is "just use LIO-SAM" or "use FAST-
 I built GO-SLAM specifically because I wanted to:
 
 1. **Internalize GICP.** Reading the paper is not the same as deriving the residual and Jacobian and shipping it. The plane-to-plane variant is genuinely subtle and the published pseudo-code skips the parts where you'll spend a week debugging.
-2. **Internalize Levenberg-Marquardt.** Every robotics graduate has used Ceres. Far fewer have written their own LM solver with proper damping, gradient checks, and Levenberg vs Marquardt step selection. After GO-SLAM I understand why Ceres makes the choices it makes — which makes me much better at using Ceres.
+2. **Internalize Levenberg-Marquardt.** Every robotics graduate has used Ceres. Far fewer have written their own LM solver with proper damping, gradient checks, and Levenberg vs Marquardt step selection. After GO-SLAM I understand why Ceres makes the choices it makes - which makes me much better at using Ceres.
 3. **Have a SLAM system whose every line I trust.** When something goes wrong on a real robot, "I'll dig into g2o" is a four-day ordeal. "I'll dig into my own code" is an afternoon.
 
 This is the same reason people implement a neural net from scratch in NumPy before touching PyTorch. The end product is worse than the library. The understanding is better than the library.
@@ -95,7 +95,7 @@ r_i = (T · p_i) - q_i
 cost = Σ_i  r_iᵀ · (Σ_qi + T · Σ_pi · Tᵀ)⁻¹ · r_i
 ```
 
-Where `Σ_pi` and `Σ_qi` are local covariance estimates around source point `p_i` and target point `q_i` respectively. The plane-to-plane variant pushes the covariances to be highly anisotropic along the surface normal, which makes the metric essentially "distance perpendicular to the local plane" — much more robust than point-to-point.
+Where `Σ_pi` and `Σ_qi` are local covariance estimates around source point `p_i` and target point `q_i` respectively. The plane-to-plane variant pushes the covariances to be highly anisotropic along the surface normal, which makes the metric essentially "distance perpendicular to the local plane" - much more robust than point-to-point.
 
 ### Implementation choices
 
@@ -129,22 +129,22 @@ LM interpolates between Gauss-Newton (fast near minimum) and gradient descent (r
 * `J` is the Jacobian of residuals w.r.t. parameters
 * `W` is the weight matrix (covariance inverse)
 * `δ` is the parameter update
-* `λ` is the damping — increased on bad steps, decreased on good ones
+* `λ` is the damping - increased on bad steps, decreased on good ones
 
 ### What I had to get right
 
 | Detail | What I learned |
 | --- | --- |
 | **SE(3) parameterization** | Use Lie algebra (se(3) twist coordinates) as the update space. Composing in twist coordinates and exponentiating to SE(3) is cleaner than separately tracking R and t. |
-| **Jacobian convention** | "Right-hand" perturbation (perturb in the local frame) vs "left-hand" (perturb in the global frame) — they produce different Jacobians and mixing them is a debug nightmare. I standardized on right-hand throughout. |
+| **Jacobian convention** | "Right-hand" perturbation (perturb in the local frame) vs "left-hand" (perturb in the global frame) - they produce different Jacobians and mixing them is a debug nightmare. I standardized on right-hand throughout. |
 | **Damping update rule** | The Marquardt formulation (`λ · diag(JᵀWJ)`) is better-conditioned than the Levenberg formulation (`λ · I`) for SE(3) problems because translation and rotation have different scales. |
 | **Step acceptance** | A step is accepted only if the cost decreases AND the *predicted* decrease (from the linearized model) matches the *actual* decrease within a tolerance. Otherwise λ is increased and the step is rejected. |
-| **Termination** | Gradient norm below `1e-6`, OR parameter step below `1e-7`, OR cost relative change below `1e-8`, OR 100 iterations — whichever first. |
+| **Termination** | Gradient norm below `1e-6`, OR parameter step below `1e-7`, OR cost relative change below `1e-8`, OR 100 iterations - whichever first. |
 | **Numerical Jacobian checks** | During development I had a debug mode that computed each Jacobian column by finite differences and compared to the analytical version. Caught two sign errors and one bad cross-product convention. |
 
 ### Sparse vs dense
 
-The GICP solver is dense (6 parameters). The pose-graph solver is sparse — for N keyframes and M loop edges, the normal-equations matrix is `6N × 6N` and banded. I used `Eigen::SparseMatrix<double>` with `SimplicialLDLT` for the linear solve. For the KITTI sequences with ~1000 keyframes the solve is well under 100 ms.
+The GICP solver is dense (6 parameters). The pose-graph solver is sparse - for N keyframes and M loop edges, the normal-equations matrix is `6N × 6N` and banded. I used `Eigen::SparseMatrix<double>` with `SimplicialLDLT` for the linear solve. For the KITTI sequences with ~1000 keyframes the solve is well under 100 ms.
 
 ***
 
@@ -163,19 +163,19 @@ I went with a **geometric** loop-closure detector rather than a learned one (no 
 
 ### What I'd improve
 
-Geometric-only loop closure misses places where the geometry is locally ambiguous (long straight corridors, parking lots, agricultural fields). For real-world deployment I'd add a descriptor-based pre-filter — Scan Context (Kim & Kim, 2018) is the obvious choice and roughly halves false negatives `[verify]` without changing the verification step.
+Geometric-only loop closure misses places where the geometry is locally ambiguous (long straight corridors, parking lots, agricultural fields). For real-world deployment I'd add a descriptor-based pre-filter - Scan Context (Kim & Kim, 2018) is the obvious choice and roughly halves false negatives `[verify]` without changing the verification step.
 
 ***
 
 ## KITTI benchmarking
 
-I evaluated on KITTI odometry sequences `[verify which sequences — likely 00, 02, 05, 07]` using the standard KITTI metrics:
+I evaluated on KITTI odometry sequences `[verify which sequences - likely 00, 02, 05, 07]` using the standard KITTI metrics:
 
-* **Relative Translation Error (RTE)** — average translation drift per 100 m
-* **Relative Rotation Error (RRE)** — average rotation drift per 100 m
-* **Absolute Trajectory Error (ATE)** — RMSE of trajectory after Umeyama alignment
+* **Relative Translation Error (RTE)** - average translation drift per 100 m
+* **Relative Rotation Error (RRE)** - average rotation drift per 100 m
+* **Absolute Trajectory Error (ATE)** - RMSE of trajectory after Umeyama alignment
 
-`[verify exact numbers — placeholder table below]`
+`[verify exact numbers - placeholder table below]`
 
 | Sequence | RTE (%) | RRE (°/100m) | ATE (m) | Notes |
 | --- | --- | --- | --- | --- |
@@ -186,7 +186,7 @@ I evaluated on KITTI odometry sequences `[verify which sequences — likely 00, 
 
 These are not state-of-the-art numbers. State-of-the-art on KITTI is held by methods like KISS-ICP (Vizzo et al., 2023) and CT-ICP (Dellenbach et al., 2022), which use continuous-time formulations and very careful initialization. My numbers are within ~2× of theirs, which is what I expected from a from-scratch two-month build with no continuous-time modeling.
 
-The point of the benchmark wasn't to beat the leaderboard — it was to **prove the system actually works on data nobody fabricated for it**.
+The point of the benchmark wasn't to beat the leaderboard - it was to **prove the system actually works on data nobody fabricated for it**.
 
 ***
 
@@ -215,7 +215,7 @@ Two consequences of putting them in the same container:
 1. **Zero-copy.** The PointCloud2 doesn't get serialized between Polka and GO-SLAM. For a 100k-point cloud this is the difference between 8 ms of memcpy and 0 ms.
 2. **Deskewed input.** GO-SLAM gets clouds that have already had per-point motion correction applied by Polka. The front-end GICP converges in fewer iterations because the input isn't smeared.
 
-On the warehouse forklift dataset I tested with, integrating with Polka's deskewing (vs raw clouds) reduced the GICP iteration count from a median of 14 to a median of 9 — and improved loop-closure success rate by ~12% `[verify exact figures]`.
+On the warehouse forklift dataset I tested with, integrating with Polka's deskewing (vs raw clouds) reduced the GICP iteration count from a median of 14 to a median of 9 - and improved loop-closure success rate by ~12% `[verify exact figures]`.
 
 ***
 
@@ -223,9 +223,9 @@ On the warehouse forklift dataset I tested with, integrating with Polka's deskew
 
 A short list of things I now believe that I didn't believe before this project:
 
-1. **The hard part of SLAM is not the algorithm. It's the bookkeeping.** Keyframe selection, when to add an edge, what to do when a loop closure fails — these are 70% of the code and 90% of the bugs.
+1. **The hard part of SLAM is not the algorithm. It's the bookkeeping.** Keyframe selection, when to add an edge, what to do when a loop closure fails - these are 70% of the code and 90% of the bugs.
 2. **Pose-graph optimization is mostly about Jacobian signs and frame conventions.** If your loop closure makes the trajectory worse, it's almost always a sign error in how you composed the relative pose. Print everything. Plot everything.
-3. **Levenberg-Marquardt is much more forgiving than I expected.** Naive implementations with crude damping schedules still converge. Where things go wrong is the *parameterization* — using Euler angles instead of Lie algebra, or mixing left/right perturbations.
+3. **Levenberg-Marquardt is much more forgiving than I expected.** Naive implementations with crude damping schedules still converge. Where things go wrong is the *parameterization* - using Euler angles instead of Lie algebra, or mixing left/right perturbations.
 4. **GICP-style metrics are worth the extra compute almost always.** Point-to-point ICP only really shines on sparse, isotropic clouds.
 5. **From-scratch implementations are debug machines.** I could read my own LM step rejection code and immediately reason about it. With Ceres I would have spent the same time reading library internals.
 
@@ -235,7 +235,7 @@ If you're trying to learn SLAM in 2026, I'd recommend the same path: build GICP 
 
 ## What's next
 
-GO-SLAM in its current form is a learning project plus a usable system. I'm not planning to extend it into a competitive open-source SLAM library — KISS-ICP and FAST-LIO2 occupy that space well. What I will likely do:
+GO-SLAM in its current form is a learning project plus a usable system. I'm not planning to extend it into a competitive open-source SLAM library - KISS-ICP and FAST-LIO2 occupy that space well. What I will likely do:
 
 * Port the LM solver out into a tiny standalone header-only library
 * Write up the Jacobian derivations as a separate handbook page (linked from [Mobile Robotics → SLAM and Navigation](../mobile-robotics/slam-and-navigation.md))

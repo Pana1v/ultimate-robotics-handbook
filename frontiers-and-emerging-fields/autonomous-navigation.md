@@ -23,7 +23,7 @@ The biggest architectural debate in autonomous navigation right now is between *
 | **End-to-end learned (sim-first)** | Waabi | Trained almost entirely in simulation; novel safety arguments. | New approach; production track record building. |
 | **World-model-driven** | Wayve (GAIA), NVIDIA (Cosmos) | Plan and reason in a learned world; counterfactual evaluation. | Compute-heavy, novel; only partially deployed. |
 
-**Why this matters in 2026:** The post-RT-2 / post-foundation-model wave has moved AV in the direction of fewer, larger learned components. Tesla FSD v12+ replaced hundreds of thousands of lines of C++ heuristics with a single neural network. Wayve's GAIA-1/2 generates driving video for training. Waymo still uses a modular stack but every module has ML inside it. There is no consensus winner yet — both ship, both have ground truth in different ways.
+**Why this matters in 2026:** The post-RT-2 / post-foundation-model wave has moved AV in the direction of fewer, larger learned components. Tesla FSD v12+ replaced hundreds of thousands of lines of C++ heuristics with a single neural network. Wayve's GAIA-1/2 generates driving video for training. Waymo still uses a modular stack but every module has ML inside it. There is no consensus winner yet - both ship, both have ground truth in different ways.
 
 For a deeper look at the learning side, see [Robot Learning → World Models](../robot-learning/world-models.md) and [Foundation Models / VLAs](../robot-learning/foundation-models-vla.md).
 

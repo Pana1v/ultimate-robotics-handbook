@@ -2,7 +2,7 @@
 icon: brain
 ---
 
-# LEAP — Learning-Augmented Exact Optimization for Asymmetric Pick-and-Place Sequencing
+# LEAP - Learning-Augmented Exact Optimization for Asymmetric Pick-and-Place Sequencing
 
 > Pick-and-place sequencing is **not** the symmetric TSP your operations-research textbook covered. The transition cost between any two items depends on *which bin the previous item was placed in*. LEAP formulates the problem as **asymmetric TSP**, replaces the standard Miller-Tucker-Zemlin subtour constraints with a **CP-SAT Hamiltonian circuit formulation** (5-7× solver speedup), then uses an **imitation-learned cycle-aware heterogeneous GNN** to prune the decision-variable space from O(N²) to O(Nk). **17.5× faster than baselines at N=200 with a worst-case optimality gap of 0.06%.**
 
@@ -16,7 +16,7 @@ icon: brain
 
 ***
 
-## Problem framing — why pick-and-place ≠ symmetric TSP
+## Problem framing - why pick-and-place ≠ symmetric TSP
 
 The "obvious" framing of pick-and-place sequencing is:
 
@@ -35,7 +35,7 @@ Consider a real cell:
 * It then moves to pick item `b` from bin `B_b`.
 * **The cost of the (a → b) transition depends on which output bin `a` was placed in.** If `a` was placed in an output bin near `B_b`, the next pick is cheap. If `a` was placed in an output bin on the opposite side of the cell, the next pick is expensive.
 
-In TSP language, the cost matrix is no longer a function of (source, destination) — it's a function of (source, **post-placement state**, destination). The graph isn't even properly directed; it has an embedded *cycle* (pick → place → pick) that the cost depends on.
+In TSP language, the cost matrix is no longer a function of (source, destination) - it's a function of (source, **post-placement state**, destination). The graph isn't even properly directed; it has an embedded *cycle* (pick → place → pick) that the cost depends on.
 
 The right model is:
 
@@ -83,7 +83,7 @@ This eliminates subtours but has a famously **weak LP relaxation**. Branch-and-b
 
 ### The CP-SAT approach
 
-Google OR-Tools' CP-SAT has a built-in `AddCircuit` constraint that directly encodes "these arcs form a single Hamiltonian circuit." It's implemented as a propagator using lazy clause generation — every time a partial assignment would create a subtour, the propagator learns a no-good clause that prevents that subtour from being explored again.
+Google OR-Tools' CP-SAT has a built-in `AddCircuit` constraint that directly encodes "these arcs form a single Hamiltonian circuit." It's implemented as a propagator using lazy clause generation - every time a partial assignment would create a subtour, the propagator learns a no-good clause that prevents that subtour from being explored again.
 
 ```python
 from ortools.sat.python import cp_model
@@ -115,13 +115,13 @@ status = solver.Solve(model)
 | CP-SAT circuit | 0.1 | 1.4 | 12 | 78 |
 | **Speedup** | **6×** | **5.9×** | **5.9×** | **6.9×** |
 
-The MTZ formulation falls off a cliff because its LP relaxation gives no tight bound. CP-SAT's circuit propagator doesn't have an LP relaxation at all — it works on the combinatorial structure directly.
+The MTZ formulation falls off a cliff because its LP relaxation gives no tight bound. CP-SAT's circuit propagator doesn't have an LP relaxation at all - it works on the combinatorial structure directly.
 
-> **Note:** this is a known result in the OR community for vanilla ATSP. What's novel for LEAP is showing that the speedup *survives* when you couple it with a learning-based pruning step (next section) — the two methods compose without interfering.
+> **Note:** this is a known result in the OR community for vanilla ATSP. What's novel for LEAP is showing that the speedup *survives* when you couple it with a learning-based pruning step (next section) - the two methods compose without interfering.
 
 ***
 
-## GNN-based arc pruning — the LEAP idea
+## GNN-based arc pruning - the LEAP idea
 
 CP-SAT with the circuit constraint solves up to maybe N=300 in reasonable time. Beyond that, the **decision-variable count itself** becomes the bottleneck: an N-node ATSP has N(N-1) binary variables, which is O(N²) in memory and search-tree size.
 
@@ -165,7 +165,7 @@ At inference time on large instances (N=200+):
 
 The pruned graph has Nk decision variables instead of N(N-1). For k=10 and N=200, this is a 19× reduction in variables.
 
-> **Risk:** if the GNN prunes an arc that's actually part of the optimal solution, the pruned-problem optimum is suboptimal w.r.t. the full problem. The benchmark below shows this happens very rarely in practice — worst-case gap is 0.06%.
+> **Risk:** if the GNN prunes an arc that's actually part of the optimal solution, the pruned-problem optimum is suboptimal w.r.t. the full problem. The benchmark below shows this happens very rarely in practice - worst-case gap is 0.06%.
 
 ***
 
@@ -173,10 +173,10 @@ The pruned graph has Nk decision variables instead of N(N-1). For k=10 and N=200
 
 LEAP is compared against four standard baselines for routing problems:
 
-* **Guided Local Search (GLS)** — OR-Tools' best metaheuristic for ATSP
-* **Simulated Annealing (SA)** — classical
-* **Tabu Search (TS)** — classical
-* **2-opt** — classical local search
+* **Guided Local Search (GLS)** - OR-Tools' best metaheuristic for ATSP
+* **Simulated Annealing (SA)** - classical
+* **Tabu Search (TS)** - classical
+* **2-opt** - classical local search
 
 All are run with a fixed wall-clock time budget matched to LEAP's solve time.
 
@@ -197,7 +197,7 @@ The headline number is **17.5× speedup** over the full CP-SAT solver at N=200, 
 
 ### Generalization
 
-The GNN was trained on N=20 to N=80 instances. Inference at N=200 is **out-of-distribution by 2.5×**. The fact that the optimality gap stays under 0.1% at this scale is the main empirical contribution — it suggests the GNN learns *structural* features of the pick-and-place graph that transfer beyond the training size distribution.
+The GNN was trained on N=20 to N=80 instances. Inference at N=200 is **out-of-distribution by 2.5×**. The fact that the optimality gap stays under 0.1% at this scale is the main empirical contribution - it suggests the GNN learns *structural* features of the pick-and-place graph that transfer beyond the training size distribution.
 
 ***
 
@@ -216,7 +216,7 @@ A few things I didn't expect at the start of this project:
 
 * Manuscript drafted, currently in revision with Dr. Thakur
 * Target venue: ICRA 2026 or IJRR `[verify intended venue]`
-* Code release planned at acceptance — until then, the algorithm is described in enough detail above for reimplementation by anyone familiar with CP-SAT and GNNs
+* Code release planned at acceptance - until then, the algorithm is described in enough detail above for reimplementation by anyone familiar with CP-SAT and GNNs
 
 If you're working on a similar problem (pick-and-place sequencing, asymmetric routing, learning-to-prune for MIP) I'd love to compare notes. Reach out via the contact links below.
 

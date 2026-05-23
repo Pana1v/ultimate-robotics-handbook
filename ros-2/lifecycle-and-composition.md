@@ -4,7 +4,7 @@ icon: gear
 
 # Lifecycle and Composition
 
-Two ROS 2 features that ROS 1 never really had, and that you will reach for the first time you have to make a multi-node bringup behave deterministically or shave latency off a perception pipeline. They are independent — you can have lifecycle nodes that aren't composed, and composable nodes that aren't lifecycle — but they pair extremely well.
+Two ROS 2 features that ROS 1 never really had, and that you will reach for the first time you have to make a multi-node bringup behave deterministically or shave latency off a perception pipeline. They are independent - you can have lifecycle nodes that aren't composed, and composable nodes that aren't lifecycle - but they pair extremely well.
 
 ## Lifecycle nodes (managed nodes)
 
@@ -56,10 +56,10 @@ Each callback returns one of `SUCCESS`, `FAILURE`, or `ERROR`. `SUCCESS` proceed
 
 Pretty much any production node benefits from lifecycle. Concretely:
 
-* **Deterministic bringup order** — you want the IMU calibrated and publishing before EKF starts consuming.
-* **Hot reconfig** — `deactivate`, change parameters, `activate` again without restarting the process.
-* **Graceful shutdown** — `deactivate` lets you stop publishing without destroying state, useful for a "park the robot, don't crash" workflow.
-* **Health management** — a watchdog can transition broken nodes through `cleanup` → `configure` → `activate` to restart them in-process.
+* **Deterministic bringup order** - you want the IMU calibrated and publishing before EKF starts consuming.
+* **Hot reconfig** - `deactivate`, change parameters, `activate` again without restarting the process.
+* **Graceful shutdown** - `deactivate` lets you stop publishing without destroying state, useful for a "park the robot, don't crash" workflow.
+* **Health management** - a watchdog can transition broken nodes through `cleanup` → `configure` → `activate` to restart them in-process.
 
 Where lifecycle is overkill: throwaway scripts, simple bridge nodes, perception nodes you'll restart with `kill -9` if they break. Use your judgment.
 
@@ -202,7 +202,7 @@ int main(int argc, char** argv) {
 
 ### Launch-driven activation
 
-You almost never drive transitions manually in production — you wire up a launch file. The `nav2_lifecycle_manager` is the canonical example; it activates a list of nodes in order, with retries:
+You almost never drive transitions manually in production - you wire up a launch file. The `nav2_lifecycle_manager` is the canonical example; it activates a list of nodes in order, with retries:
 
 ```python
 from launch import LaunchDescription
@@ -244,7 +244,7 @@ def generate_launch_description():
     return LaunchDescription([talker, configure_event, activate_on_inactive])
 ```
 
-For real bringup with multiple nodes, use the `nav2_lifecycle_manager` node — it takes a list of node names and walks them through transitions for you. Source: [github.com/ros-navigation/navigation2/tree/main/nav2\_lifecycle\_manager](https://github.com/ros-navigation/navigation2/tree/main/nav2_lifecycle_manager) \[verify].
+For real bringup with multiple nodes, use the `nav2_lifecycle_manager` node - it takes a list of node names and walks them through transitions for you. Source: [github.com/ros-navigation/navigation2/tree/main/nav2\_lifecycle\_manager](https://github.com/ros-navigation/navigation2/tree/main/nav2_lifecycle_manager) \[verify].
 
 ## Composable nodes (component containers)
 
@@ -252,17 +252,17 @@ Lifecycle is about *when* a node runs. Composition is about *where* it runs.
 
 A regular ROS 2 node is one process per node. Two nodes on the same machine talking via DDS still serialize messages, hand them to the kernel, copy them across loopback, and deserialize on the other side. For a 4K camera image, that round trip is real CPU.
 
-A **composable node** is a node compiled as a shared library and loaded into a **component container** process at runtime. Multiple composable nodes in the same container share an address space — and when both endpoints opt in, ROS 2 uses **intra-process communication**: the publisher and subscriber pass a `shared_ptr` to the message instead of serializing. Zero-copy, single-digit microseconds.
+A **composable node** is a node compiled as a shared library and loaded into a **component container** process at runtime. Multiple composable nodes in the same container share an address space - and when both endpoints opt in, ROS 2 uses **intra-process communication**: the publisher and subscriber pass a `shared_ptr` to the message instead of serializing. Zero-copy, single-digit microseconds.
 
 ### When composition pays off
 
-* **Image / point cloud pipelines** — camera driver, rectification, debayer, perception network. Each stage hands a multi-megabyte message to the next. Intra-process is a 10–100x latency win.
-* **Nav2 stack** — costmap, planner, controller all benefit. Nav2 ships a composable layout out of the box.
+* **Image / point cloud pipelines** - camera driver, rectification, debayer, perception network. Each stage hands a multi-megabyte message to the next. Intra-process is a 10–100x latency win.
+* **Nav2 stack** - costmap, planner, controller all benefit. Nav2 ships a composable layout out of the box.
 * **Any chain of small nodes that all run on the same robot.**
 
 When composition doesn't help: nodes on different machines (still DDS), nodes that publish at low rates (overhead is irrelevant), or when you want process isolation for safety reasons (a crash in one composed node kills the container).
 
-### Writing a composable node — C++
+### Writing a composable node - C++
 
 The class is just a regular `rclcpp::Node` (or `LifecycleNode`) with two extras: a `NodeOptions`-taking constructor and an `RCLCPP_COMPONENTS_REGISTER_NODE` macro.
 
@@ -367,16 +367,16 @@ def generate_launch_description():
     return LaunchDescription([container])
 ```
 
-The key flag is `use_intra_process_comms: True`. Without it the container still uses DDS between nodes in the same process — the address space sharing is wasted.
+The key flag is `use_intra_process_comms: True`. Without it the container still uses DDS between nodes in the same process - the address space sharing is wasted.
 
 ### Multi-threaded vs single-threaded containers
 
-* `component_container` — one executor thread for the whole container. Callbacks serialize. Fine for low-rate or strictly-ordered work.
-* `component_container_mt` — multi-threaded executor. Callbacks can run in parallel. What you want for a perception pipeline where you don't care about strict ordering between sensors.
+* `component_container` - one executor thread for the whole container. Callbacks serialize. Fine for low-rate or strictly-ordered work.
+* `component_container_mt` - multi-threaded executor. Callbacks can run in parallel. What you want for a perception pipeline where you don't care about strict ordering between sensors.
 
 Within a container, you can still control parallelism with callback groups (`MutuallyExclusive` vs `Reentrant`) on individual subscriptions.
 
-### Intra-process zero-copy — the catch
+### Intra-process zero-copy - the catch
 
 The publisher must hand off a `unique_ptr` to a message, and the subscriber must take a `unique_ptr` (or `shared_ptr`). If either side copies, you lose the optimization. The signature in the example above:
 
@@ -386,7 +386,7 @@ The publisher must hand off a `unique_ptr` to a message, and the subscriber must
 
 is critical. If you switched to `const sensor_msgs::msg::Image::SharedPtr& msg`, you'd silently fall back to a copy.
 
-Python composable nodes exist but the zero-copy story is weaker — Python objects have to round-trip through `pybind11`. For performance pipelines, write components in C++. Python is fine for orchestration nodes that don't move large data.
+Python composable nodes exist but the zero-copy story is weaker - Python objects have to round-trip through `pybind11`. For performance pipelines, write components in C++. Python is fine for orchestration nodes that don't move large data.
 
 ## Pattern: lifecycle + composition together
 
@@ -394,22 +394,22 @@ The combination is what Nav2 uses. Every Nav2 component (planner, controller, BT
 
 The result: a multi-megabyte costmap moves from `costmap_2d` to `planner_server` to `controller_server` without ever being serialized. On a Jetson, that's the difference between holding 20 Hz control and dropping to 5.
 
-## Production note — Lichtblick
+## Production note - Lichtblick
 
-At 10xConstruction.ai I worked on [Lichtblick](visualization.md#lichtblick), our fork of Foxglove. The 78% peak CPU reduction we shipped (120% → 26% vs upstream Foxglove) was a UI-side win, not a ROS one. But the *pattern* of composable nodes — keep related work in one process, use intra-process for the heavy data path, run the lifecycle layer underneath — is exactly how the rest of that robot's stack was built. Composable + lifecycle is the modern ROS 2 default for anything that has to actually run on a robot.
+In a previous role I worked on [Lichtblick](visualization.md#lichtblick), a fork of Foxglove. The 78% peak CPU reduction we shipped (120% → 26% vs upstream Foxglove) was a UI-side win, not a ROS one. But the *pattern* of composable nodes - keep related work in one process, use intra-process for the heavy data path, run the lifecycle layer underneath - is exactly how the rest of that robot's stack was built. Composable + lifecycle is the modern ROS 2 default for anything that has to actually run on a robot.
 
-I have also used custom BT nodes in Nav2's `bt_navigator` (a composable lifecycle node itself) to gate behaviors on collision-monitor state — covered in [Nav2 Deep Dive](nav2-deep-dive.md).
+I have also used custom BT nodes in Nav2's `bt_navigator` (a composable lifecycle node itself) to gate behaviors on collision-monitor state - covered in [Nav2 Deep Dive](nav2-deep-dive.md).
 
 ## Pitfalls
 
-* **Forgetting to call `LifecycleNode::on_activate(state)` from your override** — your lifecycle publishers stay inactive and silently drop messages.
-* **Mixing intra-process and inter-process subscribers on the same topic** — works, but the intra-process optimization is disabled. Either commit fully or split topics.
-* **`use_intra_process_comms` not set on every component** — needs to be on both publisher and subscriber.
-* **Container crash kills every component** — useful for tight integration, painful for fault isolation. Don't bundle critical safety nodes (estop, watchdog) into the perception container.
-* **Lifecycle state confusion in tests** — your test rig is `Unconfigured` by default. Either drive transitions in `setUp`, or override the constructor for test-only nodes that skip lifecycle. The `ros2_testing` skill in this repo has the pattern.
+* **Forgetting to call `LifecycleNode::on_activate(state)` from your override** - your lifecycle publishers stay inactive and silently drop messages.
+* **Mixing intra-process and inter-process subscribers on the same topic** - works, but the intra-process optimization is disabled. Either commit fully or split topics.
+* **`use_intra_process_comms` not set on every component** - needs to be on both publisher and subscriber.
+* **Container crash kills every component** - useful for tight integration, painful for fault isolation. Don't bundle critical safety nodes (estop, watchdog) into the perception container.
+* **Lifecycle state confusion in tests** - your test rig is `Unconfigured` by default. Either drive transitions in `setUp`, or override the constructor for test-only nodes that skip lifecycle. The `ros2_testing` skill in this repo has the pattern.
 
 ## Where to go next
 
-* [Nav2 Deep Dive](nav2-deep-dive.md) — sees both features in production action.
-* [Visualization → Lichtblick](visualization.md#lichtblick) — the project where the composition pattern paid off most.
-* [DDS and QoS](dds-qos.md) — once you've cut intra-process traffic, the remaining inter-process traffic is what you tune next.
+* [Nav2 Deep Dive](nav2-deep-dive.md) - sees both features in production action.
+* [Visualization → Lichtblick](visualization.md#lichtblick) - the project where the composition pattern paid off most.
+* [DDS and QoS](dds-qos.md) - once you've cut intra-process traffic, the remaining inter-process traffic is what you tune next.

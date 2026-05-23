@@ -8,14 +8,14 @@ This page is the install-and-bootstrap guide I wish someone had handed me on day
 
 ## Pick your distro and OS pair
 
-ROS 2 binaries are pinned to specific Ubuntu versions. Do not try to install Jazzy on 22.04 or Humble on 24.04 — you will spend a day fighting glibc and Python version mismatches. The pairs you actually want:
+ROS 2 binaries are pinned to specific Ubuntu versions. Do not try to install Jazzy on 22.04 or Humble on 24.04 - you will spend a day fighting glibc and Python version mismatches. The pairs you actually want:
 
 | Distro | Ubuntu       | Python | Notes                                        |
 | ------ | ------------ | ------ | -------------------------------------------- |
 | Humble | 22.04 Jammy  | 3.10   | Conservative choice, mature third-party support |
 | Jazzy  | 24.04 Noble  | 3.12   | Default for new work                         |
 
-ARM64 (Jetson, Raspberry Pi 4/5) builds exist for both — same `apt` flow, just on `arm64`.
+ARM64 (Jetson, Raspberry Pi 4/5) builds exist for both - same `apt` flow, just on `arm64`.
 
 ## Binary install via apt
 
@@ -24,7 +24,7 @@ This is what you use on a developer machine or a robot in production. Source bui
 The official instructions are at [docs.ros.org/en/jazzy/Installation/Ubuntu-Install-Debs.html](https://docs.ros.org/en/jazzy/Installation/Ubuntu-Install-Debs.html) \[verify]. The condensed flow for Jazzy on Ubuntu 24.04:
 
 ```bash
-# Locale — ROS 2 assumes UTF-8
+# Locale - ROS 2 assumes UTF-8
 sudo apt update && sudo apt install -y locales
 sudo locale-gen en_US en_US.UTF-8
 sudo update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8
@@ -50,7 +50,7 @@ sudo apt install -y ros-jazzy-desktop
 
 For Humble, replace `jazzy` with `humble` and run on 22.04. For a headless robot you may prefer `ros-jazzy-ros-base` instead of `ros-jazzy-desktop` to skip rviz2 and the demo packages.
 
-Always install the dev tools — you need them the first time you build any workspace:
+Always install the dev tools - you need them the first time you build any workspace:
 
 ```bash
 sudo apt install -y \
@@ -66,11 +66,11 @@ sudo apt install -y \
 
 After `ros-jazzy-desktop` you have:
 
-* `/opt/ros/jazzy/` — the installed distro (immutable, do not edit)
+* `/opt/ros/jazzy/` - the installed distro (immutable, do not edit)
 * `ros2` CLI on your `PATH` once sourced
 * `rclcpp`, `rclpy`, `rmw_cyclonedds_cpp` (default RMW for Jazzy), demo packages, rviz2
 
-## rosdep — initialize once per machine
+## rosdep - initialize once per machine
 
 `rosdep` resolves the `<depend>` tags in `package.xml` into apt packages. It is a one-time setup, and it bites you the first time you build a workspace if you forget.
 
@@ -82,7 +82,7 @@ rosdep update      # user-level, fetches the YAML manifests into ~/.ros/rosdep/
 rosdep install --from-paths src --ignore-src -r -y
 ```
 
-If `rosdep init` complains that the file already exists, you ran it before — that is fine, just skip to `rosdep update`. If `rosdep update` fails behind a proxy, set `ROSDISTRO_INDEX_URL` to a local mirror.
+If `rosdep init` complains that the file already exists, you ran it before - that is fine, just skip to `rosdep update`. If `rosdep update` fails behind a proxy, set `ROSDISTRO_INDEX_URL` to a local mirror.
 
 ## colcon workspace setup
 
@@ -96,9 +96,9 @@ You do not run your code from `/opt/ros/jazzy/`. You build it in an overlay work
 │   │   ├── setup.py            # or CMakeLists.txt
 │   │   └── my_package/
 │   └── third_party/            # vendored sources via vcs import
-├── build/                      # colcon scratch — gitignore this
-├── install/                    # build artifacts — gitignore this
-└── log/                        # build logs — gitignore this
+├── build/                      # colcon scratch - gitignore this
+├── install/                    # build artifacts - gitignore this
+└── log/                        # build logs - gitignore this
 ```
 
 Create and build it:
@@ -139,15 +139,15 @@ rm -rf build/my_package install/my_package
 
 ### The overlay / underlay pattern
 
-A *workspace* is a directory with `src/`, `build/`, `install/`. When you `source install/setup.bash` of a workspace that was built on top of another, the result is an *overlay* — your local packages shadow the underlay's packages by name.
+A *workspace* is a directory with `src/`, `build/`, `install/`. When you `source install/setup.bash` of a workspace that was built on top of another, the result is an *overlay* - your local packages shadow the underlay's packages by name.
 
 A common production layout has three layers:
 
-1. **Distro underlay**: `/opt/ros/jazzy/setup.bash` — the installed binaries
-2. **Vendor underlay**: `~/vendor_ws/install/setup.bash` — third-party packages built once, rarely touched (Nav2 patches, custom drivers)
-3. **Workspace overlay**: `~/ros2_ws/install/setup.bash` — your day-to-day code
+1. **Distro underlay**: `/opt/ros/jazzy/setup.bash` - the installed binaries
+2. **Vendor underlay**: `~/vendor_ws/install/setup.bash` - third-party packages built once, rarely touched (Nav2 patches, custom drivers)
+3. **Workspace overlay**: `~/ros2_ws/install/setup.bash` - your day-to-day code
 
-Source them in that order — each `source` extends `AMENT_PREFIX_PATH` and friends. If you accidentally source out of order you may see "package not found" for things that are clearly built; usually the fix is `unset` everything and start a fresh shell.
+Source them in that order - each `source` extends `AMENT_PREFIX_PATH` and friends. If you accidentally source out of order you may see "package not found" for things that are clearly built; usually the fix is `unset` everything and start a fresh shell.
 
 ## .bashrc setup
 
@@ -156,7 +156,7 @@ What you put in `.bashrc` is mostly a question of how many distros you juggle. M
 ```bash
 # ~/.bashrc
 
-# Don't auto-source ROS into every shell — pollutes PATH for other work.
+# Don't auto-source ROS into every shell - pollutes PATH for other work.
 # Use a function instead.
 function ros2-jazzy() {
     source /opt/ros/jazzy/setup.bash
@@ -212,7 +212,7 @@ Useful tags:
 
 | Image                              | Contents                              |
 | ---------------------------------- | ------------------------------------- |
-| `osrf/ros:jazzy-ros-core`          | Minimal — just `rcl` and CLI tools    |
+| `osrf/ros:jazzy-ros-core`          | Minimal - just `rcl` and CLI tools    |
 | `osrf/ros:jazzy-ros-base`          | + common deps, no GUI                 |
 | `osrf/ros:jazzy-desktop`           | + rviz2, demo packages                |
 | `osrf/ros:jazzy-desktop-full`      | + Gazebo bridge, simulation tools     |
@@ -241,7 +241,7 @@ RUN . /opt/ros/jazzy/setup.sh \
 CMD ["/bin/bash"]
 ```
 
-For GUI tools (rviz2) and GPU passthrough (Isaac ROS, perception), see the `docker-ros2-development` patterns in the skills directory — they cover X11 forwarding, NVIDIA Container Toolkit, and DDS discovery across containers.
+For GUI tools (rviz2) and GPU passthrough (Isaac ROS, perception), see the `docker-ros2-development` patterns in the skills directory - they cover X11 forwarding, NVIDIA Container Toolkit, and DDS discovery across containers.
 
 ## Verifying the install
 
@@ -258,7 +258,7 @@ ros2 run demo_nodes_py listener
 If you see "I heard: [Hello World: N]" the install works, and your two terminals are talking via DDS. If they don't, check:
 
 1. `ROS_DOMAIN_ID` matches in both terminals
-2. `RMW_IMPLEMENTATION` matches (or both are unset — uses default)
+2. `RMW_IMPLEMENTATION` matches (or both are unset - uses default)
 3. Loopback / multicast is not blocked by `iptables` or `ufw`
 
 `ros2 topic list` and `ros2 node list` should also show the demo talker and listener.
@@ -267,26 +267,26 @@ If you see "I heard: [Hello World: N]" the install works, and your two terminals
 
 These are the ones I see junior engineers hit weekly.
 
-* **Mixed distros sourced in one shell** — `source /opt/ros/humble/setup.bash` followed by `source /opt/ros/jazzy/setup.bash` puts you in a half-broken state. Symptoms range from cryptic CMake errors to silent ABI corruption at runtime. Always start a fresh shell when switching distros.
+* **Mixed distros sourced in one shell** - `source /opt/ros/humble/setup.bash` followed by `source /opt/ros/jazzy/setup.bash` puts you in a half-broken state. Symptoms range from cryptic CMake errors to silent ABI corruption at runtime. Always start a fresh shell when switching distros.
 
-* **Sourcing the underlay AFTER your overlay** — your overlay's `setup.bash` extends `AMENT_PREFIX_PATH` based on what was set when it was built. Source the underlay first, every time.
+* **Sourcing the underlay AFTER your overlay** - your overlay's `setup.bash` extends `AMENT_PREFIX_PATH` based on what was set when it was built. Source the underlay first, every time.
 
-* **Forgetting `ROS_DOMAIN_ID`** — your robot and your laptop are both on domain `0` by default. The first time you run a multi-robot lab demo you will see ghost topics from your colleague's machine.
+* **Forgetting `ROS_DOMAIN_ID`** - your robot and your laptop are both on domain `0` by default. The first time you run a multi-robot lab demo you will see ghost topics from your colleague's machine.
 
-* **`rosdep install` skipped** — `colcon build` will fail with missing system packages and the error message rarely points to the missing apt package. Always run `rosdep install --from-paths src --ignore-src -r -y` after pulling new sources.
+* **`rosdep install` skipped** - `colcon build` will fail with missing system packages and the error message rarely points to the missing apt package. Always run `rosdep install --from-paths src --ignore-src -r -y` after pulling new sources.
 
-* **`--symlink-install` with C++** — symlink install symlinks Python files into `install/`, but C++ binaries are still copied. Editing Python works without rebuilding; editing C++ still needs `colcon build`. Easy to forget.
+* **`--symlink-install` with C++** - symlink install symlinks Python files into `install/`, but C++ binaries are still copied. Editing Python works without rebuilding; editing C++ still needs `colcon build`. Easy to forget.
 
-* **Building in Debug mode by accident** — `colcon build` defaults to no `-DCMAKE_BUILD_TYPE`, which on most compilers means no optimization. Your code will be 5–20x slower than necessary. Always pass `--cmake-args -DCMAKE_BUILD_TYPE=Release` for anything you'll measure.
+* **Building in Debug mode by accident** - `colcon build` defaults to no `-DCMAKE_BUILD_TYPE`, which on most compilers means no optimization. Your code will be 5–20x slower than necessary. Always pass `--cmake-args -DCMAKE_BUILD_TYPE=Release` for anything you'll measure.
 
-* **Stale `build/` after a `package.xml` change** — colcon caches dependency graphs. After changing `package.xml`, sometimes `colcon build` doesn't pick up the new dep. Nuke `build/<pkg>/` and rebuild that package.
+* **Stale `build/` after a `package.xml` change** - colcon caches dependency graphs. After changing `package.xml`, sometimes `colcon build` doesn't pick up the new dep. Nuke `build/<pkg>/` and rebuild that package.
 
-* **`use_sim_time` mismatch** — when you launch alongside a simulator (Gazebo, Isaac Sim), every node needs `use_sim_time: True` or the clocks drift. The launch parameter is `use_sim_time`; the env variable does nothing.
+* **`use_sim_time` mismatch** - when you launch alongside a simulator (Gazebo, Isaac Sim), every node needs `use_sim_time: True` or the clocks drift. The launch parameter is `use_sim_time`; the env variable does nothing.
 
-* **Cyclone vs Fast DDS discovery** — they will technically interop, but discovery times can blow up. Pin `RMW_IMPLEMENTATION` to one across all nodes on the network. See [DDS and QoS](dds-qos.md).
+* **Cyclone vs Fast DDS discovery** - they will technically interop, but discovery times can blow up. Pin `RMW_IMPLEMENTATION` to one across all nodes on the network. See [DDS and QoS](dds-qos.md).
 
 ## Where to go next
 
-* [DDS and QoS](dds-qos.md) — the part of ROS 2 that will bite you next.
-* [Lifecycle and Composition](lifecycle-and-composition.md) — once you have a multi-node bringup that needs determinism.
+* [DDS and QoS](dds-qos.md) - the part of ROS 2 that will bite you next.
+* [Lifecycle and Composition](lifecycle-and-composition.md) - once you have a multi-node bringup that needs determinism.
 * The official tutorials at [docs.ros.org/en/jazzy/Tutorials.html](https://docs.ros.org/en/jazzy/Tutorials.html) \[verify] are still the right place to learn the CLI muscle memory.

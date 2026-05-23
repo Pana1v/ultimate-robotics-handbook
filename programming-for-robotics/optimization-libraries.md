@@ -8,7 +8,7 @@ A surprising fraction of robotics reduces to "minimize this function." Bundle ad
 
 This page covers the libraries I've actually used in shipped robot code. Each section: what it's for, what it's not for, a minimal example, and where to read more.
 
-## Ceres Solver — nonlinear least squares
+## Ceres Solver - nonlinear least squares
 
 **Author:** Google. **License:** BSD-3-Clause. **Repo:** <https://github.com/ceres-solver/ceres-solver>
 
@@ -54,11 +54,11 @@ ceres::Solve(options, &problem, &summary);
 
 **When to use:** camera calibration, hand-eye calibration, IMU-camera calibration (Kalibr uses Ceres), bundle adjustment, pose graph optimization, lidar-camera extrinsics. Anything that's least-squares-shaped.
 
-**When not to use:** if you need a *factor graph* with structure-aware solvers (iSAM-style incremental updates), reach for GTSAM. If you need inequality constraints, Ceres has only bound constraints — use IPOPT or CasADi.
+**When not to use:** if you need a *factor graph* with structure-aware solvers (iSAM-style incremental updates), reach for GTSAM. If you need inequality constraints, Ceres has only bound constraints - use IPOPT or CasADi.
 
 Docs: <http://ceres-solver.org/>
 
-## g2o — general graph optimization
+## g2o - general graph optimization
 
 **Author:** Rainer Kümmerle et al. **License:** BSD-2-Clause. **Repo:** <https://github.com/RainerKuemmerle/g2o>
 
@@ -95,11 +95,11 @@ optimizer.initializeOptimization();
 optimizer.optimize(10);
 ```
 
-**When to use:** maintaining or extending a pre-existing g2o-based system (ORB-SLAM, older RTAB-Map). Educational — the graph structure is very visible.
+**When to use:** maintaining or extending a pre-existing g2o-based system (ORB-SLAM, older RTAB-Map). Educational - the graph structure is very visible.
 
 **When not to use:** for a new project in 2026, I'd reach for GTSAM or Ceres first. g2o development has slowed and the API feels dated next to GTSAM's. See `../slam-and-state-estimation/graph-slam.md` for a deeper comparison.
 
-## GTSAM — factor graphs done right
+## GTSAM - factor graphs done right
 
 **Author:** Frank Dellaert / Georgia Tech. **License:** BSD-3-Clause. **Repo:** <https://github.com/borglab/gtsam>
 
@@ -141,9 +141,9 @@ GTSAM has Python bindings (`pip install gtsam`) that are first-class, not an aft
 
 **When to use:** online SLAM, multi-sensor fusion via factor graphs, anything where the problem structure is naturally a graph of measurements. Modern alternatives like Kimera-VIO and LIO-SAM are built on GTSAM.
 
-**When not to use:** simple least-squares with no graph structure — Ceres is lighter. Hard real-time inner loops — GTSAM is fast but not deterministic to the microsecond.
+**When not to use:** simple least-squares with no graph structure - Ceres is lighter. Hard real-time inner loops - GTSAM is fast but not deterministic to the microsecond.
 
-## CasADi — symbolic + autodiff + NLP
+## CasADi - symbolic + autodiff + NLP
 
 **License:** LGPL. **Repo:** <https://github.com/casadi/casadi>. **Web:** <https://web.casadi.org/>
 
@@ -188,11 +188,11 @@ sol = solver(x0=z_init, lbg=0, ubg=0, lbx=z_lb, ubx=z_ub)
 
 **When not to use:** convex problems where CVXPY is more ergonomic; embedded MPC where you really need the fastest possible runtime (acados is built on top of CasADi and is faster for that case).
 
-## CVXPY — convex optimization
+## CVXPY - convex optimization
 
 **License:** Apache-2.0. **Repo:** <https://github.com/cvxpy/cvxpy>. **Web:** <https://www.cvxpy.org/>
 
-If your problem is convex (QP, SOCP, SDP, LP) — and a remarkable amount of control reduces to QP — CVXPY is the most ergonomic library. You write the problem in math-like notation, CVXPY transforms it to a standard form and dispatches to a backend solver (OSQP, ECOS, SCS, MOSEK).
+If your problem is convex (QP, SOCP, SDP, LP) - and a remarkable amount of control reduces to QP - CVXPY is the most ergonomic library. You write the problem in math-like notation, CVXPY transforms it to a standard form and dispatches to a backend solver (OSQP, ECOS, SCS, MOSEK).
 
 ```python
 import cvxpy as cp
@@ -215,11 +215,11 @@ u_safe = u.value
 
 **When not to use:** hard real-time. CVXPY's per-solve overhead in pure Python is hundreds of microseconds even with cached compilation. For deployed real-time QPs, write directly against `osqp` (its Python and C interfaces) or use `cvxpygen` to generate C code from a CVXPY problem. <https://github.com/cvxgrp/cvxpygen> [verify]
 
-## OR-Tools — combinatorial / integer
+## OR-Tools - combinatorial / integer
 
 **Author:** Google. **License:** Apache-2.0. **Repo:** <https://github.com/google/or-tools>. **Web:** <https://developers.google.com/optimization>
 
-When the variables are *discrete* — pick one of these N items, assign these jobs to these machines, visit these cities in some order — least squares doesn't help. You need constraint programming (CP-SAT), mixed integer programming (MIP), or specialized routing.
+When the variables are *discrete* - pick one of these N items, assign these jobs to these machines, visit these cities in some order - least squares doesn't help. You need constraint programming (CP-SAT), mixed integer programming (MIP), or specialized routing.
 
 OR-Tools is Google's swiss army knife. The headline solver is **CP-SAT**, which is a SAT-based constraint programming solver that handles linear, boolean, and many global constraints with industrial-grade performance.
 
@@ -248,13 +248,13 @@ if status in (cp_model.OPTIMAL, cp_model.FEASIBLE):
     order = sorted(range(n), key=lambda i: solver.Value(x[i]))
 ```
 
-**Pan used CP-SAT in LEAP** (his pick-and-place TSP project) for the task-sequencing layer — given a set of pick locations, place locations, and reachability constraints, find the order that minimizes manipulator travel time. CP-SAT was the right call because: small N (tens of items), hard ordering constraints, and the cost function wasn't quite a clean TSP. See [LEAP](../authors-projects/leap.md) for the project write-up.
+**Pan used CP-SAT in LEAP** (his pick-and-place TSP project) for the task-sequencing layer - given a set of pick locations, place locations, and reachability constraints, find the order that minimizes manipulator travel time. CP-SAT was the right call because: small N (tens of items), hard ordering constraints, and the cost function wasn't quite a clean TSP. See [LEAP](../authors-projects/leap.md) for the project write-up.
 
 **When to use:** task scheduling, pick orderings, multi-robot task allocation, anything with integer or boolean variables, vehicle routing (OR-Tools also has a dedicated VRP solver).
 
-**When not to use:** anything continuous — wrong tool entirely.
+**When not to use:** anything continuous - wrong tool entirely.
 
-## acados — embedded MPC
+## acados - embedded MPC
 
 **License:** BSD-2-Clause. **Repo:** <https://github.com/acados/acados>. **Web:** <https://docs.acados.org/>
 
@@ -275,7 +275,7 @@ ocp.solver_options.qp_solver = 'PARTIAL_CONDENSING_HPIPM'
 ocp.solver_options.integrator_type = 'ERK'
 
 solver = AcadosOcpSolver(ocp, json_file='ocp.json')
-# Now `solver.solve()` is a generated C function — microseconds per iteration
+# Now `solver.solve()` is a generated C function - microseconds per iteration
 ```
 
 **Killer feature:** real-time iteration MPC at sub-millisecond solve times on embedded hardware. This is what makes MPC viable for drone control, agile manipulation, etc.
@@ -284,7 +284,7 @@ solver = AcadosOcpSolver(ocp, json_file='ocp.json')
 
 **When not to use:** prototyping (CasADi alone is friendlier). Non-MPC optimization problems.
 
-## Drake — multi-purpose
+## Drake - multi-purpose
 
 **Author:** Toyota Research Institute / MIT (Russ Tedrake). **License:** BSD-3-Clause. **Repo:** <https://github.com/RobotLocomotion/drake>. **Web:** <https://drake.mit.edu/>
 
@@ -304,7 +304,7 @@ result = Solve(prog)
 print(result.GetSolution(x))
 ```
 
-**When to use:** if you're already doing trajectory optimization for manipulation in Drake's `MultibodyPlant`, the integrated stack is hard to beat. Direct collocation, contact-implicit trajectory optimization, semi-definite programming for Lyapunov analysis — Drake has built-in support.
+**When to use:** if you're already doing trajectory optimization for manipulation in Drake's `MultibodyPlant`, the integrated stack is hard to beat. Direct collocation, contact-implicit trajectory optimization, semi-definite programming for Lyapunov analysis - Drake has built-in support.
 
 **When not to use:** standalone optimization problem with no need for Drake's simulation/dynamics. The dependency footprint is large.
 
@@ -324,22 +324,22 @@ print(result.GetSolution(x))
 
 ## Honorable mentions
 
-- **IPOPT** — the workhorse interior-point NLP solver under most of the above. <https://github.com/coin-or/Ipopt>
-- **OSQP** — small, fast operator-splitting QP. Used by CVXPY by default. <https://osqp.org/>
-- **HPIPM** — Hagen-Penzler interior-point QP, fast for MPC-shaped problems. Used inside acados. <https://github.com/giaf/hpipm> [verify]
-- **NLOPT** — collection of nonlinear optimization algorithms, good for derivative-free. <https://nlopt.readthedocs.io/>
-- **JAX + Optax** — for ML-flavored optimization, learned controllers. Different world but increasingly relevant.
+- **IPOPT** - the workhorse interior-point NLP solver under most of the above. <https://github.com/coin-or/Ipopt>
+- **OSQP** - small, fast operator-splitting QP. Used by CVXPY by default. <https://osqp.org/>
+- **HPIPM** - Hagen-Penzler interior-point QP, fast for MPC-shaped problems. Used inside acados. <https://github.com/giaf/hpipm> [verify]
+- **NLOPT** - collection of nonlinear optimization algorithms, good for derivative-free. <https://nlopt.readthedocs.io/>
+- **JAX + Optax** - for ML-flavored optimization, learned controllers. Different world but increasingly relevant.
 
 ## Related pages
 
-- [LEAP — pick-and-place TSP with CP-SAT](../authors-projects/leap.md) — Pan's project applying OR-Tools CP-SAT to manipulator task sequencing.
-- [Graph SLAM](../slam-and-state-estimation/graph-slam.md) — deeper dive into where Ceres/g2o/GTSAM fit in the SLAM back-end.
+- [LEAP - pick-and-place TSP with CP-SAT](../authors-projects/leap.md) - Pan's project applying OR-Tools CP-SAT to manipulator task sequencing.
+- [Graph SLAM](../slam-and-state-estimation/graph-slam.md) - deeper dive into where Ceres/g2o/GTSAM fit in the SLAM back-end.
 
 ## Further reading
 
-- *Convex Optimization* — Boyd & Vandenberghe. Free online. Foundational. <https://web.stanford.edu/~boyd/cvxbook/>
-- *Numerical Optimization* — Nocedal & Wright. The reference for nonlinear methods.
-- *Underactuated Robotics* — Russ Tedrake. Free online. The Drake-flavored tour of trajectory optimization. <https://underactuated.mit.edu/>
-- *Factor Graphs for Robot Perception* — Dellaert & Kaess. The GTSAM-flavored tour. <https://www.cs.cmu.edu/~kaess/pub/Dellaert17fnt.pdf> [verify]
+- *Convex Optimization* - Boyd & Vandenberghe. Free online. Foundational. <https://web.stanford.edu/~boyd/cvxbook/>
+- *Numerical Optimization* - Nocedal & Wright. The reference for nonlinear methods.
+- *Underactuated Robotics* - Russ Tedrake. Free online. The Drake-flavored tour of trajectory optimization. <https://underactuated.mit.edu/>
+- *Factor Graphs for Robot Perception* - Dellaert & Kaess. The GTSAM-flavored tour. <https://www.cs.cmu.edu/~kaess/pub/Dellaert17fnt.pdf> [verify]
 
 The skill that compounds: recognize the shape of a problem fast, and pick the library that's already designed for that shape. Don't bring CasADi to a least-squares fight; don't bring Ceres to an integer programming fight.

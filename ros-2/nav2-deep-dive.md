@@ -4,9 +4,9 @@ icon: gear
 
 # Nav2 Deep Dive
 
-Nav2 is the ROS 2 reincarnation of the ROS 1 Navigation Stack — except that "reincarnation" sells it short. The team rebuilt it from scratch around behavior trees, lifecycle nodes, and composable plugins. It is the de facto standard for mobile robot navigation in 2026, and most of what I do at work is one or another layer of it.
+Nav2 is the ROS 2 reincarnation of the ROS 1 Navigation Stack - except that "reincarnation" sells it short. The team rebuilt it from scratch around behavior trees, lifecycle nodes, and composable plugins. It is the de facto standard for mobile robot navigation in 2026, and most of what I do at work is one or another layer of it.
 
-This page is a guided tour of the stack, focused on the parts where you actually have decisions to make. I draw on production experience from [10xConstruction.ai](https://10xconstruction.ai) \[verify], where I worked on the Swerve Drive MPPI motion model, custom BT nodes, and improvements to the Collision Monitor.
+This page is a guided tour of the stack, focused on the parts where you actually have decisions to make. I draw on production experience: a Swerve Drive MPPI motion model, custom BT nodes, and improvements to the Collision Monitor - all shipped in a real Nav2 deployment.
 
 The upstream repo is [github.com/ros-navigation/navigation2](https://github.com/ros-navigation/navigation2) \[verify]. The docs at [docs.nav2.org](https://docs.nav2.org) \[verify] are excellent and worth reading end-to-end at least once.
 
@@ -41,7 +41,7 @@ Nav2 is a fleet of lifecycle nodes wired together by a behavior tree. The major 
          └──────────────────────────┘
 ```
 
-Every one of these is a `LifecycleNode` and can be loaded as a composable component into a single container — see [Lifecycle and Composition](lifecycle-and-composition.md). For production you absolutely want the composed launch.
+Every one of these is a `LifecycleNode` and can be loaded as a composable component into a single container - see [Lifecycle and Composition](lifecycle-and-composition.md). For production you absolutely want the composed launch.
 
 ### What each server does
 
@@ -154,19 +154,19 @@ The controller is what closes the loop on the local plan and produces `/cmd_vel`
 | Controller       | Algorithm                              | Good for                                      |
 | ---------------- | -------------------------------------- | --------------------------------------------- |
 | DWB              | Dynamic Window Approach (trajectory rollout) | Differential drive, conservative environments. Inherits from ROS 1's DWA. |
-| **MPPI**         | Model Predictive Path Integral (sampling-based MPC) | Holonomic, swerve, omni — anything where DWB's circular-arc assumption is too restrictive. |
+| **MPPI**         | Model Predictive Path Integral (sampling-based MPC) | Holonomic, swerve, omni - anything where DWB's circular-arc assumption is too restrictive. |
 | RPP              | Regulated Pure Pursuit                 | Cheap, smooth following on differential drive when DWB is overkill. |
 | Graceful Controller | Curvature-continuous pursuit          | When you need smooth approach to goal pose with orientation. |
 
 ### MPPI in production
 
-MPPI is the one I have hands-on production experience with. At 10x I worked on a **Swerve Drive MPPI motion model** — the stock MPPI in Nav2 ships motion models for differential, omni, and Ackermann; swerve needed a custom model that handled the per-wheel steer / drive coupling correctly.
+MPPI is the one I have hands-on production experience with. At 10x I worked on a **Swerve Drive MPPI motion model** - the stock MPPI in Nav2 ships motion models for differential, omni, and Ackermann; swerve needed a custom model that handled the per-wheel steer / drive coupling correctly.
 
 The structure of the upstream `nav2_mppi_controller` plugin:
 
-* `MotionModel` interface — predicts next-state given current state + control sample.
-* `Critic` interface — scores a trajectory rollout against goals, obstacles, path adherence, etc.
-* `Optimizer` — samples controls, weights, computes the next command.
+* `MotionModel` interface - predicts next-state given current state + control sample.
+* `Critic` interface - scores a trajectory rollout against goals, obstacles, path adherence, etc.
+* `Optimizer` - samples controls, weights, computes the next command.
 
 Adding a motion model is a `~200`-line C++ file (the math is most of it). The MPPI design doc is at [docs.nav2.org/configuration/packages/configuring-mppic.html](https://docs.nav2.org/configuration/packages/configuring-mppic.html) \[verify].
 
@@ -239,7 +239,7 @@ planner_server:
 
 ## Costmap layers
 
-A costmap is a 2D grid of cost values (`0`–`254`, plus `255` for unknown). Each cell's cost is computed by stacking *layers* — independent plugins that each contribute. The order matters: layers execute in sequence, each reading the prior and writing on top.
+A costmap is a 2D grid of cost values (`0`–`254`, plus `255` for unknown). Each cell's cost is computed by stacking *layers* - independent plugins that each contribute. The order matters: layers execute in sequence, each reading the prior and writing on top.
 
 | Layer        | What it does                                                          |
 | ------------ | --------------------------------------------------------------------- |
@@ -287,7 +287,7 @@ local_costmap:
         inflation_radius: 0.55
 ```
 
-### Inflation radius — the most important number
+### Inflation radius - the most important number
 
 `inflation_radius` is how far the inflation layer pushes out around lethal cells, with cost decaying via `cost_scaling_factor`. Get this wrong and your robot will either bump into things (too small) or refuse to enter doorways (too large).
 
@@ -295,7 +295,7 @@ Rule of thumb: `inflation_radius = robot_radius + safety_margin`. A 30 cm radius
 
 ## Collision Monitor
 
-The Collision Monitor (`nav2_collision_monitor`, [source](https://github.com/ros-navigation/navigation2/tree/main/nav2_collision_monitor) \[verify]) is an independent safety layer that subscribes to raw sensor data and can override `/cmd_vel` in real time. It does not depend on the costmaps or planner — even if Nav2 itself is unhealthy, the collision monitor still vetoes commands that would lead to a crash.
+The Collision Monitor (`nav2_collision_monitor`, [source](https://github.com/ros-navigation/navigation2/tree/main/nav2_collision_monitor) \[verify]) is an independent safety layer that subscribes to raw sensor data and can override `/cmd_vel` in real time. It does not depend on the costmaps or planner - even if Nav2 itself is unhealthy, the collision monitor still vetoes commands that would lead to a crash.
 
 It works on the notion of **polygons**: you define one or more polygons around the robot, classify them as `stop`, `slowdown`, or `approach`, and a triggering action when any polygon contains sensor points.
 
@@ -324,9 +324,9 @@ collision_monitor:
 
 At 10x I contributed improvements to the Collision Monitor focused on configurability and reaction-time. Specific areas:
 
-* **Reaction polygon hysteresis** — preventing chatter when an obstacle hovers near a polygon boundary.
-* **Tighter integration with the BT** — exposing collision state as a blackboard variable so recovery behaviors can branch on it.
-* **Better observability** — publishing the per-polygon active state for logging.
+* **Reaction polygon hysteresis** - preventing chatter when an obstacle hovers near a polygon boundary.
+* **Tighter integration with the BT** - exposing collision state as a blackboard variable so recovery behaviors can branch on it.
+* **Better observability** - publishing the per-polygon active state for logging.
 
 The general lesson from production: **the collision monitor must be its own process**, not composed into the Nav2 container. If the perception or planner code crashes, you still need an active safety layer. We ran the monitor in its own systemd unit with a heartbeat to the watchdog.
 
@@ -334,11 +334,11 @@ The general lesson from production: **the collision monitor must be its own proc
 
 The `behavior_server` exposes discrete recoveries as action servers:
 
-* `Spin` — rotate in place by an angle.
-* `BackUp` — drive backward a fixed distance at a fixed slow speed.
-* `Wait` — block for a duration.
-* `DriveOnHeading` — go straight a fixed distance.
-* `AssistedTeleop` — hand control to a remote operator.
+* `Spin` - rotate in place by an angle.
+* `BackUp` - drive backward a fixed distance at a fixed slow speed.
+* `Wait` - block for a duration.
+* `DriveOnHeading` - go straight a fixed distance.
+* `AssistedTeleop` - hand control to a remote operator.
 
 Wire them into the BT's `RecoveryFallback` subtree. The order matters: prefer cheap recoveries first (clear costmap), expensive ones last (assisted teleop).
 
@@ -357,7 +357,7 @@ lifecycle_manager:
     attempt_respawn_reconnection: true
 ```
 
-`bond_timeout` is the heartbeat — if a node stops responding, the manager declares it dead. Combined with `attempt_respawn_reconnection`, a single node crash is recoverable.
+`bond_timeout` is the heartbeat - if a node stops responding, the manager declares it dead. Combined with `attempt_respawn_reconnection`, a single node crash is recoverable.
 
 ## Tuning tips
 
@@ -376,7 +376,7 @@ The settings that actually matter, in rough order of impact:
 
 ### Footprint vs robot\_radius
 
-If your robot isn't circular — and most aren't — use `footprint` instead of `robot_radius`:
+If your robot isn't circular - and most aren't - use `footprint` instead of `robot_radius`:
 
 ```yaml
 footprint: "[[0.3, 0.2], [0.3, -0.2], [-0.3, -0.2], [-0.3, 0.2]]"
@@ -398,18 +398,18 @@ The `/**:` is a wildcard that applies to all nodes.
 
 ## Common pitfalls
 
-* **`/map` not latched** — late-joining nodes never get the map. Use `qos_durability: transient_local` on the publisher (SLAM stack does this by default; check your map server).
-* **TF tree incomplete** — Nav2 fails silently waiting for `map → odom → base_link → laser`. Run `ros2 run tf2_tools view_frames` and stare at the output.
-* **Controller frequency too high for the CPU** — the controller misses deadlines and the robot stutters. Drop to 10 Hz before chasing more exotic causes.
-* **Default BT for differential-drive robot using MPPI** — MPPI tuned for omni doesn't work well on differential drive. Use the right `motion_model` or switch to DWB / RPP.
-* **Collision monitor disabled "for testing"** — and then someone deploys to the field with it still off. Make the lifecycle manager fail-start if the monitor isn't `Active`.
-* **Costmap layers in the wrong order** — inflation before obstacle marking means obstacles aren't inflated. Order is `static → obstacle → inflation`.
+* **`/map` not latched** - late-joining nodes never get the map. Use `qos_durability: transient_local` on the publisher (SLAM stack does this by default; check your map server).
+* **TF tree incomplete** - Nav2 fails silently waiting for `map → odom → base_link → laser`. Run `ros2 run tf2_tools view_frames` and stare at the output.
+* **Controller frequency too high for the CPU** - the controller misses deadlines and the robot stutters. Drop to 10 Hz before chasing more exotic causes.
+* **Default BT for differential-drive robot using MPPI** - MPPI tuned for omni doesn't work well on differential drive. Use the right `motion_model` or switch to DWB / RPP.
+* **Collision monitor disabled "for testing"** - and then someone deploys to the field with it still off. Make the lifecycle manager fail-start if the monitor isn't `Active`.
+* **Costmap layers in the wrong order** - inflation before obstacle marking means obstacles aren't inflated. Order is `static → obstacle → inflation`.
 
 ## Where to go next
 
-* [Lifecycle and Composition](lifecycle-and-composition.md) — the runtime substrate Nav2 sits on.
-* [DDS and QoS](dds-qos.md) — for `/map`, `/scan`, `/cmd_vel` tuning.
-* [LiDAR SLAM](../slam-and-state-estimation/lidar-slam.md) — the perception layer that produces the `/map` and `odom` Nav2 needs.
-* [MoveIt 2](moveit2.md) — the manipulation counterpart for arms.
-* [Polka](../authors-projects/polka.md) — my own platform running this stack.
-* [Optimization libraries](../mathematical-and-programming-foundations/optimization-libraries.md) — the math underneath MPPI and the Smac planners.
+* [Lifecycle and Composition](lifecycle-and-composition.md) - the runtime substrate Nav2 sits on.
+* [DDS and QoS](dds-qos.md) - for `/map`, `/scan`, `/cmd_vel` tuning.
+* [LiDAR SLAM](../slam-and-state-estimation/lidar-slam.md) - the perception layer that produces the `/map` and `odom` Nav2 needs.
+* [MoveIt 2](moveit2.md) - the manipulation counterpart for arms.
+* [Polka](../authors-projects/polka.md) - my own platform running this stack.
+* [Optimization libraries](../mathematical-and-programming-foundations/optimization-libraries.md) - the math underneath MPPI and the Smac planners.

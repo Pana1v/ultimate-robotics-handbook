@@ -4,7 +4,7 @@ icon: brain
 
 # Imitation Learning
 
-Imitation learning (IL) is the most practical way to make a robot do a real task in 2026. If you have a teleop rig, a few hundred demonstrations, and a GPU, you can ship something useful in a week. The math is not deep — the engineering is in the data.
+Imitation learning (IL) is the most practical way to make a robot do a real task in 2026. If you have a teleop rig, a few hundred demonstrations, and a GPU, you can ship something useful in a week. The math is not deep - the engineering is in the data.
 
 ## The setup
 
@@ -47,7 +47,7 @@ The idea: roll out your current policy, get into the weird off-distribution stat
      d. Train π_i on D_i
 ```
 
-**Where DAgger works in practice:** simulation, where querying the expert is cheap. Almost never on real robots because you cannot pause a robot mid-failure and ask the human "what would you have done here?" — by the time the human responds the moment is gone.
+**Where DAgger works in practice:** simulation, where querying the expert is cheap. Almost never on real robots because you cannot pause a robot mid-failure and ask the human "what would you have done here?" - by the time the human responds the moment is gone.
 
 {% hint style="info" %}
 **Field note.** DAgger is conceptually the right idea but operationally a nightmare on real hardware. The 2024-era successor is **HG-DAgger** and **HIL-SERL** style approaches where the human intervenes in real-time during policy rollouts. We cover those on the [Modern RL](reinforcement-learning-modern.md) page.
@@ -74,7 +74,7 @@ for t in range(T):
     execute(action_t)
 ```
 
-**Why it works:** action chunking is doing two things — reducing the effective horizon (so error compounds less) and making the policy commit to a multi-step plan (so it does not stutter on contact-rich subtasks).
+**Why it works:** action chunking is doing two things - reducing the effective horizon (so error compounds less) and making the policy commit to a multi-step plan (so it does not stutter on contact-rich subtasks).
 
 **Practical pointers:**
 
@@ -126,15 +126,15 @@ Use DDIM or DDPM scheduler. 10-100 denoising steps per action chunk. The slow in
 
 The field has not stood still. A non-exhaustive list of what is worth knowing:
 
-- **3D Diffusion Policy (DP3)** — Ze et al., RSS 2024. Diffusion Policy with point cloud inputs instead of RGB. Generalizes much better across scenes. [https://3d-diffusion-policy.github.io/](https://3d-diffusion-policy.github.io/) [verify]
-- **Flow Matching Policies** — used in π0 / π0.5. Replaces the diffusion denoising loop with a single ODE solve. Order of magnitude faster inference at similar quality. The π0 paper: [https://www.physicalintelligence.company/blog/pi0](https://www.physicalintelligence.company/blog/pi0) [verify]
-- **VQ-BeT / BeT (Behavior Transformer)** — Shafiullah et al., NeurIPS 2022. Discrete action tokens via VQ-VAE + transformer. Handles multimodality cheaply. [https://arxiv.org/abs/2206.11251](https://arxiv.org/abs/2206.11251)
-- **HPT (Heterogeneous Pre-trained Transformers)** — Wang et al., NeurIPS 2024. Pretrain on heterogeneous robot data, then fine-tune. [https://liruiw.github.io/hpt/](https://liruiw.github.io/hpt/) [verify]
-- **RDT-1B** — Robotics Diffusion Transformer. Scaled diffusion policy to 1B params, pretrained on Open X-Embodiment. [https://rdt-robotics.github.io/rdt-robotics/](https://rdt-robotics.github.io/rdt-robotics/) [verify]
+- **3D Diffusion Policy (DP3)** - Ze et al., RSS 2024. Diffusion Policy with point cloud inputs instead of RGB. Generalizes much better across scenes. [https://3d-diffusion-policy.github.io/](https://3d-diffusion-policy.github.io/) [verify]
+- **Flow Matching Policies** - used in π0 / π0.5. Replaces the diffusion denoising loop with a single ODE solve. Order of magnitude faster inference at similar quality. The π0 paper: [https://www.physicalintelligence.company/blog/pi0](https://www.physicalintelligence.company/blog/pi0) [verify]
+- **VQ-BeT / BeT (Behavior Transformer)** - Shafiullah et al., NeurIPS 2022. Discrete action tokens via VQ-VAE + transformer. Handles multimodality cheaply. [https://arxiv.org/abs/2206.11251](https://arxiv.org/abs/2206.11251)
+- **HPT (Heterogeneous Pre-trained Transformers)** - Wang et al., NeurIPS 2024. Pretrain on heterogeneous robot data, then fine-tune. [https://liruiw.github.io/hpt/](https://liruiw.github.io/hpt/) [verify]
+- **RDT-1B** - Robotics Diffusion Transformer. Scaled diffusion policy to 1B params, pretrained on Open X-Embodiment. [https://rdt-robotics.github.io/rdt-robotics/](https://rdt-robotics.github.io/rdt-robotics/) [verify]
 
 For language-conditioned IL and full VLAs (RT-1, RT-2, OpenVLA, π0), see [Foundation Models & VLAs](foundation-models-vla.md).
 
-## Data collection — the actual hard part
+## Data collection - the actual hard part
 
 The math above takes a weekend to understand. Getting good data takes months. This is where most projects fail.
 
@@ -149,7 +149,7 @@ The math above takes a weekend to understand. Getting good data takes months. Th
 | Long-horizon (>30s, multiple subtasks) | 500 | 5000+ | Use chunked/hierarchical policies. |
 | Mobile manipulation | 500 | 5000+ | Mobile ALOHA-style. Hard. |
 
-**Quality > quantity.** 200 clean demonstrations beat 2000 sloppy ones. A bad demo where the human collided, recovered, and finished is worse than nothing — the policy will learn the collision-and-recover habit.
+**Quality > quantity.** 200 clean demonstrations beat 2000 sloppy ones. A bad demo where the human collided, recovered, and finished is worse than nothing - the policy will learn the collision-and-recover habit.
 
 **Diversity matters more than count.** Vary object positions, lighting, distractors, starting poses. 200 diverse demos > 1000 from the same starting state.
 
@@ -161,28 +161,28 @@ For the teleop hardware side, see [Teleoperation & Data Collection](teleop-and-d
 
 | Library | What it gives you | When to use it |
 |---|---|---|
-| **LeRobot** (HuggingFace) — [https://github.com/huggingface/lerobot](https://github.com/huggingface/lerobot) | ACT, Diffusion Policy, VQ-BeT implementations, datasets, training scripts | First stop. Best maintained IL codebase as of 2026. |
-| **Diffusion Policy** (Columbia) — [https://github.com/real-stanford/diffusion_policy](https://github.com/real-stanford/diffusion_policy) | Reference impl, faithful to paper | If you want to dig into the original. |
-| **ACT** (Stanford) — [https://github.com/tonyzhaozh/act](https://github.com/tonyzhaozh/act) | Reference ACT + ALOHA stack | If running on ALOHA hardware specifically. |
-| **Robomimic** (Stanford) — [https://robomimic.github.io/](https://robomimic.github.io/) | BC, BC-RNN, hierarchical IL, benchmarks | Older but well-engineered. Good for ablations. |
-| **OpenPi** — [https://github.com/Physical-Intelligence/openpi](https://github.com/Physical-Intelligence/openpi) [verify] | π0 weights and fine-tuning code | For VLA-style flow matching policies. |
+| **LeRobot** (HuggingFace) - [https://github.com/huggingface/lerobot](https://github.com/huggingface/lerobot) | ACT, Diffusion Policy, VQ-BeT implementations, datasets, training scripts | First stop. Best maintained IL codebase as of 2026. |
+| **Diffusion Policy** (Columbia) - [https://github.com/real-stanford/diffusion_policy](https://github.com/real-stanford/diffusion_policy) | Reference impl, faithful to paper | If you want to dig into the original. |
+| **ACT** (Stanford) - [https://github.com/tonyzhaozh/act](https://github.com/tonyzhaozh/act) | Reference ACT + ALOHA stack | If running on ALOHA hardware specifically. |
+| **Robomimic** (Stanford) - [https://robomimic.github.io/](https://robomimic.github.io/) | BC, BC-RNN, hierarchical IL, benchmarks | Older but well-engineered. Good for ablations. |
+| **OpenPi** - [https://github.com/Physical-Intelligence/openpi](https://github.com/Physical-Intelligence/openpi) [verify] | π0 weights and fine-tuning code | For VLA-style flow matching policies. |
 
 ## Connection to graph-based policies
 
-For tasks with structured spatial reasoning (e.g., multi-object manipulation, articulated objects), GNN-based imitation policies are an underexplored but powerful direction. See [LEAP](../authors-projects/leap.md) for an example of using GNNs in an imitation setting — encodes scene structure as a graph and learns policy via behavior cloning over graph features.
+For tasks with structured spatial reasoning (e.g., multi-object manipulation, articulated objects), GNN-based imitation policies are an underexplored but powerful direction. See [LEAP](../authors-projects/leap.md) for an example of using GNNs in an imitation setting - encodes scene structure as a graph and learns policy via behavior cloning over graph features.
 
 ## Common pitfalls
 
 1. **Training on demos that include the human's recovery from mistakes.** The policy will learn to make the mistake. Filter or re-collect.
 2. **Using state inputs in sim, expecting it to transfer to images in real.** Train on images from day one if you intend to deploy on a real robot.
 3. **Forgetting proprioception.** Vision-only policies are brittle. Concatenate joint positions, velocities, gripper state.
-4. **Action space mismatch.** End-effector pose vs. joint position vs. delta poses — each changes the difficulty of the IL problem. Delta end-effector pose with a separate gripper head is the 2026 default for arms.
+4. **Action space mismatch.** End-effector pose vs. joint position vs. delta poses - each changes the difficulty of the IL problem. Delta end-effector pose with a separate gripper head is the 2026 default for arms.
 5. **Camera placement changes between data collection and deployment.** Even 1cm of shift can tank a policy. Use mounted, not handheld, cameras.
 
 ## Further reading
 
-- Chi et al., *"Diffusion Policy: Visuomotor Policy Learning via Action Diffusion"* — [https://arxiv.org/abs/2303.04137](https://arxiv.org/abs/2303.04137)
-- Zhao et al., *"Learning Fine-Grained Bimanual Manipulation with Low-Cost Hardware"* (ACT/ALOHA) — [https://arxiv.org/abs/2304.13705](https://arxiv.org/abs/2304.13705)
-- Ross, Gordon & Bagnell, *"A Reduction of Imitation Learning and Structured Prediction to No-Regret Online Learning"* (DAgger) — [https://arxiv.org/abs/1011.0686](https://arxiv.org/abs/1011.0686)
+- Chi et al., *"Diffusion Policy: Visuomotor Policy Learning via Action Diffusion"* - [https://arxiv.org/abs/2303.04137](https://arxiv.org/abs/2303.04137)
+- Zhao et al., *"Learning Fine-Grained Bimanual Manipulation with Low-Cost Hardware"* (ACT/ALOHA) - [https://arxiv.org/abs/2304.13705](https://arxiv.org/abs/2304.13705)
+- Ross, Gordon & Bagnell, *"A Reduction of Imitation Learning and Structured Prediction to No-Regret Online Learning"* (DAgger) - [https://arxiv.org/abs/1011.0686](https://arxiv.org/abs/1011.0686)
 - LeRobot blog post series: [https://huggingface.co/blog/lerobot](https://huggingface.co/blog/lerobot) [verify]
-- Pieter Abbeel & Andrew Ng, *"Apprenticeship Learning via Inverse Reinforcement Learning"* (2004) — the classic IRL paper, useful for context on what IL is *not*.
+- Pieter Abbeel & Andrew Ng, *"Apprenticeship Learning via Inverse Reinforcement Learning"* (2004) - the classic IRL paper, useful for context on what IL is *not*.

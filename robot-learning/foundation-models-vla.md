@@ -76,9 +76,9 @@ Berkeley's open VLA. Smaller (Octo-Base is ~93M params, Octo-Small ~27M), uses d
 
 Black, Brown, Driess, Esmail, et al. [https://www.physicalintelligence.company/blog/pi0](https://www.physicalintelligence.company/blog/pi0)
 
-π0 introduced **flow matching action heads** — instead of autoregressive token sampling or diffusion denoising, generate the action chunk via a single ODE solve. Order of magnitude faster inference at similar quality. Pretrained on a substantially larger and more diverse robot dataset than what was public at the time.
+π0 introduced **flow matching action heads** - instead of autoregressive token sampling or diffusion denoising, generate the action chunk via a single ODE solve. Order of magnitude faster inference at similar quality. Pretrained on a substantially larger and more diverse robot dataset than what was public at the time.
 
-π0.5 (2025) [verify] extended to long-horizon mobile manipulation with open-ended language instructions ("clean the kitchen") — including some of the most impressive autonomous home demonstrations to date.
+π0.5 (2025) [verify] extended to long-horizon mobile manipulation with open-ended language instructions ("clean the kitchen") - including some of the most impressive autonomous home demonstrations to date.
 
 **OpenPi** [https://github.com/Physical-Intelligence/openpi](https://github.com/Physical-Intelligence/openpi) [verify] is the open release of π0-base + fine-tuning code. As of 2026 this is the strongest open-weights VLA and what I would build on if starting today.
 
@@ -105,19 +105,19 @@ Take an off-the-shelf vision-language model (Llama-2 + SigLIP for OpenVLA, PaLM-
 
 Fine-tune on a large mix of robot data: Open X-Embodiment + DROID + internal data. ~1M+ trajectories. Action representation matters a lot here:
 
-- **Discretized action tokens** (RT-2, OpenVLA) — easy to plug into LLM training, but lossy.
-- **Continuous action diffusion** (Octo, CogACT) — better fidelity, slower inference.
-- **Flow matching** (π0) — best of both, currently SOTA.
+- **Discretized action tokens** (RT-2, OpenVLA) - easy to plug into LLM training, but lossy.
+- **Continuous action diffusion** (Octo, CogACT) - better fidelity, slower inference.
+- **Flow matching** (π0) - best of both, currently SOTA.
 
 ### Stage 3: Task-specific fine-tuning
 
 You collect 50–500 demos of your specific task on your specific robot, fine-tune the base VLA. This is where you actually deploy.
 
-LoRA fine-tuning works well — you do not need to update the full 7B params, a few hundred million LoRA params is enough for downstream tasks.
+LoRA fine-tuning works well - you do not need to update the full 7B params, a few hundred million LoRA params is enough for downstream tasks.
 
 ## Data scale, very roughly
 
-For context — what "internet-scale robot data" actually means:
+For context - what "internet-scale robot data" actually means:
 
 | Dataset / model | Trajectories | Robot-hours (approx) | Notes |
 |---|---|---|---|
@@ -143,14 +143,14 @@ Compare to LLM scales (10T+ tokens) and you see why robot foundation models are 
 - **Latency-critical control.** Even fast VLAs (π0 with flow matching) run at ~20-50Hz on an A100. Most cannot run on the robot's onboard compute at production frame rates.
 - **Fine force control.** VLAs are trained on position/velocity demos. They mostly do not have a notion of compliance or force.
 - **Truly novel tasks.** "In distribution" matters. A VLA fine-tuned on kitchen manipulation will not suddenly do circuit board assembly.
-- **Dexterous manipulation.** OpenAI hand-cube rotation, in-hand tool use — not yet.
+- **Dexterous manipulation.** OpenAI hand-cube rotation, in-hand tool use - not yet.
 - **Tasks where the demonstrator was bad.** Garbage in, garbage out. VLAs amplify systematic demonstrator errors.
 
 {% hint style="info" %}
-**Field note.** The honest 2026 take on VLAs: they are a real capability advance for moderately-structured manipulation, *especially* when you need language conditioning. They are not yet the "GPT-3 of robotics." A bespoke ACT or Diffusion Policy fine-tuned on your specific task will still beat a fine-tuned VLA in narrow benchmarks — the VLA wins on *generalization* and *language instructability*. Pick the tool based on the deployment, not the demo video.
+**Field note.** The honest 2026 take on VLAs: they are a real capability advance for moderately-structured manipulation, *especially* when you need language conditioning. They are not yet the "GPT-3 of robotics." A bespoke ACT or Diffusion Policy fine-tuned on your specific task will still beat a fine-tuned VLA in narrow benchmarks - the VLA wins on *generalization* and *language instructability*. Pick the tool based on the deployment, not the demo video.
 {% endhint %}
 
-## Architectural details — a sketch
+## Architectural details - a sketch
 
 A representative modern VLA (OpenVLA-style) at a sketch level:
 
@@ -245,12 +245,12 @@ Flow matching head means inference is faster than diffusion, so this is preferre
 
 | Library | What it gives you | Notes |
 |---|---|---|
-| **OpenVLA** — [https://github.com/openvla/openvla](https://github.com/openvla/openvla) | OpenVLA training + inference + LoRA fine-tuning | The de-facto open VLA baseline. |
-| **OpenPi** — [https://github.com/Physical-Intelligence/openpi](https://github.com/Physical-Intelligence/openpi) [verify] | π0 weights, fine-tuning, flow matching | The 2026 strongest open-weights VLA. |
-| **Octo** — [https://github.com/octo-models/octo](https://github.com/octo-models/octo) [verify] | Octo-Small/Base + fine-tuning | Lighter weight, good for resource-constrained. |
-| **LeRobot** — [https://github.com/huggingface/lerobot](https://github.com/huggingface/lerobot) | VLA fine-tuning recipes, dataset tooling | Has OpenVLA, π0 integrations. The integration layer. |
-| **RDT-1B** — [https://github.com/thu-ml/RoboticsDiffusionTransformer](https://github.com/thu-ml/RoboticsDiffusionTransformer) [verify] | 1B bimanual diffusion VLA | If your task is bimanual. |
-| **NVIDIA GR00T** — [https://github.com/NVIDIA/Isaac-GR00T](https://github.com/NVIDIA/Isaac-GR00T) [verify] | Humanoid-focused foundation model stack | New (2025), humanoid-specific. |
+| **OpenVLA** - [https://github.com/openvla/openvla](https://github.com/openvla/openvla) | OpenVLA training + inference + LoRA fine-tuning | The de-facto open VLA baseline. |
+| **OpenPi** - [https://github.com/Physical-Intelligence/openpi](https://github.com/Physical-Intelligence/openpi) [verify] | π0 weights, fine-tuning, flow matching | The 2026 strongest open-weights VLA. |
+| **Octo** - [https://github.com/octo-models/octo](https://github.com/octo-models/octo) [verify] | Octo-Small/Base + fine-tuning | Lighter weight, good for resource-constrained. |
+| **LeRobot** - [https://github.com/huggingface/lerobot](https://github.com/huggingface/lerobot) | VLA fine-tuning recipes, dataset tooling | Has OpenVLA, π0 integrations. The integration layer. |
+| **RDT-1B** - [https://github.com/thu-ml/RoboticsDiffusionTransformer](https://github.com/thu-ml/RoboticsDiffusionTransformer) [verify] | 1B bimanual diffusion VLA | If your task is bimanual. |
+| **NVIDIA GR00T** - [https://github.com/NVIDIA/Isaac-GR00T](https://github.com/NVIDIA/Isaac-GR00T) [verify] | Humanoid-focused foundation model stack | New (2025), humanoid-specific. |
 
 ## Honest assessment of state of the art (early 2026)
 
@@ -267,9 +267,9 @@ For comparison: a Diffusion Policy or ACT trained from scratch on the *exact* ta
 
 ## Further reading
 
-- Brohan et al., *"RT-2: Vision-Language-Action Models Transfer Web Knowledge to Robotic Control"* — [https://arxiv.org/abs/2307.15818](https://arxiv.org/abs/2307.15818)
-- Padalkar et al., *"Open X-Embodiment: Robotic Learning Datasets and RT-X Models"* — [https://arxiv.org/abs/2310.08864](https://arxiv.org/abs/2310.08864)
-- Kim et al., *"OpenVLA: An Open-Source Vision-Language-Action Model"* — [https://arxiv.org/abs/2406.09246](https://arxiv.org/abs/2406.09246)
-- Octo Team, *"Octo: An Open-Source Generalist Robot Policy"* — [https://arxiv.org/abs/2405.12213](https://arxiv.org/abs/2405.12213)
-- Physical Intelligence, *"π0: A Vision-Language-Action Flow Model for General Robot Control"* — [https://www.physicalintelligence.company/blog/pi0](https://www.physicalintelligence.company/blog/pi0) [verify]
-- CoRL 2024 and CoRL 2025 best papers — the VLA frontier is published here.
+- Brohan et al., *"RT-2: Vision-Language-Action Models Transfer Web Knowledge to Robotic Control"* - [https://arxiv.org/abs/2307.15818](https://arxiv.org/abs/2307.15818)
+- Padalkar et al., *"Open X-Embodiment: Robotic Learning Datasets and RT-X Models"* - [https://arxiv.org/abs/2310.08864](https://arxiv.org/abs/2310.08864)
+- Kim et al., *"OpenVLA: An Open-Source Vision-Language-Action Model"* - [https://arxiv.org/abs/2406.09246](https://arxiv.org/abs/2406.09246)
+- Octo Team, *"Octo: An Open-Source Generalist Robot Policy"* - [https://arxiv.org/abs/2405.12213](https://arxiv.org/abs/2405.12213)
+- Physical Intelligence, *"π0: A Vision-Language-Action Flow Model for General Robot Control"* - [https://www.physicalintelligence.company/blog/pi0](https://www.physicalintelligence.company/blog/pi0) [verify]
+- CoRL 2024 and CoRL 2025 best papers - the VLA frontier is published here.

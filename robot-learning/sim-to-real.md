@@ -74,7 +74,7 @@ What you usually want to identify:
 - Latency (control + sensor)
 - Backlash (per joint)
 
-In 2026 you mostly want SysID *plus* DR — identify the nominal parameters and then randomize around them.
+In 2026 you mostly want SysID *plus* DR - identify the nominal parameters and then randomize around them.
 
 **Tools:**
 
@@ -102,7 +102,7 @@ Approaches:
 
 - **Differentiable physics + parameter fitting.** Use a differentiable simulator (Brax, MuJoCo MJX, Genesis), backprop through rollouts to fit parameters to real trajectories.
 - **Learned residual dynamics.** Run an analytic sim, learn a neural net that corrects the sim → real residual.
-- **Full neural simulators.** Train a network to predict next state from current state + action, trained on real data. (This is "world models" — see [World Models](world-models.md).)
+- **Full neural simulators.** Train a network to predict next state from current state + action, trained on real data. (This is "world models" - see [World Models](world-models.md).)
 
 The 2024-2026 trend is **hybrid**: analytic physics for the broad strokes (Coriolis terms, kinematics) + learned corrections for the parts physics gets wrong (contact, deformables, friction).
 
@@ -131,23 +131,23 @@ When your policy works in sim and fails on real, do these *in order*. Most teams
 
 | Sim | What it's for | GPU-parallel? | Differentiable? | Notes |
 |---|---|---|---|---|
-| **Isaac Lab** (NVIDIA) — [https://github.com/isaac-sim/IsaacLab](https://github.com/isaac-sim/IsaacLab) | RL, locomotion, manipulation | Yes (PhysX-GPU) | No | Replaced Isaac Gym (2024). Current default for RL. |
-| **MuJoCo MJX** — [https://github.com/google-deepmind/mujoco](https://github.com/google-deepmind/mujoco) | RL, manipulation, MPC | Yes (JAX) | Yes | DeepMind's GPU MuJoCo. Excellent for fast iteration. |
-| **MuJoCo (classic)** — same repo | MPC, controls research | No | Limited | Still the gold standard for contact dynamics. |
-| **Genesis** — [https://github.com/Genesis-Embodied-AI/Genesis](https://github.com/Genesis-Embodied-AI/Genesis) [verify] | RL, diff physics | Yes | Yes | New (late 2024). Claims 80x speedup over Isaac Gym. Worth evaluating. |
-| **Brax** — [https://github.com/google/brax](https://github.com/google/brax) | RL, differentiable physics | Yes (JAX) | Yes | Older, well-tested. |
-| **Drake** — [https://drake.mit.edu/](https://drake.mit.edu/) | Trajectory opt, MPC, planning | No | Yes | High-fidelity multibody. The "controls people" simulator. |
-| **Gazebo / Ignition** — [https://gazebosim.org/](https://gazebosim.org/) | Multi-robot, ROS integration | No | No | Standard for system integration testing. Slow for RL. |
-| **Webots** — [https://cyberbotics.com/](https://cyberbotics.com/) | Education, classical robotics | No | No | Lightweight, easy to use. |
-| **PyBullet** — [https://pybullet.org/](https://pybullet.org/) | Manipulation, learning | No (CPU) | Partial | Old default for IL/RL research. Still used. |
-| **Isaac Sim** (NVIDIA) — [https://developer.nvidia.com/isaac-sim](https://developer.nvidia.com/isaac-sim) | High-fidelity, USD-based scenes | GPU rendering | No | The "visuals" sibling of Isaac Lab. Use for synthetic data. |
-| **NVIDIA Cosmos** — see [World Models](world-models.md) | Synthetic video, eval | GPU | No | Generative, not physics-based. |
+| **Isaac Lab** (NVIDIA) - [https://github.com/isaac-sim/IsaacLab](https://github.com/isaac-sim/IsaacLab) | RL, locomotion, manipulation | Yes (PhysX-GPU) | No | Replaced Isaac Gym (2024). Current default for RL. |
+| **MuJoCo MJX** - [https://github.com/google-deepmind/mujoco](https://github.com/google-deepmind/mujoco) | RL, manipulation, MPC | Yes (JAX) | Yes | DeepMind's GPU MuJoCo. Excellent for fast iteration. |
+| **MuJoCo (classic)** - same repo | MPC, controls research | No | Limited | Still the gold standard for contact dynamics. |
+| **Genesis** - [https://github.com/Genesis-Embodied-AI/Genesis](https://github.com/Genesis-Embodied-AI/Genesis) [verify] | RL, diff physics | Yes | Yes | New (late 2024). Claims 80x speedup over Isaac Gym. Worth evaluating. |
+| **Brax** - [https://github.com/google/brax](https://github.com/google/brax) | RL, differentiable physics | Yes (JAX) | Yes | Older, well-tested. |
+| **Drake** - [https://drake.mit.edu/](https://drake.mit.edu/) | Trajectory opt, MPC, planning | No | Yes | High-fidelity multibody. The "controls people" simulator. |
+| **Gazebo / Ignition** - [https://gazebosim.org/](https://gazebosim.org/) | Multi-robot, ROS integration | No | No | Standard for system integration testing. Slow for RL. |
+| **Webots** - [https://cyberbotics.com/](https://cyberbotics.com/) | Education, classical robotics | No | No | Lightweight, easy to use. |
+| **PyBullet** - [https://pybullet.org/](https://pybullet.org/) | Manipulation, learning | No (CPU) | Partial | Old default for IL/RL research. Still used. |
+| **Isaac Sim** (NVIDIA) - [https://developer.nvidia.com/isaac-sim](https://developer.nvidia.com/isaac-sim) | High-fidelity, USD-based scenes | GPU rendering | No | The "visuals" sibling of Isaac Lab. Use for synthetic data. |
+| **NVIDIA Cosmos** - see [World Models](world-models.md) | Synthetic video, eval | GPU | No | Generative, not physics-based. |
 
 ### Isaac Gym → Isaac Lab
 
 If you read anything written before 2024 about NVIDIA's RL stack, it probably says "Isaac Gym." Isaac Gym is deprecated. Use **Isaac Lab** instead. It is built on Isaac Sim, supports more rigorous physics, integrates with USD, and is what NVIDIA actively maintains.
 
-Migration is mostly straightforward — most reward functions and environment configs port over with minor changes.
+Migration is mostly straightforward - most reward functions and environment configs port over with minor changes.
 
 ### MuJoCo and MJX
 
@@ -161,7 +161,7 @@ Genesis claims dramatic speedups over Isaac Gym for RL (80x in published benchma
 
 [https://github.com/Genesis-Embodied-AI/Genesis](https://github.com/Genesis-Embodied-AI/Genesis) [verify]
 
-## Case studies — what actually worked
+## Case studies - what actually worked
 
 ### ANYmal (ETH RSL)
 
@@ -204,7 +204,7 @@ If you are bringing up sim-to-real on a new platform for the first time:
 5. **Add domain randomization** around the identified nominal parameters. Start with ±20%.
 6. **Train your policy with history-based observations** so it can adapt.
 7. **Open-loop replay sim policy actions on real** as a diagnostic.
-8. **Deploy with safety constraints in hardware** — torque limits, software E-stop.
+8. **Deploy with safety constraints in hardware** - torque limits, software E-stop.
 9. **Iterate.** Real-world failures tell you what to randomize next.
 
 ## Common failure modes
@@ -217,9 +217,9 @@ If you are bringing up sim-to-real on a new platform for the first time:
 
 ## Further reading
 
-- Tobin et al., *"Domain Randomization for Transferring Deep Neural Networks from Simulation to the Real World"* — [https://arxiv.org/abs/1703.06907](https://arxiv.org/abs/1703.06907)
-- OpenAI et al., *"Solving Rubik's Cube with a Robot Hand"* — [https://arxiv.org/abs/1910.07113](https://arxiv.org/abs/1910.07113)
-- Peng et al., *"Sim-to-Real Transfer of Robotic Control with Dynamics Randomization"* — [https://arxiv.org/abs/1710.06537](https://arxiv.org/abs/1710.06537)
-- Lee et al., *"Learning quadrupedal locomotion over challenging terrain"* — [https://arxiv.org/abs/2010.11251](https://arxiv.org/abs/2010.11251) [verify]
-- Isaac Lab documentation — [https://isaac-sim.github.io/IsaacLab/](https://isaac-sim.github.io/IsaacLab/) [verify]
-- *"Sim-to-Real in Robotics: A Survey"* — Zhao, Queralta, Westerlund. [https://arxiv.org/abs/2009.13303](https://arxiv.org/abs/2009.13303)
+- Tobin et al., *"Domain Randomization for Transferring Deep Neural Networks from Simulation to the Real World"* - [https://arxiv.org/abs/1703.06907](https://arxiv.org/abs/1703.06907)
+- OpenAI et al., *"Solving Rubik's Cube with a Robot Hand"* - [https://arxiv.org/abs/1910.07113](https://arxiv.org/abs/1910.07113)
+- Peng et al., *"Sim-to-Real Transfer of Robotic Control with Dynamics Randomization"* - [https://arxiv.org/abs/1710.06537](https://arxiv.org/abs/1710.06537)
+- Lee et al., *"Learning quadrupedal locomotion over challenging terrain"* - [https://arxiv.org/abs/2010.11251](https://arxiv.org/abs/2010.11251) [verify]
+- Isaac Lab documentation - [https://isaac-sim.github.io/IsaacLab/](https://isaac-sim.github.io/IsaacLab/) [verify]
+- *"Sim-to-Real in Robotics: A Survey"* - Zhao, Queralta, Westerlund. [https://arxiv.org/abs/2009.13303](https://arxiv.org/abs/2009.13303)

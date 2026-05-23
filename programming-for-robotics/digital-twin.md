@@ -26,7 +26,7 @@ A digital twin is an integrated, data-driven virtual representation of real-worl
 * **Factory-Level Optimization**: Siemens Tecnomatix Plant Simulation and similar tools simulate entire production cells, identifying bottlenecks and improving throughput without halting operations.
 * **Asset Health Monitoring**: Predictive maintenance via real-time analytics on vibration and temperature data (GE Digital Twin, Ansys Twin Builder).
 * **Reinforcement-Learning Training**: NVIDIA **Isaac Sim** + **Isaac Lab** (replaced Isaac Gym in 2024) generate synthetic data and virtual scenarios to train policies for vision, manipulation, and locomotion at GPU-accelerated scale. NVIDIA **Omniverse** hosts the underlying USD-based scene graph.
-* **World Foundation Models**: NVIDIA **Cosmos** (announced CES 2025) — a world foundation model trained on millions of hours of driving/robotics video — generates physics-aware synthetic environments for sim-to-real transfer.
+* **World Foundation Models**: NVIDIA **Cosmos** (announced CES 2025) - a world foundation model trained on millions of hours of driving/robotics video - generates physics-aware synthetic environments for sim-to-real transfer.
 * **Remote Troubleshooting & Maintenance**: AR/VR-enabled digital twins allow technicians to visualize robot kinematics and service procedures overlaid on the physical system.
 
 For sim-to-real strategies (domain randomization, system identification, etc.), see [Robot Learning → Sim-to-Real](../robot-learning/sim-to-real.md).

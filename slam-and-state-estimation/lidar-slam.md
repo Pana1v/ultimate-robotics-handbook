@@ -13,7 +13,7 @@ But for ground robots in industrial settings, autonomous vehicles, and outdoor r
 ```
 LOAM (2014) → LeGO-LOAM (2018) → LIO-SAM (2020) → FAST-LIO / FAST-LIO2 (2021/2022)
                                               ↘
-                                                KISS-ICP (2023) — the minimalist counter-revolution
+                                                KISS-ICP (2023) - the minimalist counter-revolution
 ```
 
 Each step solved a specific weakness of the previous one. Knowing why each happened tells you where SLAM is going.
@@ -24,7 +24,7 @@ Each step solved a specific weakness of the previous one. Knowing why each happe
 
 Before any LiDAR SLAM math, the most common cause of bad results: **motion-distorted point clouds.**
 
-A spinning LiDAR doesn't capture a frame instantaneously. A 10 Hz Velodyne or Ouster sweeps 360° in 100 ms. If the robot moves during that 100 ms (and it does — that's the whole point), then points captured at the start of the sweep and at the end are in different reference frames *within the same scan*.
+A spinning LiDAR doesn't capture a frame instantaneously. A 10 Hz Velodyne or Ouster sweeps 360° in 100 ms. If the robot moves during that 100 ms (and it does - that's the whole point), then points captured at the start of the sweep and at the end are in different reference frames *within the same scan*.
 
 If you treat the scan as if it were captured at a single timestamp, you get a smeared point cloud. Walls bow. Corners ghost. ICP fails because it's trying to match a deformed source to a clean target.
 
@@ -32,24 +32,24 @@ If you treat the scan as if it were captured at a single timestamp, you get a sm
 
 The basic recipe:
 
-1. Each point $p_i$ has a timestamp $t_i$ (most modern drivers expose this; if yours doesn't, your driver is broken — fix it).
+1. Each point $p_i$ has a timestamp $t_i$ (most modern drivers expose this; if yours doesn't, your driver is broken - fix it).
 2. Integrate IMU between scan-start time $t_0$ and $t_i$ to get the relative transform $\mathbf{T}(t_0, t_i)$.
 3. Transform the point back: $p_i' = \mathbf{T}(t_0, t_i) \cdot p_i$.
 
 The result: every point in the scan is expressed in the body frame at $t_0$. Now you can run ICP, NDT, or feed it to a SLAM stack.
 
-> **Field notes:** I wrote [Polka](../authors-projects/polka.md) specifically because every multi-LiDAR ROS 2 stack I encountered re-implemented deskewing badly. Polka does deskewing + per-source overrides + TF2-aligned fusion in a single composable node — the deskewing layer is the foundation everything else stands on. If your downstream SLAM is misbehaving on a moving platform, deskew first, debug second.
+> **Field notes:** I wrote [Polka](../authors-projects/polka.md) specifically because every multi-LiDAR ROS 2 stack I encountered re-implemented deskewing badly. Polka does deskewing + per-source overrides + TF2-aligned fusion in a single composable node - the deskewing layer is the foundation everything else stands on. If your downstream SLAM is misbehaving on a moving platform, deskew first, debug second.
 
 ### Other first-class preprocessing concerns
 
-* **Intensity / reflectivity normalization** — useful if your front-end uses intensity (LeGO-LOAM does for ground segmentation).
-* **Distance filtering** — drop points beyond $d_{max}$ (too noisy) and below $d_{min}$ (often the robot's own chassis).
-* **Ring isolation** — many algorithms exploit the ring (laser-channel) structure of a mechanical LiDAR. If you have a solid-state LiDAR with no ring structure, some of these front-ends won't work as-is.
-* **Static-frame transformation** — make sure all your LiDARs publish in a consistent base frame. Pose-graph SLAM does not handle silently mis-extrinsicked sensors.
+* **Intensity / reflectivity normalization** - useful if your front-end uses intensity (LeGO-LOAM does for ground segmentation).
+* **Distance filtering** - drop points beyond $d_{max}$ (too noisy) and below $d_{min}$ (often the robot's own chassis).
+* **Ring isolation** - many algorithms exploit the ring (laser-channel) structure of a mechanical LiDAR. If you have a solid-state LiDAR with no ring structure, some of these front-ends won't work as-is.
+* **Static-frame transformation** - make sure all your LiDARs publish in a consistent base frame. Pose-graph SLAM does not handle silently mis-extrinsicked sensors.
 
 ***
 
-## ICP and friends — the kinematic primitive
+## ICP and friends - the kinematic primitive
 
 Every LiDAR SLAM has, at its core, **point cloud registration**: given two clouds, find the transform that aligns them. The family:
 
@@ -93,7 +93,7 @@ GICP smoothly interpolates between point-to-point and point-to-plane based on lo
 
 > [GO-SLAM](../authors-projects/go-slam.md) uses GICP as its front-end. I picked GICP specifically because it gracefully handles the mix of planar (warehouse walls/floors) and rough (cluttered shelves) geometry that real environments throw at you.
 
-### NDT — the alternative
+### NDT - the alternative
 
 Normal Distributions Transform (Biber & Strasser 2003). Discretize the target cloud into a 3D grid; in each cell, fit a Gaussian. The cost is now the negative log-likelihood of source points under the target's Gaussian mixture model:
 
@@ -101,20 +101,20 @@ $$
 E_{NDT}(\mathbf{T}) = -\sum_i \exp\left(-\frac{1}{2} (\mathbf{T} p_i - \mu_i)^\top \Sigma_i^{-1} (\mathbf{T} p_i - \mu_i)\right)
 $$
 
-NDT is differentiable (no nearest-neighbor search inside the inner loop after the grid is built), often faster than ICP for global registration, and handles partial overlap well. Autoware uses NDT for map matching. It's a perfectly fine alternative to ICP — you'll mostly see it in automotive contexts.
+NDT is differentiable (no nearest-neighbor search inside the inner loop after the grid is built), often faster than ICP for global registration, and handles partial overlap well. Autoware uses NDT for map matching. It's a perfectly fine alternative to ICP - you'll mostly see it in automotive contexts.
 
-### KISS-ICP — what minimalism looks like
+### KISS-ICP - what minimalism looks like
 
 Vizzo, Guadagnino, Mersch, Wiesmann, Behley, Stachniss (2023). [arxiv.org/abs/2209.15397](https://arxiv.org/abs/2209.15397). Code: [github.com/PRBonn/kiss-icp](https://github.com/PRBonn/kiss-icp) `[verify]`.
 
 The thesis: most modern LiDAR odometry papers introduce a forest of features, preprocessing tricks, and tuning knobs. KISS-ICP shows you can match (and often beat) them with:
 
 * Point-to-point ICP (not even point-to-plane).
-* A *single* adaptive parameter — the maximum correspondence distance, set by the current motion estimate.
+* A *single* adaptive parameter - the maximum correspondence distance, set by the current motion estimate.
 * Constant-velocity motion model for prediction.
 * No IMU. No features. No machine learning.
 
-The Bonn group (Cyrill Stachniss et al.) showed this beats LIO-SAM and FAST-LIO2 on KITTI in many configurations. The point isn't "KISS-ICP is always best" — it's "your fancy pipeline might not be earning its complexity."
+The Bonn group (Cyrill Stachniss et al.) showed this beats LIO-SAM and FAST-LIO2 on KITTI in many configurations. The point isn't "KISS-ICP is always best" - it's "your fancy pipeline might not be earning its complexity."
 
 Use KISS-ICP when:
 * You want a strong baseline before adding complexity.
@@ -123,7 +123,7 @@ Use KISS-ICP when:
 
 ***
 
-## IMU preintegration — the LIO unlock
+## IMU preintegration - the LIO unlock
 
 Christian Forster, Luca Carlone, Frank Dellaert, Davide Scaramuzza (2015 / TRO 2017). The paper that made tight IMU-LiDAR (and IMU-visual) fusion practical.
 
@@ -134,13 +134,13 @@ Christian Forster, Luca Carlone, Frank Dellaert, Davide Scaramuzza (2015 / TRO 2
 
 An IMU at 200 Hz gives you a measurement every 5 ms. A LiDAR or camera keyframe is every 100 ms. In between, you have 20 IMU measurements you'd like to fuse.
 
-Naively, you could put each IMU measurement as its own factor in the graph. That's 20× more factors per keyframe — too expensive. But if you marginalize them naively, you'd have to re-integrate the IMU every time the start pose changed, because IMU integration depends on the world-frame attitude (gravity in body frame is "rotated" by the start pose's rotation).
+Naively, you could put each IMU measurement as its own factor in the graph. That's 20× more factors per keyframe - too expensive. But if you marginalize them naively, you'd have to re-integrate the IMU every time the start pose changed, because IMU integration depends on the world-frame attitude (gravity in body frame is "rotated" by the start pose's rotation).
 
 ### The insight
 
 Express the IMU "delta" between two keyframes in a way that **does not depend on the starting pose, only on starting biases.** Then:
 
-* When the start pose changes, you don't re-integrate — you just transform the precomputed delta.
+* When the start pose changes, you don't re-integrate - you just transform the precomputed delta.
 * When biases change (during optimization), you apply a *first-order correction* using the precomputed bias Jacobians.
 
 The preintegrated quantities are:
@@ -149,7 +149,7 @@ $$
 \Delta \mathbf{R}_{ij}, \quad \Delta \mathbf{v}_{ij}, \quad \Delta \mathbf{p}_{ij}
 $$
 
-— relative rotation, velocity, and position change between keyframes $i$ and $j$, expressed in the body frame at $i$. Plus the bias Jacobians:
+- relative rotation, velocity, and position change between keyframes $i$ and $j$, expressed in the body frame at $i$. Plus the bias Jacobians:
 
 $$
 \frac{\partial \Delta \mathbf{R}}{\partial b_g}, \quad \frac{\partial \Delta \mathbf{v}}{\partial b_a}, \quad \ldots
@@ -177,7 +177,7 @@ Key ideas:
 
 No IMU. No loop closure. Pure LiDAR odometry. The blueprint everyone copied.
 
-* Open-source re-implementation: [A-LOAM](https://github.com/HKUST-Aerial-Robotics/A-LOAM) `[verify]` — easier to read than the original CMU code.
+* Open-source re-implementation: [A-LOAM](https://github.com/HKUST-Aerial-Robotics/A-LOAM) `[verify]` - easier to read than the original CMU code.
 
 ### LeGO-LOAM (2018)
 
@@ -187,7 +187,7 @@ LOAM was designed for cars on roads. LeGO-LOAM ("Lightweight and Ground-Optimize
 
 * **Ground segmentation** as a first-class step. Ground points constrain roll/pitch/Z; non-ground points constrain yaw/X/Y. Two separate two-step optimizations.
 * **Loop closure** with ICP-based scan matching against past keyframes.
-* Lower compute — suitable for ground UGVs, not just KITTI cars.
+* Lower compute - suitable for ground UGVs, not just KITTI cars.
 
 LeGO-LOAM is what most people meant when they said "LOAM" for a few years.
 
@@ -198,7 +198,7 @@ Shan, Englot, Meyers, Wang, Ratti, Rus. [IROS 2020](https://arxiv.org/abs/2007.0
 The next leap: tightly-coupled LiDAR-IMU-GPS via factor graphs.
 
 * Pre-integrates IMU between LiDAR keyframes (Forster et al. preintegration).
-* Uses GTSAM's iSAM2 as the back-end — incremental smoothing over the pose graph.
+* Uses GTSAM's iSAM2 as the back-end - incremental smoothing over the pose graph.
 * Four factor types: IMU preintegration, LiDAR odometry, GPS (optional), and loop closure.
 * Loop closure via Euclidean-distance + ICP verification. Scan-Context can be slotted in for stronger place recognition.
 
@@ -219,21 +219,21 @@ The thesis: do tight LiDAR-IMU fusion *without* a factor graph back-end. Just an
 Key contributions:
 * **Direct raw-point registration**, no feature extraction. Every LiDAR point becomes a measurement in the EKF update.
 * **ikd-Tree** (incremental k-d tree, Cai, Xu, Zhang 2021) for the local map. Insert / delete / nearest-neighbor in one structure with bounded memory. This was the engineering unlock.
-* Iterated update — re-linearize the measurement model around the latest estimate inside the update step.
+* Iterated update - re-linearize the measurement model around the latest estimate inside the update step.
 * No loop closure (in the base version).
 
 FAST-LIO2 beats LIO-SAM on accuracy and *massively* on CPU. It runs comfortably on a single core. The lack of loop closure is a feature in some settings (no warping artifacts) and a bug in others (drift on long traverses).
 
 > **Field notes:** I've run FAST-LIO2 and LIO-SAM head to head on the same rough-terrain dataset. FAST-LIO2 won on CPU usage (~1 core vs ~3) and short-traverse accuracy. LIO-SAM won on long traverses with loop closures because it could close them. Pick based on whether you can afford the ikd-tree memory (FAST-LIO2 trims it aggressively but it's still RAM) and whether your traverses will revisit (LIO-SAM closes loops, FAST-LIO2 doesn't).
 
-### Beyond — the 2023-2025 landscape
+### Beyond - the 2023-2025 landscape
 
-* **Point-LIO** (Xu et al. 2023) — per-point continuous-time IMU fusion, better at very high motions.
-* **DLO / DLIO** (Chen et al. 2022, 2023) — Direct LiDAR (Inertial) Odometry. Lightweight, popular for drones.
-* **GLIM** (Koide 2024) — GPU-accelerated graph-based LiDAR-IMU mapping. [arxiv.org/abs/2407.10344](https://arxiv.org/abs/2407.10344) `[verify]`.
-* **MULLS** (Pan, Zhang, Wang 2021) — multi-metric linear least-squares LiDAR odometry.
+* **Point-LIO** (Xu et al. 2023) - per-point continuous-time IMU fusion, better at very high motions.
+* **DLO / DLIO** (Chen et al. 2022, 2023) - Direct LiDAR (Inertial) Odometry. Lightweight, popular for drones.
+* **GLIM** (Koide 2024) - GPU-accelerated graph-based LiDAR-IMU mapping. [arxiv.org/abs/2407.10344](https://arxiv.org/abs/2407.10344) `[verify]`.
+* **MULLS** (Pan, Zhang, Wang 2021) - multi-metric linear least-squares LiDAR odometry.
 
-And the GO-SLAM-style learned approaches — see [learned-slam.md](learned-slam.md).
+And the GO-SLAM-style learned approaches - see [learned-slam.md](learned-slam.md).
 
 ***
 
@@ -251,9 +251,9 @@ And the GO-SLAM-style learned approaches — see [learned-slam.md](learned-slam.
 
 ### Cross-references in this handbook
 
-* [Polka](../authors-projects/polka.md) — multi-LiDAR fusion + IMU-deskew + per-source overrides. The preprocessing layer that feeds any of the systems above.
-* [GO-SLAM (Pan's)](../authors-projects/go-slam.md) — my from-scratch SLAM with GICP front-end + custom LM pose-graph solver. (Not to be confused with the ICCV 2023 academic paper of the same name — see [learned-slam.md](learned-slam.md).)
-* [Sensor fusion](sensor-fusion.md) — EKF/UKF basics, ICP variants in depth, IMU preintegration the math.
+* [Polka](../authors-projects/polka.md) - multi-LiDAR fusion + IMU-deskew + per-source overrides. The preprocessing layer that feeds any of the systems above.
+* [GO-SLAM (Pan's)](../authors-projects/go-slam.md) - my from-scratch SLAM with GICP front-end + custom LM pose-graph solver. (Not to be confused with the ICCV 2023 academic paper of the same name - see [learned-slam.md](learned-slam.md).)
+* [Sensor fusion](sensor-fusion.md) - EKF/UKF basics, ICP variants in depth, IMU preintegration the math.
 
 ***
 

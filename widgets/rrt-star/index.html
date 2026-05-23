@@ -22,7 +22,7 @@
 </head>
 <body>
 <div class="wrap">
-  <h1>RRT* — Rapidly-exploring Random Tree (rewiring)</h1>
+  <h1>RRT* - Rapidly-exploring Random Tree (rewiring)</h1>
   <div class="controls">
     <button id="step">Step</button>
     <button id="step10" class="secondary">Step ×10</button>
@@ -33,7 +33,7 @@
   </div>
   <div class="panel">
     <canvas id="cv" width="860" height="440" aria-label="RRT canvas"></canvas>
-    <div class="stat" id="stat">nodes: 1 · best cost: —</div>
+    <div class="stat" id="stat">nodes: 1 · best cost: -</div>
   </div>
   <footer>Part of the Ultimate Robotics Handbook by Panav · panav.netlify.app</footer>
 </div>
@@ -171,7 +171,7 @@
     ctx.fillStyle = '#6bcb77'; ctx.beginPath(); ctx.arc(start.x, start.y, 9, 0, Math.PI*2); ctx.fill();
     ctx.fillStyle = '#ff5e5e'; ctx.beginPath(); ctx.arc(goal.x, goal.y, 9, 0, Math.PI*2); ctx.fill();
 
-    const bc = bestGoalIdx >= 0 ? (nodes[bestGoalIdx].cost + dist(nodes[bestGoalIdx], goal)).toFixed(1) : '—';
+    const bc = bestGoalIdx >= 0 ? (nodes[bestGoalIdx].cost + dist(nodes[bestGoalIdx], goal)).toFixed(1) : '-';
     document.getElementById('stat').textContent = `nodes: ${nodes.length} · best cost: ${bc}`;
   }
 

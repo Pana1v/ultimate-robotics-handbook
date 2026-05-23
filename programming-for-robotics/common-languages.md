@@ -8,14 +8,14 @@ icon: subtitles
 
 In production robotics in 2026, three languages cover ~95% of the work:
 
-* **C++** — every performance-critical ROS 2 node, every real-time control loop, every SLAM/perception backbone (Nav2, MoveIt 2, ORB-SLAM3, FAST-LIO2 — all C++).
-* **Python** — every glue script, every ML/perception model, every rapid prototype, plus a large fraction of ROS 2 nodes that aren't on the hot path. `rclpy` is fully featured.
-* **Rust** — a rising third. The official `rclrs` client library is maturing, and adoption is growing for safety-critical and embedded robotics. Worth learning if you're building greenfield systems in 2026.
+* **C++** - every performance-critical ROS 2 node, every real-time control loop, every SLAM/perception backbone (Nav2, MoveIt 2, ORB-SLAM3, FAST-LIO2 - all C++).
+* **Python** - every glue script, every ML/perception model, every rapid prototype, plus a large fraction of ROS 2 nodes that aren't on the hot path. `rclpy` is fully featured.
+* **Rust** - a rising third. The official `rclrs` client library is maturing, and adoption is growing for safety-critical and embedded robotics. Worth learning if you're building greenfield systems in 2026.
 
 Everything else is niche. Deep dives for each:
 
-* **[C++ for Robotics](cpp-for-robotics.md)** — Eigen, real-time idioms, rclcpp composition, cache-friendly code.
-* **[Python for Robotics](python-for-robotics.md)** — numpy idioms, rclpy patterns, PyTorch + ROS 2.
+* **[C++ for Robotics](cpp-for-robotics.md)** - Eigen, real-time idioms, rclcpp composition, cache-friendly code.
+* **[Python for Robotics](python-for-robotics.md)** - numpy idioms, rclpy patterns, PyTorch + ROS 2.
 
 ***
 
@@ -49,7 +49,7 @@ Everything else is niche. Deep dives for each:
   For bare-metal MCU work: motor controllers, sensor drivers. Often paired with FreeRTOS or Zephyr.\
   – Use when: writing firmware for the robot's microcontrollers, often bridged to ROS 2 via [micro-ROS](../ros-2/micro-ros.md).
 
-Older/niche languages — **C#/.NET** (Windows-only, Microsoft Robotics Developer Studio is effectively dead), **Java** (rare in robotics), **Lisp** (historical AI planning) — you'll encounter only in legacy systems.
+Older/niche languages - **C#/.NET** (Windows-only, Microsoft Robotics Developer Studio is effectively dead), **Java** (rare in robotics), **Lisp** (historical AI planning) - you'll encounter only in legacy systems.
 
 ### Picking Your First Robotics Language
 
@@ -62,7 +62,7 @@ Older/niche languages — **C#/.NET** (Windows-only, Microsoft Robotics Develope
 | Model-based control design | **MATLAB/Simulink** |
 | FPGA sensor co-processor | **VHDL/Verilog** |
 
-> **Field note.** In my production work (Eternal.ag, 10xConstruction.ai, Addverb), the actual ratio has been: ~60% C++, ~30% Python, ~10% Bash/CMake/launch-file glue. Rust is on the radar but hasn't replaced any C++ yet.
+> **Field note.** In my production robotics work the actual ratio has been: ~60% C++, ~30% Python, ~10% Bash/CMake/launch-file glue. Rust is on the radar but hasn't replaced any C++ yet.
 
 ### Study Resources <a href="#study-resources" id="study-resources"></a>
 

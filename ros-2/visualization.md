@@ -4,15 +4,15 @@ icon: gear
 
 # Visualization
 
-Visualization in ROS 2 is the difference between "the robot is broken" and "the lidar driver is publishing zeros." You will spend more time staring at rviz2, Foxglove, and PlotJuggler than at logs. This page is my opinionated tour — which tool to reach for, when each one earns its keep, and where I have spent real production engineering effort.
+Visualization in ROS 2 is the difference between "the robot is broken" and "the lidar driver is publishing zeros." You will spend more time staring at rviz2, Foxglove, and PlotJuggler than at logs. This page is my opinionated tour - which tool to reach for, when each one earns its keep, and where I have spent real production engineering effort.
 
 The tools I'll cover:
 
-* **rviz2** — 3D scene visualizer. The workhorse.
-* **Foxglove Studio** — browser-based, MCAP-native, license changed in 2024.
-* **Lichtblick** — fork of Foxglove I contributed to at 10xConstruction.ai; significantly cheaper on CPU, MoveIt 2 / Android support.
-* **PlotJuggler** — time-series plotting and analysis. I am a contributor.
-* **rqt\_* family** — graph, plot, console, parameter editor, image view.
+* **rviz2** - 3D scene visualizer. The workhorse.
+* **Foxglove Studio** - browser-based, MCAP-native, license changed in 2024.
+* **Lichtblick** - fork of Foxglove I've contributed to; significantly cheaper on CPU, MoveIt 2 / Android support.
+* **PlotJuggler** - time-series plotting and analysis. I am a contributor.
+* **rqt\_* family** - graph, plot, console, parameter editor, image view.
 
 ## rviz2
 
@@ -22,17 +22,17 @@ The repo: [github.com/ros2/rviz](https://github.com/ros2/rviz) \[verify]. Ships 
 
 ### What rviz2 is good at
 
-* **3D scene** — TF tree, URDF, point clouds, occupancy grids, marker arrays. Rendering is fast enough to view a multi-million-point cloud at 30+ Hz on a modern GPU.
-* **Native ROS integration** — you point it at a topic, pick the message type, and you see the data. No extra serialization.
-* **Display plugins** — write your own in C++ if you need to visualize a custom message type. Pretty mature API.
-* **Localhost first** — rviz2 talks DDS directly. No bridge, no JSON.
+* **3D scene** - TF tree, URDF, point clouds, occupancy grids, marker arrays. Rendering is fast enough to view a multi-million-point cloud at 30+ Hz on a modern GPU.
+* **Native ROS integration** - you point it at a topic, pick the message type, and you see the data. No extra serialization.
+* **Display plugins** - write your own in C++ if you need to visualize a custom message type. Pretty mature API.
+* **Localhost first** - rviz2 talks DDS directly. No bridge, no JSON.
 
 ### What rviz2 is bad at
 
-* **Remote viewing** — rviz2 over X11 forwarding is painful; rviz2 connected to a remote robot via DDS works but is bandwidth-heavy. You're sending serialized point clouds over Wi-Fi. This is where Foxglove / Lichtblick win.
-* **Time-series plots** — `rviz_default_plugins` has some chart-like displays but they are awful. Use PlotJuggler.
-* **Recording / replay UX** — you record with `ros2 bag`, replay with `ros2 bag play`, and rviz2 just sees the topics. No built-in seek bar or annotation layer.
-* **Browser access** — there's no web-based rviz2 (there were experimental versions, none mainline). For browser viewing, Foxglove / Lichtblick.
+* **Remote viewing** - rviz2 over X11 forwarding is painful; rviz2 connected to a remote robot via DDS works but is bandwidth-heavy. You're sending serialized point clouds over Wi-Fi. This is where Foxglove / Lichtblick win.
+* **Time-series plots** - `rviz_default_plugins` has some chart-like displays but they are awful. Use PlotJuggler.
+* **Recording / replay UX** - you record with `ros2 bag`, replay with `ros2 bag play`, and rviz2 just sees the topics. No built-in seek bar or annotation layer.
+* **Browser access** - there's no web-based rviz2 (there were experimental versions, none mainline). For browser viewing, Foxglove / Lichtblick.
 
 ### Useful rviz2 workflow tips
 
@@ -50,7 +50,7 @@ The repo: [github.com/ros2/rviz](https://github.com/ros2/rviz) \[verify]. Ships 
 
 * **Fixed frame trap**: rviz2 shows everything relative to "Fixed Frame." If `map` is your fixed frame but you haven't built one yet, every display is broken until you switch to `odom` or `base_link`.
 
-* **Point cloud QoS**: rviz2 defaults to RELIABLE for most topics. If your camera publishes `BEST_EFFORT` (most do), set the display's QoS to match — otherwise it silently shows nothing. The display's properties panel has a QoS dropdown.
+* **Point cloud QoS**: rviz2 defaults to RELIABLE for most topics. If your camera publishes `BEST_EFFORT` (most do), set the display's QoS to match - otherwise it silently shows nothing. The display's properties panel has a QoS dropdown.
 
 ## Foxglove Studio
 
@@ -58,10 +58,10 @@ The repo: [github.com/ros2/rviz](https://github.com/ros2/rviz) \[verify]. Ships 
 
 ### Why teams reach for it
 
-* **Web-native** — runs in the browser. Connect to a robot over WebSocket bridge (`foxglove_bridge`), no X11.
-* **MCAP-native** — Foxglove is the company behind [MCAP](https://mcap.dev) \[verify], a modern bag format that supplanted `.bag`/`.db3` for many teams.
-* **Layouts** — multi-panel layouts (3D, plot, image, raw, log) that you can save and share.
-* **TypeScript extensions** — you write panels in TypeScript, not C++. Way faster iteration than rviz2 plugins.
+* **Web-native** - runs in the browser. Connect to a robot over WebSocket bridge (`foxglove_bridge`), no X11.
+* **MCAP-native** - Foxglove is the company behind [MCAP](https://mcap.dev) \[verify], a modern bag format that supplanted `.bag`/`.db3` for many teams.
+* **Layouts** - multi-panel layouts (3D, plot, image, raw, log) that you can save and share.
+* **TypeScript extensions** - you write panels in TypeScript, not C++. Way faster iteration than rviz2 plugins.
 
 ### The license change
 
@@ -93,11 +93,11 @@ Then in the browser app, "Open Connection → Foxglove WebSocket → ws\://robot
 
 ## Lichtblick
 
-A fork of Foxglove Studio that I contributed to at [10xConstruction.ai](https://10xconstruction.ai) \[verify]. The original Foxglove had three problems for our use case:
+A fork of Foxglove Studio I've contributed to. The original Foxglove had three problems for our use case:
 
 1. **Heavy CPU usage** when rendering live data, which would steal cycles from the perception pipeline on the same machine.
-2. **No mobile / Android support** — our operators wanted to monitor robots from tablets.
-3. **MoveIt 2 visualization** was awkward — no first-class planning-scene panel.
+2. **No mobile / Android support** - our operators wanted to monitor robots from tablets.
+3. **MoveIt 2 visualization** was awkward - no first-class planning-scene panel.
 
 Lichtblick exists to fix these. The repo: [github.com/Lichtblick-Suite/lichtblick](https://github.com/Lichtblick-Suite/lichtblick) \[verify]. License is Apache 2.0.
 
@@ -105,15 +105,15 @@ Lichtblick exists to fix these. The repo: [github.com/Lichtblick-Suite/lichtblic
 
 Headline results from my work:
 
-* **Peak CPU usage cut by 78%** — from 120% on a single core down to 26% on the same workload (rendering a live robot view with point clouds, costmaps, BT visualization, and several plots). The wins came from a combination of:
+* **Peak CPU usage cut by 78%** - from 120% on a single core down to 26% on the same workload (rendering a live robot view with point clouds, costmaps, BT visualization, and several plots). The wins came from a combination of:
   * Throttling render passes to actual display refresh.
   * Reusing GPU resources across frame updates instead of reallocating.
   * A smarter dirty-rectangle approach for plot panels.
   * Coalescing redundant tree-update events from the BT view.
 
-* **MoveIt 2 support for Android** — a planning scene panel and trajectory preview that works on tablet form factors. The challenge wasn't the renderer (Three.js is fine on mobile GPUs) but the touch interaction model — selecting a link, dragging a goal pose, scrubbing through a trajectory all needed redesign.
+* **MoveIt 2 support for Android** - a planning scene panel and trajectory preview that works on tablet form factors. The challenge wasn't the renderer (Three.js is fine on mobile GPUs) but the touch interaction model - selecting a link, dragging a goal pose, scrubbing through a trajectory all needed redesign.
 
-* **Custom TypeScript / ROS 2 interface** — extension API for our domain-specific panels (machine state, jobsite map, operator approvals).
+* **Custom TypeScript / ROS 2 interface** - extension API for our domain-specific panels (machine state, jobsite map, operator approvals).
 
 Both efforts paid for themselves quickly: operators stopped complaining about laggy UIs, and the perception team got their CPU budget back.
 
@@ -132,13 +132,13 @@ If you have ever tried to plot a topic in rviz2's "Plot" panel and given up: Plo
 
 ### What PlotJuggler is good at
 
-* **Drag-and-drop** — drag a topic onto the canvas, get a plot. Drag another, drop onto the same plot, get an overlay.
-* **Live and replay** — `ros2 bag play` straight into PlotJuggler; play with the scrub bar; mark events.
-* **Math channels** — define `error = setpoint - measured` directly in the UI. Differentiation, integration, FFT all built-in.
-* **Layouts** — save the layout of plots, panels, and math channels. Re-open with one click.
-* **Cross-bag comparison** — load two bags side by side. Genuinely useful for "was the controller better last week?"
+* **Drag-and-drop** - drag a topic onto the canvas, get a plot. Drag another, drop onto the same plot, get an overlay.
+* **Live and replay** - `ros2 bag play` straight into PlotJuggler; play with the scrub bar; mark events.
+* **Math channels** - define `error = setpoint - measured` directly in the UI. Differentiation, integration, FFT all built-in.
+* **Layouts** - save the layout of plots, panels, and math channels. Re-open with one click.
+* **Cross-bag comparison** - load two bags side by side. Genuinely useful for "was the controller better last week?"
 
-The single thing it does not do is 3D — for that, rviz2 / Foxglove. The two tools complement each other.
+The single thing it does not do is 3D - for that, rviz2 / Foxglove. The two tools complement each other.
 
 ### Typical workflow
 
@@ -170,7 +170,7 @@ Old guard from ROS 1, ported to ROS 2 with minor changes. Still useful for speci
 | `rqt_graph`      | Visualizes the node + topic graph                  | Debugging "who is publishing what"       |
 | `rqt_console`    | Filterable log viewer                              | Reading logs across many nodes           |
 | `rqt_reconfigure` | Live parameter editor                             | Tuning gains, thresholds at runtime      |
-| `rqt_plot`       | Basic plotting                                     | Almost never — use PlotJuggler           |
+| `rqt_plot`       | Basic plotting                                     | Almost never - use PlotJuggler           |
 | `rqt_image_view` | Camera image viewer                                | Verifying a camera is publishing         |
 | `rqt_bag`        | Bag file inspector                                 | Mostly replaced by Foxglove for analysis |
 | `rqt_tf_tree`    | TF tree viewer                                     | Visualizing parent → child relationships |
@@ -186,7 +186,7 @@ Underrated. When you join a new project and want to understand the wiring, this 
 
 For nodes that declare their parameters with `descriptor` set up correctly, this gives you sliders and dropdowns. Useful for tuning controller gains live without restarting nodes. Less useful for nodes that just use raw `declare_parameter` without descriptors.
 
-## Tool selection — the cheat sheet
+## Tool selection - the cheat sheet
 
 | Task                                       | Reach for                                |
 | ------------------------------------------ | ---------------------------------------- |
@@ -211,7 +211,7 @@ A few things I've learned the hard way:
 
 * **Throttle high-rate topics in the visualizer.** A 60 FPS render is plenty; subscribing to a 200 Hz IMU and rendering every sample is a waste. Foxglove / Lichtblick handle this automatically; rviz2 doesn't.
 
-* **Per-topic QoS in the visualizer.** Almost every "I don't see anything" report I've debugged has been a QoS mismatch — usually a sensor publisher on `BEST_EFFORT` and rviz2 subscribing on `RELIABLE`.
+* **Per-topic QoS in the visualizer.** Almost every "I don't see anything" report I've debugged has been a QoS mismatch - usually a sensor publisher on `BEST_EFFORT` and rviz2 subscribing on `RELIABLE`.
 
 * **Record before you debug.** If you're chasing an intermittent bug, run `ros2 bag record` as a systemd service. Cheap; saves you the next time it reproduces.
 
@@ -219,9 +219,9 @@ A few things I've learned the hard way:
 
 ## Where to go next
 
-* [Setup](setup.md) — installing the visualization tools alongside the rest of the distro.
-* [DDS and QoS](dds-qos.md) — the source of most "I see no data" symptoms.
-* [Nav2 Deep Dive](nav2-deep-dive.md) — the stack I usually visualize with this tooling.
-* [Polka](../authors-projects/polka.md) — my own platform, used as the canvas for most of this work.
-* [Lichtblick on GitHub](https://github.com/Lichtblick-Suite/lichtblick) \[verify] — if you want to read the actual CPU-reduction commits.
-* [PlotJuggler on GitHub](https://github.com/facontidavide/PlotJuggler) \[verify] — Davide's repo, where I contribute.
+* [Setup](setup.md) - installing the visualization tools alongside the rest of the distro.
+* [DDS and QoS](dds-qos.md) - the source of most "I see no data" symptoms.
+* [Nav2 Deep Dive](nav2-deep-dive.md) - the stack I usually visualize with this tooling.
+* [Polka](../authors-projects/polka.md) - my own platform, used as the canvas for most of this work.
+* [Lichtblick on GitHub](https://github.com/Lichtblick-Suite/lichtblick) \[verify] - if you want to read the actual CPU-reduction commits.
+* [PlotJuggler on GitHub](https://github.com/facontidavide/PlotJuggler) \[verify] - Davide's repo, where I contribute.

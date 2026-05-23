@@ -12,7 +12,7 @@ Robotics is a multidisciplinary field offering a diverse range of career opportu
 
 ### **Robotics Career Roles (US Market)**
 
-> **Note:** This table reflects role descriptions and typical industries. Salary figures move quickly in robotics — for current numbers, check Levels.fyi, Built In, and 6figr for the most recent percentile data. Sources cited below the table are starting points, not authoritative ranges.
+> **Note:** This table reflects role descriptions and typical industries. Salary figures move quickly in robotics - for current numbers, check Levels.fyi, Built In, and 6figr for the most recent percentile data. Sources cited below the table are starting points, not authoritative ranges.
 
 | Role Title                                    | Scope                                                                                                  | Industries                                                              |
 | --------------------------------------------- | ------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------- |
@@ -34,7 +34,7 @@ _US Salary Sources: Built In_ [_14_](https://builtin.com/salaries/us/robotics-en
 
 ### **Robotics Career Roles (Indian Market)**
 
-> **Note:** Indian robotics roles (2026 snapshot from Pan, based on personal experience and peers): Entry-level robotics engineer at well-funded startups (Eternal.ag, 10xConstruction.ai, Addverb, Niqo, Ati Motors) starts at ~₹15-25 LPA. Mid-level (3-5 yrs, with shipped systems) reaches ₹35-60 LPA. Senior roles at FAANG-adjacent or US-payroll Indian companies (Apple India, Amazon Robotics India, Nvidia India, Boston Dynamics Bangalore) clear ₹80 LPA+. Check Levels.fyi for verified figures.
+> **Note:** Salary figures move quickly and vary widely with funding, stage, and experience. For current numbers, check Levels.fyi, 6figr, and Glassdoor - sources cited below the table are starting points, not authoritative ranges.
 
 | Role Title                                    | Scope                                                                                                  | Industries                                                            |
 | --------------------------------------------- | ------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------- |

@@ -2,7 +2,7 @@
 icon: gear
 ---
 
-# Polka — Multi-LiDAR Fusion for ROS 2
+# Polka - Multi-LiDAR Fusion for ROS 2
 
 > A ROS 2 multi-LiDAR fusion node that merges heterogeneous `PointCloud2` and `LaserScan` streams into unified cloud and scan outputs through a **single composable pipeline**. Per-source filtering, TF2-aligned fusion, optional CUDA acceleration, and IMU-based deskewing with per-source IMU overrides for articulated platforms. Supports ROS 2 **Humble** and **Jazzy**.
 
@@ -26,14 +26,14 @@ Six to nine nodes per sensor stack. Each one is a process boundary. Each one is 
 
 On the warehouse AMR I worked on, this stack was responsible for:
 
-* **~40 ms of end-to-end fusion latency** on a Jetson Orin NX — most of it was serialization between nodes, not actual computation
+* **~40 ms of end-to-end fusion latency** on a Jetson Orin NX - most of it was serialization between nodes, not actual computation
 * **Frequent topic-name remap typos** that silently produced empty merged clouds
-* **No principled deskewing** — every motion blur in the cloud was either ignored or "fixed" by an ad-hoc downstream node
+* **No principled deskewing** - every motion blur in the cloud was either ignored or "fixed" by an ad-hoc downstream node
 * **Configuration spread across 7 YAML files** because each filter/merger had its own params
 
 I wrote Polka to collapse all of that into **one composable node** with **one YAML file** that describes every source, every filter, and every transform.
 
-> **Note:** "Composable" here means the actual ROS 2 component sense — Polka can load into a component container and share an address space (and a single intra-process memory bus) with whatever consumer you stack next to it, e.g., a costmap or a SLAM node. No serialization, no IPC, no copy.
+> **Note:** "Composable" here means the actual ROS 2 component sense - Polka can load into a component container and share an address space (and a single intra-process memory bus) with whatever consumer you stack next to it, e.g., a costmap or a SLAM node. No serialization, no IPC, no copy.
 
 ***
 
@@ -119,9 +119,9 @@ polka:
             max_angle:  2.35   # +135°
 ```
 
-The order of filters matters: range cull first (cheap), then voxel grid (decimation), then field-based passthrough, then self-filter (most expensive, smallest input). This is the same ordering you'd hand-tune in PCL — Polka just makes it explicit and per-source.
+The order of filters matters: range cull first (cheap), then voxel grid (decimation), then field-based passthrough, then self-filter (most expensive, smallest input). This is the same ordering you'd hand-tune in PCL - Polka just makes it explicit and per-source.
 
-> **Self-filter detail:** the `self_filter` step uses the URDF link geometry resolved via `robot_description` and TF2 — it's not just a fixed bounding box. On the warehouse AMR this killed ~3% of points per frame that were grazing the bumper sensors at oblique angles.
+> **Self-filter detail:** the `self_filter` step uses the URDF link geometry resolved via `robot_description` and TF2 - it's not just a fixed bounding box. On the warehouse AMR this killed ~3% of points per frame that were grazing the bumper sensors at oblique angles.
 
 ***
 
@@ -130,7 +130,7 @@ The order of filters matters: range cull first (cheap), then voxel grid (decimat
 Every source declares its own `frame_id`. Polka resolves all transforms to a single `target_frame` (default: `base_link`) at the **timestamp of the latest input**. This means:
 
 * If `lidar_front` publishes at 20 Hz and `lidar_rear` at 10 Hz, fusion happens at the rate of whoever arrived last in a configurable time window
-* TF lookups use `tf2_ros::Buffer::lookupTransform` with `tf2::durationFromSec(0.1)` — anything older than 100 ms is dropped with a throttled warning
+* TF lookups use `tf2_ros::Buffer::lookupTransform` with `tf2::durationFromSec(0.1)` - anything older than 100 ms is dropped with a throttled warning
 * For static sensors, the transform is cached on first resolution and refreshed only when `tf_static` republishes
 
 ```yaml
@@ -144,7 +144,7 @@ polka:
       drop_late_sources: true
 ```
 
-If a source goes silent (cable yanked, driver crash), Polka publishes the fused cloud from whichever sources are still alive **and** emits a `/fused/diag` diagnostic message. Downstream consumers don't get a frozen topic — they get a degraded one with a flag.
+If a source goes silent (cable yanked, driver crash), Polka publishes the fused cloud from whichever sources are still alive **and** emits a `/fused/diag` diagnostic message. Downstream consumers don't get a frozen topic - they get a degraded one with a flag.
 
 ***
 
@@ -164,7 +164,7 @@ polka:
     cuda_device: 0
 ```
 
-If `enable_cuda: true` but no CUDA runtime is available, Polka falls back to CPU and logs a single `WARN` on startup — it doesn't refuse to launch. This matters for fleets where some machines have GPUs and some don't, and you want one config file across the whole deployment.
+If `enable_cuda: true` but no CUDA runtime is available, Polka falls back to CPU and logs a single `WARN` on startup - it doesn't refuse to launch. This matters for fleets where some machines have GPUs and some don't, and you want one config file across the whole deployment.
 
 > **Numbers:** on a Jetson Orin NX 8GB with three sources (2× 3D LiDAR @ 20 Hz, 1× 2D scan @ 10 Hz), CPU fusion runs at ~22 ms/frame and CUDA fusion at ~6 ms/frame. `[verify exact numbers from your benchmark file]`
 
@@ -176,7 +176,7 @@ This is the feature I'm proudest of, because it's the one that's almost never do
 
 ### The problem
 
-A spinning LiDAR doesn't capture a cloud instantaneously. A Velodyne VLP-16 at 10 Hz takes 100 ms to complete a full scan. During those 100 ms, the robot moves — and the points captured at t=0 ms and t=99 ms live in slightly different sensor frames.
+A spinning LiDAR doesn't capture a cloud instantaneously. A Velodyne VLP-16 at 10 Hz takes 100 ms to complete a full scan. During those 100 ms, the robot moves - and the points captured at t=0 ms and t=99 ms live in slightly different sensor frames.
 
 If the robot is moving forward at 1 m/s, the cloud is **stretched by 10 cm** along the direction of motion. If the robot is turning at 1 rad/s, the cloud is **angularly skewed by ~57°/s × 100 ms ≈ 5.7°**.
 
@@ -199,7 +199,7 @@ The IMU is queried as a circular buffer of `sensor_msgs/Imu` messages indexed by
 
 ### Per-source IMU overrides
 
-Here's where articulated platforms matter. If your robot has a mast that yaws independently of the base — say, a forklift with a sensor head on a turret — the **base IMU lies about the mast's motion**. The mast has its own angular velocity that the base IMU never sees.
+Here's where articulated platforms matter. If your robot has a mast that yaws independently of the base - say, a forklift with a sensor head on a turret - the **base IMU lies about the mast's motion**. The mast has its own angular velocity that the base IMU never sees.
 
 Polka lets you assign a different IMU per LiDAR source:
 
@@ -247,7 +247,7 @@ Polka supports both ROS 2 **Humble** (Ubuntu 22.04) and **Jazzy** (Ubuntu 24.04)
 | Intra-process comms | Opt-in via `NodeOptions().use_intra_process_comms(true)` | Default for components |
 | `rclcpp::Time` arithmetic | Identical | Identical |
 | `sensor_msgs/msg/PointCloud2` | Identical | Identical |
-| Default DDS | Fast DDS | Cyclone DDS (in Jazzy) — different QoS defaults `[verify]` |
+| Default DDS | Fast DDS | Cyclone DDS (in Jazzy) - different QoS defaults `[verify]` |
 
 The CMake file uses `if(NOT "$ENV{ROS_DISTRO}" STREQUAL "")` checks plus `find_package(... REQUIRED)` version probes to switch between paths. CI runs both distros on every PR.
 
@@ -342,7 +342,7 @@ ros2 topic echo /fused/diag
 
 ### Composing with a SLAM node
 
-To run [GO-SLAM](go-slam.md) on the fused, deskewed cloud, load it into the **same container** as Polka — zero-copy intra-process delivery:
+To run [GO-SLAM](go-slam.md) on the fused, deskewed cloud, load it into the **same container** as Polka - zero-copy intra-process delivery:
 
 ```python
 ComposableNode(
@@ -358,11 +358,11 @@ ComposableNode(
 
 ## Roadmap
 
-* **GPU TF cache** — keep transforms in device memory and avoid the host round-trip when the only consumer is also on GPU.
-* **ROS 2 Iron support** — already mostly working, blocked on CI runner availability.
-* **OpenCL fallback** — for AMD-based industrial PCs that don't have CUDA.
-* **Live re-config** — accept parameter updates without container restart (currently you have to relaunch to add a source).
-* **Recorded-bag mode** — replay bag files into Polka without the live driver stack, for offline tuning of filters.
+* **GPU TF cache** - keep transforms in device memory and avoid the host round-trip when the only consumer is also on GPU.
+* **ROS 2 Iron support** - already mostly working, blocked on CI runner availability.
+* **OpenCL fallback** - for AMD-based industrial PCs that don't have CUDA.
+* **Live re-config** - accept parameter updates without container restart (currently you have to relaunch to add a source).
+* **Recorded-bag mode** - replay bag files into Polka without the live driver stack, for offline tuning of filters.
 
 If you want any of these to happen faster, [open an issue](https://github.com/Pana1v/Polka/issues) `[verify URL]` or PR it.
 

@@ -29,7 +29,7 @@ python3 -m http.server 8000
 
 ## Deploy to Netlify
 
-The widgets are static — any static host works.
+The widgets are static - any static host works.
 
 ### Option A: Drag-and-drop (one-off)
 
@@ -57,7 +57,7 @@ https://panav.netlify.app/path-grid/
 ...
 ```
 
-If you'd rather keep them under `/widgets/`, set publish directory to the repo root instead — the URLs become `https://panav.netlify.app/widgets/kalman-1d/`.
+If you'd rather keep them under `/widgets/`, set publish directory to the repo root instead - the URLs become `https://panav.netlify.app/widgets/kalman-1d/`.
 
 ## Embedding in GitBook
 
@@ -87,11 +87,11 @@ Each widget is sized to fit comfortably at `width=100% height≈500px`.
    - Add the footer: `Part of the Ultimate Robotics Handbook by Panav · panav.netlify.app`
    - Viewport meta tag + responsive CSS
 3. Add a card to `widgets/index.html`
-4. Commit and push — Netlify redeploys automatically
+4. Commit and push - Netlify redeploys automatically
 
 ## Conventions
 
-- **No build step.** If you find yourself reaching for webpack, stop — pick a different file format.
+- **No build step.** If you find yourself reaching for webpack, stop - pick a different file format.
 - **No external assets.** Inline SVG, CSS gradients, or CDN-hosted libraries only.
 - **Math is right.** Check the algorithm against a reference before publishing. Better to ship five correct widgets than ten that drift.
 - **Mobile-first.** Test in DevTools at 360px wide; sliders and canvases must adapt.

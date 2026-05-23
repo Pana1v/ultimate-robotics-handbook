@@ -111,9 +111,9 @@ Edge AI is enabling smarter, faster, and more autonomous robots across various s
 Most modern robotics companies developing autonomous systems (AMRs, drones, self-driving cars, advanced cobots) inherently use edge computing and on-device AI. This includes:
 
 * [**Boston Dynamics**](https://www.bostondynamics.com/) (e.g., Spot robot)
-* [**Geek+**](https://www.geekplus.com/), [**Fetch Robotics**](https://fetchrobotics.com/), [**Locus Robotics**](https://locusrobotics.com/) — warehouse automation
-* [**DJI**](https://www.dji.com/), [**Skydio**](https://www.skydio.com/) — drone manufacturers
-* [**Waymo**](https://waymo.com/), [**Cruise**](https://www.getcruise.com/) — autonomous vehicle developers
+* [**Geek+**](https://www.geekplus.com/), [**Fetch Robotics**](https://fetchrobotics.com/), [**Locus Robotics**](https://locusrobotics.com/) - warehouse automation
+* [**DJI**](https://www.dji.com/), [**Skydio**](https://www.skydio.com/) - drone manufacturers
+* [**Waymo**](https://waymo.com/), [**Cruise**](https://www.getcruise.com/) - autonomous vehicle developers
 
 ***
 

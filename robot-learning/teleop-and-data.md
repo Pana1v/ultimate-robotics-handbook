@@ -14,10 +14,10 @@ This page is about the third pillar. The algorithms eat the data your teleop rig
 
 ## Why teleop > scripted demos
 
-Pre-2022 IL papers often used scripted demonstrations — written analytic controllers that solved the task, generating "expert" trajectories. This is great for ablations and toy environments but **does not generalize**:
+Pre-2022 IL papers often used scripted demonstrations - written analytic controllers that solved the task, generating "expert" trajectories. This is great for ablations and toy environments but **does not generalize**:
 
 - Scripted demos do not capture human intuition about contact, force, and recovery.
-- Scripted demos are unimodal — they always do the task the same way. Real humans do it many ways.
+- Scripted demos are unimodal - they always do the task the same way. Real humans do it many ways.
 - Scripted demos cannot show *how to recover* from off-distribution states.
 - Scripted demos require you to already have solved the task you are trying to learn. If you can script it, why are you using IL?
 
@@ -52,7 +52,7 @@ ALOHA became the de facto benchmark hardware for bimanual IL. The paper itself w
 Fu et al. [https://mobile-aloha.github.io/](https://mobile-aloha.github.io/)
 Paper: [https://arxiv.org/abs/2401.02117](https://arxiv.org/abs/2401.02117)
 
-ALOHA on a mobile base. Operator drives + teleoperates the arms simultaneously. The data collection demos that got everyone excited about home robots in 2024 came from this rig — folding clothes, cooking, watering plants, etc.
+ALOHA on a mobile base. Operator drives + teleoperates the arms simultaneously. The data collection demos that got everyone excited about home robots in 2024 came from this rig - folding clothes, cooking, watering plants, etc.
 
 What it actually proved:
 
@@ -69,7 +69,7 @@ What it did *not* prove:
 Wu, Yang et al. [https://wuphilipp.github.io/gello_site/](https://wuphilipp.github.io/gello_site/) [verify]
 Paper: [https://arxiv.org/abs/2309.13037](https://arxiv.org/abs/2309.13037) [verify]
 
-A general-purpose, low-cost leader-follower kit. Same principle as ALOHA — kinematically similar leader arm copies joint angles to a follower — but designed to retrofit onto *any* arm (Franka, UR, xArm, etc.) rather than a fixed hardware spec.
+A general-purpose, low-cost leader-follower kit. Same principle as ALOHA - kinematically similar leader arm copies joint angles to a follower - but designed to retrofit onto *any* arm (Franka, UR, xArm, etc.) rather than a fixed hardware spec.
 
 A GELLO leader for a Franka arm is ~$300 in printed parts and Dynamixel servos. This was a step-change in accessibility: any lab with a Franka could now collect ALOHA-quality demos.
 
@@ -79,9 +79,9 @@ In 2026, GELLO + LeRobot + ACT/Diffusion Policy is the standard student-project 
 
 LeRobot ecosystem hardware. [https://github.com/huggingface/lerobot](https://github.com/huggingface/lerobot)
 
-- **SO-100 / SO-101** — TheRobotStudio's open-source 5-DOF arm + leader. ~$110 BOM each (so ~$220 for a leader-follower pair). [https://github.com/TheRobotStudio/SO-ARM100](https://github.com/TheRobotStudio/SO-ARM100) [verify]
-- **Koch v1.1** — Alexander Koch's design, similar concept, ~$250. [verify]
-- **LeKiwi** — wheeled mobile base for SO-100. [verify]
+- **SO-100 / SO-101** - TheRobotStudio's open-source 5-DOF arm + leader. ~$110 BOM each (so ~$220 for a leader-follower pair). [https://github.com/TheRobotStudio/SO-ARM100](https://github.com/TheRobotStudio/SO-ARM100) [verify]
+- **Koch v1.1** - Alexander Koch's design, similar concept, ~$250. [verify]
+- **LeKiwi** - wheeled mobile base for SO-100. [verify]
 
 These are *the* hobbyist / educator hardware in 2026. Performance is below ALOHA (5 DOF vs 6, less rigidity, smaller payload), but the entry price is dramatically lower and the LeRobot dataset / model pipeline is excellent.
 
@@ -104,7 +104,7 @@ Weaknesses (in my experience):
 
 - Latency. The pose estimation pipeline is slow enough to introduce 50-100ms lag that operators find disorienting.
 - Precision. Hand-tracking is noisier than encoders on a mechanical leader. Fine manipulation suffers.
-- Force awareness — none. You can't feel what you're touching.
+- Force awareness - none. You can't feel what you're touching.
 
 I mention it because it shows up in many recent humanoid demos, especially the ones where the robot has a dexterous hand and a mechanical leader is impractical.
 
@@ -128,11 +128,11 @@ For humanoid teleop, this is arguably the dominant paradigm in 2026. For arm-onl
 
 ## Other teleop approaches worth knowing
 
-- **Open-Television** (IIIS / MIT, 2024) — VR-based humanoid teleop with stereo passthrough. [https://github.com/OpenTeleVision/TeleVision](https://github.com/OpenTeleVision/TeleVision) [verify]
-- **HOMIE** (Han et al., 2024) — wearable exoskeleton for humanoid teleop. [verify]
-- **DexCap** — wearable motion capture for dexterous manipulation. [https://dex-cap.github.io/](https://dex-cap.github.io/) [verify]
-- **UMI (Universal Manipulation Interface)** — Chi et al., 2024. Handheld grippers that record manipulation data *without a robot*. The operator just does the task; later you map it onto a robot. [https://umi-gripper.github.io/](https://umi-gripper.github.io/)
-- **DOBB-E** (NYU / Hello Robot, 2023) — extension reacher with a camera; collect manipulation data via grocery-grabber. [https://dobb-e.com/](https://dobb-e.com/) [verify]
+- **Open-Television** (IIIS / MIT, 2024) - VR-based humanoid teleop with stereo passthrough. [https://github.com/OpenTeleVision/TeleVision](https://github.com/OpenTeleVision/TeleVision) [verify]
+- **HOMIE** (Han et al., 2024) - wearable exoskeleton for humanoid teleop. [verify]
+- **DexCap** - wearable motion capture for dexterous manipulation. [https://dex-cap.github.io/](https://dex-cap.github.io/) [verify]
+- **UMI (Universal Manipulation Interface)** - Chi et al., 2024. Handheld grippers that record manipulation data *without a robot*. The operator just does the task; later you map it onto a robot. [https://umi-gripper.github.io/](https://umi-gripper.github.io/)
+- **DOBB-E** (NYU / Hello Robot, 2023) - extension reacher with a camera; collect manipulation data via grocery-grabber. [https://dobb-e.com/](https://dobb-e.com/) [verify]
 
 UMI deserves special attention: it dramatically reduces the cost of data collection by **decoupling demonstration from the robot**. You can record 100 hours of cooking demos with a UMI gripper for the cost of a few groceries; mapping those to a robot is a post-processing step. As of 2026 this is one of the more promising directions for *scaling* data collection.
 
@@ -178,7 +178,7 @@ If your robot will execute at 10cm/s, demonstrate at 10cm/s. If you demo at 30cm
 Single-operator data is biased toward that person's quirks. Multi-operator data is more diverse and generalizes better. Even 2-3 operators is better than 1.
 
 {% hint style="info" %}
-**Field note.** I have come to believe that *demo quality dispersion* — how different the best and worst demos in your dataset are — is one of the most important variables and one of the least talked about. A dataset where all demos are 80% as good as the best demo trains a far better policy than one where the best is 100% and the worst is 30%. Aggressively filter the bad ones.
+**Field note.** I have come to believe that *demo quality dispersion* - how different the best and worst demos in your dataset are - is one of the most important variables and one of the least talked about. A dataset where all demos are 80% as good as the best demo trains a far better policy than one where the best is 100% and the worst is 30%. Aggressively filter the bad ones.
 {% endhint %}
 
 ## Dataset scale, in practice (2026)
@@ -194,14 +194,14 @@ How many demos is "enough" depends on the task, the algorithm, and the robot. Em
 | Long-horizon / multi-step | 200 | 1000 | 5000+ |
 | Mobile manipulation | 200 | 1000 | 5000+ |
 
-For VLA fine-tuning the numbers are roughly half — the pretraining does heavy lifting.
+For VLA fine-tuning the numbers are roughly half - the pretraining does heavy lifting.
 
 ## Data formats and tooling
 
 In 2026 there are basically two dominant formats:
 
-- **LeRobot dataset format** — HuggingFace-hosted, Parquet + video, well-supported. [https://github.com/huggingface/lerobot](https://github.com/huggingface/lerobot)
-- **RLDS** (Reinforcement Learning Datasets) — Google's format, TFDS-based, used by Open X-Embodiment and most VLA training. [https://github.com/google-research/rlds](https://github.com/google-research/rlds)
+- **LeRobot dataset format** - HuggingFace-hosted, Parquet + video, well-supported. [https://github.com/huggingface/lerobot](https://github.com/huggingface/lerobot)
+- **RLDS** (Reinforcement Learning Datasets) - Google's format, TFDS-based, used by Open X-Embodiment and most VLA training. [https://github.com/google-research/rlds](https://github.com/google-research/rlds)
 
 LeRobot is easier for individuals/small labs. RLDS is the standard for big VLA training. Tools exist to convert between them.
 
@@ -209,9 +209,9 @@ For your own datasets: just use LeRobot's format. Re-inventing data formats is a
 
 ## Tooling for data collection workflows
 
-- **LeRobot teleop scripts** — control rig + record + replay all in one. The 2026 default.
-- **Foxglove** — visualize and replay teleop sessions. [https://foxglove.dev/](https://foxglove.dev/) Useful for QA-ing demos.
-- **OpenLeap** — open-source ALOHA-compatible record/replay tooling. [verify]
+- **LeRobot teleop scripts** - control rig + record + replay all in one. The 2026 default.
+- **Foxglove** - visualize and replay teleop sessions. [https://foxglove.dev/](https://foxglove.dev/) Useful for QA-ing demos.
+- **OpenLeap** - open-source ALOHA-compatible record/replay tooling. [verify]
 
 ## Practical workflow
 
@@ -235,8 +235,8 @@ A real production-grade pipeline is more elaborate (CI on the dataset, regressio
 
 ## Further reading
 
-- Zhao et al., *"Learning Fine-Grained Bimanual Manipulation with Low-Cost Hardware"* (ALOHA + ACT) — [https://arxiv.org/abs/2304.13705](https://arxiv.org/abs/2304.13705)
-- Fu et al., *"Mobile ALOHA: Learning Bimanual Mobile Manipulation with Low-Cost Whole-Body Teleoperation"* — [https://arxiv.org/abs/2401.02117](https://arxiv.org/abs/2401.02117)
-- Wu et al., *"GELLO: A General, Low-Cost, and Intuitive Teleoperation Framework for Robot Manipulators"* — [https://arxiv.org/abs/2309.13037](https://arxiv.org/abs/2309.13037) [verify]
-- Chi et al., *"Universal Manipulation Interface: In-The-Wild Robot Teaching Without In-The-Wild Robots"* (UMI) — [https://umi-gripper.github.io/](https://umi-gripper.github.io/)
-- LeRobot teleop documentation — [https://huggingface.co/docs/lerobot/](https://huggingface.co/docs/lerobot/) [verify]
+- Zhao et al., *"Learning Fine-Grained Bimanual Manipulation with Low-Cost Hardware"* (ALOHA + ACT) - [https://arxiv.org/abs/2304.13705](https://arxiv.org/abs/2304.13705)
+- Fu et al., *"Mobile ALOHA: Learning Bimanual Mobile Manipulation with Low-Cost Whole-Body Teleoperation"* - [https://arxiv.org/abs/2401.02117](https://arxiv.org/abs/2401.02117)
+- Wu et al., *"GELLO: A General, Low-Cost, and Intuitive Teleoperation Framework for Robot Manipulators"* - [https://arxiv.org/abs/2309.13037](https://arxiv.org/abs/2309.13037) [verify]
+- Chi et al., *"Universal Manipulation Interface: In-The-Wild Robot Teaching Without In-The-Wild Robots"* (UMI) - [https://umi-gripper.github.io/](https://umi-gripper.github.io/)
+- LeRobot teleop documentation - [https://huggingface.co/docs/lerobot/](https://huggingface.co/docs/lerobot/) [verify]
