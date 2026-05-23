@@ -4,6 +4,10 @@ icon: map-location
 
 # SLAM and Navigation
 
+{% hint style="info" %}
+**This is the introductory SLAM page.** For the full treatment — modern visual / LiDAR / learned SLAM, sensor fusion, graph optimization, ICP variants, and benchmarking — see the dedicated [SLAM & State Estimation](../slam-and-state-estimation/) section. Pan's case study on building [GO-SLAM from scratch](../authors-projects/go-slam.md) is over there too.
+{% endhint %}
+
 ### **Simultaneous Localization and Mapping (SLAM)**
 
 SLAM is the computational problem of a robot constructing a map of an unknown environment while simultaneously keeping track of its own location (pose: position and orientation) within that map [1](https://www.flyability.com/blog/simultaneous-localization-and-mapping)[11](https://en.wikipedia.org/wiki/Simultaneous_localization_and_mapping). It's like waking up in an unfamiliar place and trying to draw a map while also figuring out where you are on that map [15](https://ouster.com/insights/blog/introduction-to-slam-simultaneous-localization-and-mapping).

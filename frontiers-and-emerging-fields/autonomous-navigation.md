@@ -12,6 +12,23 @@ Autonomous navigation in robotics refers to the capability of robotic systems to
 
 ***
 
+### **0. The 2026 split: Modular vs end-to-end**
+
+The biggest architectural debate in autonomous navigation right now is between **modular** stacks (separate perception → localization → planning → control modules, with hand-engineered interfaces) and **end-to-end learning** stacks (a single neural network from sensors to actions, or close to it). Both are shipping.
+
+| Approach | Companies | Strengths | Weaknesses |
+|---|---|---|---|
+| **Modular + ML perception** | Waymo, Mobileye, Cruise (paused), Baidu Apollo | Interpretable, debuggable, regulatory-friendly. Per-module SOTA. | Stack complexity, integration bugs, slower iteration. |
+| **End-to-end learned (vision)** | Tesla FSD, Wayve | Single forward pass; data-scaling wins; simpler stack. | Hard to debug, regulatory questions, data-hungry. |
+| **End-to-end learned (sim-first)** | Waabi | Trained almost entirely in simulation; novel safety arguments. | New approach; production track record building. |
+| **World-model-driven** | Wayve (GAIA), NVIDIA (Cosmos) | Plan and reason in a learned world; counterfactual evaluation. | Compute-heavy, novel; only partially deployed. |
+
+**Why this matters in 2026:** The post-RT-2 / post-foundation-model wave has moved AV in the direction of fewer, larger learned components. Tesla FSD v12+ replaced hundreds of thousands of lines of C++ heuristics with a single neural network. Wayve's GAIA-1/2 generates driving video for training. Waymo still uses a modular stack but every module has ML inside it. There is no consensus winner yet — both ship, both have ground truth in different ways.
+
+For a deeper look at the learning side, see [Robot Learning → World Models](../robot-learning/world-models.md) and [Foundation Models / VLAs](../robot-learning/foundation-models-vla.md).
+
+***
+
 ### **1. Guide to Autonomous Navigation**
 
 <figure><img src="https://i.makeagif.com/media/7-22-2022/dlvkF6.gif" alt=""><figcaption><p>Nvidia Issac ROS Simulator</p></figcaption></figure>

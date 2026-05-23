@@ -1,5 +1,11 @@
 # Manual and Quick Setup
 
+{% hint style="warning" %}
+**ROS 1 is deprecated.** Noetic reached EOL **May 2025**. Do not start new projects on ROS 1. For ROS 2 setup, see [ROS 2 → Setup](../../ros-2/setup.md).
+
+This page is kept for teams maintaining ROS 1 codebases.
+{% endhint %}
+
 {% tabs %}
 {% tab title="ROS 1" %}
 **ROS 1 Installation Full Guide :** [**https://wiki.ros.org/noetic/Installation**](https://wiki.ros.org/noetic/Installation)

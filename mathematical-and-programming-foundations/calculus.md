@@ -4,9 +4,11 @@ icon: integral
 
 # Calculus
 
-### Differentiation in Kinematics <a href="#differentiation-in-kinematics" id="differentiation-in-kinematics"></a>
+Calculus is the mathematical language of *change* — and robotics is the engineering of motion, sensing, and control. Every velocity comes from a derivative, every odometry estimate from an integral, every controller from minimizing a cost. This page covers the calculus concepts you actually use on a robot.
 
-Robotic motion is often defined by a position function q(t)q(t) of joint angles or Cartesian coordinates over time. Differentiation yields:
+### Differentiation in Kinematics
+
+Robotic motion is defined by a position function $q(t)$ of joint angles or Cartesian coordinates over time. Differentiation yields:
 
 * **Velocity**
 
@@ -16,119 +18,115 @@ $$
 
 * **Acceleration**
 
-$$$
 $$
 \ddot{q}(t) = \frac{d^2}{dt^2} q(t)
 $$
-$$$
 
-Example: for a single-joint rotary robot moving from angle θ0θ0 to θfθf via a cubic trajectory, the velocity and acceleration profiles are polynomials in tt.
-
-$$
-theta(t) = a_0 + a_1 t + a_2 t^2 + a_3 t^3
-$$
+**Example — cubic joint trajectory.** For a single-joint rotary robot moving smoothly from $\theta_0$ to $\theta_f$ via a cubic in $t$:
 
 $$
-theta(t) = a_1 + 2a_2\,t + 3a_3\,t^2
+\theta(t) = a_0 + a_1 t + a_2 t^2 + a_3 t^3
 $$
 
 $$
-theta(t) = 2a_2 + 6a_3\,t
+\dot{\theta}(t) = a_1 + 2 a_2 t + 3 a_3 t^2
 $$
 
-### Integration in Motion and Sensing <a href="#integration-in-motion-and-sensing" id="integration-in-motion-and-sensing"></a>
+$$
+\ddot{\theta}(t) = 2 a_2 + 6 a_3 t
+$$
+
+Cubics give continuous velocity but discontinuous jerk — fine for low-speed manipulators, painful for high-acceleration arms or AMRs. For those, use quintic polynomials or s-curves.
+
+### Integration in Motion and Sensing
 
 Integration accumulates rates into displacements or sensor estimates:
 
-* **Position from velocity**: q(t)=q(t0)+∫t0tq˙(τ) dτq(t)=q(t0)+∫t0tq˙(τ)dτ
-* **State estimation (e.g., odometry)**: integrating wheel velocities to track robot pose.
+* **Position from velocity:** $q(t) = q(t_0) + \int_{t_0}^{t} \dot{q}(\tau)\, d\tau$
+* **Odometry:** integrating wheel velocities to track robot pose (and accumulating drift in the process — this is why you fuse with IMU/LiDAR).
 
-Example: integrating a constant acceleration aa gives velocity and displacement:
+**Example — constant acceleration:**
 
 $$
 v(t) = v_0 + a\,t
 $$
 
 $$
-s(t) = s_0 + v_0\,t + \tfrac12\,a\,t^2
+s(t) = s_0 + v_0\,t + \tfrac{1}{2}\,a\,t^2
 $$
 
-### Trajectory Planning <a href="#trajectory-planning" id="trajectory-planning"></a>
+### Trajectory Planning
 
-Selecting smooth paths between waypoints requires piecewise-polynomial fits that ensure continuous position, velocity, and sometimes acceleration. A common choice is the cubic segment between times titi and ti+1ti+1:
-
-$$
-q_i(\tau) = C_0 + C_1 \tau + C_2 \tau^2 + C_3 \tau^3,\quad \tau\in[0,\,T]
-$$
-
-With boundary conditions
+Smooth paths between waypoints require piecewise-polynomial fits with continuous position, velocity, and (often) acceleration. A common segment between times $t_i$ and $t_{i+1}$ is the cubic:
 
 $$
-qi(0)=q(ti)
+q_i(\tau) = C_0 + C_1 \tau + C_2 \tau^2 + C_3 \tau^3,\quad \tau \in [0,\,T]
 $$
 
+With boundary conditions tying segments together:
+
 $$
-q˙i(0)=q˙(ti)
+q_i(0) = q(t_i),\quad \dot{q}_i(0) = \dot{q}(t_i)
 $$
 
 $$
-qi(T)=q(ti+1)
+q_i(T) = q(t_{i+1}),\quad \dot{q}_i(T) = \dot{q}(t_{i+1})
 $$
 
-$$
-q˙i(T)=q˙(ti+1)
-$$
+This gives four equations for the four unknowns $C_0, C_1, C_2, C_3$. Higher-order splines (quintic, septic) add acceleration/jerk continuity at extra computational cost.
+
+### Dynamics via Lagrange's Equations
+
+Robot dynamics relate joint torques $\boldsymbol{\tau}$, positions $\mathbf{q}$, velocities $\dot{\mathbf{q}}$, and accelerations $\ddot{\mathbf{q}}$. The Euler–Lagrange formulation yields the canonical manipulator equation:
 
 $$
-qi(0)=q(ti)
+M(\mathbf{q})\,\ddot{\mathbf{q}} + C(\mathbf{q},\dot{\mathbf{q}})\,\dot{\mathbf{q}} + \mathbf{g}(\mathbf{q}) = \boldsymbol{\tau}
 $$
 
-$$
-q˙i(0)=q˙(ti)
-$$
+Where:
+
+* $M(\mathbf{q})$ is the mass (inertia) matrix
+* $C(\mathbf{q},\dot{\mathbf{q}})$ contains Coriolis and centrifugal terms
+* $\mathbf{g}(\mathbf{q})$ is the gravity vector
+
+Inverse dynamics (compute $\boldsymbol{\tau}$ from $\ddot{\mathbf{q}}$) is the basis for computed-torque control. Forward dynamics (compute $\ddot{\mathbf{q}}$ from $\boldsymbol{\tau}$) drives simulation.
+
+### Control System Design
+
+Calculus underlies feedback controllers and optimal control:
+
+**PID control** combines proportional, integral, and derivative terms on tracking error $e(t)$:
 
 $$
-qi(T)=q(ti+1)
+u(t) = K_P\,e(t) + K_I \int_0^{t} e(\tau)\,d\tau + K_D\,\frac{d}{dt}\,e(t)
 $$
 
-$$
-q˙i(T)=q˙(ti+1)
-$$
+The integral term eliminates steady-state error; the derivative term provides damping. Tuning is mostly empirical — start with P, add D for damping, add I last and sparingly (it causes wind-up).
 
-### Dynamics via Lagrange’s Equations <a href="#dynamics-via-lagranges-equations" id="dynamics-via-lagranges-equations"></a>
+**Linear Quadratic Regulator (LQR)** solves the continuous-time algebraic Riccati equation to minimize a quadratic cost $J = \int (\mathbf{x}^\top Q \mathbf{x} + \mathbf{u}^\top R \mathbf{u})\,dt$. The result is a state-feedback gain $\mathbf{u} = -K\mathbf{x}$ that's optimal for the linearized system.
 
-Robot dynamics relate joint torques ττ, positions qq, and accelerations q¨q¨. The Euler–Lagrange formulation yields:
+**Model Predictive Control (MPC)** rolls the optimization forward in time over a finite horizon, re-solving every timestep. Heavier compute, but handles constraints (joint limits, obstacle avoidance) natively. See `../programming-for-robotics/optimization-libraries.md`.
 
-$$
-M(q)\,\ddot q + C(q,\dot q)\,\dot q + g(q) = \tau
-$$
+### Perception and Computer Vision
 
-where
-
-* M(q)M(q) is the mass (inertia) matrix,
-* C(q,q˙)C(q,q˙) contains Coriolis and centrifugal terms,
-* g(q)g(q) is the gravity vector.
-
-### Control System Design <a href="#control-system-design" id="control-system-design"></a>
-
-Calculus underlies feedback controllers and optimizations:
-
-* **PID control** uses proportional, integral, and derivative terms on tracking error e(t)e(t):
+In vision, image intensity $I(u, v, t)$ varies with camera/object motion. The **optical flow constraint equation** assumes brightness constancy:
 
 $$
-u(t) = K_P e(t) + K_I \int_0^t e(\tau)\,d\tau + K_D \tfrac{d}{dt}e(t)
+\frac{\partial I}{\partial t} + \nabla I \cdot \mathbf{v} = 0
 $$
 
-* **Linear Quadratic Regulator (LQR)** solves continuous-time algebraic Riccati equations to minimize a quadratic cost.
+Where $\partial I / \partial t$ is the temporal derivative, $\nabla I = (I_u, I_v)$ is the spatial gradient, and $\mathbf{v}$ is the pixel velocity field. This single equation per pixel is under-constrained (two unknowns, one equation — the aperture problem), so methods like Lucas-Kanade add a smoothness assumption over a local window.
 
-### Perception and Computer Vision <a href="#perception-and-computer-vision" id="perception-and-computer-vision"></a>
+### Probability and Sensor Fusion (a teaser)
 
-In vision, image coordinates x(u,v)x(u,v) vary with time as cameras or objects move. Optical flow computes image velocity:
+For state estimation (Kalman filters, particle filters), calculus shows up as:
 
-$$
-\dot I + \nabla I \cdot \mathbf{v} = 0
-$$
+* **Gaussian densities** — multiplying, marginalizing, conditioning all involve integrals.
+* **Linearization** — the EKF approximates a nonlinear function $f(\mathbf{x})$ via its first-order Taylor expansion $f(\mathbf{x}) \approx f(\mathbf{x}_0) + J_f(\mathbf{x}_0)(\mathbf{x} - \mathbf{x}_0)$. The Jacobian $J_f$ is pure calculus.
+* **Optimization** — graph SLAM (g2o, GTSAM, Ceres) minimizes nonlinear least squares via Gauss-Newton or Levenberg-Marquardt, both gradient-based.
 
-where I˙I˙ is the temporal image derivative, ∇I∇I its spatial gradient, and vv the pixel velocity.
+See `../slam-and-state-estimation/sensor-fusion.md` and `../programming-for-robotics/optimization-libraries.md` for how these become real code.
 
-Calculus thus weaves through every phase of robotics: from physical motion and sensor fusion to high-level planning and control, allowing robots to move smoothly, react reliably, and perceive accurately.
+---
+
+Calculus weaves through every layer of robotics — from physical motion and sensor fusion to high-level planning and optimal control. Master it once, and the same intuition transfers from PID tuning to bundle adjustment to training neural policies.

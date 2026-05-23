@@ -1,5 +1,11 @@
 # Concepts and Packages
 
+{% hint style="warning" %}
+**ROS 1 is deprecated.** Noetic — the final ROS 1 distro — reached End of Life on **May 2025**. For any new robotics project in 2026, use **ROS 2 Humble** (LTS, EOL May 2027) or **ROS 2 Jazzy** (LTS, EOL May 2029). This page is preserved for legacy/maintenance work only.
+
+→ For current content see the [ROS 2 section](../../ros-2/).
+{% endhint %}
+
 {% tabs %}
 {% tab title="ROS 1" %}
 

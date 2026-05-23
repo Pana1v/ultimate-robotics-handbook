@@ -75,9 +75,69 @@ Robotics systems rely on a rich toolbox of algorithms for sensing, estimation, c
 
 ### Optimization & Numerical Methods <a href="#optimization--numerical-methods" id="optimization--numerical-methods"></a>
 
-* **Gauss–Newton & Levenberg–Marquardt**: Nonlinear least-squares solvers for bundle adjustment and calibration
+* **Gauss–Newton & Levenberg–Marquardt**: Nonlinear least-squares solvers for bundle adjustment, calibration, and pose-graph optimization. See [GO-SLAM](../authors-projects/go-slam.md) for an implementation from scratch.
 * **Gradient Descent & Stochastic Gradient Descent**: Iterative minimization for learning and control parameter tuning
-* **Convex Optimization (CVX)**: Fast solvers for quadratic and semidefinite programs in control and state estimation
+* **Convex Optimization (CVX, CVXPY)**: Fast solvers for quadratic and semidefinite programs in control and state estimation
+* **Trajectory Optimization (iLQR, DDP)**: Nonlinear optimization of state-action trajectories — the math behind MPC for robotics
+* **Constraint Programming (CP-SAT, OR-Tools)**: Discrete optimization for task sequencing, scheduling. See [LEAP](../authors-projects/leap.md) for asymmetric TSP pick-and-place.
+* **Factor Graphs (g2o, GTSAM, Ceres)**: Library-backed graph optimization — the modern way to solve SLAM, calibration, and sensor fusion. See [Optimization Libraries](optimization-libraries.md).
+
+### Pseudocode: Core Algorithms
+
+**A\* search** (grid path planning):
+
+```python
+def a_star(start, goal, neighbors_fn, h_fn):
+    open_set = PriorityQueue()
+    open_set.put((0, start))
+    came_from, g_score = {}, {start: 0}
+    while not open_set.empty():
+        _, current = open_set.get()
+        if current == goal:
+            return reconstruct_path(came_from, current)
+        for nb, cost in neighbors_fn(current):
+            tentative = g_score[current] + cost
+            if tentative < g_score.get(nb, float('inf')):
+                came_from[nb] = current
+                g_score[nb] = tentative
+                f = tentative + h_fn(nb, goal)
+                open_set.put((f, nb))
+    return None  # no path
+```
+
+**Kalman filter** (1D linear):
+
+```python
+def kf_step(x, P, u, z, A, B, H, Q, R):
+    # Predict
+    x = A @ x + B @ u
+    P = A @ P @ A.T + Q
+    # Update
+    y = z - H @ x                  # innovation
+    S = H @ P @ H.T + R
+    K = P @ H.T @ np.linalg.inv(S) # Kalman gain
+    x = x + K @ y
+    P = (np.eye(len(x)) - K @ H) @ P
+    return x, P
+```
+
+**RRT** (sampling-based motion planning):
+
+```python
+def rrt(start, goal, sample_fn, steer_fn, collision_free, max_iter=5000):
+    tree = {start: None}
+    for _ in range(max_iter):
+        q_rand = sample_fn()
+        q_near = nearest(tree, q_rand)
+        q_new  = steer_fn(q_near, q_rand)
+        if collision_free(q_near, q_new):
+            tree[q_new] = q_near
+            if dist(q_new, goal) < goal_tol:
+                return reconstruct(tree, q_new)
+    return None
+```
+
+
 
 ### Perception & Computer Vision <a href="#perception--computer-vision" id="perception--computer-vision"></a>
 
@@ -94,8 +154,12 @@ Robotics systems rely on a rich toolbox of algorithms for sensing, estimation, c
 
 <figure><img src="../.gitbook/assets/0_PRDfQwGlwD4JvrmA.gif" alt=""><figcaption></figcaption></figure>
 
-* **Reinforcement Learning (Q-Learning, DQN, PPO)**: Autonomous policy learning from interaction rewards
+* **Reinforcement Learning (Q-Learning, DQN, PPO, SAC)**: Autonomous policy learning from interaction rewards
+* **Imitation Learning (BC, DAgger, ACT, Diffusion Policy)**: Learning policies from human demonstrations — the dominant 2024-2026 paradigm for manipulation
+* **Foundation Models / VLAs (RT-2, OpenVLA, π0)**: Vision-language-action models pretrained at scale, generalist robot policies
 * **Gaussian Processes**: Nonparametric models for regression and uncertainty quantification in terrain modeling
 * **Support Vector Machines (SVM)**: Classification of sensor or vision data in low-dimensional feature spaces
+
+For a deep dive on modern robot learning — imitation, RL, foundation models, world models, sim-to-real — see the [Robot Learning](../robot-learning/) section.
 
 By combining these algorithms-choosing the right filter for robust sensing, the optimal controller for precise motion, and the most suitable planner for agile navigation-robots can perceive, plan, and act reliably in complex, dynamic environments.

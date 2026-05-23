@@ -5,6 +5,26 @@ icon: newspaper
 
 # Conferences and Journals
 
+### The five venues that matter most
+
+If you're submitting research or want to track the field, these are the **tier-1 robotics venues** in 2026 (in rough order of selectivity/impact):
+
+| Venue | Type | What it's known for |
+|---|---|---|
+| **RSS** — Robotics: Science and Systems | Conference (annual) | Most selective robotics conference; deeply theoretical + systems work. Single-track. |
+| **CoRL** — Conference on Robot Learning | Conference (annual) | The home of robot learning, imitation, RL, foundation models. Growing fast since 2017. |
+| **ICRA** — IEEE Int'l Conf. on Robotics and Automation | Conference (annual, May) | Largest robotics conference; broad scope; IEEE RAS flagship. |
+| **IROS** — IEEE/RSJ Int'l Conf. on Intelligent Robots and Systems | Conference (annual, fall) | Second largest; emphasis on intelligent systems. |
+| **Humanoids** — IEEE-RAS Int'l Conf. on Humanoid Robots | Conference (annual) | Specialized; the canonical humanoid venue. |
+
+**Worth also tracking:** ICAR (Int'l Conf. on Advanced Robotics), ISRR (Int'l Symp. on Robotics Research, every 2 years — invite-only), Field & Service Robotics (FSR), RoboCup Symposium, ROSCon (community/dev), ICLR/NeurIPS/ICML (have growing robot-learning tracks).
+
+**Workshops at ICRA, IROS, RSS, CoRL** are often where state-of-the-art is presented before journal publication. Skim the workshop lists every year — they're frequently more current than the main proceedings.
+
+**arXiv `cs.RO`** is where most papers land before/after publication. RSS announcements: [robotics-worldwide mailing list](http://www.cds.caltech.edu/mailman/listinfo/robotics-worldwide). \[verify]
+
+***
+
 ### **Upcoming Robotics Conferences**
 
 ### **Robotics Conferences in India (2025)**
