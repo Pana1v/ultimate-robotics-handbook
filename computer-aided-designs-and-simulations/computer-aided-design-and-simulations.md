@@ -1,0 +1,3 @@
+# Computer Aided Design and Simulations
+
+<table data-view="cards"><thead><tr><th></th><th data-type="content-ref"></th><th data-hidden data-card-cover data-type="files"></th></tr></thead><tbody><tr><td>3D Modelling</td><td><a href="3d-modelling-cad/">3d-modelling-cad</a></td><td><a href="../.gitbook/assets/crank_slider.gif">crank_slider.gif</a></td></tr><tr><td>Simulations</td><td><a href="simulations.md">simulations.md</a></td><td><a href="../.gitbook/assets/cube-scaled-down-2x.gif">cube-scaled-down-2x.gif</a></td></tr><tr><td>PCB Design</td><td><a href="pcb-design.md">pcb-design.md</a></td><td><a href="../.gitbook/assets/professional-2d3d-preview-en.gif">professional-2d3d-preview-en.gif</a></td></tr></tbody></table>
