@@ -50,25 +50,25 @@ Code: [https://github.com/danijar/dreamerv3](https://github.com/danijar/dreamerv
 
 DreamerV3 is the model-based RL benchmark you compare against in 2026. Three components:
 
-1. **Recurrent State-Space Model (RSSM)** — encodes observations into a discrete latent state $$z_t$$ and predicts future latents conditioned on actions: $$p(z_{t+1} \mid z_t, a_t)$$.
-2. **Reward / continue heads** — predict reward and episode termination from latent state.
-3. **Actor-critic** — trained on imagined rollouts in the latent space.
+1. **Recurrent State-Space Model (RSSM)** - encodes observations into a discrete latent state $$z_t$$ and predicts future latents conditioned on actions: $$p(z_{t+1} \mid z_t, a_t)$$.
+2. **Reward / continue heads** - predict reward and episode termination from latent state.
+3. **Actor-critic** - trained on imagined rollouts in the latent space.
 
 The big result: a *single* set of hyperparameters works across 150+ tasks (Atari, DMC, MineCraft, etc.) and DreamerV3 hits expert performance with dramatically less environment data than model-free RL.
 
 For robotics specifically, DreamerV3 has been applied to:
 
-- Locomotion (Wu et al. 2022, Daydreamer) — real-world quadruped learns to walk in 1 hour.
-- Manipulation in simulation — competitive with PPO at lower sample counts.
+- Locomotion (Wu et al. 2022, Daydreamer) - real-world quadruped learns to walk in 1 hour.
+- Manipulation in simulation - competitive with PPO at lower sample counts.
 - Drone control.
 
 **Where it falls short:**
 
 - The latent state is low-dimensional; high-frequency contact-rich dynamics get blurred.
-- Pretraining on world data is awkward — the RSSM is task-specific.
+- Pretraining on world data is awkward - the RSSM is task-specific.
 - Visualization / debugging is hard because the latents are not interpretable.
 
-**DayDreamer** (Wu, Escontrela, Hafner, Abbeel, 2022) — applied DreamerV3 to *real* robots (Sphero, UR5, A1 quadruped). [https://arxiv.org/abs/2206.14176](https://arxiv.org/abs/2206.14176) — a quadruped learning to walk from scratch on hardware in ~1 hour. Still the most impressive demonstration of model-based RL on real robots.
+**DayDreamer** (Wu, Escontrela, Hafner, Abbeel, 2022) - applied DreamerV3 to *real* robots (Sphero, UR5, A1 quadruped). [https://arxiv.org/abs/2206.14176](https://arxiv.org/abs/2206.14176) - a quadruped learning to walk from scratch on hardware in ~1 hour. Still the most impressive demonstration of model-based RL on real robots.
 
 ## IRIS (Imagination with Retrieval and State)
 
@@ -86,7 +86,7 @@ GAIA-1: [https://arxiv.org/abs/2309.17080](https://arxiv.org/abs/2309.17080)
 
 GAIA-2: [https://wayve.ai/thinking/gaia-2/](https://wayve.ai/thinking/gaia-2/) [verify]
 
-Wayve's autonomous-driving world models. Conditioned on video + actions + text + ego-vehicle state, they generate plausible driving futures. GAIA-2 (2024) added multi-camera, multi-modal conditioning and is used internally for closed-loop policy evaluation — train a policy, evaluate it inside GAIA-2 before putting it on a real car.
+Wayve's autonomous-driving world models. Conditioned on video + actions + text + ego-vehicle state, they generate plausible driving futures. GAIA-2 (2024) added multi-camera, multi-modal conditioning and is used internally for closed-loop policy evaluation - train a policy, evaluate it inside GAIA-2 before putting it on a real car.
 
 **Why it matters for non-driving robotics:** GAIA established the playbook of "pretrain a video model on web-scale driving footage, condition on actions, use as a closed-loop sim." Cosmos and Genie are direct intellectual descendants.
 
@@ -100,9 +100,9 @@ NVIDIA's bid for a *world foundation model for robotics*. Released early 2025. A
 
 Variants:
 
-- **Cosmos-Predict** — generative model, predicts future video given past video + action / camera trajectory.
-- **Cosmos-Transfer** — controllable generation (lighting, weather, object placement) for synthetic data.
-- **Cosmos-Reason** — multimodal LLM for reasoning over Cosmos-generated scenes.
+- **Cosmos-Predict** - generative model, predicts future video given past video + action / camera trajectory.
+- **Cosmos-Transfer** - controllable generation (lighting, weather, object placement) for synthetic data.
+- **Cosmos-Reason** - multimodal LLM for reasoning over Cosmos-generated scenes.
 
 Stated use cases:
 
@@ -124,7 +124,7 @@ For robotics this is less directly useful than Cosmos (Genie's actions are abstr
 
 ## Diffusion world models for RL
 
-**DIAMOND** — Alonso et al., NeurIPS 2024. [https://arxiv.org/abs/2405.12399](https://arxiv.org/abs/2405.12399) [verify] — trains an Atari policy entirely inside a diffusion world model. The model generates the game frames; the policy plays the game it imagines. State of the art on Atari 100k at the time.
+**DIAMOND** - Alonso et al., NeurIPS 2024. [https://arxiv.org/abs/2405.12399](https://arxiv.org/abs/2405.12399) [verify] - trains an Atari policy entirely inside a diffusion world model. The model generates the game frames; the policy plays the game it imagines. State of the art on Atari 100k at the time.
 
 This is conceptually significant: if a 100M-param diffusion model can simulate Atari well enough to train a policy, what does a 100B-param model trained on robot video give us?
 
@@ -149,7 +149,7 @@ Be honest with yourself. World models are oversold in research and undershipped 
 | Closed-loop policy eval | Yes if you have one | Cosmos / GAIA-2 style. Beats running on the real robot for every iteration. |
 | Synthetic data generation | Maybe | Quality is improving, but real demos are still better per-dollar. |
 | Replacing your simulator entirely | Not yet | The "Cosmos as your training environment" pitch is not yet operational for most teams. |
-| Mental model / counterfactuals during planning | Yes if you can afford the latency | TD-MPC2 style — model-based MPC at decision time. |
+| Mental model / counterfactuals during planning | Yes if you can afford the latency | TD-MPC2 style - model-based MPC at decision time. |
 
 ## Practical recipes
 
@@ -174,7 +174,7 @@ Be honest with yourself. World models are oversold in research and undershipped 
 1. Get the Cosmos weights from NVIDIA (Cosmos-Predict-7B or 14B variants).
 2. Use the Cosmos-Transfer pipeline to render scene variations.
 3. Use generated videos to augment your real demo set for VLA fine-tuning.
-4. Measure downstream task success — do not trust visual fidelity as a proxy.
+4. Measure downstream task success - do not trust visual fidelity as a proxy.
 
 ## Limitations of world models in 2026
 
@@ -186,9 +186,9 @@ Be honest with yourself. World models are oversold in research and undershipped 
 
 ## Further reading
 
-- Ha & Schmidhuber, *"World Models"* — [https://arxiv.org/abs/1803.10122](https://arxiv.org/abs/1803.10122) (the modern starting point)
-- Hafner et al., *"Mastering Diverse Domains through World Models"* (DreamerV3) — [https://arxiv.org/abs/2301.04104](https://arxiv.org/abs/2301.04104)
-- Wu et al., *"DayDreamer: World Models for Physical Robot Learning"* — [https://arxiv.org/abs/2206.14176](https://arxiv.org/abs/2206.14176)
-- NVIDIA, *"Cosmos World Foundation Model Platform"* — [https://arxiv.org/abs/2501.03575](https://arxiv.org/abs/2501.03575) [verify]
-- Hansen, Wang, Su, *"TD-MPC2: Scalable, Robust World Models for Continuous Control"* — [https://arxiv.org/abs/2310.16828](https://arxiv.org/abs/2310.16828)
-- Bruce et al., *"Genie: Generative Interactive Environments"* — [https://arxiv.org/abs/2402.15391](https://arxiv.org/abs/2402.15391)
+- Ha & Schmidhuber, *"World Models"* - [https://arxiv.org/abs/1803.10122](https://arxiv.org/abs/1803.10122) (the modern starting point)
+- Hafner et al., *"Mastering Diverse Domains through World Models"* (DreamerV3) - [https://arxiv.org/abs/2301.04104](https://arxiv.org/abs/2301.04104)
+- Wu et al., *"DayDreamer: World Models for Physical Robot Learning"* - [https://arxiv.org/abs/2206.14176](https://arxiv.org/abs/2206.14176)
+- NVIDIA, *"Cosmos World Foundation Model Platform"* - [https://arxiv.org/abs/2501.03575](https://arxiv.org/abs/2501.03575) [verify]
+- Hansen, Wang, Su, *"TD-MPC2: Scalable, Robust World Models for Continuous Control"* - [https://arxiv.org/abs/2310.16828](https://arxiv.org/abs/2310.16828)
+- Bruce et al., *"Genie: Generative Interactive Environments"* - [https://arxiv.org/abs/2402.15391](https://arxiv.org/abs/2402.15391)

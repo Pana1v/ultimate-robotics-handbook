@@ -138,10 +138,10 @@
 ## Author's Projects
 
 * [Author's Projects (overview)](authors-projects/README.md)
-* [Polka — Multi-LiDAR Fusion](authors-projects/polka.md)
-* [GO-SLAM — Built from Scratch](authors-projects/go-slam.md)
-* [LEAP — Pick-and-Place Optimization](authors-projects/leap.md)
-* [BARN Challenge 2026 — Breadcrumb Explorer](authors-projects/barn-challenge.md)
+* [Polka - Multi-LiDAR Fusion](authors-projects/polka.md)
+* [GO-SLAM - Built from Scratch](authors-projects/go-slam.md)
+* [LEAP - Pick-and-Place Optimization](authors-projects/leap.md)
+* [BARN Challenge 2026 - Breadcrumb Explorer](authors-projects/barn-challenge.md)
 
 ## Career Paths & Research Opportunities
 

@@ -24,20 +24,20 @@ Robocon and Rover Team Site : <a href="https://robocon-iit-patna.github.io" clas
 
 ### Find me online
 
-I'm currently a Robotics Engineer at **Eternal.ag** (Bangalore), working on GPU-accelerated SLAM and Navigation on Jetson Orin. Before that, I was at **10xConstruction.ai** (Swerve-drive MPPI, custom Nav2 collision-monitor, Lichtblick visualization) and **Addverb Technologies** (AMR localization/mapping).
+I'm a working robotics engineer based in Bangalore - production GPU-accelerated SLAM, Nav2 stacks, sensor fusion, custom motion models. The technical perspective in this handbook comes from shipping that kind of work on real robots.
 
-* 🌐 Portfolio — [panav.netlify.app](https://panav.netlify.app)
-* 💻 GitHub — [github.com/Pana1v](https://github.com/Pana1v)
-* 💼 LinkedIn — [linkedin.com/in/panavraaj](https://www.linkedin.com/in/panavraaj/)
+* 🌐 Portfolio - [panav.netlify.app](https://panav.netlify.app)
+* 💻 GitHub - [github.com/Pana1v](https://github.com/Pana1v)
+* 💼 LinkedIn - [linkedin.com/in/panavraaj](https://www.linkedin.com/in/panavraaj/)
 
 ### My open-source robotics work
 
 If you want to see how the concepts in this handbook translate to shipped code, the [Author's Projects](../authors-projects/) section walks through them in depth:
 
-* **[Polka](../authors-projects/polka.md)** — ROS 2 multi-LiDAR fusion node (CUDA-accelerated, IMU-deskewed, Humble + Jazzy).
-* **[GO-SLAM](../authors-projects/go-slam.md)** — A full SLAM stack built from scratch (GICP front-end, pose-graph back-end, custom Levenberg–Marquardt solvers, KITTI-benchmarked).
-* **[LEAP](../authors-projects/leap.md)** — Learning-augmented exact optimization for asymmetric pick-and-place sequencing (BRAIn Lab, IIT Patna; manuscript in preparation).
-* **[BARN Challenge 2026](../authors-projects/barn-challenge.md)** — Breadcrumb Explorer for mapless navigation; highest score by an Indian team since the benchmark began.
+* **[Polka](../authors-projects/polka.md)** - ROS 2 multi-LiDAR fusion node (CUDA-accelerated, IMU-deskewed, Humble + Jazzy).
+* **[GO-SLAM](../authors-projects/go-slam.md)** - A full SLAM stack built from scratch (GICP front-end, pose-graph back-end, custom Levenberg–Marquardt solvers, KITTI-benchmarked).
+* **[LEAP](../authors-projects/leap.md)** - Learning-augmented exact optimization for asymmetric pick-and-place sequencing (BRAIn Lab, IIT Patna; manuscript in preparation).
+* **[BARN Challenge 2026](../authors-projects/barn-challenge.md)** - Breadcrumb Explorer for mapless navigation; highest score by an Indian team since the benchmark began.
 
 I also contribute to [Nav2](https://github.com/ros-navigation/navigation2), [PlotJuggler](https://github.com/facontidavide/PlotJuggler), and [Lichtblick](https://github.com/Lichtblick-Suite/lichtblick).
 

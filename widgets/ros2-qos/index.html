@@ -65,7 +65,7 @@
   </div>
   <div class="panel" style="margin-top:12px">
     <h2>Recommendation & Compatibility</h2>
-    <div class="recommend" id="rec">—</div>
+    <div class="recommend" id="rec">-</div>
     <div class="matrix" id="mat"></div>
     <div class="code" id="code"></div>
   </div>
@@ -99,8 +99,8 @@
     if (r === 'BEST_EFFORT' && d === 'VOLATILE') return { tag:'Sensor', text:'High-frequency sensor data (camera, lidar, IMU). Drop allowed; latest samples matter.' };
     if (r === 'RELIABLE' && d === 'VOLATILE' && h === 'KEEP_LAST') return { tag:'Control', text:'Command topics like /cmd_vel. Guaranteed delivery, no replay for late joiners.' };
     if (r === 'RELIABLE' && d === 'TRANSIENT_LOCAL') return { tag:'Latched', text:'Latched state (robot_description, map). Late subscribers receive last value.' };
-    if (h === 'KEEP_ALL') return { tag:'Stream', text:'Logging/archive use case. Buffers until subscriber catches up — beware unbounded memory.' };
-    return { tag:'Custom', text:'No standard profile matches — verify against your data rate, latency, and durability needs.' };
+    if (h === 'KEEP_ALL') return { tag:'Stream', text:'Logging/archive use case. Buffers until subscriber catches up - beware unbounded memory.' };
+    return { tag:'Custom', text:'No standard profile matches - verify against your data rate, latency, and durability needs.' };
   }
 
   function cellClass(ok) { return ok ? 'cell ok' : 'cell bad'; }

@@ -4,7 +4,7 @@ icon: eye
 
 # 3D Scene Understanding
 
-Most robots have to reason about 3D space, not just pixels. The space of "how to represent the world in 3D" has changed dramatically — five years ago it was meshes, voxels, and point clouds. Today NeRFs and 3D Gaussian Splats are real engineering options, and monocular depth from foundation models is shockingly usable. But classical 3D (point clouds, TSDFs, occupancy grids) still owns production robotics.
+Most robots have to reason about 3D space, not just pixels. The space of "how to represent the world in 3D" has changed dramatically - five years ago it was meshes, voxels, and point clouds. Today NeRFs and 3D Gaussian Splats are real engineering options, and monocular depth from foundation models is shockingly usable. But classical 3D (point clouds, TSDFs, occupancy grids) still owns production robotics.
 
 This page is about how to choose between them and what each one actually does well.
 
@@ -24,23 +24,23 @@ Classical robotics owns the top three. The bottom two are eating into reconstruc
 
 ### 2. Point clouds and PCL/Open3D
 
-A point cloud is just (x, y, z) points — sometimes with color or intensity. It's the universal language of 3D sensors: LiDARs, depth cameras, stereo rigs all output point clouds.
+A point cloud is just (x, y, z) points - sometimes with color or intensity. It's the universal language of 3D sensors: LiDARs, depth cameras, stereo rigs all output point clouds.
 
 #### 2.1 Point Cloud Library (PCL)
 
-[PCL](https://pointclouds.org/) is the C++ workhorse of point cloud processing. Filters, segmentation, registration (ICP), feature extraction (FPFH, SHOT), surface reconstruction. Old, big, and somewhat clunky to build — but it's what's already in ROS, what `pcl_ros` wraps, and what most production robotics code uses.
+[PCL](https://pointclouds.org/) is the C++ workhorse of point cloud processing. Filters, segmentation, registration (ICP), feature extraction (FPFH, SHOT), surface reconstruction. Old, big, and somewhat clunky to build - but it's what's already in ROS, what `pcl_ros` wraps, and what most production robotics code uses.
 
 * Repo: [github.com/PointCloudLibrary/pcl](https://github.com/PointCloudLibrary/pcl)
 * Tutorials: [pcl.readthedocs.io](https://pcl.readthedocs.io/) `[verify]`
 
 Common operations every robotics engineer will write at some point:
 
-* **Voxel grid downsampling** — `pcl::VoxelGrid` to reduce point density before any expensive op.
-* **Statistical / radius outlier removal** — clean LiDAR noise before SLAM or registration.
-* **RANSAC plane / cylinder fitting** — extract the floor, walls, pipes.
-* **Euclidean clustering** — split a point cloud into object-like blobs.
-* **ICP / GICP / NDT** — register two clouds (frame-to-frame or frame-to-map).
-* **Normal estimation + FPFH** — features for global registration.
+* **Voxel grid downsampling** - `pcl::VoxelGrid` to reduce point density before any expensive op.
+* **Statistical / radius outlier removal** - clean LiDAR noise before SLAM or registration.
+* **RANSAC plane / cylinder fitting** - extract the floor, walls, pipes.
+* **Euclidean clustering** - split a point cloud into object-like blobs.
+* **ICP / GICP / NDT** - register two clouds (frame-to-frame or frame-to-map).
+* **Normal estimation + FPFH** - features for global registration.
 
 A general performance note: PCL is templated heavily on point type. Pick `pcl::PointXYZ` or `pcl::PointXYZI` and stick with it; `PointXYZRGB` doubles your memory footprint for no reason if you're not using color.
 
@@ -54,20 +54,20 @@ I default to Open3D for prototyping and PCL for production C++ ROS 2 nodes. Open
 
 | When to use         | PCL                              | Open3D                                  |
 | ------------------- | -------------------------------- | --------------------------------------- |
-| ROS 2 C++ node      | Yes — `pcl_ros` integration      | Possible but painful                    |
-| Python research     | Awkward bindings                 | Yes — first-class Python                |
+| ROS 2 C++ node      | Yes - `pcl_ros` integration      | Possible but painful                    |
+| Python research     | Awkward bindings                 | Yes - first-class Python                |
 | GPU acceleration    | Limited                          | Tensor API + CUDA                       |
 | Production deploy   | Battle-tested                    | Improving but younger                   |
 | Visualization       | Crusty (PCLVisualizer)           | Modern (Open3D viewer)                  |
 
-### 3. Monocular depth — MiDaS and Depth Anything
+### 3. Monocular depth - MiDaS and Depth Anything
 
 Sometimes you don't have a depth sensor. Sometimes your depth sensor doesn't work outdoors, or in glare, or on transparent objects. Monocular depth from a foundation model is now good enough to be useful as a primary or backup signal.
 
-* **MiDaS** (Intel ISL) — the classic. Relative depth, multiple model sizes. [github.com/isl-org/MiDaS](https://github.com/isl-org/MiDaS)
-* **Depth Anything v2** (HKU + TikTok, 2024) — current state of the art for monocular relative depth. [github.com/DepthAnything/Depth-Anything-V2](https://github.com/DepthAnything/Depth-Anything-V2)
-* **UniDepth** — metric monocular depth without test-time scaling. [arxiv.org/abs/2403.18913](https://arxiv.org/abs/2403.18913) `[verify]`
-* **Marigold** — diffusion-based, beautiful but slow. [arxiv.org/abs/2312.02145](https://arxiv.org/abs/2312.02145)
+* **MiDaS** (Intel ISL) - the classic. Relative depth, multiple model sizes. [github.com/isl-org/MiDaS](https://github.com/isl-org/MiDaS)
+* **Depth Anything v2** (HKU + TikTok, 2024) - current state of the art for monocular relative depth. [github.com/DepthAnything/Depth-Anything-V2](https://github.com/DepthAnything/Depth-Anything-V2)
+* **UniDepth** - metric monocular depth without test-time scaling. [arxiv.org/abs/2403.18913](https://arxiv.org/abs/2403.18913) `[verify]`
+* **Marigold** - diffusion-based, beautiful but slow. [arxiv.org/abs/2312.02145](https://arxiv.org/abs/2312.02145)
 
 Full discussion of these models, latency, and integration is in [foundation-vision-models.md](foundation-vision-models.md). For 3D perception purposes the question is **how to use monocular depth**:
 
@@ -82,7 +82,7 @@ Full discussion of these models, latency, and integration is in [foundation-visi
 * Paper: [arxiv.org/abs/2003.08934](https://arxiv.org/abs/2003.08934)
 * Original code: [github.com/bmild/nerf](https://github.com/bmild/nerf)
 
-**What changed:** vanilla NeRF takes hours to train and seconds to render a frame — useless for robotics. Then **Instant-NGP** happened.
+**What changed:** vanilla NeRF takes hours to train and seconds to render a frame - useless for robotics. Then **Instant-NGP** happened.
 
 #### 4.1 Instant-NGP
 
@@ -95,7 +95,7 @@ This is what made NeRF a real engineering option. The hash grid trick (multi-res
 
 #### 4.2 nerfstudio
 
-For robotics, the practical toolkit is **nerfstudio** — a modular framework supporting many NeRF variants, exporters to point clouds/meshes, and an actually-usable viewer.
+For robotics, the practical toolkit is **nerfstudio** - a modular framework supporting many NeRF variants, exporters to point clouds/meshes, and an actually-usable viewer.
 
 * Site: [nerf.studio](https://nerf.studio)
 * Repo: [github.com/nerfstudio-project/nerfstudio](https://github.com/nerfstudio-project/nerfstudio)
@@ -108,8 +108,8 @@ Where NeRF (and especially its Gaussian-Splat cousin below) has made it into rea
 
 * **High-fidelity environment scanning** for simulation / digital twins.
 * **Asset capture** for pick-and-place training (capture once, render thousands of training views).
-* **Localization** — render a candidate view from the NeRF and match to a real image to refine pose.
-* **Sim-to-real** — render photorealistic synthetic data for policy training.
+* **Localization** - render a candidate view from the NeRF and match to a real image to refine pose.
+* **Sim-to-real** - render photorealistic synthetic data for policy training.
 
 Where it has *not* made it: live SLAM on a moving robot, on-board obstacle avoidance, anything requiring sub-second updates from raw sensor data. The cost-to-quality ratio just isn't there yet for fast-moving robotics. NeRF is mostly an offline / staged tool.
 
@@ -124,8 +124,8 @@ Where it has *not* made it: live SLAM on a moving robot, on-board obstacle avoid
 
 1. **Real-time rendering** at 100+ FPS on a desktop GPU.
 2. **Faster training** than vanilla NeRF, comparable to Instant-NGP.
-3. **Explicit representation** — you can edit, prune, transform, merge scenes.
-4. **Differentiable through the whole pipeline** — gradients flow into the splat parameters cleanly.
+3. **Explicit representation** - you can edit, prune, transform, merge scenes.
+4. **Differentiable through the whole pipeline** - gradients flow into the splat parameters cleanly.
 
 The trade-off: it can produce floaters and surface-quality issues that NeRF handles better, and storage size scales with the number of Gaussians (often 100k-10M of them).
 
@@ -133,20 +133,20 @@ The trade-off: it can produce floaters and surface-quality issues that NeRF hand
 
 The interesting robotics application: SLAM that builds a 3D Gaussian Splat map online.
 
-* **SplaTAM** (CMU, CVPR 2024) — Gaussian Splatting for RGB-D SLAM. Builds a map of 3D Gaussians, tracks camera against it. [arxiv.org/abs/2312.02126](https://arxiv.org/abs/2312.02126), code: [github.com/spla-tam/SplaTAM](https://github.com/spla-tam/SplaTAM)
-* **Gaussian Splatting SLAM (MonoGS)** (Imperial College, CVPR 2024) — does it from monocular RGB. [arxiv.org/abs/2312.06741](https://arxiv.org/abs/2312.06741), code: [github.com/muskie82/MonoGS](https://github.com/muskie82/MonoGS)
-* **GS-ICP SLAM** — combines Gaussian splats with ICP-based tracking. `[verify]`
-* **Photo-SLAM** — photorealistic SLAM using Gaussian splatting. [arxiv.org/abs/2311.16728](https://arxiv.org/abs/2311.16728) `[verify]`
+* **SplaTAM** (CMU, CVPR 2024) - Gaussian Splatting for RGB-D SLAM. Builds a map of 3D Gaussians, tracks camera against it. [arxiv.org/abs/2312.02126](https://arxiv.org/abs/2312.02126), code: [github.com/spla-tam/SplaTAM](https://github.com/spla-tam/SplaTAM)
+* **Gaussian Splatting SLAM (MonoGS)** (Imperial College, CVPR 2024) - does it from monocular RGB. [arxiv.org/abs/2312.06741](https://arxiv.org/abs/2312.06741), code: [github.com/muskie82/MonoGS](https://github.com/muskie82/MonoGS)
+* **GS-ICP SLAM** - combines Gaussian splats with ICP-based tracking. `[verify]`
+* **Photo-SLAM** - photorealistic SLAM using Gaussian splatting. [arxiv.org/abs/2311.16728](https://arxiv.org/abs/2311.16728) `[verify]`
 
 These systems run at single-digit-to-low-tens of FPS on a desktop GPU. On a Jetson Orin they're not real-time yet, but they're the direction the field is moving. If you're starting a new dense reconstruction project in 2026, you should at least evaluate splat-based SLAM.
 
 #### 5.2 Gaussian Splatting variants worth knowing
 
-* **2D Gaussian Splatting** — surface-aligned 2D Gaussians for better mesh extraction. [arxiv.org/abs/2403.17888](https://arxiv.org/abs/2403.17888)
-* **SuGaR** — surface-aligned regularization on top of 3DGS, much cleaner meshes. [arxiv.org/abs/2311.12775](https://arxiv.org/abs/2311.12775)
-* **Mip-Splatting** — fixes aliasing at varying scales. [arxiv.org/abs/2311.16493](https://arxiv.org/abs/2311.16493) `[verify]`
-* **4D Gaussian Splatting** — adds time, for dynamic scenes. `[verify]`
-* **Scaffold-GS** — structured Gaussians around an anchor grid, more compact. [arxiv.org/abs/2312.00109](https://arxiv.org/abs/2312.00109) `[verify]`
+* **2D Gaussian Splatting** - surface-aligned 2D Gaussians for better mesh extraction. [arxiv.org/abs/2403.17888](https://arxiv.org/abs/2403.17888)
+* **SuGaR** - surface-aligned regularization on top of 3DGS, much cleaner meshes. [arxiv.org/abs/2311.12775](https://arxiv.org/abs/2311.12775)
+* **Mip-Splatting** - fixes aliasing at varying scales. [arxiv.org/abs/2311.16493](https://arxiv.org/abs/2311.16493) `[verify]`
+* **4D Gaussian Splatting** - adds time, for dynamic scenes. `[verify]`
+* **Scaffold-GS** - structured Gaussians around an anchor grid, more compact. [arxiv.org/abs/2312.00109](https://arxiv.org/abs/2312.00109) `[verify]`
 
 ### 6. NeRF vs Gaussian Splatting vs traditional 3D reconstruction
 

@@ -12,7 +12,7 @@ My ROS 2 production experience is heavier on mobile than manipulation, but MoveI
 
 ## Architecture overview
 
-MoveIt is not one node — it's a swarm. The pieces that matter:
+MoveIt is not one node - it's a swarm. The pieces that matter:
 
 ```
                     ┌───────────────────────────────────┐
@@ -52,9 +52,9 @@ A 3D representation of the world that MoveIt uses for collision checking. It con
 
 Keeping this representation in sync with reality is the single biggest source of "MoveIt isn't working" tickets. If your perception node isn't adding the right collision objects, the planner will happily route through obstacles.
 
-### OMPL — the default planner
+### OMPL - the default planner
 
-OMPL (Open Motion Planning Library, [ompl.kavrakilab.org](https://ompl.kavrakilab.org) \[verify]) is the sampling-based planning library MoveIt uses by default. It's not a single algorithm — it's a library of planners.
+OMPL (Open Motion Planning Library, [ompl.kavrakilab.org](https://ompl.kavrakilab.org) \[verify]) is the sampling-based planning library MoveIt uses by default. It's not a single algorithm - it's a library of planners.
 
 Planners you'll see in the `ompl_planning.yaml`:
 
@@ -68,7 +68,7 @@ Planners you'll see in the `ompl_planning.yaml`:
 
 99% of the time `RRTConnectkConfigDefault` is fine. If you need shorter paths, switch to `RRTstarkConfigDefault` and increase planning time.
 
-OMPL planners are *sampling-based* — they don't guarantee a path exists, and the path they find depends on the seed. For deterministic motion (industrial use cases) you want Pilz, below.
+OMPL planners are *sampling-based* - they don't guarantee a path exists, and the path they find depends on the seed. For deterministic motion (industrial use cases) you want Pilz, below.
 
 ### CHOMP and STOMP
 
@@ -76,7 +76,7 @@ Optimization-based planners shipped alongside OMPL. They start from a seed traje
 
 ## ros2\_control integration
 
-MoveIt plans trajectories. To actually move the arm, those trajectories need to reach motor controllers — that's ros2\_control's job.
+MoveIt plans trajectories. To actually move the arm, those trajectories need to reach motor controllers - that's ros2\_control's job.
 
 `ros2_control` ([control.ros.org](https://control.ros.org) \[verify]) is a hardware abstraction framework. You write:
 
@@ -104,20 +104,20 @@ arm_controller:
 
 The pair you need active at runtime:
 
-* `controller_manager` (ros2\_control side) — owns the hardware interface, runs control loops.
-* `move_group` (MoveIt side) — sends trajectories to the `joint_trajectory_controller`.
+* `controller_manager` (ros2\_control side) - owns the hardware interface, runs control loops.
+* `move_group` (MoveIt side) - sends trajectories to the `joint_trajectory_controller`.
 
-This separation is good — MoveIt does not know what motors you have, and the hardware interface does not know about motion planning.
+This separation is good - MoveIt does not know what motors you have, and the hardware interface does not know about motion planning.
 
 ### Common ros2\_control gotchas
 
-* **Hardware interface published joint state with the wrong frame** — `move_group` reads `/joint_states` to know where the robot is. If the URDF joints don't match the names in `joint_states`, you get cryptic IK failures.
-* **Two controllers claiming the same joint** — you can't have `joint_trajectory_controller` and `velocity_controller` both active on the same joint. Deactivate one explicitly.
-* **`forward_command_controller` instead of `joint_trajectory_controller`** — MoveIt only knows how to talk to action-server-based controllers. Bare command controllers won't work.
+* **Hardware interface published joint state with the wrong frame** - `move_group` reads `/joint_states` to know where the robot is. If the URDF joints don't match the names in `joint_states`, you get cryptic IK failures.
+* **Two controllers claiming the same joint** - you can't have `joint_trajectory_controller` and `velocity_controller` both active on the same joint. Deactivate one explicitly.
+* **`forward_command_controller` instead of `joint_trajectory_controller`** - MoveIt only knows how to talk to action-server-based controllers. Bare command controllers won't work.
 
 ## Pilz industrial motion planner
 
-The sampling-based OMPL planners are great for "get from A to B around obstacles." They are bad for "draw a straight line in Cartesian space" — sampling-based planners produce non-deterministic, non-straight paths.
+The sampling-based OMPL planners are great for "get from A to B around obstacles." They are bad for "draw a straight line in Cartesian space" - sampling-based planners produce non-deterministic, non-straight paths.
 
 Pilz (originally from Pilz GmbH, now part of MoveIt) fills that gap with three deterministic planners:
 
@@ -142,7 +142,7 @@ PickNik Robotics maintains a commercial product called [MoveIt Pro](https://pick
 
 The open source MoveIt is everything you actually need; MoveIt Pro is the productized layer on top.
 
-## When MoveIt fits — and when it doesn't
+## When MoveIt fits - and when it doesn't
 
 MoveIt is the right tool when:
 
@@ -153,12 +153,12 @@ MoveIt is the right tool when:
 
 MoveIt is the wrong tool when:
 
-* You're doing reactive, sub-100ms control with no obstacle constraints — a custom IK + Cartesian impedance controller will be cleaner.
-* You're doing learning-based manipulation where the policy outputs joint targets directly — MoveIt's planning loop is dead weight.
-* You only need IK and FK once — call `kdl_kinematics_plugin` or [Pinocchio](https://github.com/stack-of-tasks/pinocchio) \[verify] directly.
-* The arm is single-purpose and the path is hardcoded — a trajectory msg published directly to `joint_trajectory_controller` is enough.
+* You're doing reactive, sub-100ms control with no obstacle constraints - a custom IK + Cartesian impedance controller will be cleaner.
+* You're doing learning-based manipulation where the policy outputs joint targets directly - MoveIt's planning loop is dead weight.
+* You only need IK and FK once - call `kdl_kinematics_plugin` or [Pinocchio](https://github.com/stack-of-tasks/pinocchio) \[verify] directly.
+* The arm is single-purpose and the path is hardcoded - a trajectory msg published directly to `joint_trajectory_controller` is enough.
 
-For trajectory planning on a mobile base, you do not want MoveIt — that's Nav2's job. See [Nav2 Deep Dive](nav2-deep-dive.md).
+For trajectory planning on a mobile base, you do not want MoveIt - that's Nav2's job. See [Nav2 Deep Dive](nav2-deep-dive.md).
 
 ## Python interface
 
@@ -223,14 +223,14 @@ int main(int argc, char** argv) {
 }
 ```
 
-## SRDF — the file you'll forget about
+## SRDF - the file you'll forget about
 
 The URDF describes the robot's geometry. The SRDF (Semantic Robot Description Format) adds the semantic information MoveIt needs:
 
-* **Planning groups** — "arm" is joints A, B, C, D, E, F; "gripper" is joints G, H.
-* **End effectors** — which link is the tool.
-* **Disabled collision pairs** — links that are adjacent and shouldn't trigger self-collision checks.
-* **Named poses** — "home", "park", "ready".
+* **Planning groups** - "arm" is joints A, B, C, D, E, F; "gripper" is joints G, H.
+* **End effectors** - which link is the tool.
+* **Disabled collision pairs** - links that are adjacent and shouldn't trigger self-collision checks.
+* **Named poses** - "home", "park", "ready".
 
 You generate the SRDF via the MoveIt Setup Assistant (`ros2 launch moveit_setup_assistant setup_assistant.launch.py` \[verify]). Run this once per robot. The Setup Assistant produces a full MoveIt config package you then customize.
 
@@ -242,26 +242,26 @@ If you miss a pair, you'll get spurious self-collision errors that make IK fail.
 
 ## Common pitfalls
 
-* **TF tree incomplete at planning time** — `move_group` queries TF for the current state. If `base_link → tool0` isn't available when you call `plan()`, you'll get an empty trajectory and an unhelpful error. Wait for the chain to be valid before planning.
+* **TF tree incomplete at planning time** - `move_group` queries TF for the current state. If `base_link → tool0` isn't available when you call `plan()`, you'll get an empty trajectory and an unhelpful error. Wait for the chain to be valid before planning.
 
-* **SRDF planning group includes the wrong joints** — easy to miss when you have multiple kinematic chains. Symptom: IK returns success but the arm ends up in the wrong configuration. Re-check the planning group definition.
+* **SRDF planning group includes the wrong joints** - easy to miss when you have multiple kinematic chains. Symptom: IK returns success but the arm ends up in the wrong configuration. Re-check the planning group definition.
 
-* **Wrong planning frame** — `setPoseTarget` defaults to the planning frame defined in the SRDF, not your end-effector frame. If you pass a pose in the camera frame and forget to transform it, the arm goes somewhere weird. Always use `PoseStamped` with an explicit `frame_id`.
+* **Wrong planning frame** - `setPoseTarget` defaults to the planning frame defined in the SRDF, not your end-effector frame. If you pass a pose in the camera frame and forget to transform it, the arm goes somewhere weird. Always use `PoseStamped` with an explicit `frame_id`.
 
-* **Octomap stale or wrong** — if you feed `move_group` a point cloud topic, the resulting Octomap reflects whatever the sensor saw, including ghosts from old static obstacles. Clear it before each plan if your scene changes.
+* **Octomap stale or wrong** - if you feed `move_group` a point cloud topic, the resulting Octomap reflects whatever the sensor saw, including ghosts from old static obstacles. Clear it before each plan if your scene changes.
 
-* **Pilz LIN through a workspace singularity** — Pilz can refuse to plan a linear move that crosses a singularity. Add waypoints, or use OMPL.
+* **Pilz LIN through a workspace singularity** - Pilz can refuse to plan a linear move that crosses a singularity. Add waypoints, or use OMPL.
 
-* **Two controllers fighting** — `joint_trajectory_controller` active for "arm", `velocity_controller` also active for the same joints. The arm shakes. Deactivate one in your controller spawner launch.
+* **Two controllers fighting** - `joint_trajectory_controller` active for "arm", `velocity_controller` also active for the same joints. The arm shakes. Deactivate one in your controller spawner launch.
 
-* **Hardware interface returns stale joint states** — MoveIt thinks the arm is somewhere it isn't, plans through obstacles. Verify `/joint_states` updates at ≥50 Hz before debugging anything else.
+* **Hardware interface returns stale joint states** - MoveIt thinks the arm is somewhere it isn't, plans through obstacles. Verify `/joint_states` updates at ≥50 Hz before debugging anything else.
 
-* **`use_sim_time` mismatch with controllers** — in simulation, `move_group`, `controller_manager`, and the joint state publisher all need the same `use_sim_time` value. Mismatched clocks cause trajectories to execute "too fast" or stall.
+* **`use_sim_time` mismatch with controllers** - in simulation, `move_group`, `controller_manager`, and the joint state publisher all need the same `use_sim_time` value. Mismatched clocks cause trajectories to execute "too fast" or stall.
 
 ## Where to go next
 
-* [docs.moveit.picknik.ai](https://docs.moveit.picknik.ai) \[verify] — the canonical MoveIt 2 docs, well maintained.
-* [control.ros.org](https://control.ros.org) \[verify] — ros2\_control reference.
-* [Nav2 Deep Dive](nav2-deep-dive.md) — the mobile counterpart.
-* [Lifecycle and Composition](lifecycle-and-composition.md) — `move_group` itself is composable; useful when you embed it into a larger application.
-* [Optimization libraries](../mathematical-and-programming-foundations/optimization-libraries.md) — what's underneath CHOMP, STOMP, and modern trajectory optimization.
+* [docs.moveit.picknik.ai](https://docs.moveit.picknik.ai) \[verify] - the canonical MoveIt 2 docs, well maintained.
+* [control.ros.org](https://control.ros.org) \[verify] - ros2\_control reference.
+* [Nav2 Deep Dive](nav2-deep-dive.md) - the mobile counterpart.
+* [Lifecycle and Composition](lifecycle-and-composition.md) - `move_group` itself is composable; useful when you embed it into a larger application.
+* [Optimization libraries](../mathematical-and-programming-foundations/optimization-libraries.md) - what's underneath CHOMP, STOMP, and modern trajectory optimization.

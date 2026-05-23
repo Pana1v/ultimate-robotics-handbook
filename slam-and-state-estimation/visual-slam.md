@@ -13,27 +13,27 @@ A monocular camera is the cheapest, lightest, lowest-power sensor that can give 
 
 The catch: cameras give you *bearing* measurements, not range. Monocular SLAM is scale-ambiguous (you don't know if you moved 1 m or 1 km). You break that ambiguity with stereo, depth sensor, or IMU.
 
-This page covers the three dominant paradigms — feature-based, direct, and visual-inertial — and the canonical systems that defined each.
+This page covers the three dominant paradigms - feature-based, direct, and visual-inertial - and the canonical systems that defined each.
 
 ***
 
-## Feature-based vs direct — the philosophical split
+## Feature-based vs direct - the philosophical split
 
 | Aspect              | Feature-based                              | Direct                                       |
 | ------------------- | ------------------------------------------ | -------------------------------------------- |
 | What it tracks      | Detected keypoints (ORB, SIFT, FAST+BRIEF) | Pixel intensities, usually high-gradient pixels |
 | Cost function       | Reprojection error of matched features     | Photometric error (intensity difference)     |
-| Robustness to blur  | Bad — keypoints fail under motion blur     | Better — gradient survives modest blur       |
-| Robustness to lighting | Better — descriptors are invariant      | Bad — photometric error breaks under lighting changes (needs photometric calibration) |
+| Robustness to blur  | Bad - keypoints fail under motion blur     | Better - gradient survives modest blur       |
+| Robustness to lighting | Better - descriptors are invariant      | Bad - photometric error breaks under lighting changes (needs photometric calibration) |
 | Map representation  | Sparse 3D points                           | Sparse / semi-dense pixels with depth        |
-| Loop closure        | Easy — bag of visual words over descriptors | Hard — no descriptors to match              |
+| Loop closure        | Easy - bag of visual words over descriptors | Hard - no descriptors to match              |
 | Canonical systems   | ORB-SLAM family, VINS-Mono/Fusion          | LSD-SLAM, DSO, LDSO                          |
 
 There's also a **hybrid** middle ground: SVO (Forster, Pizzoli, Scaramuzza 2014) uses direct alignment for tracking and features for mapping. Modern systems increasingly blur the line.
 
 ***
 
-## ORB-SLAM3 — the feature-based reference
+## ORB-SLAM3 - the feature-based reference
 
 If you implement one visual SLAM system, this is it. ORB-SLAM3 (Campos, Elvira, Gómez Rodríguez, Montiel, Tardós 2021) is the third generation of a line of work that started with ORB-SLAM (2015) and added stereo / RGB-D (ORB-SLAM2, 2017). The 3 brings two huge additions: **tightly-coupled visual-inertial SLAM** and **multi-map (Atlas) operation**.
 
@@ -42,13 +42,13 @@ If you implement one visual SLAM system, this is it. ORB-SLAM3 (Campos, Elvira, 
 
 ### Architecture
 
-Three parallel threads — the same template you'll see in almost every modern visual SLAM:
+Three parallel threads - the same template you'll see in almost every modern visual SLAM:
 
-1. **Tracking** — every frame: extract ORB features, match to local map, estimate camera pose by motion-only BA.
-2. **Local Mapping** — for new keyframes: triangulate new map points, run local BA over the last $N$ keyframes.
-3. **Loop and Map Merging** — detect loops via DBoW2, run a pose graph optimization, then full BA to clean up.
+1. **Tracking** - every frame: extract ORB features, match to local map, estimate camera pose by motion-only BA.
+2. **Local Mapping** - for new keyframes: triangulate new map points, run local BA over the last $N$ keyframes.
+3. **Loop and Map Merging** - detect loops via DBoW2, run a pose graph optimization, then full BA to clean up.
 
-The Atlas system maintains multiple disconnected sub-maps. When tracking is lost, ORB-SLAM3 doesn't crash — it starts a new map. If place recognition later finds a connection back to an old map, the two are merged into one.
+The Atlas system maintains multiple disconnected sub-maps. When tracking is lost, ORB-SLAM3 doesn't crash - it starts a new map. If place recognition later finds a connection back to an old map, the two are merged into one.
 
 ### Sensor configurations
 
@@ -64,14 +64,14 @@ The visual-inertial mode does *tightly-coupled* fusion with IMU preintegration (
 ### When it wins
 
 * You have stereo or RGB-D and want a turnkey, well-tested system.
-* Your environment has texture (corners, edges) — ORB needs features.
+* Your environment has texture (corners, edges) - ORB needs features.
 * You want loop closure and global consistency built in.
 
 ### When it loses
 
 * Low-texture environments (white corridors, plain walls). No features, no SLAM.
 * High motion blur. ORB extraction breaks under blur.
-* Repetitive structure. DBoW2 will false-match identical scenes — though geometric verification catches most of these.
+* Repetitive structure. DBoW2 will false-match identical scenes - though geometric verification catches most of these.
 * High-DoF aggressive drone motion. The tracking thread runs at camera rate (~30 Hz); aggressive drones need 200+ Hz state from the IMU. Use VINS-Fusion or OKVIS instead.
 
 > **Field notes:** ORB-SLAM3 is rightly the default. But it is C++17 with non-trivial dependency on OpenCV 3 / 4 and a Pangolin viewer. Building it on aarch64 Ubuntu 22.04 in 2024 took me an afternoon of CMake gymnastics. Once it builds, it just works.
@@ -82,14 +82,14 @@ The visual-inertial mode does *tightly-coupled* fusion with IMU preintegration (
 
 VINS = Visual-INertial System. From the HKUST Aerial Robotics group (Qin, Li, Shen et al.). The killer system for drone VIO.
 
-* **VINS-Mono** (Qin, Li, Shen 2018) — monocular + IMU. [arxiv.org/abs/1708.03852](https://arxiv.org/abs/1708.03852). Code: [github.com/HKUST-Aerial-Robotics/VINS-Mono](https://github.com/HKUST-Aerial-Robotics/VINS-Mono) `[verify]`.
-* **VINS-Fusion** (Qin et al. 2019) — extension to stereo, stereo+IMU, GPS fusion. Code: [github.com/HKUST-Aerial-Robotics/VINS-Fusion](https://github.com/HKUST-Aerial-Robotics/VINS-Fusion) `[verify]`.
+* **VINS-Mono** (Qin, Li, Shen 2018) - monocular + IMU. [arxiv.org/abs/1708.03852](https://arxiv.org/abs/1708.03852). Code: [github.com/HKUST-Aerial-Robotics/VINS-Mono](https://github.com/HKUST-Aerial-Robotics/VINS-Mono) `[verify]`.
+* **VINS-Fusion** (Qin et al. 2019) - extension to stereo, stereo+IMU, GPS fusion. Code: [github.com/HKUST-Aerial-Robotics/VINS-Fusion](https://github.com/HKUST-Aerial-Robotics/VINS-Fusion) `[verify]`.
 
 ### Why it matters
 
 VINS-Mono made *robust* monocular VIO real. Before it, monocular VIO existed (MSCKF, OKVIS) but initialization was fragile and most papers required hand-tuned trajectories. VINS-Mono introduced:
 
-* **Robust automatic initialization** — visual-only SfM bootstrap, then IMU alignment for scale, gravity, biases.
+* **Robust automatic initialization** - visual-only SfM bootstrap, then IMU alignment for scale, gravity, biases.
 * **Sliding-window optimization** with marginalization (see [graph-slam.md](graph-slam.md)).
 * **Loop closure** with DBoW2 + 4-DoF pose graph (loop closure can't constrain absolute roll/pitch when IMU is observable).
 * **Online extrinsic + temporal calibration** between camera and IMU.
@@ -113,7 +113,7 @@ When the window fills, **marginalize** out the oldest frame's state (Schur compl
 
 ***
 
-## DSO and LDSO — the direct school
+## DSO and LDSO - the direct school
 
 Direct Sparse Odometry (Engel, Koltun, Cremers 2017) is the canonical direct visual odometry. No features. Instead: pick ~2000 high-gradient pixels per keyframe and minimize photometric error across keyframes.
 
@@ -131,7 +131,7 @@ $$
 
 In English: project pixel $q$ from frame $i$ into frame $j$ using the depth and relative pose, then compare intensities. Minimize over poses and depths.
 
-### The catch — photometric calibration
+### The catch - photometric calibration
 
 DSO requires careful photometric calibration of your camera: exposure time, vignette, response curve. Without it, the photometric error is meaningless (a change in exposure looks like a change in geometry).
 
@@ -145,13 +145,13 @@ This made DSO popular as a research benchmark but limited its production deploym
 
 ### LDSO and the loop closure problem
 
-Pure DSO has no loop closure — direct methods don't naturally have descriptors. LDSO adds:
+Pure DSO has no loop closure - direct methods don't naturally have descriptors. LDSO adds:
 
 * ORB features extracted on top of DSO's high-gradient pixels (so loop closure piggybacks).
 * DBoW2 for place recognition.
 * Pose graph optimization in Sim(3) to handle scale drift.
 
-It's a clever hack and it works. It also gives away the philosophical purity of "no features," which is fine — engineering beats philosophy.
+It's a clever hack and it works. It also gives away the philosophical purity of "no features," which is fine - engineering beats philosophy.
 
 ***
 
@@ -177,7 +177,7 @@ Monocular SLAM has to bootstrap from nothing. The classic chicken-and-egg: you n
 1. Detect features in two frames a few cm apart (typical: wait for sufficient parallax).
 2. Compute either the **essential matrix** (calibrated case) or **homography** (planar scene case) between them.
 3. Pick whichever has the better geometric fit (essential for general scene, homography for planar). Triangulate the initial map.
-4. Set scale arbitrarily (e.g., median scene depth = 1). All future motion is up to this unknown scale factor — unless an IMU resolves it.
+4. Set scale arbitrarily (e.g., median scene depth = 1). All future motion is up to this unknown scale factor - unless an IMU resolves it.
 
 This is fragile. Many monocular SLAM failures are at initialization, not steady-state. IMU initialization (Mur-Artal & Tardós 2017) made this much more robust by aligning gravity and using IMU-predicted motion to bootstrap the visual SfM.
 
@@ -194,7 +194,7 @@ Pick RTAB-Map when you want SLAM-as-product (your project is "build a 3D map of 
 
 ***
 
-## Comparison — pick one
+## Comparison - pick one
 
 | System         | Sensor configs                          | Loop closure | Tightly-coupled IMU | Repo                                  |
 | -------------- | --------------------------------------- | ------------ | ------------------- | ------------------------------------- |
@@ -212,8 +212,8 @@ Pick RTAB-Map when you want SLAM-as-product (your project is "build a 3D map of 
 ## What I'd actually do in 2026
 
 * **Building a drone:** VINS-Fusion (mono+IMU or stereo+IMU). Battle-tested for aggressive motion.
-* **Indoor mobile robot:** RTAB-Map RGB-D mode — fastest path to a working system. ORB-SLAM3 if you need higher accuracy.
-* **AR / dense mapping:** SplaTAM or NICE-SLAM — see [learned-slam.md](learned-slam.md). The classic visual SLAM stack is being eaten alive here.
+* **Indoor mobile robot:** RTAB-Map RGB-D mode - fastest path to a working system. ORB-SLAM3 if you need higher accuracy.
+* **AR / dense mapping:** SplaTAM or NICE-SLAM - see [learned-slam.md](learned-slam.md). The classic visual SLAM stack is being eaten alive here.
 * **Self-driving / outdoor robot:** visual SLAM as a *complement* to LiDAR SLAM, not a replacement. See [lidar-slam.md](lidar-slam.md).
 * **Research baseline:** ORB-SLAM3. It is what reviewers expect you to compare against.
 
@@ -221,8 +221,8 @@ Pick RTAB-Map when you want SLAM-as-product (your project is "build a 3D map of 
 
 ## Further reading
 
-* Cadena et al. (2016) survey, "Past, Present, and Future of SLAM" — [arxiv.org/abs/1606.05830](https://arxiv.org/abs/1606.05830). The visual SLAM landscape circa 2016, still mostly relevant.
+* Cadena et al. (2016) survey, "Past, Present, and Future of SLAM" - [arxiv.org/abs/1606.05830](https://arxiv.org/abs/1606.05830). The visual SLAM landscape circa 2016, still mostly relevant.
 * Macario Barros et al. (2022) "A Comprehensive Survey of Visual SLAM Algorithms." [arxiv.org/abs/2209.02786](https://arxiv.org/abs/2209.02786) `[verify]`.
-* Scaramuzza & Fraundorfer two-part tutorial on Visual Odometry (IEEE RAM 2011 / 2012) — still the cleanest intro to VO fundamentals.
+* Scaramuzza & Fraundorfer two-part tutorial on Visual Odometry (IEEE RAM 2011 / 2012) - still the cleanest intro to VO fundamentals.
 
 Continue to [lidar-slam.md](lidar-slam.md) for the LiDAR side of the story.

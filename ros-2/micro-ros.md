@@ -4,11 +4,11 @@ icon: gear
 
 # micro-ROS
 
-micro-ROS is how you get a real ROS 2 node — same QoS, same DDS semantics, same `rclc` API — running on a microcontroller. It is the modern answer to ROS 1's `rosserial`, and it is a complete rebuild rather than a port. If you have ever tried to wedge `rosserial_arduino` into a project with serious sensor traffic, micro-ROS is a relief.
+micro-ROS is how you get a real ROS 2 node - same QoS, same DDS semantics, same `rclc` API - running on a microcontroller. It is the modern answer to ROS 1's `rosserial`, and it is a complete rebuild rather than a port. If you have ever tried to wedge `rosserial_arduino` into a project with serious sensor traffic, micro-ROS is a relief.
 
 The project lives at [micro.ros.org](https://micro.ros.org) \[verify]. Source: [github.com/micro-ROS](https://github.com/micro-ROS) \[verify].
 
-I've used micro-ROS in production for ESP32-based motor controllers and sensor interfaces in mobile platforms — wheel encoders, ESC interfaces, IMU shims. It is also what I would reach for if I were building [Polka](../authors-projects/polka.md) again today, instead of the custom serial protocol I started with.
+I've used micro-ROS in production for ESP32-based motor controllers and sensor interfaces in mobile platforms - wheel encoders, ESC interfaces, IMU shims. It is also what I would reach for if I were building [Polka](../authors-projects/polka.md) again today, instead of the custom serial protocol I started with.
 
 ## Why micro-ROS exists
 
@@ -44,7 +44,7 @@ micro-ROS implements DDS-XRCE on the MCU side, exposes it through `rclc` (a C AP
         └───────────────────────────┘
 ```
 
-From the host's perspective, the MCU appears as a normal ROS 2 node — same topics, services, parameters. From the MCU's perspective, it talks to an agent over a serial or network link.
+From the host's perspective, the MCU appears as a normal ROS 2 node - same topics, services, parameters. From the MCU's perspective, it talks to an agent over a serial or network link.
 
 ### The agent
 
@@ -75,13 +75,13 @@ micro-ROS targets a long list of hardware. The ones I actually see in the field:
 | **RP2040** (Raspberry Pi Pico) | 264 KB | Cheap, dual-core, decent toolchain.    |
 | **Teensy 4.0 / 4.1** | 1 MB        | Arduino-compatible, very fast (Cortex-M7 @ 600 MHz). |
 | **Arduino UNO R4 (Minima / WiFi)** | 32 KB | Lower bound. Renesas RA4M1, ESP32-S3 co-processor on WiFi variant. |
-| Nuttx, Zephyr, FreeRTOS, ThreadX | — | RTOSes supported alongside bare-metal. |
+| Nuttx, Zephyr, FreeRTOS, ThreadX | - | RTOSes supported alongside bare-metal. |
 
 The official list is at [micro.ros.org/docs/overview/hardware/](https://micro.ros.org/docs/overview/hardware/) \[verify]. The official Arduino integration is `micro_ros_arduino` ([github.com/micro-ROS/micro\_ros\_arduino](https://github.com/micro-ROS/micro_ros_arduino) \[verify]).
 
 ### Practical RAM minimum
 
-You can technically run micro-ROS on the Arduino UNO R4 (32 KB), but in practice anything below ~64 KB of usable RAM is painful — you'll spend more time tuning memory pool sizes than writing application code. ESP32 and Teensy 4.x are the sweet spot.
+You can technically run micro-ROS on the Arduino UNO R4 (32 KB), but in practice anything below ~64 KB of usable RAM is painful - you'll spend more time tuning memory pool sizes than writing application code. ESP32 and Teensy 4.x are the sweet spot.
 
 ## Transport options
 
@@ -224,7 +224,7 @@ Supported, but heavier in code and memory than publishers. Use sparingly. A 32-b
 
 ## Memory tuning
 
-Every message type has a pre-allocated buffer. The defaults in `colcon.meta` are conservative — fine for small messages, wasteful for sensors.
+Every message type has a pre-allocated buffer. The defaults in `colcon.meta` are conservative - fine for small messages, wasteful for sensors.
 
 The knobs that matter, set in `colcon.meta` and rebuilt:
 
@@ -247,9 +247,9 @@ names:
 
 If you're running out of memory: turn `MAX_NODES`, `MAX_PUBLISHERS`, `MAX_HISTORY` down. If sessions are dropping under load: turn `STREAM_HISTORY` up.
 
-Each `ROSIDL_GET_MSG_TYPE_SUPPORT` you reference also costs flash (the message struct's metadata). For unused message types, don't include them — `colcon` will skip building them if they're not in your dependencies.
+Each `ROSIDL_GET_MSG_TYPE_SUPPORT` you reference also costs flash (the message struct's metadata). For unused message types, don't include them - `colcon` will skip building them if they're not in your dependencies.
 
-## micro-ROS vs rosserial — short version
+## micro-ROS vs rosserial - short version
 
 | Feature           | rosserial (ROS 1)     | micro-ROS (ROS 2)        |
 | ----------------- | --------------------- | ------------------------ |
@@ -266,13 +266,13 @@ rosserial does not exist on ROS 2. If someone tells you to use it for a new ROS 
 
 A few things that don't fit on an MCU at all, no matter how much you tune:
 
-* **Large messages** — A 1 MP image is bigger than most MCU RAM. Strip down to the data you actually need. Send raw uint8 arrays for short telemetry, point-to-point IK calls, joint positions. Cameras and LiDARs are not MCU territory.
+* **Large messages** - A 1 MP image is bigger than most MCU RAM. Strip down to the data you actually need. Send raw uint8 arrays for short telemetry, point-to-point IK calls, joint positions. Cameras and LiDARs are not MCU territory.
 
-* **High-rate transient\_local topics** — Latching needs buffer memory. Use sparingly; one or two transient\_local topics is fine, ten will exhaust your RAM.
+* **High-rate transient\_local topics** - Latching needs buffer memory. Use sparingly; one or two transient\_local topics is fine, ten will exhaust your RAM.
 
-* **Cross-network discovery** — The MCU does not participate in DDS discovery directly. It connects to one agent; the agent fans out. Multi-machine setups need careful agent placement.
+* **Cross-network discovery** - The MCU does not participate in DDS discovery directly. It connects to one agent; the agent fans out. Multi-machine setups need careful agent placement.
 
-* **Hot reconfiguration** — micro-ROS clients don't gracefully resync if the agent restarts. Wrap your `rclc_support_init` in a reconnection loop.
+* **Hot reconfiguration** - micro-ROS clients don't gracefully resync if the agent restarts. Wrap your `rclc_support_init` in a reconnection loop.
 
 ## Reconnection pattern
 
@@ -311,24 +311,24 @@ This is verbose but bulletproof. The examples folder in `micro_ros_arduino` has 
 
 ## Common pitfalls
 
-* **Agent and client distro mismatch** — Humble agent can't talk to Iron client and vice versa. Match versions.
+* **Agent and client distro mismatch** - Humble agent can't talk to Iron client and vice versa. Match versions.
 
-* **Forgetting to set the transport** — `set_microros_serial_transports(Serial)` must run *before* `rclc_support_init`. Otherwise the client tries to use a null transport.
+* **Forgetting to set the transport** - `set_microros_serial_transports(Serial)` must run *before* `rclc_support_init`. Otherwise the client tries to use a null transport.
 
-* **Calling `rclc_executor_spin_some` from inside an ISR** — don't. micro-ROS is not interrupt-safe. Spin from the main loop, set flags from ISRs.
+* **Calling `rclc_executor_spin_some` from inside an ISR** - don't. micro-ROS is not interrupt-safe. Spin from the main loop, set flags from ISRs.
 
-* **Stack overflow on FreeRTOS** — micro-ROS tasks need ~10 KB of stack. The default FreeRTOS task stack is 1–2 KB. Bump it.
+* **Stack overflow on FreeRTOS** - micro-ROS tasks need ~10 KB of stack. The default FreeRTOS task stack is 1–2 KB. Bump it.
 
-* **Power-cycling the MCU without restarting the agent** — sometimes the agent doesn't notice the client is gone and refuses to accept a new session. Restart the agent.
+* **Power-cycling the MCU without restarting the agent** - sometimes the agent doesn't notice the client is gone and refuses to accept a new session. Restart the agent.
 
-* **Custom messages without rebuilding** — if you add a new `.msg` file you must rebuild the micro-ROS static library against the new IDL. There's no runtime registration.
+* **Custom messages without rebuilding** - if you add a new `.msg` file you must rebuild the micro-ROS static library against the new IDL. There's no runtime registration.
 
-* **Trying to run RVIZ visualization of a sensor on the MCU** — the message size budget will kill you. Push raw values to the agent and let a host node compose visualization markers.
+* **Trying to run RVIZ visualization of a sensor on the MCU** - the message size budget will kill you. Push raw values to the agent and let a host node compose visualization markers.
 
 ## Where to go next
 
-* [micro.ros.org](https://micro.ros.org) \[verify] — official docs, tutorials, supported boards.
-* [github.com/micro-ROS/micro\_ros\_arduino](https://github.com/micro-ROS/micro_ros_arduino) \[verify] — pre-built Arduino library, easiest path for ESP32 / Teensy / Portenta.
-* [DDS and QoS](dds-qos.md) — the QoS settings work the same on micro-ROS, with caveats about reliable streams.
-* [Setup](setup.md) — installing the agent on your robot's main computer.
-* [Polka](../authors-projects/polka.md) — my mobile platform, candidate for a micro-ROS firmware rewrite.
+* [micro.ros.org](https://micro.ros.org) \[verify] - official docs, tutorials, supported boards.
+* [github.com/micro-ROS/micro\_ros\_arduino](https://github.com/micro-ROS/micro_ros_arduino) \[verify] - pre-built Arduino library, easiest path for ESP32 / Teensy / Portenta.
+* [DDS and QoS](dds-qos.md) - the QoS settings work the same on micro-ROS, with caveats about reliable streams.
+* [Setup](setup.md) - installing the agent on your robot's main computer.
+* [Polka](../authors-projects/polka.md) - my mobile platform, candidate for a micro-ROS firmware rewrite.

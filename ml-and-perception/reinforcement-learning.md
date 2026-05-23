@@ -7,7 +7,7 @@ icon: robot-astromech
 <figure><img src="../.gitbook/assets/Digit_RL_1.gif" alt=""><figcaption></figcaption></figure>
 
 {% hint style="info" %}
-**This page covers the classical RL foundations.** For the modern post-2023 stack — PPO with privileged learning for legged locomotion, SERL/HIL-SERL, Eureka (LLM-generated rewards), foundation-model policies, sim-to-real, world models — see the dedicated [Robot Learning](../robot-learning/) section.
+**This page covers the classical RL foundations.** For the modern post-2023 stack - PPO with privileged learning for legged locomotion, SERL/HIL-SERL, Eureka (LLM-generated rewards), foundation-model policies, sim-to-real, world models - see the dedicated [Robot Learning](../robot-learning/) section.
 {% endhint %}
 
 Reinforcement Learning (RL) endows robots with the ability to learn control policies through trial-and-error interactions rather than hand-coding behaviors. This page surveys core RL approaches, their robotic applications, and a curated set of learning resources and software tools.

@@ -2,13 +2,13 @@
 icon: route
 ---
 
-# Learned SLAM — neural fields, Gaussian splatting
+# Learned SLAM - neural fields, Gaussian splatting
 
 ## What changed
 
 Classical SLAM uses explicit representations: point clouds, occupancy grids, sparse landmark maps, voxel grids. The estimators (filters, factor graphs) live on top of these.
 
-Around 2020 the community started asking: what if the map itself were a *neural network* — a function $f_\theta(\mathbf{x})$ that takes a 3D position and returns geometry (occupancy, signed distance) or appearance (color, density)? This is the **neural radiance field** lineage (NeRF, Mildenhall et al. 2020) ported into SLAM.
+Around 2020 the community started asking: what if the map itself were a *neural network* - a function $f_\theta(\mathbf{x})$ that takes a 3D position and returns geometry (occupancy, signed distance) or appearance (color, density)? This is the **neural radiance field** lineage (NeRF, Mildenhall et al. 2020) ported into SLAM.
 
 Then in 2023 came **3D Gaussian Splatting** (Kerbl, Kopanas, Leimkühler, Drettakis), which dropped the neural network in favor of millions of explicit 3D Gaussians and a differentiable splatting rasterizer. Faster training, real-time rendering. The SLAM community pivoted within a year. SplaTAM and Gaussian-Splatting SLAM appeared at the major venues in 2024.
 
@@ -16,13 +16,13 @@ This page covers the systems that defined the lineage.
 
 ***
 
-## Disambiguation — two things called "GO-SLAM"
+## Disambiguation - two things called "GO-SLAM"
 
 This is an unfortunate name collision. There are **two distinct projects** named GO-SLAM that you'll find on the internet:
 
-1. **GO-SLAM (Zhang et al., ICCV 2023)** — an *academic neural / deep SLAM* paper from the Computer Vision Lab at ETH Zürich / KAIST and collaborators. Uses an implicit neural representation with online learning, global optimization, and loop closure. Visual SLAM. [arxiv.org/abs/2309.02436](https://arxiv.org/abs/2309.02436) `[verify]`. This is what this page is about.
+1. **GO-SLAM (Zhang et al., ICCV 2023)** - an *academic neural / deep SLAM* paper from the Computer Vision Lab at ETH Zürich / KAIST and collaborators. Uses an implicit neural representation with online learning, global optimization, and loop closure. Visual SLAM. [arxiv.org/abs/2309.02436](https://arxiv.org/abs/2309.02436) `[verify]`. This is what this page is about.
 
-2. **[GO-SLAM (Pan's)](../authors-projects/go-slam.md)** — *my from-scratch classical LiDAR SLAM* with GICP front-end and a custom Levenberg-Marquardt pose-graph solver. Built in two months as a learning project. **No relation to the ETH/KAIST paper** — I just happened to pick the same acronym (Global Optimization SLAM) before realizing there was a published paper with that name. Mentioned in [lidar-slam.md](lidar-slam.md).
+2. **[GO-SLAM (Pan's)](../authors-projects/go-slam.md)** - *my from-scratch classical LiDAR SLAM* with GICP front-end and a custom Levenberg-Marquardt pose-graph solver. Built in two months as a learning project. **No relation to the ETH/KAIST paper** - I just happened to pick the same acronym (Global Optimization SLAM) before realizing there was a published paper with that name. Mentioned in [lidar-slam.md](lidar-slam.md).
 
 If a colleague says "go-slam" without context, ask which one. They are completely different systems.
 
@@ -45,20 +45,20 @@ NICE-SLAM works on Replica, ScanNet, TUM RGB-D scenes. It produces dense reconst
 Trade-offs:
 * GPU-bound. Real-time means "30 Hz on a desktop GPU," not "30 Hz on a Jetson."
 * Loop closure is implicit through the joint optimization, but degrades on long sequences.
-* Map representation is the grid + MLP weights — opaque, hard to edit, hard to use downstream for navigation.
+* Map representation is the grid + MLP weights - opaque, hard to edit, hard to use downstream for navigation.
 
-### GO-SLAM (ICCV 2023) — the academic paper
+### GO-SLAM (ICCV 2023) - the academic paper
 
 Zhang, Sun, Tang, Lin, Wang, Theobalt, Pollefeys. [arxiv.org/abs/2309.02436](https://arxiv.org/abs/2309.02436) `[verify]`. Code: [github.com/youmi-zym/GO-SLAM](https://github.com/youmi-zym/GO-SLAM) `[verify]`.
 
 Built on top of DROID-SLAM (Teed & Deng, NeurIPS 2021). Contributions:
 
-* **Online loop closure detection** with dense bundle adjustment over the global trajectory — not just the local sliding window.
+* **Online loop closure detection** with dense bundle adjustment over the global trajectory - not just the local sliding window.
 * **Online full bundle adjustment** updating the entire history when loops close.
 * Implicit neural representation (similar lineage to NICE-SLAM) for the dense reconstruction.
-* Works monocular, stereo, and RGB-D — flexibility classical neural-implicit systems didn't have.
+* Works monocular, stereo, and RGB-D - flexibility classical neural-implicit systems didn't have.
 
-This was the SOTA neural visual SLAM at ICCV 2023 (margin over NICE-SLAM, ESLAM, Co-SLAM on Replica / ScanNet trajectory accuracy). Not the SOTA anymore — Gaussian-splat SLAM took over within a year.
+This was the SOTA neural visual SLAM at ICCV 2023 (margin over NICE-SLAM, ESLAM, Co-SLAM on Replica / ScanNet trajectory accuracy). Not the SOTA anymore - Gaussian-splat SLAM took over within a year.
 
 ***
 
@@ -76,8 +76,8 @@ Not a SLAM paper, but the foundation for everything that followed. The idea:
 
 Two things this gave you over NeRF:
 
-1. **Faster training** — minutes instead of hours.
-2. **Real-time rendering** — hundreds of FPS at 1080p on a single GPU.
+1. **Faster training** - minutes instead of hours.
+2. **Real-time rendering** - hundreds of FPS at 1080p on a single GPU.
 
 And critically: the representation is *explicit*. You can move individual Gaussians. You can prune them. You can add new ones when you see new geometry. That made it tractable for online SLAM.
 
@@ -98,7 +98,7 @@ SplaTAM is closer to a "differentiable RGB-D fusion" than to a classical SLAM. T
 
 Matsuki, Murai, Kelly, Davison. Imperial College London. [arxiv.org/abs/2312.06741](https://arxiv.org/abs/2312.06741). Code: [github.com/muskie82/MonoGS](https://github.com/muskie82/MonoGS) `[verify]`.
 
-Andrew Davison's group (who did MonoSLAM in 2003 — the first real-time monocular visual SLAM) returned to the problem with Gaussians. Their contribution was **monocular** Gaussian-splat SLAM:
+Andrew Davison's group (who did MonoSLAM in 2003 - the first real-time monocular visual SLAM) returned to the problem with Gaussians. Their contribution was **monocular** Gaussian-splat SLAM:
 
 * No depth sensor required.
 * Tracking via differentiable rendering against the current RGB frame, plus regularizers to keep the Gaussians from collapsing.
@@ -119,8 +119,8 @@ The field is moving fast. Names to be aware of:
 
 * **Gaussian-SLAM** (Yugay et al. 2024)
 * **Photo-SLAM** (Huang et al. 2024)
-* **GS-LiDAR** — combining LiDAR depth with Gaussian splatting.
-* **MoNuSplat / MAGiC-SLAM** — 2024-2025 papers pushing toward monocular outdoor.
+* **GS-LiDAR** - combining LiDAR depth with Gaussian splatting.
+* **MoNuSplat / MAGiC-SLAM** - 2024-2025 papers pushing toward monocular outdoor.
 
 Expect the SOTA to shift twice a year in this corner of the field through 2026.
 
@@ -142,13 +142,13 @@ Expect the SOTA to shift twice a year in this corner of the field through 2026.
 
 ***
 
-## Where this is going — and where it isn't (yet)
+## Where this is going - and where it isn't (yet)
 
 ### What learned SLAM is great at
 
 * **Photoreal reconstruction.** Gaussian-splat maps are renderable from any viewpoint. NeRF/Gaussian-splat maps are what AR headsets and digital-twin pipelines want.
 * **Dense geometry from sparse supervision.** A neural field interpolates plausible geometry between observations.
-* **Joint optimization of pose + appearance + geometry** — the differentiable-rendering loss naturally couples all three.
+* **Joint optimization of pose + appearance + geometry** - the differentiable-rendering loss naturally couples all three.
 
 ### What learned SLAM is still bad at
 
@@ -160,7 +160,7 @@ Expect the SOTA to shift twice a year in this corner of the field through 2026.
 ### What's coming
 
 * **Hybrid systems.** Classical front-end (LiDAR odometry, IMU preint, sparse features) + learned map / dense reconstruction back-end. GLIM is closer to this. So is anything labelled "neuralized" classical SLAM.
-* **GPU SLAM stacks.** The same way classical SLAM moved from "research code on a laptop" to "production C++ on a robot," learned SLAM will move from "Python research code on a 4090" to "CUDA on Jetson." Companies (Eternal.ag included — this is what I work on in 2026) are pushing here.
+* **GPU SLAM stacks.** The same way classical SLAM moved from "research code on a laptop" to "production C++ on a robot," learned SLAM will move from "Python research code on a 4090" to "CUDA on Jetson." Several companies - including the one I work at in 2026 - are pushing here.
 * **Foundation models for SLAM.** DUSt3R (Wang et al. 2024), MASt3R, and other models that produce pose + dense geometry from a pair of images are blurring the line between SfM and SLAM. The "pose from a transformer" approach is real.
 
 ***
@@ -170,23 +170,23 @@ Expect the SOTA to shift twice a year in this corner of the field through 2026.
 In 2026, the honest answer for a robot that has to navigate:
 
 * **Production deployment, ground robot, indoor / outdoor:** No. Use classical LiDAR or visual SLAM. The compute budget and loop closure story aren't there yet.
-* **Production deployment, AR headset, dense reconstruction product:** Yes — SplaTAM / Gaussian-Splat SLAM if you have GPU, with classical visual-inertial tracking underneath.
+* **Production deployment, AR headset, dense reconstruction product:** Yes - SplaTAM / Gaussian-Splat SLAM if you have GPU, with classical visual-inertial tracking underneath.
 * **Research baseline for a paper:** Yes. The field expects you to compare against at least one Gaussian-splat system.
 * **Learning / exploration:** Absolutely. Build one. The differentiable-rendering formulation is the future of perception generally.
 
-> **Field notes:** I work on GPU-accelerated SLAM at Eternal.ag because the ceiling is much higher than for CPU-bound classical SLAM. But every shipping product I've seen in 2026 still has a classical front-end somewhere. The Gaussian splat is the *map*. The tracker that produces the camera trajectory is usually classical-feeling underneath the differentiable rendering loss. Don't confuse "neural representation" with "neural tracker."
+> **Field notes:** I work on GPU-accelerated SLAM in production because the ceiling is much higher than for CPU-bound classical SLAM. But every shipping product I've seen in 2026 still has a classical front-end somewhere. The Gaussian splat is the *map*. The tracker that produces the camera trajectory is usually classical-feeling underneath the differentiable rendering loss. Don't confuse "neural representation" with "neural tracker."
 
 ***
 
 ## Further reading
 
-* Tewari et al. (2022 / 2023) "Advances in Neural Rendering" — state of the art at the moment NeRF/3DGS split.
-* Original 3DGS paper: [arxiv.org/abs/2308.04079](https://arxiv.org/abs/2308.04079) — still the cleanest exposition of why splatting works.
-* DROID-SLAM (Teed & Deng, NeurIPS 2021) — [arxiv.org/abs/2108.10869](https://arxiv.org/abs/2108.10869) — the foundation for the academic GO-SLAM and a great example of differentiable BA done well.
-* DUSt3R (Wang et al. CVPR 2024) — [arxiv.org/abs/2312.14132](https://arxiv.org/abs/2312.14132) — pose + dense 3D from a transformer. Not yet SLAM but headed there.
+* Tewari et al. (2022 / 2023) "Advances in Neural Rendering" - state of the art at the moment NeRF/3DGS split.
+* Original 3DGS paper: [arxiv.org/abs/2308.04079](https://arxiv.org/abs/2308.04079) - still the cleanest exposition of why splatting works.
+* DROID-SLAM (Teed & Deng, NeurIPS 2021) - [arxiv.org/abs/2108.10869](https://arxiv.org/abs/2108.10869) - the foundation for the academic GO-SLAM and a great example of differentiable BA done well.
+* DUSt3R (Wang et al. CVPR 2024) - [arxiv.org/abs/2312.14132](https://arxiv.org/abs/2312.14132) - pose + dense 3D from a transformer. Not yet SLAM but headed there.
 
 ### Cross-references in this handbook
 
-* [GO-SLAM (Pan's)](../authors-projects/go-slam.md) — my classical from-scratch SLAM, **not** the ICCV 2023 paper covered above. See disambiguation at the top of this page.
-* [Visual SLAM](visual-slam.md) — the classical visual SLAM systems neural SLAM is competing with.
-* [LiDAR SLAM](lidar-slam.md) — the classical LiDAR SLAM systems and where GPU/learned LiDAR fits in (GLIM, etc.).
+* [GO-SLAM (Pan's)](../authors-projects/go-slam.md) - my classical from-scratch SLAM, **not** the ICCV 2023 paper covered above. See disambiguation at the top of this page.
+* [Visual SLAM](visual-slam.md) - the classical visual SLAM systems neural SLAM is competing with.
+* [LiDAR SLAM](lidar-slam.md) - the classical LiDAR SLAM systems and where GPU/learned LiDAR fits in (GLIM, etc.).

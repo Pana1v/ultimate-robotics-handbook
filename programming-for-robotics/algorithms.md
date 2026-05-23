@@ -78,9 +78,9 @@ Robotics systems rely on a rich toolbox of algorithms for sensing, estimation, c
 * **Gauss–Newton & Levenberg–Marquardt**: Nonlinear least-squares solvers for bundle adjustment, calibration, and pose-graph optimization. See [GO-SLAM](../authors-projects/go-slam.md) for an implementation from scratch.
 * **Gradient Descent & Stochastic Gradient Descent**: Iterative minimization for learning and control parameter tuning
 * **Convex Optimization (CVX, CVXPY)**: Fast solvers for quadratic and semidefinite programs in control and state estimation
-* **Trajectory Optimization (iLQR, DDP)**: Nonlinear optimization of state-action trajectories — the math behind MPC for robotics
+* **Trajectory Optimization (iLQR, DDP)**: Nonlinear optimization of state-action trajectories - the math behind MPC for robotics
 * **Constraint Programming (CP-SAT, OR-Tools)**: Discrete optimization for task sequencing, scheduling. See [LEAP](../authors-projects/leap.md) for asymmetric TSP pick-and-place.
-* **Factor Graphs (g2o, GTSAM, Ceres)**: Library-backed graph optimization — the modern way to solve SLAM, calibration, and sensor fusion. See [Optimization Libraries](optimization-libraries.md).
+* **Factor Graphs (g2o, GTSAM, Ceres)**: Library-backed graph optimization - the modern way to solve SLAM, calibration, and sensor fusion. See [Optimization Libraries](optimization-libraries.md).
 
 ### Pseudocode: Core Algorithms
 
@@ -155,11 +155,11 @@ def rrt(start, goal, sample_fn, steer_fn, collision_free, max_iter=5000):
 <figure><img src="../.gitbook/assets/0_PRDfQwGlwD4JvrmA.gif" alt=""><figcaption></figcaption></figure>
 
 * **Reinforcement Learning (Q-Learning, DQN, PPO, SAC)**: Autonomous policy learning from interaction rewards
-* **Imitation Learning (BC, DAgger, ACT, Diffusion Policy)**: Learning policies from human demonstrations — the dominant 2024-2026 paradigm for manipulation
+* **Imitation Learning (BC, DAgger, ACT, Diffusion Policy)**: Learning policies from human demonstrations - the dominant 2024-2026 paradigm for manipulation
 * **Foundation Models / VLAs (RT-2, OpenVLA, π0)**: Vision-language-action models pretrained at scale, generalist robot policies
 * **Gaussian Processes**: Nonparametric models for regression and uncertainty quantification in terrain modeling
 * **Support Vector Machines (SVM)**: Classification of sensor or vision data in low-dimensional feature spaces
 
-For a deep dive on modern robot learning — imitation, RL, foundation models, world models, sim-to-real — see the [Robot Learning](../robot-learning/) section.
+For a deep dive on modern robot learning - imitation, RL, foundation models, world models, sim-to-real - see the [Robot Learning](../robot-learning/) section.
 
 By combining these algorithms-choosing the right filter for robust sensing, the optimal controller for precise motion, and the most suitable planner for agile navigation-robots can perceive, plan, and act reliably in complex, dynamic environments.

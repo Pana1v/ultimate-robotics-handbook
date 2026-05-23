@@ -29,13 +29,13 @@
   <h1>Quaternion ↔ Euler (ZYX) ↔ Rotation Matrix</h1>
   <div class="layout">
     <div class="panel">
-      <h2>Quaternion (w, x, y, z) — auto-normalized</h2>
+      <h2>Quaternion (w, x, y, z) - auto-normalized</h2>
       <div class="slider"><label>w</label><input id="qw" type="range" min="-1" max="1" step="0.001" value="1" aria-label="quaternion w"><span class="v" id="qwv">1.000</span></div>
       <div class="slider"><label>x</label><input id="qx" type="range" min="-1" max="1" step="0.001" value="0" aria-label="quaternion x"><span class="v" id="qxv">0.000</span></div>
       <div class="slider"><label>y</label><input id="qy" type="range" min="-1" max="1" step="0.001" value="0" aria-label="quaternion y"><span class="v" id="qyv">0.000</span></div>
       <div class="slider"><label>z</label><input id="qz" type="range" min="-1" max="1" step="0.001" value="0" aria-label="quaternion z"><span class="v" id="qzv">0.000</span></div>
 
-      <h2 style="margin-top:14px">Euler ZYX (roll, pitch, yaw — degrees)</h2>
+      <h2 style="margin-top:14px">Euler ZYX (roll, pitch, yaw - degrees)</h2>
       <div class="slider"><label>R</label><input id="er" type="range" min="-180" max="180" step="0.5" value="0" aria-label="roll"><span class="v" id="erv">0°</span></div>
       <div class="slider"><label>P</label><input id="ep" type="range" min="-89" max="89" step="0.5" value="0" aria-label="pitch"><span class="v" id="epv">0°</span></div>
       <div class="slider"><label>Y</label><input id="ey" type="range" min="-180" max="180" step="0.5" value="0" aria-label="yaw"><span class="v" id="eyv">0°</span></div>
@@ -72,7 +72,7 @@
     ];
   }
 
-  // R -> Euler ZYX (roll about X, pitch about Y, yaw about Z) — applied as Rz*Ry*Rx
+  // R -> Euler ZYX (roll about X, pitch about Y, yaw about Z) - applied as Rz*Ry*Rx
   function rToEuler(R) {
     const sy = -R[2][0];
     let pitch = Math.asin(Math.max(-1, Math.min(1, sy)));

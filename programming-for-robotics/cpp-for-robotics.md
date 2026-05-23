@@ -4,7 +4,7 @@ icon: code
 
 # Modern C++ for Robotics
 
-C++ is still the language you reach for when latency matters, when you need deterministic timing, or when you're talking to hardware. ROS 2 itself is C++ underneath — `rclpy` is a binding over `rcl`, which is C, which calls into `rcl_cpp` infrastructure for the heavy lifting. If you want to write a node that runs the control loop at 1 kHz without missing a beat, you write it in C++.
+C++ is still the language you reach for when latency matters, when you need deterministic timing, or when you're talking to hardware. ROS 2 itself is C++ underneath - `rclpy` is a binding over `rcl`, which is C, which calls into `rcl_cpp` infrastructure for the heavy lifting. If you want to write a node that runs the control loop at 1 kHz without missing a beat, you write it in C++.
 
 This page is the C++ I actually use in production robotics work, not the textbook tour. If you want the textbook, read Stroustrup. If you want to ship a robot, read this.
 
@@ -12,15 +12,15 @@ This page is the C++ I actually use in production robotics work, not the textboo
 
 You should be on C++17 minimum. C++20 if your toolchain supports it (Humble defaults to C++17, Jazzy to C++17 but works fine with C++20 set in CMake). Here's what I use daily.
 
-### Smart pointers — never `new`, almost never `delete`
+### Smart pointers - never `new`, almost never `delete`
 
 ```cpp
 #include <memory>
 
-// shared_ptr — ROS 2 uses these everywhere for nodes, publishers, subscribers
+// shared_ptr - ROS 2 uses these everywhere for nodes, publishers, subscribers
 auto node = std::make_shared<rclcpp::Node>("my_node");
 
-// unique_ptr — single-owner, zero overhead vs raw pointer
+// unique_ptr - single-owner, zero overhead vs raw pointer
 auto controller = std::make_unique<MotionController>(node);
 
 // Pass by reference unless you need ownership semantics
@@ -30,7 +30,7 @@ void process(std::shared_ptr<PointCloud> cloud);  // only if you store it
 
 Rule of thumb: `unique_ptr` by default, `shared_ptr` when ROS 2 forces you (callbacks, lifecycle), raw pointer only as a non-owning observer that cannot outlive the owner.
 
-### `std::optional` — say "maybe" without sentinel values
+### `std::optional` - say "maybe" without sentinel values
 
 ```cpp
 #include <optional>
@@ -53,7 +53,7 @@ if (auto pose = lookup_transform("map", "base_link")) {
 
 Stop returning `-1` or `(0,0,0)` to signal "no data." Use `std::optional`.
 
-### `std::variant` — tagged unions done right
+### `std::variant` - tagged unions done right
 
 ```cpp
 #include <variant>
@@ -74,7 +74,7 @@ void handle(const SensorReading& reading) {
 
 Great for state machines, sensor fusion pipelines that handle heterogeneous data, and replacing inheritance hierarchies where you actually know the closed set of types.
 
-### Structured bindings — unpack everything
+### Structured bindings - unpack everything
 
 ```cpp
 // Before C++17
@@ -91,7 +91,7 @@ for (const auto& [frame_id, transform] : transform_cache_) {
 }
 ```
 
-### Concepts (C++20) — type constraints that don't hurt
+### Concepts (C++20) - type constraints that don't hurt
 
 ```cpp
 #include <concepts>
@@ -109,7 +109,7 @@ T wrap_angle(T angle) {
 
 Error messages become readable. Template metaprogramming becomes legible.
 
-### Ranges (C++20) — pipeline-style algorithms
+### Ranges (C++20) - pipeline-style algorithms
 
 ```cpp
 #include <ranges>
@@ -124,7 +124,7 @@ auto close_ids = detections
 
 Caveat: GCC's ranges implementation was rough before 11.2. On Humble (Ubuntu 22.04, GCC 11.4) you're fine. On older Iron deployments, check first.
 
-## Eigen — your linear algebra workhorse
+## Eigen - your linear algebra workhorse
 
 Eigen is header-only, expression-template-based, and almost certainly already in your dependency graph (tf2, OpenCV, PCL all use it). Learn it well. Docs: <https://eigen.tuxfamily.org/dox/>
 
@@ -133,18 +133,18 @@ Eigen is header-only, expression-template-based, and almost certainly already in
 ```cpp
 #include <Eigen/Dense>
 
-// Fixed-size — stack-allocated, no heap, vectorized, FAST
+// Fixed-size - stack-allocated, no heap, vectorized, FAST
 Eigen::Vector3d position(1.0, 2.0, 3.0);     // 3-vector of doubles
 Eigen::Matrix4d transform = Eigen::Matrix4d::Identity();  // 4x4 homogeneous
 
-// Dynamic-size — heap-allocated, use when dimensions only known at runtime
+// Dynamic-size - heap-allocated, use when dimensions only known at runtime
 Eigen::MatrixXd jacobian(rows, cols);
 Eigen::VectorXd state(n_states);
 ```
 
 **Rule:** if the size is known at compile time and is small (≤ 16 elements), use the fixed-size version. Always. The compiler can unroll loops, the data sits on the stack, no allocation in your hot loop.
 
-### Expression templates — don't fight them
+### Expression templates - don't fight them
 
 ```cpp
 // This does NOT compute three intermediate matrices.
@@ -219,9 +219,9 @@ private:
 
 `std::mutex` can cause priority inversion. For producer/consumer between a real-time thread and a non-RT thread, use a lock-free SPSC queue.
 
-- `boost::lockfree::spsc_queue` — single-producer single-consumer, header-only Boost. <https://www.boost.org/doc/libs/release/doc/html/boost/lockfree/spsc_queue.html> [verify]
-- `folly::ProducerConsumerQueue` — Meta's version, similar API. <https://github.com/facebook/folly> [verify]
-- `moodycamel::ReaderWriterQueue` — another popular choice. <https://github.com/cameron314/readerwriterqueue>
+- `boost::lockfree::spsc_queue` - single-producer single-consumer, header-only Boost. <https://www.boost.org/doc/libs/release/doc/html/boost/lockfree/spsc_queue.html> [verify]
+- `folly::ProducerConsumerQueue` - Meta's version, similar API. <https://github.com/facebook/folly> [verify]
+- `moodycamel::ReaderWriterQueue` - another popular choice. <https://github.com/cameron314/readerwriterqueue>
 
 ```cpp
 #include <boost/lockfree/spsc_queue.hpp>
@@ -242,7 +242,7 @@ while (queue.pop(frame)) {
 
 ### No exceptions in real-time threads
 
-Throwing an exception walks the stack and runs destructors — bounded in theory, unbounded in practice. For RT code, prefer `std::expected` (C++23) or `tl::expected` (header-only backport), or return error codes.
+Throwing an exception walks the stack and runs destructors - bounded in theory, unbounded in practice. For RT code, prefer `std::expected` (C++23) or `tl::expected` (header-only backport), or return error codes.
 
 Also: `noexcept` on functions in the hot path. It lets the compiler emit better code and prevents accidental exception propagation across the RT boundary.
 
@@ -253,7 +253,7 @@ Modern CPUs are starving for data, not arithmetic. A cache miss to main memory i
 ### SoA vs AoS
 
 ```cpp
-// Array of Structures (AoS) — intuitive but cache-unfriendly when iterating one field
+// Array of Structures (AoS) - intuitive but cache-unfriendly when iterating one field
 struct ParticleAoS {
     Eigen::Vector3d position;
     Eigen::Vector3d velocity;
@@ -262,7 +262,7 @@ struct ParticleAoS {
 std::vector<ParticleAoS> particles;
 // Iterating just positions wastes cache: each cache line carries unused velocity+mass
 
-// Structure of Arrays (SoA) — what particle filters and SIMD want
+// Structure of Arrays (SoA) - what particle filters and SIMD want
 struct ParticlesSoA {
     std::vector<double> x, y, z;
     std::vector<double> vx, vy, vz;
@@ -276,12 +276,12 @@ For 1000 particles in a particle filter, SoA can be 3-5x faster on the resample 
 ### Contiguous data structures
 
 ```cpp
-std::vector<T>      // contiguous — cache-friendly, default choice
+std::vector<T>      // contiguous - cache-friendly, default choice
 std::array<T, N>    // stack-allocated, fixed size, same cache properties
-std::deque<T>       // chunked — okay
-std::list<T>        // linked — almost always wrong
-std::map<K, V>      // red-black tree — bad locality
-std::unordered_map  // hash table — better, but still pointer-chasing on collisions
+std::deque<T>       // chunked - okay
+std::list<T>        // linked - almost always wrong
+std::map<K, V>      // red-black tree - bad locality
+std::unordered_map  // hash table - better, but still pointer-chasing on collisions
 ```
 
 ### `std::vector::reserve` is not optional
@@ -294,7 +294,7 @@ for (...) {
 }
 ```
 
-Without reserve, vector doubles its capacity on growth — fine amortized, terrible for latency in a 1 kHz loop.
+Without reserve, vector doubles its capacity on growth - fine amortized, terrible for latency in a 1 kHz loop.
 
 ## When NOT to use STL containers
 
@@ -304,7 +304,7 @@ This is one of those "you grow into it" things. The STL is good, but the default
 |---|---|---|
 | `std::list` | `std::vector` | List has terrible cache behavior; insertion-in-middle is rarely the bottleneck |
 | `std::map<K,V>` (small N) | `std::vector<std::pair<K,V>>` + linear scan | For N < ~32, linear scan in cache beats tree traversal |
-| `std::map<K,V>` (large N) | `boost::container::flat_map` | Sorted vector under the hood — log N lookup, cache-friendly |
+| `std::map<K,V>` (large N) | `boost::container::flat_map` | Sorted vector under the hood - log N lookup, cache-friendly |
 | `std::string` for tiny labels | `std::string_view` or fixed-size buffer | SSO helps, but views avoid all allocation |
 | `std::unordered_map` for hot lookups | `absl::flat_hash_map` or `robin_hood::unordered_map` | Open-addressing, ~2x faster in practice |
 
@@ -338,7 +338,7 @@ Things to watch for:
 
 ## Threading
 
-### `std::jthread` (C++20) — RAII threads with cancellation
+### `std::jthread` (C++20) - RAII threads with cancellation
 
 ```cpp
 #include <thread>
@@ -375,7 +375,7 @@ if (emergency_stop.load(std::memory_order_acquire)) {
 
 For booleans and small POD, `std::atomic` beats `std::mutex` every time. For larger state, use a mutex or, better, a lock-free queue.
 
-### `std::shared_mutex` — multiple readers, one writer
+### `std::shared_mutex` - multiple readers, one writer
 
 ```cpp
 std::shared_mutex map_mutex_;
@@ -394,11 +394,11 @@ void slam_thread() {
 }
 ```
 
-Don't use this in a 1 kHz loop — the reader-writer accounting has overhead. Use it for slower paths where reads vastly outnumber writes (map, parameter cache).
+Don't use this in a 1 kHz loop - the reader-writer accounting has overhead. Use it for slower paths where reads vastly outnumber writes (map, parameter cache).
 
 ## rclcpp idioms
 
-### Composition — multiple nodes in one process
+### Composition - multiple nodes in one process
 
 ```cpp
 #include <rclcpp_components/register_node_macro.hpp>
@@ -414,7 +414,7 @@ RCLCPP_COMPONENTS_REGISTER_NODE(MyNode)
 
 Then load into a container via `ros2 component load /component_container my_pkg my_pkg::MyNode`. Intra-process communication becomes a pointer pass instead of serialize/deserialize. For perception pipelines passing point clouds between nodes, this is 5-10x faster than separate processes. <https://docs.ros.org/en/jazzy/Concepts/Intermediate/About-Composition.html> [verify]
 
-### Lifecycle nodes — managed state machines
+### Lifecycle nodes - managed state machines
 
 ```cpp
 #include <rclcpp_lifecycle/lifecycle_node.hpp>
@@ -435,9 +435,9 @@ public:
 };
 ```
 
-Use lifecycle nodes whenever startup ordering or graceful shutdown matters — sensors, drivers, anything that touches hardware.
+Use lifecycle nodes whenever startup ordering or graceful shutdown matters - sensors, drivers, anything that touches hardware.
 
-### Callback groups — control concurrency
+### Callback groups - control concurrency
 
 ```cpp
 auto cb_group_sensors = create_callback_group(
@@ -451,7 +451,7 @@ auto sub_lidar = create_subscription<LaserScan>("scan", 10,
 auto sub_camera = create_subscription<Image>("image", 10,
     image_cb, opts_with_group(cb_group_sensors));
 
-// Control callbacks are serialized — never two at once
+// Control callbacks are serialized - never two at once
 auto sub_cmd = create_subscription<Twist>("cmd_vel", 10,
     cmd_cb, opts_with_group(cb_group_control));
 auto timer_ctrl = create_wall_timer(1ms, ctrl_step,
@@ -467,11 +467,11 @@ The default `MutuallyExclusive` group on the default executor means *all* your c
 
 ## Further reading
 
-- `/home/pan-navigator/Documents/claude-config/references/cpp_optimizations/` — Pan's curated notes on C++ for robotics performance. Read `index.md` first.
-- *Effective Modern C++* — Scott Meyers. Still the best book for getting modern C++ idioms right.
-- *A Philosophy of Software Design* — John Ousterhout. Not C++ specific, but the chapter on minimizing exceptions matters for RT code.
-- *C++ Concurrency in Action* — Anthony Williams. The threading reference.
-- ROS 2 design docs: <https://design.ros2.org/> — read the executor and intra-process comms ones.
+- `/home/pan-navigator/Documents/claude-config/references/cpp_optimizations/` - Pan's curated notes on C++ for robotics performance. Read `index.md` first.
+- *Effective Modern C++* - Scott Meyers. Still the best book for getting modern C++ idioms right.
+- *A Philosophy of Software Design* - John Ousterhout. Not C++ specific, but the chapter on minimizing exceptions matters for RT code.
+- *C++ Concurrency in Action* - Anthony Williams. The threading reference.
+- ROS 2 design docs: <https://design.ros2.org/> - read the executor and intra-process comms ones.
 - `rclcpp` API: <https://docs.ros.org/en/jazzy/p/rclcpp/> [verify]
 
 If you take one thing from this page: profile before you optimize, but know enough about the hardware (cache, allocator, scheduler) that your "vibes" optimizations are at least pointed in the right direction.
