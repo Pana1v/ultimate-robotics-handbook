@@ -6,8 +6,6 @@ icon: shuttle-space
 
 ### **Space Robotics: A Comprehensive Guide** <a href="#undefined" id="undefined"></a>
 
-
-
 Space robotics involves the design, manufacturing, and operation of robotic systems tailored for the demanding and unique conditions of outer space . These sophisticated machines are crucial for conducting missions beyond Earth's atmosphere, performing tasks that are often too dangerous, complex, or impractical for human astronauts . From exploring distant planets and moons to constructing and maintaining orbital infrastructure, space robots are at the forefront of scientific discovery, technological advancement, and the expansion of human presence in the cosmos . This guide delves into the fundamentals of space robotics, its key technologies, diverse applications, the organizations leading the charge, significant research, and resources for further exploration.
 
 <figure><img src="../.gitbook/assets/WhatsApp Image 2025-05-18 at 13.56.50_b9e8560d.jpg" alt=""><figcaption><p>IIT Patna's first Rover Prototype build courtesy of the Robocon and Rover Team, IIT Patna</p></figcaption></figure>
@@ -34,7 +32,7 @@ Space robotics is the development of general-purpose machines capable of survivi
 
 ### **1.2. The Harsh Realities: Challenges of the Space Environment for Robotics**
 
-<figure><img src="../.gitbook/assets/giphy (3).gif" alt=""><figcaption></figcaption></figure>
+<figure><img src="../.gitbook/assets/giphy (2).gif" alt=""><figcaption></figcaption></figure>
 
 Operating robots in space presents unique and formidable challenges :
 

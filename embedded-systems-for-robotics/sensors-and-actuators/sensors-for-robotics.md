@@ -41,8 +41,6 @@ Accelerometers are available in both analog and digital forms and can detect sta
 
 <figure><img src="../../.gitbook/assets/spinning+animation.gif" alt=""><figcaption></figcaption></figure>
 
-
-
 * **Function**: Measures angular velocity and rotation
 * **Types**: MEMS, Fiber optic, Ring laser
 * **Applications**: Stabilization, navigation, motion control
@@ -83,7 +81,7 @@ Magnetometers work on the principle of Faraday's Law of induction and magnetic p
 
 ### IMU (Inertial Measurement Unit)
 
-<figure><img src="../../.gitbook/assets/giphy (4).gif" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/giphy (3).gif" alt=""><figcaption></figcaption></figure>
 
 * **Function**: Combines accelerometer, gyroscope, and often magnetometer
 * **Applications**: Drone stabilization, robot orientation, motion capture
@@ -170,8 +168,6 @@ Most ultrasonic sensors like HC-SR04 can measure distances from 2 cm to 400 cm.
 
 ### LIDAR (Light Detection and Ranging)
 
-
-
 * **Function**: Creates detailed distance maps using laser
 * **Types**: 1D, 2D (planar), 3D
 * **Applications**: Navigation, mapping, obstacle detection
@@ -215,7 +211,7 @@ There are two main types:
 
 ### Linear Variable Differential Transformer (LVDT)
 
-<figure><img src="../../.gitbook/assets/65f854814fd223fc3678f1ac_LVDT-Inductive-device-1 (1).gif" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/65f854814fd223fc3678f1ac_LVDT-Inductive-device-1.gif" alt=""><figcaption></figcaption></figure>
 
 * **Function**: Measures linear displacement
 * **Applications**: Precision motion control, industrial automation
@@ -389,8 +385,6 @@ Bump sensors are simple switches that close a circuit when physical contact is m
 
 ![](../../.gitbook/assets/Sound-Sensor-Module-Working.gif)
 
-
-
 * **Types**: Electret, MEMS, Dynamic
 * **Applications**: Voice commands, sound detection, acoustic localization
 * **Examples**: MAX9814, INMP441, LM386 with electret mic
@@ -413,7 +407,7 @@ Bump sensors are simple switches that close a circuit when physical contact is m
 
 ### Radiation Sensor
 
-<figure><img src="../../.gitbook/assets/giphy (5).gif" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/giphy (4).gif" alt=""><figcaption></figcaption></figure>
 
 * **Types**: Geiger-Müller, Scintillation
 * **Applications**: Radiation monitoring, nuclear robotics

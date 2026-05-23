@@ -2,17 +2,13 @@
 icon: brain
 ---
 
-# LEAP - Learning-Augmented Exact Optimization for Asymmetric Pick-and-Place Sequencing
+# LEAP — Pick-and-Place Optimization
 
-> Pick-and-place sequencing is **not** the symmetric TSP your operations-research textbook covered. The transition cost between any two items depends on *which bin the previous item was placed in*. LEAP formulates the problem as **asymmetric TSP**, replaces the standard Miller-Tucker-Zemlin subtour constraints with a **CP-SAT Hamiltonian circuit formulation** (5-7× solver speedup), then uses an **imitation-learned cycle-aware heterogeneous GNN** to prune the decision-variable space from O(N²) to O(Nk). **17.5× faster than baselines at N=200 with a worst-case optimality gap of 0.06%.**
+> Pick-and-place sequencing is **not** the symmetric TSP your operations-research textbook covered. The transition cost between any two items depends on _which bin the previous item was placed in_. LEAP formulates the problem as **asymmetric TSP**, replaces the standard Miller-Tucker-Zemlin subtour constraints with a **CP-SAT Hamiltonian circuit formulation** (5-7× solver speedup), then uses an **imitation-learned cycle-aware heterogeneous GNN** to prune the decision-variable space from O(N²) to O(Nk). **17.5× faster than baselines at N=200 with a worst-case optimality gap of 0.06%.**
 
-**Role:** First author
-**Affiliation:** BRAIn Lab, IIT Patna
-**Advisor:** Dr. Atul Thakur
-**Timeline:** Aug 2025 - May 2026
-**Status:** Manuscript in preparation
+**Role:** First author **Affiliation:** BRAIn Lab, IIT Patna **Advisor:** Dr. Atul Thakur **Timeline:** Aug 2025 - May 2026 **Status:** Manuscript in preparation
 
-> **Related material:** This work sits at the intersection of combinatorial optimization and graph learning. For the underlying optimization fundamentals, see [Mathematical Foundations](../mathematical-and-programming-foundations/linear-algebra-for-robotics.md). For the learning side, see the Robot Learning chapter elsewhere in this handbook.
+> **Related material:** This work sits at the intersection of combinatorial optimization and graph learning. For the underlying optimization fundamentals, see [Mathematical Foundations](../foundations/linear-algebra-for-robotics.md). For the learning side, see the Robot Learning chapter elsewhere in this handbook.
 
 ***
 
@@ -35,7 +31,7 @@ Consider a real cell:
 * It then moves to pick item `b` from bin `B_b`.
 * **The cost of the (a → b) transition depends on which output bin `a` was placed in.** If `a` was placed in an output bin near `B_b`, the next pick is cheap. If `a` was placed in an output bin on the opposite side of the cell, the next pick is expensive.
 
-In TSP language, the cost matrix is no longer a function of (source, destination) - it's a function of (source, **post-placement state**, destination). The graph isn't even properly directed; it has an embedded *cycle* (pick → place → pick) that the cost depends on.
+In TSP language, the cost matrix is no longer a function of (source, destination) — it's a function of (source, **post-placement state**, destination). The graph isn't even properly directed; it has an embedded _cycle_ (pick → place → pick) that the cost depends on.
 
 The right model is:
 
@@ -109,15 +105,15 @@ status = solver.Solve(model)
 
 `[verify exact numbers from benchmark table]`
 
-| Formulation | N=50 (s) | N=100 (s) | N=150 (s) | N=200 (s) |
-| --- | --- | --- | --- | --- |
-| MTZ (Gurobi) | 0.6 | 8.2 | 71 | 540 |
-| CP-SAT circuit | 0.1 | 1.4 | 12 | 78 |
-| **Speedup** | **6×** | **5.9×** | **5.9×** | **6.9×** |
+| Formulation    | N=50 (s) | N=100 (s) | N=150 (s) | N=200 (s) |
+| -------------- | -------- | --------- | --------- | --------- |
+| MTZ (Gurobi)   | 0.6      | 8.2       | 71        | 540       |
+| CP-SAT circuit | 0.1      | 1.4       | 12        | 78        |
+| **Speedup**    | **6×**   | **5.9×**  | **5.9×**  | **6.9×**  |
 
 The MTZ formulation falls off a cliff because its LP relaxation gives no tight bound. CP-SAT's circuit propagator doesn't have an LP relaxation at all - it works on the combinatorial structure directly.
 
-> **Note:** this is a known result in the OR community for vanilla ATSP. What's novel for LEAP is showing that the speedup *survives* when you couple it with a learning-based pruning step (next section) - the two methods compose without interfering.
+> **Note:** this is a known result in the OR community for vanilla ATSP. What's novel for LEAP is showing that the speedup _survives_ when you couple it with a learning-based pruning step (next section) — the two methods compose without interfering.
 
 ***
 
@@ -133,17 +129,17 @@ This is a **learning-to-prune** approach, in the same family as Khalil et al. (2
 
 The pick-and-place problem has heterogeneous node types and a causal cycle structure that a standard GCN can't capture. LEAP's GNN has:
 
-| Node type | What it represents |
-| --- | --- |
-| `pick` | A pick location |
-| `place` | An output bin |
-| `home` | The robot home pose (start/end of tour) |
+| Node type | What it represents                      |
+| --------- | --------------------------------------- |
+| `pick`    | A pick location                         |
+| `place`   | An output bin                           |
+| `home`    | The robot home pose (start/end of tour) |
 
-| Edge type | What it represents |
-| --- | --- |
-| `pick → place` | "If you picked here, here are the placement options" |
+| Edge type      | What it represents                                             |
+| -------------- | -------------------------------------------------------------- |
+| `pick → place` | "If you picked here, here are the placement options"           |
 | `place → pick` | "If you placed here, here are the next pick options and costs" |
-| `pick ↔ pick` | Geometric proximity in picks (used for message passing only) |
+| `pick ↔ pick`  | Geometric proximity in picks (used for message passing only)   |
 
 Each round of message passing aggregates over these edge types separately (Schlichtkrull et al. 2018, R-GCN), then a global "tour context" embedding is mixed in via attention. The output is a logit per `(i, j)` arc.
 
@@ -184,20 +180,20 @@ All are run with a fixed wall-clock time budget matched to LEAP's solve time.
 
 `[verify exact numbers from your benchmark]`
 
-| Method | Solve time (s) | Optimality gap (%) |
-| --- | --- | --- |
-| LEAP (GNN-pruned CP-SAT) | **~4.5** | **0.06** (worst case) |
-| CP-SAT (full) | ~78 | 0 (reference) |
-| Guided Local Search | ~80 | 0.3 - 2.1 |
-| Simulated Annealing | ~80 | 1.5 - 4.5 |
-| Tabu Search | ~80 | 0.8 - 3.0 |
-| 2-opt | ~80 | 3.0 - 7.0 |
+| Method                   | Solve time (s) | Optimality gap (%)    |
+| ------------------------ | -------------- | --------------------- |
+| LEAP (GNN-pruned CP-SAT) | **\~4.5**      | **0.06** (worst case) |
+| CP-SAT (full)            | \~78           | 0 (reference)         |
+| Guided Local Search      | \~80           | 0.3 - 2.1             |
+| Simulated Annealing      | \~80           | 1.5 - 4.5             |
+| Tabu Search              | \~80           | 0.8 - 3.0             |
+| 2-opt                    | \~80           | 3.0 - 7.0             |
 
 The headline number is **17.5× speedup** over the full CP-SAT solver at N=200, with an optimality gap that is essentially negligible (0.06% worst case across the test instances).
 
 ### Generalization
 
-The GNN was trained on N=20 to N=80 instances. Inference at N=200 is **out-of-distribution by 2.5×**. The fact that the optimality gap stays under 0.1% at this scale is the main empirical contribution - it suggests the GNN learns *structural* features of the pick-and-place graph that transfer beyond the training size distribution.
+The GNN was trained on N=20 to N=80 instances. Inference at N=200 is **out-of-distribution by 2.5×**. The fact that the optimality gap stays under 0.1% at this scale is the main empirical contribution — it suggests the GNN learns _structural_ features of the pick-and-place graph that transfer beyond the training size distribution.
 
 ***
 
@@ -226,13 +222,13 @@ If you're working on a similar problem (pick-and-place sequencing, asymmetric ro
 
 The honest comparison set, with what makes LEAP distinct from each:
 
-| Work | Year | What it does | What LEAP does differently |
-| --- | --- | --- | --- |
-| Khalil et al., "Learning Combinatorial Optimization Algorithms over Graphs" | 2017 | RL to construct TSP tours | Imitation learning instead of RL; exact CP-SAT solver instead of greedy construction |
-| Bengio et al., "ML for Combinatorial Optimization" | 2021 | Survey | LEAP is one data point in the agenda this survey lays out |
-| Kool et al., "Attention, Learn to Solve Routing Problems!" | 2019 | Attention-based policy for VRP | Different model class; routing not pick-and-place; no exact-solver coupling |
-| Schlichtkrull et al., "R-GCN" | 2018 | Heterogeneous GNN | LEAP uses R-GCN-style multi-relation message passing |
-| OR-Tools `AddCircuit` | ongoing | CP propagator for Hamiltonian circuit | LEAP's main solver-side primitive |
+| Work                                                                        | Year    | What it does                          | What LEAP does differently                                                           |
+| --------------------------------------------------------------------------- | ------- | ------------------------------------- | ------------------------------------------------------------------------------------ |
+| Khalil et al., "Learning Combinatorial Optimization Algorithms over Graphs" | 2017    | RL to construct TSP tours             | Imitation learning instead of RL; exact CP-SAT solver instead of greedy construction |
+| Bengio et al., "ML for Combinatorial Optimization"                          | 2021    | Survey                                | LEAP is one data point in the agenda this survey lays out                            |
+| Kool et al., "Attention, Learn to Solve Routing Problems!"                  | 2019    | Attention-based policy for VRP        | Different model class; routing not pick-and-place; no exact-solver coupling          |
+| Schlichtkrull et al., "R-GCN"                                               | 2018    | Heterogeneous GNN                     | LEAP uses R-GCN-style multi-relation message passing                                 |
+| OR-Tools `AddCircuit`                                                       | ongoing | CP propagator for Hamiltonian circuit | LEAP's main solver-side primitive                                                    |
 
 ***
 
