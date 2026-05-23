@@ -37,8 +37,6 @@ description: 'Choosing a Microcontroller: Popular Boards & Variants'
 
 ### ESP32 (Espressif Systems) <a href="#esp32-espressif-systems" id="esp32-espressif-systems"></a>
 
-
-
 * **Overview**: The ESP32 is a fa![](../../.gitbook/assets/ESP32-blink-gif.gif)mily of low-cost, low-power system-on-a-chip microcontrollers with integrated Wi-Fi and dual-mode Bluetooth [5](https://en.wikipedia.org/wiki/ESP32)[14](https://www.themechatronicsblog.com/2023/05/top-10-microcontroller-development-boards-for-beginners-to-professionals.html?m=1).
 * **Key Features**:
   * **MCU**: Xtensa dual-core (or single-core) 32-bit LX6 microprocessor [5](https://en.wikipedia.org/wiki/ESP32).
@@ -55,7 +53,7 @@ description: 'Choosing a Microcontroller: Popular Boards & Variants'
 
 ### STM32F4 Discovery Board (e.g., STM32F407)
 
-<figure><img src="../../.gitbook/assets/VID_20210528_143514-1 (1).gif" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/VID_20210528_143514-1.gif" alt=""><figcaption></figcaption></figure>
 
 * **Overview**: A powerful ARM Cortex-M4 board suitable for advanced robotics, signal processing, and industrial applications.
 * **Key Features**:
@@ -98,7 +96,7 @@ description: 'Choosing a Microcontroller: Popular Boards & Variants'
 
 ### ESP32-S3 <a href="#esp32-s3" id="esp32-s3"></a>
 
-<figure><img src="../../.gitbook/assets/animated-gif-v0-ZmliencxN3Vta3dlMbZ9sXHbPUeTfLZXzdb1t-ZLUH--Fk0WjMyoA7Ap5YGJ (1).webp" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/animated-gif-v0-ZmliencxN3Vta3dlMbZ9sXHbPUeTfLZXzdb1t-ZLUH--Fk0WjMyoA7Ap5YGJ.webp" alt=""><figcaption></figcaption></figure>
 
 * **Overview**: An advanced variant of the ESP32 with enhancements for AI acceleration and more GPIOs, suitable for edge AI and vision tasks. Features a dual-core Xtensa LX7 processor.
 * **Key Features**:
@@ -142,8 +140,6 @@ description: 'Choosing a Microcontroller: Popular Boards & Variants'
 
 <figure><img src="../../.gitbook/assets/lp-mspm0c1104-angled.png" alt=""><figcaption></figcaption></figure>
 
-
-
 * **Overview**: Marketed as one of the world’s smallest MCUs, designed for ultra-compact, low-power applications.
 * **Key Features**:
   * **MCU**: Arm Cortex-M0+.
@@ -182,8 +178,6 @@ description: 'Choosing a Microcontroller: Popular Boards & Variants'
 
 <figure><img src="../../.gitbook/assets/timer interrupts on the Arduino Due board.gif" alt=""><figcaption></figcaption></figure>
 
-
-
 * **Overview**: The first Arduino board based on a 32-bit ARM Cortex-M3 microcontroller. It has a large number of I/O pins and operates at 3.3V [4](https://www.thingbits.in/products/arduino-due)[10](https://en.wikipedia.org/wiki/List_of_Arduino_boards_and_compatible_systems).
 * **Key Features**:
   * **MCU**: Atmel SAM3X8E (ARM Cortex-M3) [4](https://www.thingbits.in/products/arduino-due)[10](https://en.wikipedia.org/wiki/List_of_Arduino_boards_and_compatible_systems).
@@ -212,8 +206,6 @@ description: 'Choosing a Microcontroller: Popular Boards & Variants'
 * **Typical Price**: Varies, generally more than UNO.
 
 ### Arduino Nano ESP32 <a href="#arduino-nano-esp32" id="arduino-nano-esp32"></a>
-
-
 
 * **Overview**: The first Arduino board to feature an ESP32 microcontroller from Espressif, specifically the u-blox NORA-W106 module (ESP32-S3) [10](https://en.wikipedia.org/wiki/List_of_Arduino_boards_and_compatible_systems)[12](https://circuitdigest.com/article/different-types-of-arduino-boards). It combines the Nano form factor with ESP32 capabilities.
 * **Key Features**:

@@ -10,8 +10,6 @@ Robotics systems rely on a rich toolbox of algorithms for sensing, estimation, c
 
 ![](../.gitbook/assets/Kalman_filter_animation,_1d.gif)
 
-
-
 <figure><img src="../.gitbook/assets/particle_demo_animation.gif" alt=""><figcaption><p>Kalman FIlter</p></figcaption></figure>
 
 * **Kalman Filter**: Optimal linear estimator for fusing motion models and noisy measurements (e.g., IMU + odometry)\
@@ -137,8 +135,6 @@ def rrt(start, goal, sample_fn, steer_fn, collision_free, max_iter=5000):
     return None
 ```
 
-
-
 ### Perception & Computer Vision <a href="#perception--computer-vision" id="perception--computer-vision"></a>
 
 <figure><img src="../.gitbook/assets/1_TixiOSYxjvmq_Zu177XDow.gif" alt=""><figcaption></figcaption></figure>
@@ -160,6 +156,6 @@ def rrt(start, goal, sample_fn, steer_fn, collision_free, max_iter=5000):
 * **Gaussian Processes**: Nonparametric models for regression and uncertainty quantification in terrain modeling
 * **Support Vector Machines (SVM)**: Classification of sensor or vision data in low-dimensional feature spaces
 
-For a deep dive on modern robot learning - imitation, RL, foundation models, world models, sim-to-real - see the [Robot Learning](../robot-learning/) section.
+For a deep dive on modern robot learning — imitation, RL, foundation models, world models, sim-to-real — see the [Robot Learning](../robot-learning/robot-learning.md) section.
 
 By combining these algorithms-choosing the right filter for robust sensing, the optimal controller for precise motion, and the most suitable planner for agile navigation-robots can perceive, plan, and act reliably in complex, dynamic environments.

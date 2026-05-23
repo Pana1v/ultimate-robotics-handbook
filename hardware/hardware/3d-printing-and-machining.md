@@ -43,7 +43,7 @@ This guide summarizes the key additive and subtractive fabrication processes-3D 
 
 ### 2. CNC Machining <a href="#undefined" id="undefined"></a>
 
-<figure><img src="../../.gitbook/assets/giphy (2).gif" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../.gitbook/assets/giphy (1).gif" alt=""><figcaption></figcaption></figure>
 
 ### Technology Overview
 
