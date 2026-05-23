@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>3-DOF DH Arm</title>
+<style>
+  :root { --bg:#1f1f1f; --fg:#eee; --accent:#4a9eff; --muted:#888; --panel:#2a2a2a; }
+  html,body { margin:0; padding:0; background:var(--bg); color:var(--fg); font-family:system-ui,-apple-system,sans-serif; }
+  .wrap { max-width:1000px; margin:0 auto; padding:12px; }
+  h1 { font-size:16px; margin:0 0 8px; color:var(--accent); }
+  .layout { display:grid; grid-template-columns: 1fr 320px; gap:12px; }
+  @media (max-width:760px) { .layout { grid-template-columns:1fr; } }
+  .panel { background:var(--panel); border-radius:6px; padding:10px; }
+  .panel h2 { font-size:12px; color:var(--muted); margin:0 0 6px; text-transform:uppercase; letter-spacing:0.5px; }
+  #scene { width:100%; height:440px; background:#181818; border-radius:4px; }
+  .slider { display:flex; align-items:center; gap:8px; margin:4px 0; font-family:monospace; font-size:12px; }
+  .slider label { min-width:32px; color:var(--accent); }
+  .slider input { flex:1; accent-color:var(--accent); }
+  .slider .v { min-width:50px; text-align:right; }
+  table { font-family:monospace; font-size:11px; border-collapse:collapse; width:100%; }
+  table th, table td { padding:3px 6px; text-align:right; border-bottom:1px solid #333; }
+  table th { color:var(--muted); font-weight:normal; }
+  .ee { font-family:monospace; font-size:12px; color:var(--fg); }
+  footer { text-align:center; font-size:11px; color:var(--muted); margin-top:10px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>3-DOF DH Arm (Standard Denavit-Hartenberg)</h1>
+  <div class="layout">
+    <div class="panel"><div id="scene"></div></div>
+    <div class="panel">
+      <h2>Joints</h2>
+      <div class="slider"><label>θ1</label><input id="t1" type="range" min="-180" max="180" step="1" value="30" aria-label="theta1"><span class="v" id="t1v">30°</span></div>
+      <div class="slider"><label>θ2</label><input id="t2" type="range" min="-150" max="150" step="1" value="45" aria-label="theta2"><span class="v" id="t2v">45°</span></div>
+      <div class="slider"><label>θ3</label><input id="t3" type="range" min="-150" max="150" step="1" value="-30" aria-label="theta3"><span class="v" id="t3v">-30°</span></div>
+
+      <h2 style="margin-top:14px">DH Table (fixed)</h2>
+      <table>
+        <thead><tr><th>i</th><th>a</th><th>d</th><th>α</th><th>θ</th></tr></thead>
+        <tbody id="dhbody"></tbody>
+      </table>
+
+      <h2 style="margin-top:14px">End-effector</h2>
+      <div class="ee" id="ee">—</div>
+    </div>
+  </div>
+  <footer>Part of the Ultimate Robotics Handbook by Panav · panav.netlify.app</footer>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js" crossorigin="anonymous"></script>
+<script>
+(() => {
+  // DH parameters (standard convention): T_i = Rz(θ) * Tz(d) * Tx(a) * Rx(α)
+  // Joint 1: vertical rotation (shoulder yaw)
+  // Joint 2 & 3: planar elbow links
+  const DH = [
+    { a:0.00, d:0.40, alpha: Math.PI/2 },  // base rotation about z
+    { a:0.60, d:0.00, alpha: 0 },
+    { a:0.50, d:0.00, alpha: 0 }
+  ];
+
+  // Render DH table
+  const tbody = document.getElementById('dhbody');
+  DH.forEach((p, i) => {
+    const row = document.createElement('tr');
+    row.innerHTML = `<td>${i+1}</td><td>${p.a.toFixed(2)}</td><td>${p.d.toFixed(2)}</td><td>${(p.alpha*180/Math.PI).toFixed(0)}°</td><td>θ${i+1}</td>`;
+    tbody.appendChild(row);
+  });
+
+  function dhMatrix(a, d, alpha, theta) {
+    const ct = Math.cos(theta), st = Math.sin(theta);
+    const ca = Math.cos(alpha), sa = Math.sin(alpha);
+    return new THREE.Matrix4().set(
+      ct, -st*ca,  st*sa, a*ct,
+      st,  ct*ca, -ct*sa, a*st,
+       0,     sa,     ca,    d,
+       0,      0,      0,    1
+    );
+  }
+
+  // Scene
+  const container = document.getElementById('scene');
+  const scene = new THREE.Scene();
+  const cam = new THREE.PerspectiveCamera(45, 1, 0.01, 100);
+  cam.position.set(2.0, 1.6, 2.0); cam.lookAt(0, 0.5, 0);
+  const renderer = new THREE.WebGLRenderer({ antialias:true });
+  renderer.setClearColor(0x181818);
+  container.appendChild(renderer.domElement);
+
+  function fit() {
+    const w = container.clientWidth, h = container.clientHeight;
+    renderer.setSize(w, h);
+    cam.aspect = w / h; cam.updateProjectionMatrix();
+  }
+  window.addEventListener('resize', fit);
+
+  // Lights
+  scene.add(new THREE.AmbientLight(0xffffff, 0.5));
+  const light = new THREE.DirectionalLight(0xffffff, 0.8);
+  light.position.set(2, 5, 3); scene.add(light);
+
+  // Ground grid
+  const grid = new THREE.GridHelper(3, 12, 0x444444, 0x2a2a2a);
+  scene.add(grid);
+
+  // Axis helpers
+  scene.add(new THREE.AxesHelper(0.6));
+
+  // Build link meshes (we recreate transforms each frame)
+  const mat1 = new THREE.MeshStandardMaterial({ color: 0x4a9eff, metalness:0.3, roughness:0.4 });
+  const mat2 = new THREE.MeshStandardMaterial({ color: 0x6bcb77, metalness:0.3, roughness:0.4 });
+  const mat3 = new THREE.MeshStandardMaterial({ color: 0xffd166, metalness:0.3, roughness:0.4 });
+  const jointMat = new THREE.MeshStandardMaterial({ color: 0xdddddd });
+
+  function makeLink(material, length) {
+    const g = new THREE.CylinderGeometry(0.04, 0.04, length, 16);
+    g.translate(0, length/2, 0);
+    return new THREE.Mesh(g, material);
+  }
+  function makeJoint() {
+    const g = new THREE.SphereGeometry(0.06, 16, 12);
+    return new THREE.Mesh(g, jointMat);
+  }
+
+  // We attach links to "frame groups" using DH transforms
+  const f0 = new THREE.Group(); scene.add(f0);
+  const f1 = new THREE.Group(); f0.add(f1);
+  const f2 = new THREE.Group(); f1.add(f2);
+  const f3 = new THREE.Group(); f2.add(f3);
+
+  // Base column (visual only, height d1)
+  const baseCol = new THREE.Mesh(new THREE.CylinderGeometry(0.05, 0.05, DH[0].d, 16), new THREE.MeshStandardMaterial({ color:0x666 }));
+  baseCol.position.y = DH[0].d / 2; scene.add(baseCol);
+  scene.add(makeJoint().translateY(DH[0].d));
+
+  // After T1, frame is rotated so z-axis points along forearm direction in this convention.
+  // We need to draw link2 from origin of frame1 to origin of frame2 (length a2). Since DH uses Tx(a),
+  // the link extends along the local x-axis. We'll build link meshes oriented along +x.
+  function makeLinkX(material, length) {
+    const g = new THREE.CylinderGeometry(0.045, 0.045, length, 16);
+    g.rotateZ(-Math.PI / 2);
+    g.translate(length/2, 0, 0);
+    return new THREE.Mesh(g, material);
+  }
+  const link2 = makeLinkX(mat2, DH[1].a); f1.add(link2);
+  const link3 = makeLinkX(mat3, DH[2].a); f2.add(link3);
+  // Base link (vertical) visual is baseCol above
+  // Joints at frame origins
+  f1.add(makeJoint().scale.setScalar(1));
+  const j1 = makeJoint(); f1.add(j1);
+  const j2 = makeJoint(); f2.add(j2);
+  const j3 = makeJoint(); f3.add(j3);
+
+  function applyAngles(a1, a2, a3) {
+    const T1 = dhMatrix(DH[0].a, DH[0].d, DH[0].alpha, a1);
+    const T2 = dhMatrix(DH[1].a, DH[1].d, DH[1].alpha, a2);
+    const T3 = dhMatrix(DH[2].a, DH[2].d, DH[2].alpha, a3);
+    f1.matrix.identity(); f1.matrixAutoUpdate = false; f1.matrix.copy(T1);
+    f2.matrix.identity(); f2.matrixAutoUpdate = false; f2.matrix.copy(T2);
+    f3.matrix.identity(); f3.matrixAutoUpdate = false; f3.matrix.copy(T3);
+    f1.updateMatrixWorld(true);
+    const eePos = new THREE.Vector3();
+    f3.getWorldPosition(eePos);
+    document.getElementById('ee').textContent = `(${eePos.x.toFixed(3)}, ${eePos.y.toFixed(3)}, ${eePos.z.toFixed(3)})`;
+  }
+
+  // EE marker
+  const eeMarker = new THREE.Mesh(new THREE.SphereGeometry(0.06, 16, 12), new THREE.MeshStandardMaterial({ color:0xff5e5e }));
+  f3.add(eeMarker);
+
+  // Sliders
+  const ts = [document.getElementById('t1'), document.getElementById('t2'), document.getElementById('t3')];
+  const tv = [document.getElementById('t1v'), document.getElementById('t2v'), document.getElementById('t3v')];
+
+  function update() {
+    const a = ts.map(s => (+s.value) * Math.PI / 180);
+    ts.forEach((s, i) => { tv[i].textContent = `${s.value}°`; });
+    applyAngles(a[0], a[1], a[2]);
+  }
+  ts.forEach(s => s.addEventListener('input', update));
+
+  // Orbit-ish: simple drag rotate
+  let isDown = false, lx = 0, ly = 0;
+  let yaw = Math.atan2(cam.position.x, cam.position.z);
+  let pitch = Math.atan2(cam.position.y, Math.hypot(cam.position.x, cam.position.z));
+  let radius = cam.position.length();
+  function applyCam() {
+    cam.position.set(radius * Math.cos(pitch) * Math.sin(yaw), radius * Math.sin(pitch), radius * Math.cos(pitch) * Math.cos(yaw));
+    cam.lookAt(0, 0.5, 0);
+  }
+  container.addEventListener('pointerdown', e => { isDown = true; lx = e.clientX; ly = e.clientY; });
+  window.addEventListener('pointermove', e => {
+    if (!isDown) return;
+    yaw   -= (e.clientX - lx) * 0.005;
+    pitch += (e.clientY - ly) * 0.005;
+    pitch = Math.max(-1.2, Math.min(1.2, pitch));
+    lx = e.clientX; ly = e.clientY; applyCam();
+  });
+  window.addEventListener('pointerup', () => { isDown = false; });
+  container.addEventListener('wheel', e => { radius = Math.max(1.2, Math.min(8, radius + e.deltaY * 0.002)); applyCam(); e.preventDefault(); }, { passive:false });
+
+  function loop() { requestAnimationFrame(loop); renderer.render(scene, cam); }
+  fit(); update(); loop();
+})();
+</script>
+</body>
+</html>

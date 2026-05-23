@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A* vs Dijkstra Pathfinder</title>
+<style>
+  :root { --bg:#1f1f1f; --fg:#eee; --accent:#4a9eff; --muted:#888; --panel:#2a2a2a; }
+  html,body { margin:0; padding:0; background:var(--bg); color:var(--fg); font-family:system-ui,-apple-system,sans-serif; }
+  .wrap { max-width:1000px; margin:0 auto; padding:12px; }
+  h1 { font-size:16px; margin:0 0 8px; color:var(--accent); }
+  .grids { display:flex; gap:12px; flex-wrap:wrap; justify-content:center; }
+  .panel { background:var(--panel); padding:8px; border-radius:6px; }
+  .panel h2 { font-size:13px; margin:0 0 6px; color:var(--accent); text-align:center; }
+  canvas { display:block; background:#181818; image-rendering:pixelated; touch-action:none; }
+  .toolbar { display:flex; gap:8px; flex-wrap:wrap; align-items:center; margin-bottom:8px; }
+  button { background:var(--accent); color:#fff; border:0; padding:6px 12px; border-radius:4px; cursor:pointer; font-size:13px; }
+  button.secondary { background:#444; }
+  button:hover { filter:brightness(1.15); }
+  .stats { font-size:11px; color:var(--muted); margin-top:4px; font-family:monospace; }
+  .hint { font-size:11px; color:var(--muted); margin-bottom:6px; }
+  footer { text-align:center; font-size:11px; color:var(--muted); margin-top:10px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>A* vs Dijkstra — Side by Side</h1>
+  <div class="toolbar">
+    <button id="run">Run</button>
+    <button id="clear" class="secondary">Clear walls</button>
+    <button id="rand" class="secondary">Random walls</button>
+  </div>
+  <div class="hint">Click a cell to toggle a wall · Drag green = start · Drag red = goal · Drag on empty to paint walls</div>
+  <div class="grids">
+    <div class="panel">
+      <h2>A* (Manhattan heuristic)</h2>
+      <canvas id="ca" width="400" height="400" aria-label="A-star grid"></canvas>
+      <div class="stats" id="sa">explored: 0 · path: 0</div>
+    </div>
+    <div class="panel">
+      <h2>Dijkstra</h2>
+      <canvas id="cd" width="400" height="400" aria-label="Dijkstra grid"></canvas>
+      <div class="stats" id="sd">explored: 0 · path: 0</div>
+    </div>
+  </div>
+  <footer>Part of the Ultimate Robotics Handbook by Panav · panav.netlify.app</footer>
+</div>
+<script>
+(() => {
+  const N = 20;
+  const wall = Array.from({length:N}, () => new Array(N).fill(0));
+  let start = {x:2, y:2}, goal = {x:17, y:17};
+  let drag = null; // 'start' | 'goal' | 'paint' | 'erase' | null
+
+  const ca = document.getElementById('ca');
+  const cd = document.getElementById('cd');
+  const ax = ca.getContext('2d');
+  const dx = cd.getContext('2d');
+  const sa = document.getElementById('sa');
+  const sd = document.getElementById('sd');
+
+  function fitCanvases() {
+    const max = Math.min(440, Math.floor((document.querySelector('.wrap').clientWidth - 40) / 2));
+    const size = Math.max(220, max);
+    [ca, cd].forEach(c => { c.style.width = size + 'px'; c.style.height = size + 'px'; });
+  }
+  fitCanvases();
+  window.addEventListener('resize', fitCanvases);
+
+  function cellAt(ev, canvas) {
+    const r = canvas.getBoundingClientRect();
+    const x = Math.floor(((ev.clientX - r.left) / r.width) * N);
+    const y = Math.floor(((ev.clientY - r.top) / r.height) * N);
+    return { x: Math.max(0, Math.min(N - 1, x)), y: Math.max(0, Math.min(N - 1, y)) };
+  }
+
+  function bindInput(canvas) {
+    canvas.addEventListener('pointerdown', (ev) => {
+      const c = cellAt(ev, canvas);
+      if (c.x === start.x && c.y === start.y) drag = 'start';
+      else if (c.x === goal.x && c.y === goal.y) drag = 'goal';
+      else { drag = wall[c.y][c.x] ? 'erase' : 'paint'; wall[c.y][c.x] = drag === 'paint' ? 1 : 0; }
+      run();
+    });
+    canvas.addEventListener('pointermove', (ev) => {
+      if (!drag) return;
+      const c = cellAt(ev, canvas);
+      if (drag === 'start') { if (!wall[c.y][c.x]) start = c; }
+      else if (drag === 'goal') { if (!wall[c.y][c.x]) goal = c; }
+      else if (drag === 'paint') { if (!(c.x === start.x && c.y === start.y) && !(c.x === goal.x && c.y === goal.y)) wall[c.y][c.x] = 1; }
+      else if (drag === 'erase') { wall[c.y][c.x] = 0; }
+      run();
+    });
+    window.addEventListener('pointerup', () => { drag = null; });
+  }
+  bindInput(ca); bindInput(cd);
+
+  // Min-heap for priority queue
+  class PQ {
+    constructor() { this.h = []; }
+    push(item, prio) { this.h.push({item, prio}); this._up(this.h.length - 1); }
+    pop() {
+      const top = this.h[0]; const last = this.h.pop();
+      if (this.h.length) { this.h[0] = last; this._down(0); }
+      return top.item;
+    }
+    get size() { return this.h.length; }
+    _up(i) { while (i>0) { const p=(i-1)>>1; if (this.h[p].prio<=this.h[i].prio) break; [this.h[p],this.h[i]]=[this.h[i],this.h[p]]; i=p; } }
+    _down(i) { const n=this.h.length; while(true){ const l=2*i+1,r=2*i+2; let s=i; if(l<n&&this.h[l].prio<this.h[s].prio)s=l; if(r<n&&this.h[r].prio<this.h[s].prio)s=r; if(s===i)break; [this.h[s],this.h[i]]=[this.h[i],this.h[s]]; i=s; } }
+  }
+
+  function neighbors(x, y) {
+    const out = [];
+    for (const [dxn, dyn] of [[1,0],[-1,0],[0,1],[0,-1]]) {
+      const nx = x + dxn, ny = y + dyn;
+      if (nx<0||ny<0||nx>=N||ny>=N) continue;
+      if (wall[ny][nx]) continue;
+      out.push([nx, ny]);
+    }
+    return out;
+  }
+
+  function search(useHeuristic) {
+    const dist = Array.from({length:N}, () => new Array(N).fill(Infinity));
+    const prev = Array.from({length:N}, () => new Array(N).fill(null));
+    const explored = Array.from({length:N}, () => new Array(N).fill(false));
+    const pq = new PQ();
+    dist[start.y][start.x] = 0;
+    pq.push([start.x, start.y], 0);
+    let found = false;
+    while (pq.size) {
+      const [x, y] = pq.pop();
+      if (explored[y][x]) continue;
+      explored[y][x] = true;
+      if (x === goal.x && y === goal.y) { found = true; break; }
+      for (const [nx, ny] of neighbors(x, y)) {
+        const nd = dist[y][x] + 1;
+        if (nd < dist[ny][nx]) {
+          dist[ny][nx] = nd;
+          prev[ny][nx] = [x, y];
+          const h = useHeuristic ? Math.abs(nx - goal.x) + Math.abs(ny - goal.y) : 0;
+          pq.push([nx, ny], nd + h);
+        }
+      }
+    }
+    const path = [];
+    if (found) {
+      let cur = [goal.x, goal.y];
+      while (cur) { path.push(cur); const [cx, cy] = cur; cur = prev[cy][cx]; }
+      path.reverse();
+    }
+    return { explored, path };
+  }
+
+  function draw(canvas, ctx, res) {
+    const W = canvas.width, H = canvas.height;
+    const cs = W / N;
+    ctx.fillStyle = '#181818'; ctx.fillRect(0, 0, W, H);
+    for (let y = 0; y < N; y++) for (let x = 0; x < N; x++) {
+      if (wall[y][x]) { ctx.fillStyle = '#555'; ctx.fillRect(x*cs, y*cs, cs, cs); }
+      else if (res.explored[y][x]) { ctx.fillStyle = 'rgba(74,158,255,0.18)'; ctx.fillRect(x*cs, y*cs, cs, cs); }
+    }
+    // grid lines
+    ctx.strokeStyle = '#2a2a2a'; ctx.lineWidth = 1;
+    for (let i = 0; i <= N; i++) {
+      ctx.beginPath(); ctx.moveTo(i*cs, 0); ctx.lineTo(i*cs, H); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(0, i*cs); ctx.lineTo(W, i*cs); ctx.stroke();
+    }
+    // path
+    if (res.path.length) {
+      ctx.strokeStyle = '#ffd166'; ctx.lineWidth = Math.max(2, cs * 0.25);
+      ctx.beginPath();
+      for (let i = 0; i < res.path.length; i++) {
+        const [x, y] = res.path[i]; const cx = (x + 0.5) * cs, cy = (y + 0.5) * cs;
+        if (i === 0) ctx.moveTo(cx, cy); else ctx.lineTo(cx, cy);
+      }
+      ctx.stroke();
+    }
+    // start/goal
+    ctx.fillStyle = '#6bcb77'; ctx.fillRect(start.x*cs+2, start.y*cs+2, cs-4, cs-4);
+    ctx.fillStyle = '#ff5e5e'; ctx.fillRect(goal.x*cs+2, goal.y*cs+2, cs-4, cs-4);
+  }
+
+  function countExplored(e) { let c = 0; for (let y=0;y<N;y++) for(let x=0;x<N;x++) if (e[y][x]) c++; return c; }
+
+  function run() {
+    const ra = search(true);
+    const rd = search(false);
+    draw(ca, ax, ra);
+    draw(cd, dx, rd);
+    sa.textContent = `explored: ${countExplored(ra.explored)} · path: ${ra.path.length}`;
+    sd.textContent = `explored: ${countExplored(rd.explored)} · path: ${rd.path.length}`;
+  }
+
+  document.getElementById('run').addEventListener('click', run);
+  document.getElementById('clear').addEventListener('click', () => {
+    for (let y=0;y<N;y++) for(let x=0;x<N;x++) wall[y][x]=0; run();
+  });
+  document.getElementById('rand').addEventListener('click', () => {
+    for (let y=0;y<N;y++) for(let x=0;x<N;x++) {
+      if ((x===start.x&&y===start.y)||(x===goal.x&&y===goal.y)) continue;
+      wall[y][x] = Math.random() < 0.25 ? 1 : 0;
+    }
+    run();
+  });
+
+  run();
+})();
+</script>
+</body>
+</html>

@@ -22,11 +22,29 @@ A digital twin is an integrated, data-driven virtual representation of real-worl
 
 ### Applications & Use Cases <a href="#applications--use-cases" id="applications--use-cases"></a>
 
-* **Offline Programming & Validation**: Using tools like RoboDK to build, simulate, and debug robot programs in a digital environment before on-site commissioning.[9](https://www.udemy.com/course/digital-twin/)
-* **Factory-Level Optimization**: Siemens employs digital twins to simulate and test entire production cells, identifying bottlenecks and improving throughput without halting operations.4
-* **Asset Health Monitoring**: GE’s jet-engine twins predict maintenance intervals and remaining useful life through real-time analytics on vibration and temperature data.4
-* **Reinforcement-Learning Training**: NVIDIA Isaac Sim generates synthetic data and virtual scenarios to train AI agents for vision, grasping, and navigation tasks at scale.3
-* **Remote Troubleshooting & Maintenance**: AR/VR-enabled digital twins allow technicians to visualize robot kinematics and service procedures overlaid on the physical system.[13](https://robodk.com/blog/digital-twin-advanced-neural-construction/)
+* **Offline Programming & Validation**: Using tools like RoboDK to build, simulate, and debug robot programs in a digital environment before on-site commissioning.
+* **Factory-Level Optimization**: Siemens Tecnomatix Plant Simulation and similar tools simulate entire production cells, identifying bottlenecks and improving throughput without halting operations.
+* **Asset Health Monitoring**: Predictive maintenance via real-time analytics on vibration and temperature data (GE Digital Twin, Ansys Twin Builder).
+* **Reinforcement-Learning Training**: NVIDIA **Isaac Sim** + **Isaac Lab** (replaced Isaac Gym in 2024) generate synthetic data and virtual scenarios to train policies for vision, manipulation, and locomotion at GPU-accelerated scale. NVIDIA **Omniverse** hosts the underlying USD-based scene graph.
+* **World Foundation Models**: NVIDIA **Cosmos** (announced CES 2025) — a world foundation model trained on millions of hours of driving/robotics video — generates physics-aware synthetic environments for sim-to-real transfer.
+* **Remote Troubleshooting & Maintenance**: AR/VR-enabled digital twins allow technicians to visualize robot kinematics and service procedures overlaid on the physical system.
+
+For sim-to-real strategies (domain randomization, system identification, etc.), see [Robot Learning → Sim-to-Real](../robot-learning/sim-to-real.md).
+
+**Major 2026 platforms:**
+
+| Platform | Vendor | Strength |
+|---|---|---|
+| **NVIDIA Omniverse + Isaac Sim** | NVIDIA | Photoreal sim, GPU acceleration, ROS 2 bridge, large-scale RL training |
+| **Isaac Lab** | NVIDIA | Modular RL training framework (successor to Isaac Gym) |
+| **Cosmos** | NVIDIA | World foundation model for synthetic robotics data |
+| **Gazebo (modern)** | Open Robotics | Open-source, ROS 2 native, lightweight |
+| **Webots** | Cyberbotics | Open-source, education and rapid prototyping |
+| **MuJoCo / MJX** | Google DeepMind | Best-in-class contact physics; MJX runs on GPU |
+| **Genesis** | CMU (2024) | Fast differentiable physics for robot learning |
+| **Siemens Tecnomatix / Process Simulate** | Siemens | Industrial cell-level simulation |
+| **Ansys Twin Builder** | Ansys | Physics-based digital twins, control system co-simulation |
+| **RoboDK** | RoboDK | Offline robot programming and CAD-to-path |
 
 ### Benefits & Challenges <a href="#benefits--challenges" id="benefits--challenges"></a>
 

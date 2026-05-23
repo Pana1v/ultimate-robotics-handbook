@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2D EKF Localization</title>
+<style>
+  :root { --bg:#1f1f1f; --fg:#eee; --accent:#4a9eff; --muted:#888; --panel:#2a2a2a; }
+  html,body { margin:0; padding:0; background:var(--bg); color:var(--fg); font-family:system-ui,-apple-system,sans-serif; }
+  .wrap { max-width:1000px; margin:0 auto; padding:12px; }
+  h1 { font-size:16px; margin:0 0 8px; color:var(--accent); }
+  .controls { display:flex; flex-wrap:wrap; gap:12px; padding:8px; background:var(--panel); border-radius:6px; margin-bottom:8px; align-items:center; }
+  .controls label { display:flex; flex-direction:column; font-size:12px; color:var(--muted); min-width:160px; }
+  .controls input[type=range] { width:100%; accent-color:var(--accent); }
+  .controls .val { color:var(--fg); font-family:monospace; }
+  button { background:var(--accent); color:#fff; border:0; padding:6px 12px; border-radius:4px; cursor:pointer; font-size:13px; }
+  button.secondary { background:#444; }
+  .panel { background:var(--panel); padding:8px; border-radius:6px; }
+  .legend { display:flex; gap:14px; font-size:11px; color:var(--muted); margin-top:6px; flex-wrap:wrap; }
+  .swatch { display:inline-block; width:12px; height:6px; vertical-align:middle; margin-right:4px; border-radius:1px; }
+  footer { text-align:center; font-size:11px; color:var(--muted); margin-top:10px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>2D EKF Localization (range-bearing landmarks)</h1>
+  <div class="controls">
+    <label>Process σ (motion) <span class="val" id="qv">0.10</span>
+      <input id="q" type="range" min="-3" max="0" step="0.05" value="-1" aria-label="process noise">
+    </label>
+    <label>Measurement σ <span class="val" id="rv">0.30</span>
+      <input id="r" type="range" min="-2" max="0.3" step="0.05" value="-0.5" aria-label="measurement noise">
+    </label>
+    <button id="reset" class="secondary">Reset</button>
+  </div>
+  <div class="panel">
+    <div id="sketch"></div>
+    <div class="legend">
+      <span><span class="swatch" style="background:#6bcb77"></span>Ground truth</span>
+      <span><span class="swatch" style="background:#4a9eff"></span>EKF estimate</span>
+      <span><span class="swatch" style="background:#ffd166;border-radius:50%"></span>Landmarks</span>
+      <span><span class="swatch" style="background:transparent;border:1px solid #4a9eff;border-radius:50%"></span>2σ covariance</span>
+    </div>
+  </div>
+  <footer>Part of the Ultimate Robotics Handbook by Panav · panav.netlify.app</footer>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/p5@1.9.0/lib/p5.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/mathjs@12.4.0/lib/browser/math.min.js" crossorigin="anonymous"></script>
+<script>
+(() => {
+  const W = 880, H = 460;
+  const dt = 0.05;
+
+  // Landmarks in world (meters)
+  const landmarks = [[-3,-2],[3,-2],[3,3],[-3,3],[0,0]];
+
+  let Qsig = 0.1, Rsig = 0.3; // user-controlled std devs
+
+  // Ground truth
+  let gx = -3, gy = -3, gth = 0.6;
+  // EKF state: x = [x, y, theta]
+  let mu = [-3, -3, 0.6];
+  let Sig = math.diag([0.25, 0.25, 0.1]);
+
+  // Trails
+  const truthTrail = [], estTrail = [];
+  const MAX_TRAIL = 800;
+
+  function reset() {
+    gx = -3; gy = -3; gth = 0.6;
+    mu = [-3, -3, 0.6];
+    Sig = math.diag([0.25, 0.25, 0.1]);
+    truthTrail.length = 0; estTrail.length = 0;
+  }
+
+  function randn() {
+    const u = Math.random() || 1e-9, v = Math.random() || 1e-9;
+    return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v);
+  }
+
+  function wrap(a) {
+    while (a > Math.PI) a -= 2 * Math.PI;
+    while (a < -Math.PI) a += 2 * Math.PI;
+    return a;
+  }
+
+  // Control: constant forward velocity + small turn rate (sinusoidal)
+  let t = 0;
+  function getControl() {
+    const v = 0.6;
+    const w = 0.4 * Math.sin(0.5 * t);
+    return [v, w];
+  }
+
+  function ekfPredict(u) {
+    const [v, w] = u;
+    const th = mu[2];
+    // Motion model: simple unicycle
+    const dx = v * Math.cos(th) * dt;
+    const dy = v * Math.sin(th) * dt;
+    const dth = w * dt;
+    mu = [mu[0] + dx, mu[1] + dy, wrap(mu[2] + dth)];
+    // Jacobian wrt state
+    const G = math.matrix([
+      [1, 0, -v * Math.sin(th) * dt],
+      [0, 1,  v * Math.cos(th) * dt],
+      [0, 0, 1]
+    ]);
+    // Process noise (in state space)
+    const q2 = Qsig * Qsig;
+    const M = math.diag([q2 * dt, q2 * dt, q2 * dt * 0.5]);
+    Sig = math.add(math.multiply(math.multiply(G, Sig), math.transpose(G)), M);
+  }
+
+  function ekfUpdate(lm, z) {
+    // z = [range, bearing] from sensor
+    const dx = lm[0] - mu[0];
+    const dy = lm[1] - mu[1];
+    const q = dx*dx + dy*dy;
+    const r = Math.sqrt(q);
+    if (r < 1e-3) return;
+    const zhat = [r, wrap(Math.atan2(dy, dx) - mu[2])];
+    // Jacobian H of zhat wrt mu
+    const H = math.matrix([
+      [-dx/r, -dy/r, 0],
+      [ dy/q, -dx/q, -1]
+    ]);
+    const R = math.diag([Rsig * Rsig, (Rsig * 0.3) * (Rsig * 0.3)]); // bearing noise smaller
+    const S = math.add(math.multiply(math.multiply(H, Sig), math.transpose(H)), R);
+    const K = math.multiply(math.multiply(Sig, math.transpose(H)), math.inv(S));
+    const y = [z[0] - zhat[0], wrap(z[1] - zhat[1])];
+    const Ky = math.multiply(K, y);
+    mu = [mu[0] + Ky.get([0]), mu[1] + Ky.get([1]), wrap(mu[2] + Ky.get([2]))];
+    const I = math.identity(3);
+    Sig = math.multiply(math.subtract(I, math.multiply(K, H)), Sig);
+  }
+
+  function step() {
+    const u = getControl();
+    // True motion (with noise on commands)
+    const v = u[0] + randn() * Qsig;
+    const w = u[1] + randn() * Qsig;
+    gx += v * Math.cos(gth) * dt;
+    gy += v * Math.sin(gth) * dt;
+    gth = wrap(gth + w * dt);
+    // Soft boundary
+    if (Math.hypot(gx, gy) > 4.5) { gth = wrap(Math.atan2(-gy, -gx) + (Math.random() - 0.5) * 0.3); }
+
+    ekfPredict(u);
+    // Sense each landmark within range
+    for (const lm of landmarks) {
+      const dx = lm[0] - gx, dy = lm[1] - gy;
+      const range = Math.hypot(dx, dy);
+      if (range > 4.5) continue;
+      const bearing = wrap(Math.atan2(dy, dx) - gth);
+      const z = [range + randn() * Rsig, wrap(bearing + randn() * Rsig * 0.3)];
+      ekfUpdate(lm, z);
+    }
+
+    truthTrail.push([gx, gy]); estTrail.push([mu[0], mu[1]]);
+    if (truthTrail.length > MAX_TRAIL) { truthTrail.shift(); estTrail.shift(); }
+    t += dt;
+  }
+
+  // Covariance ellipse parameters from upper-left 2x2 of Sig
+  function ellipseFromCov(S, sigmas = 2) {
+    const a = S.get([0,0]), b = S.get([0,1]), d = S.get([1,1]);
+    const tr = a + d, det = a * d - b * b;
+    const tmp = Math.sqrt(Math.max(0, (tr/2)*(tr/2) - det));
+    const l1 = tr/2 + tmp, l2 = tr/2 - tmp;
+    const angle = Math.atan2(2 * b, a - d) / 2;
+    return { rx: sigmas * Math.sqrt(Math.max(0, l1)), ry: sigmas * Math.sqrt(Math.max(0, l2)), angle };
+  }
+
+  // Slider hooks
+  document.getElementById('q').addEventListener('input', e => {
+    Qsig = Math.pow(10, +e.target.value);
+    document.getElementById('qv').textContent = Qsig.toFixed(3);
+  });
+  document.getElementById('r').addEventListener('input', e => {
+    Rsig = Math.pow(10, +e.target.value);
+    document.getElementById('rv').textContent = Rsig.toFixed(2);
+  });
+  document.getElementById('reset').addEventListener('click', reset);
+
+  const SCALE = 70;
+  function w2c(p, x, y) { return [p.width/2 + x * SCALE, p.height/2 - y * SCALE]; }
+
+  new p5((p) => {
+    p.setup = () => {
+      const c = p.createCanvas(W, H); c.parent('sketch'); p.frameRate(40);
+    };
+    p.windowResized = () => {
+      const w = Math.min(960, document.getElementById('sketch').clientWidth);
+      p.resizeCanvas(w, H);
+    };
+    p.draw = () => {
+      step();
+      p.background(24);
+      // Grid
+      p.stroke(40);
+      for (let i = -5; i <= 5; i++) {
+        const [xx,] = w2c(p, i, 0); p.line(xx, 0, xx, p.height);
+        const [, yy] = w2c(p, 0, i); p.line(0, yy, p.width, yy);
+      }
+      // Landmarks
+      p.noStroke(); p.fill(255, 209, 102);
+      for (const lm of landmarks) {
+        const [x, y] = w2c(p, lm[0], lm[1]);
+        p.circle(x, y, 9);
+      }
+      // Trails
+      p.noFill(); p.stroke(107, 203, 119); p.strokeWeight(1.5); p.beginShape();
+      for (const pt of truthTrail) { const [x, y] = w2c(p, pt[0], pt[1]); p.vertex(x, y); } p.endShape();
+      p.stroke(74, 158, 255); p.beginShape();
+      for (const pt of estTrail) { const [x, y] = w2c(p, pt[0], pt[1]); p.vertex(x, y); } p.endShape();
+
+      // Covariance ellipse
+      const e = ellipseFromCov(Sig, 2);
+      const [ex, ey] = w2c(p, mu[0], mu[1]);
+      p.push();
+      p.translate(ex, ey);
+      p.rotate(-e.angle); // y flipped
+      p.noFill(); p.stroke(74, 158, 255, 200); p.strokeWeight(1.5);
+      p.ellipse(0, 0, 2 * e.rx * SCALE, 2 * e.ry * SCALE);
+      p.pop();
+
+      // Robot poses
+      drawRobot(p, gx, gy, gth, [107, 203, 119]);
+      drawRobot(p, mu[0], mu[1], mu[2], [74, 158, 255]);
+    };
+  });
+
+  function drawRobot(p, x, y, th, color) {
+    const [cx, cy] = w2c(p, x, y);
+    p.push(); p.translate(cx, cy); p.rotate(-th);
+    p.fill(color[0], color[1], color[2]); p.noStroke();
+    p.triangle(10, 0, -6, 6, -6, -6);
+    p.pop();
+  }
+})();
+</script>
+</body>
+</html>

@@ -10,9 +10,9 @@ Robotics is a multidisciplinary field offering a diverse range of career opportu
 
 ***
 
-### **Robotics Career Salaries in the United States (US Market)**
+### **Robotics Career Roles (US Market)**
 
-This table reflects average salary data observed in the United States.
+> **Note:** This table reflects role descriptions and typical industries. Salary figures move quickly in robotics — for current numbers, check Levels.fyi, Built In, and 6figr for the most recent percentile data. Sources cited below the table are starting points, not authoritative ranges.
 
 | Role Title                                    | Scope                                                                                                  | Industries                                                              |
 | --------------------------------------------- | ------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------- |
@@ -32,9 +32,9 @@ _US Salary Sources: Built In_ [_14_](https://builtin.com/salaries/us/robotics-en
 
 ***
 
-### **Robotics Career Salaries in India (Indian Market)**
+### **Robotics Career Roles (Indian Market)**
 
-This table reflects salary data observed in India, highlighting the typical ranges and averages based on local market conditions.
+> **Note:** Indian robotics roles (2026 snapshot from Pan, based on personal experience and peers): Entry-level robotics engineer at well-funded startups (Eternal.ag, 10xConstruction.ai, Addverb, Niqo, Ati Motors) starts at ~₹15-25 LPA. Mid-level (3-5 yrs, with shipped systems) reaches ₹35-60 LPA. Senior roles at FAANG-adjacent or US-payroll Indian companies (Apple India, Amazon Robotics India, Nvidia India, Boston Dynamics Bangalore) clear ₹80 LPA+. Check Levels.fyi for verified figures.
 
 | Role Title                                    | Scope                                                                                                  | Industries                                                            |
 | --------------------------------------------- | ------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------- |

@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>1D Kalman Filter</title>
+<style>
+  :root { --bg:#1f1f1f; --fg:#eee; --accent:#4a9eff; --muted:#888; --panel:#2a2a2a; }
+  html,body { margin:0; padding:0; background:var(--bg); color:var(--fg); font-family:system-ui,-apple-system,sans-serif; }
+  .wrap { max-width:900px; margin:0 auto; padding:12px; }
+  h1 { font-size:16px; margin:0 0 8px; color:var(--accent); }
+  .controls { display:flex; flex-wrap:wrap; gap:12px; padding:8px; background:var(--panel); border-radius:6px; margin-bottom:8px; }
+  .controls label { display:flex; flex-direction:column; font-size:12px; color:var(--muted); min-width:140px; }
+  .controls input[type=range] { width:100%; accent-color:var(--accent); }
+  .controls .val { color:var(--fg); font-family:monospace; }
+  button { background:var(--accent); color:#fff; border:0; padding:6px 12px; border-radius:4px; cursor:pointer; font-size:13px; align-self:flex-end; }
+  button:hover { filter:brightness(1.15); }
+  .canvas-wrap { background:var(--panel); border-radius:6px; padding:8px; }
+  .legend { display:flex; gap:14px; font-size:11px; color:var(--muted); margin-top:6px; flex-wrap:wrap; }
+  .swatch { display:inline-block; width:10px; height:10px; vertical-align:middle; margin-right:4px; border-radius:2px; }
+  footer { text-align:center; font-size:11px; color:var(--muted); margin-top:10px; }
+  @media (max-width:600px) { .controls label { min-width:100%; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>1D Kalman Filter</h1>
+  <div class="controls">
+    <label>Process noise Q <span class="val" id="qv">0.01</span>
+      <input id="q" type="range" min="-4" max="1" step="0.05" value="-2" aria-label="process noise log10">
+    </label>
+    <label>Measurement noise R <span class="val" id="rv">1.00</span>
+      <input id="r" type="range" min="-2" max="2" step="0.05" value="0" aria-label="measurement noise log10">
+    </label>
+    <button id="reset" aria-label="restart simulation">Restart</button>
+  </div>
+  <div class="canvas-wrap"><div id="sketch"></div></div>
+  <div class="legend">
+    <span><span class="swatch" style="background:#6bcb77"></span>True position</span>
+    <span><span class="swatch" style="background:#ffd166"></span>Measurements</span>
+    <span><span class="swatch" style="background:#4a9eff"></span>KF estimate</span>
+    <span><span class="swatch" style="background:rgba(74,158,255,0.25)"></span>1σ band</span>
+  </div>
+  <footer>Part of the Ultimate Robotics Handbook by Panav · panav.netlify.app</footer>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/p5@1.9.0/lib/p5.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/mathjs@12.4.0/lib/browser/math.min.js" crossorigin="anonymous"></script>
+<script>
+(() => {
+  const W = 880, H = 360;
+  let Q = 0.01, R = 1.0;
+  // Buffers
+  let t = 0, dt = 0.05;
+  const N = 400;
+  const truth = [], meas = [], est = [], stdv = [];
+  // KF state
+  let x = 0, P = 1;
+
+  function reset() {
+    t = 0; truth.length = 0; meas.length = 0; est.length = 0; stdv.length = 0;
+    x = 0; P = 1;
+  }
+
+  function step() {
+    // True position: sinusoid + slow drift
+    const xt = 2 * Math.sin(t) + 0.3 * Math.sin(0.31 * t);
+    // Measurement = truth + N(0, R)
+    const noise = math.sqrt(R) * randn();
+    const z = xt + noise;
+
+    // KF predict (random walk model: x_k = x_{k-1} + w, w ~ N(0, Q))
+    P = P + Q;
+    // KF update
+    const K = P / (P + R);
+    x = x + K * (z - x);
+    P = (1 - K) * P;
+
+    truth.push(xt); meas.push(z); est.push(x); stdv.push(Math.sqrt(P));
+    if (truth.length > N) { truth.shift(); meas.shift(); est.shift(); stdv.shift(); }
+    t += dt;
+  }
+
+  function randn() {
+    // Box-Muller
+    const u = Math.random() || 1e-9, v = Math.random() || 1e-9;
+    return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v);
+  }
+
+  const qSlider = document.getElementById('q');
+  const rSlider = document.getElementById('r');
+  const qVal = document.getElementById('qv');
+  const rVal = document.getElementById('rv');
+  function syncSliders() {
+    Q = Math.pow(10, parseFloat(qSlider.value));
+    R = Math.pow(10, parseFloat(rSlider.value));
+    qVal.textContent = Q.toFixed(4);
+    rVal.textContent = R.toFixed(3);
+  }
+  qSlider.addEventListener('input', syncSliders);
+  rSlider.addEventListener('input', syncSliders);
+  document.getElementById('reset').addEventListener('click', reset);
+  syncSliders();
+
+  new p5((p) => {
+    p.setup = () => {
+      const c = p.createCanvas(W, H);
+      c.parent('sketch');
+      p.frameRate(30);
+    };
+    p.windowResized = () => {
+      const w = Math.min(880, document.querySelector('.canvas-wrap').clientWidth - 16);
+      p.resizeCanvas(w, H);
+    };
+    p.draw = () => {
+      step();
+      p.background(42);
+      drawAxes(p);
+      drawSeries(p);
+    };
+  });
+
+  function mapY(p, v) {
+    const yMin = -4, yMax = 4;
+    return p.map(v, yMin, yMax, p.height - 20, 20);
+  }
+  function mapX(p, i) {
+    return p.map(i, 0, N - 1, 30, p.width - 10);
+  }
+
+  function drawAxes(p) {
+    p.stroke(70); p.strokeWeight(1);
+    for (let y = -4; y <= 4; y++) {
+      const yy = mapY(p, y);
+      p.line(30, yy, p.width - 10, yy);
+      p.noStroke(); p.fill(120); p.textSize(10);
+      p.text(y.toFixed(0), 6, yy + 3);
+      p.stroke(70);
+    }
+  }
+
+  function drawSeries(p) {
+    if (truth.length < 2) return;
+    // 1σ band
+    p.noStroke(); p.fill(74, 158, 255, 60);
+    p.beginShape();
+    for (let i = 0; i < est.length; i++) p.vertex(mapX(p, i), mapY(p, est[i] + stdv[i]));
+    for (let i = est.length - 1; i >= 0; i--) p.vertex(mapX(p, i), mapY(p, est[i] - stdv[i]));
+    p.endShape(p.CLOSE);
+
+    // Truth
+    p.noFill(); p.stroke(107, 203, 119); p.strokeWeight(1.5);
+    p.beginShape();
+    for (let i = 0; i < truth.length; i++) p.vertex(mapX(p, i), mapY(p, truth[i]));
+    p.endShape();
+
+    // Measurements as dots
+    p.noStroke(); p.fill(255, 209, 102, 200);
+    for (let i = 0; i < meas.length; i += 1) p.circle(mapX(p, i), mapY(p, meas[i]), 3);
+
+    // Estimate
+    p.noFill(); p.stroke(74, 158, 255); p.strokeWeight(2);
+    p.beginShape();
+    for (let i = 0; i < est.length; i++) p.vertex(mapX(p, i), mapY(p, est[i]));
+    p.endShape();
+  }
+})();
+</script>
+</body>
+</html>

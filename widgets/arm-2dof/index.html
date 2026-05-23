@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2-DOF Planar Arm</title>
+<style>
+  :root { --bg:#1f1f1f; --fg:#eee; --accent:#4a9eff; --muted:#888; --panel:#2a2a2a; --warn:#ff7676; }
+  html,body { margin:0; padding:0; background:var(--bg); color:var(--fg); font-family:system-ui,-apple-system,sans-serif; }
+  .wrap { max-width:900px; margin:0 auto; padding:12px; }
+  h1 { font-size:16px; margin:0 0 8px; color:var(--accent); }
+  .layout { display:flex; gap:12px; flex-wrap:wrap; }
+  .panel { background:var(--panel); padding:8px; border-radius:6px; }
+  .info { font-family:monospace; font-size:12px; color:var(--fg); min-width:200px; flex:1; }
+  .info div { padding:4px 0; border-bottom:1px solid #333; }
+  .info .lbl { color:var(--muted); display:inline-block; min-width:80px; }
+  .warn { color:var(--warn); font-weight:bold; }
+  .hint { font-size:11px; color:var(--muted); margin-bottom:6px; }
+  footer { text-align:center; font-size:11px; color:var(--muted); margin-top:10px; }
+  #sketch canvas { display:block; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>2-Link Planar Arm — FK / IK</h1>
+  <div class="hint">Drag the orange target anywhere reachable. IK solves for θ1, θ2 (elbow-up).</div>
+  <div class="layout">
+    <div class="panel"><div id="sketch"></div></div>
+    <div class="panel info">
+      <div><span class="lbl">L1, L2</span> <span id="ls">1.0, 1.0</span></div>
+      <div><span class="lbl">target</span> <span id="tg">—</span></div>
+      <div><span class="lbl">θ1</span> <span id="t1">—</span></div>
+      <div><span class="lbl">θ2</span> <span id="t2">—</span></div>
+      <div><span class="lbl">end</span> <span id="ee">—</span></div>
+      <div><span class="lbl">|J|</span> <span id="det">—</span></div>
+      <div id="sing"></div>
+    </div>
+  </div>
+  <footer>Part of the Ultimate Robotics Handbook by Panav · panav.netlify.app</footer>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/p5@1.9.0/lib/p5.min.js" crossorigin="anonymous"></script>
+<script>
+(() => {
+  const W = 520, H = 420;
+  const L1 = 1.0, L2 = 1.0;
+  // Current joint angles
+  let th1 = Math.PI / 4, th2 = Math.PI / 4;
+  // Target in world coords (meters)
+  let target = { x: 1.3, y: 0.4 };
+  let dragging = false;
+
+  const SCALE = 130;
+  let origin = { x: W * 0.5, y: H * 0.55 };
+
+  // Inverse kinematics for 2-link (elbow-up by default)
+  function ik(x, y, elbowUp = true) {
+    const r2 = x*x + y*y;
+    const r = Math.sqrt(r2);
+    const reach = L1 + L2;
+    const clamp = Math.max(Math.abs(L1 - L2) + 1e-6, Math.min(reach - 1e-6, r));
+    const sx = clamp * (x / (r || 1));
+    const sy = clamp * (y / (r || 1));
+    const cos2 = (sx*sx + sy*sy - L1*L1 - L2*L2) / (2 * L1 * L2);
+    const c = Math.max(-1, Math.min(1, cos2));
+    const s = (elbowUp ? 1 : -1) * Math.sqrt(Math.max(0, 1 - c*c));
+    const a2 = Math.atan2(s, c);
+    const a1 = Math.atan2(sy, sx) - Math.atan2(L2 * s, L1 + L2 * c);
+    return { th1: a1, th2: a2, reached: r <= reach + 1e-6 };
+  }
+
+  function fk(t1, t2) {
+    const j1 = { x: L1 * Math.cos(t1), y: L1 * Math.sin(t1) };
+    const ee = { x: j1.x + L2 * Math.cos(t1 + t2), y: j1.y + L2 * Math.sin(t1 + t2) };
+    return { j1, ee };
+  }
+
+  // J = [[-L1 s1 - L2 s12, -L2 s12], [L1 c1 + L2 c12, L2 c12]]
+  function jacobianDet(t1, t2) {
+    return L1 * L2 * Math.sin(t2);
+  }
+
+  function w2s(p, x, y) { return { x: origin.x + x * SCALE, y: origin.y - y * SCALE }; }
+  function s2w(p, sx, sy) { return { x: (sx - origin.x) / SCALE, y: (origin.y - sy) / SCALE }; }
+
+  new p5((p) => {
+    p.setup = () => {
+      const c = p.createCanvas(W, H); c.parent('sketch'); p.frameRate(60);
+    };
+    p.windowResized = () => {
+      const w = Math.min(560, document.querySelector('#sketch').clientWidth);
+      p.resizeCanvas(w, H);
+      origin = { x: w * 0.5, y: H * 0.55 };
+    };
+    p.mousePressed = () => {
+      const t = w2s(p, target.x, target.y);
+      if (p.dist(p.mouseX, p.mouseY, t.x, t.y) < 18) dragging = true;
+    };
+    p.mouseDragged = () => {
+      if (dragging) { const w = s2w(p, p.mouseX, p.mouseY); target = w; }
+    };
+    p.mouseReleased = () => { dragging = false; };
+
+    p.draw = () => {
+      p.background(42);
+      // Reach circle
+      p.noFill(); p.stroke(60); p.strokeWeight(1);
+      p.circle(origin.x, origin.y, 2 * (L1 + L2) * SCALE);
+      p.stroke(40);
+      p.circle(origin.x, origin.y, 2 * Math.abs(L1 - L2) * SCALE);
+
+      // Solve IK toward target
+      const sol = ik(target.x, target.y, true);
+      // Smoothly approach
+      th1 += angDiff(sol.th1, th1) * 0.2;
+      th2 += angDiff(sol.th2, th2) * 0.2;
+      const { j1, ee } = fk(th1, th2);
+
+      // Draw links
+      const o = origin;
+      const a = w2s(p, j1.x, j1.y);
+      const b = w2s(p, ee.x, ee.y);
+      p.stroke(74, 158, 255); p.strokeWeight(8); p.line(o.x, o.y, a.x, a.y);
+      p.stroke(107, 203, 119); p.strokeWeight(8); p.line(a.x, a.y, b.x, b.y);
+      // Joints
+      p.noStroke(); p.fill(220); p.circle(o.x, o.y, 14); p.circle(a.x, a.y, 12); p.circle(b.x, b.y, 10);
+
+      // Target marker
+      const t = w2s(p, target.x, target.y);
+      p.noFill(); p.stroke(255, 165, 0); p.strokeWeight(2); p.circle(t.x, t.y, 18);
+      p.line(t.x - 10, t.y, t.x + 10, t.y); p.line(t.x, t.y - 10, t.x, t.y + 10);
+
+      // Info
+      document.getElementById('tg').textContent = `(${target.x.toFixed(2)}, ${target.y.toFixed(2)})`;
+      document.getElementById('t1').textContent = `${(th1 * 180 / Math.PI).toFixed(1)}°`;
+      document.getElementById('t2').textContent = `${(th2 * 180 / Math.PI).toFixed(1)}°`;
+      document.getElementById('ee').textContent = `(${ee.x.toFixed(2)}, ${ee.y.toFixed(2)})`;
+      const det = jacobianDet(th1, th2);
+      document.getElementById('det').textContent = det.toFixed(3);
+      const sing = document.getElementById('sing');
+      if (Math.abs(det) < 0.1) sing.innerHTML = '<span class="warn">Near singularity</span>';
+      else sing.innerHTML = '';
+      if (!sol.reached) sing.innerHTML += '<span class="warn"> · target unreachable</span>';
+    };
+  });
+
+  function angDiff(a, b) {
+    let d = a - b;
+    while (d > Math.PI) d -= 2 * Math.PI;
+    while (d < -Math.PI) d += 2 * Math.PI;
+    return d;
+  }
+
+  document.getElementById('ls').textContent = `${L1.toFixed(2)}, ${L2.toFixed(2)}`;
+})();
+</script>
+</body>
+</html>

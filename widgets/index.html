@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Panav's Robotics Widgets</title>
+<style>
+  :root { --bg:#1f1f1f; --fg:#eee; --accent:#4a9eff; --muted:#888; --panel:#2a2a2a; }
+  html,body { margin:0; padding:0; background:var(--bg); color:var(--fg); font-family:system-ui,-apple-system,sans-serif; }
+  .wrap { max-width:1100px; margin:0 auto; padding:24px 16px; }
+  header h1 { font-size:22px; margin:0 0 6px; color:var(--accent); }
+  header p { font-size:13px; color:var(--muted); margin:0 0 24px; }
+  .grid { display:grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap:14px; }
+  a.card { display:block; background:var(--panel); border-radius:8px; padding:14px; text-decoration:none; color:var(--fg); transition:transform 0.15s, background 0.15s; border:1px solid #2f2f2f; }
+  a.card:hover { transform:translateY(-2px); background:#333; border-color:var(--accent); }
+  .thumb { height:90px; border-radius:5px; margin-bottom:10px; background:linear-gradient(135deg, var(--c1), var(--c2)); position:relative; overflow:hidden; }
+  .thumb::after { content:""; position:absolute; inset:0; background:radial-gradient(circle at 30% 30%, rgba(255,255,255,0.15), transparent 60%); }
+  .name { font-size:14px; font-weight:600; color:var(--accent); margin-bottom:4px; }
+  .desc { font-size:11px; color:var(--muted); line-height:1.4; }
+  footer { text-align:center; font-size:11px; color:var(--muted); margin-top:32px; padding-top:16px; border-top:1px solid #2f2f2f; }
+  footer a { color:var(--muted); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Panav's Robotics Widgets</h1>
+    <p>Companion to the Ultimate Robotics Handbook. Interactive demos for the math and algorithms behind modern robots.</p>
+  </header>
+  <div class="grid">
+    <a class="card" href="kalman-1d/" style="--c1:#4a9eff;--c2:#2c5aa0">
+      <div class="thumb"></div><div class="name">1D Kalman Filter</div>
+      <div class="desc">Predict / update on a noisy sinusoid. Tune Q and R.</div>
+    </a>
+    <a class="card" href="path-grid/" style="--c1:#ffd166;--c2:#a87f33">
+      <div class="thumb"></div><div class="name">A* vs Dijkstra</div>
+      <div class="desc">Side-by-side grid pathfinding. Paint walls, see explored cells.</div>
+    </a>
+    <a class="card" href="arm-2dof/" style="--c1:#6bcb77;--c2:#2f6b35">
+      <div class="thumb"></div><div class="name">2-DOF Arm IK</div>
+      <div class="desc">Drag target, watch closed-form IK. Jacobian singularity alert.</div>
+    </a>
+    <a class="card" href="quat-converter/" style="--c1:#ff5e5e;--c2:#7a2424">
+      <div class="thumb"></div><div class="name">Quaternion Converter</div>
+      <div class="desc">Quaternion ↔ Euler (ZYX) ↔ Matrix with 3D preview.</div>
+    </a>
+    <a class="card" href="pid-cartpole/" style="--c1:#9d7bff;--c2:#523f8a">
+      <div class="thumb"></div><div class="name">PID Cart-Pole</div>
+      <div class="desc">Tune Kp, Ki, Kd. Disturb and watch recovery.</div>
+    </a>
+    <a class="card" href="icp-stepper/" style="--c1:#4ecdc4;--c2:#266963">
+      <div class="thumb"></div><div class="name">ICP Step-Through</div>
+      <div class="desc">Iterative closest point on 2D clouds, one iteration at a time.</div>
+    </a>
+    <a class="card" href="rrt-star/" style="--c1:#ff9f43;--c2:#a35c1e">
+      <div class="thumb"></div><div class="name">RRT*</div>
+      <div class="desc">Sampling-based planner with rewiring, drag start/goal.</div>
+    </a>
+    <a class="card" href="dh-3dof/" style="--c1:#5e8cff;--c2:#2c4a99">
+      <div class="thumb"></div><div class="name">DH 3-DOF Arm</div>
+      <div class="desc">Denavit-Hartenberg parameters rendered in 3D.</div>
+    </a>
+    <a class="card" href="ekf-2d/" style="--c1:#f368e0;--c2:#7a3470">
+      <div class="thumb"></div><div class="name">2D EKF Localization</div>
+      <div class="desc">Range-bearing landmarks, covariance ellipse, noise sliders.</div>
+    </a>
+    <a class="card" href="ros2-qos/" style="--c1:#54a0ff;--c2:#2c5aa0">
+      <div class="thumb"></div><div class="name">ROS 2 QoS Chooser</div>
+      <div class="desc">Pick a publisher/subscriber profile, see compatibility.</div>
+    </a>
+  </div>
+  <footer>
+    Part of the Ultimate Robotics Handbook by Panav · <a href="https://panav.netlify.app">panav.netlify.app</a>
+  </footer>
+</div>
+</body>
+</html>

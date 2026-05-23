@@ -4,41 +4,65 @@ icon: subtitles
 
 # Common Languages
 
-### Common Robotics Languages <a href="#common-robotics-languages" id="common-robotics-languages"></a>
+### The 2026 landscape
 
-* C++\
-  Offers direct memory and hardware control, deterministic performance, and wide support in real-time and embedded systems. C++ is the backbone of many high-performance robotics frameworks, including ROS (Robot Operating System).\
-  – Pros: High speed, extensive libraries, fine‐grained control (e.g. ROS native APIs).\
-  – Cons: Steeper learning curve, manual memory management can lead to complex debugging.
-* Python\
-  Ideal for rapid prototyping, scripting, and AI/vision integration. Python’s readability and huge ecosystem (NumPy, OpenCV, TensorFlow) accelerate algorithm development, though it’s generally slower at runtime than compiled languages.\
-  – Pros: Simple syntax, rich libraries for machine learning and vision, seamless ROS integration via rospy.\
-  – Cons: Lower real-time performance, less suited for hard real-time loops without C++ bindings.
-* Java\
-  Employed in cross-platform and Android-based robotics, especially when portability and managed memory are priorities. Java’s JVM offers safety and garbage collection at the cost of unpredictable latency.\
-  – Pros: Portable “write once, run anywhere,” strong ecosystem for networking and GUIs.\
-  – Cons: Garbage-collection pauses, less control over hardware.
-* C# / .NET\
-  Used by Microsoft Robotics Developer Studio and .NET-based vision libraries. C# combines high-level productivity with access to Windows-specific robotics APIs.\
-  – Pros: Rich robotics-focused libraries, rapid GUI development with WPF/WinForms.\
-  – Cons: Tied to Windows platforms; less common in Linux-based robot builds.
-* MATLAB / Simulink\
-  Provides a model-based design environment for kinematics, dynamics, control and vision. Automatic code generation lets you deploy to embedded targets or ROS nodes.\
-  – Pros: Integrated toolboxes (Robotics System Toolbox, Computer Vision), built-in plotting and visualization.\
-  – Cons: Commercial licensing costs; less flexible for custom low-level drivers.
-* Hardware Description Languages (HDLs)\
-  Languages like VHDL or Verilog appear when implementing FPGAs for ultra-low‐latency sensor interfaces or custom co-processors.\
-  – Pros: Enables cycle-accurate, parallel hardware acceleration.\
-  – Cons: Very steep learning curve; specialized domain expertise needed.
-* Lisp, Pascal, and Others\
-  Historic languages (Lisp in early AI/robot planning, Pascal in educational robotics) have largely given way to the above, though you may still encounter them in legacy systems or teaching contexts.
+In production robotics in 2026, three languages cover ~95% of the work:
 
-### Picking Your First Robotics Language <a href="#picking-your-first-robotics-language" id="picking-your-first-robotics-language"></a>
+* **C++** — every performance-critical ROS 2 node, every real-time control loop, every SLAM/perception backbone (Nav2, MoveIt 2, ORB-SLAM3, FAST-LIO2 — all C++).
+* **Python** — every glue script, every ML/perception model, every rapid prototype, plus a large fraction of ROS 2 nodes that aren't on the hot path. `rclpy` is fully featured.
+* **Rust** — a rising third. The official `rclrs` client library is maturing, and adoption is growing for safety-critical and embedded robotics. Worth learning if you're building greenfield systems in 2026.
 
-* If you need **real‐time control** and hardware drivers, start with **C++**.
-* For **rapid prototyping**, vision, or machine‐learning tasks, begin with **Python**.
-* When targeting **industrial environments** or **Windows-based toolchains**, consider **C#** or **Java**.
-* For **model-based design** and automated code generation, leverage **MATLAB/Simulink**.
+Everything else is niche. Deep dives for each:
+
+* **[C++ for Robotics](cpp-for-robotics.md)** — Eigen, real-time idioms, rclcpp composition, cache-friendly code.
+* **[Python for Robotics](python-for-robotics.md)** — numpy idioms, rclpy patterns, PyTorch + ROS 2.
+
+***
+
+### Common Robotics Languages
+
+* **C++**\
+  Direct memory and hardware control, deterministic performance, wide RT and embedded support. The backbone of ROS 2 (`rclcpp`).\
+  – Pros: high speed, extensive libraries (Eigen, PCL, OpenCV, Boost), fine-grained control.\
+  – Cons: steep learning curve, careful memory management, slow compile times.\
+  – Use when: any hot loop, drivers, SLAM, perception, controllers.
+* **Python**\
+  Rapid prototyping, scripting, AI/vision integration. Huge ecosystem (NumPy, SciPy, PyTorch, OpenCV).\
+  – Pros: readable, massive ML ecosystem, fast iteration. `rclpy` is full-featured in ROS 2.\
+  – Cons: GIL prevents true threading, slower than C++ in tight loops, packaging can be painful.\
+  – Use when: ML inference nodes, dashboards, behaviors, anywhere off the hot path.
+* **Rust**\
+  Memory-safe systems language with C++-comparable performance. Official ROS 2 client library is `rclrs` (in active development).\
+  – Pros: no segfaults, fearless concurrency, modern tooling (cargo).\
+  – Cons: smaller robotics ecosystem than C++/Python, learning curve, `rclrs` API still evolving.\
+  – Use when: greenfield systems where safety matters; safety-critical drivers; if your team is Rust-fluent already.
+* **MATLAB / Simulink**\
+  Model-based design for kinematics, dynamics, control, and vision. Automatic code generation to embedded targets or ROS nodes.\
+  – Pros: integrated toolboxes (Robotics System Toolbox, Computer Vision), built-in plotting.\
+  – Cons: commercial licensing, less flexible for custom drivers, awkward for production deployment.\
+  – Use when: control system design, simulation, academic research.
+* **Hardware Description Languages (VHDL / Verilog / SystemVerilog)**\
+  For FPGAs: ultra-low-latency sensor interfaces, custom co-processors (e.g., event-camera processing).\
+  – Pros: cycle-accurate, parallel hardware acceleration.\
+  – Cons: very steep learning curve, specialized domain.
+* **Embedded C (with vendor SDKs)**\
+  For bare-metal MCU work: motor controllers, sensor drivers. Often paired with FreeRTOS or Zephyr.\
+  – Use when: writing firmware for the robot's microcontrollers, often bridged to ROS 2 via [micro-ROS](../ros-2/micro-ros.md).
+
+Older/niche languages — **C#/.NET** (Windows-only, Microsoft Robotics Developer Studio is effectively dead), **Java** (rare in robotics), **Lisp** (historical AI planning) — you'll encounter only in legacy systems.
+
+### Picking Your First Robotics Language
+
+| Goal | Start with |
+|---|---|
+| Real-time control, drivers, SLAM | **C++** |
+| ML/vision, scripting, rapid prototyping | **Python** |
+| Greenfield with safety focus | **Rust** |
+| Embedded MCU firmware | **Embedded C** (often with [micro-ROS](../ros-2/micro-ros.md)) |
+| Model-based control design | **MATLAB/Simulink** |
+| FPGA sensor co-processor | **VHDL/Verilog** |
+
+> **Field note.** In my production work (Eternal.ag, 10xConstruction.ai, Addverb), the actual ratio has been: ~60% C++, ~30% Python, ~10% Bash/CMake/launch-file glue. Rust is on the radar but hasn't replaced any C++ yet.
 
 ### Study Resources <a href="#study-resources" id="study-resources"></a>
 

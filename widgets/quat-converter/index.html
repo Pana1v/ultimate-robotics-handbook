@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Quaternion ↔ Euler ↔ Matrix</title>
+<style>
+  :root { --bg:#1f1f1f; --fg:#eee; --accent:#4a9eff; --muted:#888; --panel:#2a2a2a; }
+  html,body { margin:0; padding:0; background:var(--bg); color:var(--fg); font-family:system-ui,-apple-system,sans-serif; }
+  .wrap { max-width:1000px; margin:0 auto; padding:12px; }
+  h1 { font-size:16px; margin:0 0 8px; color:var(--accent); }
+  .layout { display:grid; grid-template-columns: 1fr 1fr; gap:12px; }
+  @media (max-width:720px) { .layout { grid-template-columns:1fr; } }
+  .panel { background:var(--panel); padding:10px; border-radius:6px; }
+  .panel h2 { font-size:12px; color:var(--muted); margin:0 0 6px; text-transform:uppercase; letter-spacing:0.5px; }
+  .slider { display:flex; align-items:center; gap:8px; margin:4px 0; font-family:monospace; font-size:12px; }
+  .slider label { min-width:24px; color:var(--accent); }
+  .slider input { flex:1; accent-color:var(--accent); }
+  .slider .v { min-width:60px; text-align:right; }
+  .matrix { font-family:monospace; font-size:13px; background:#181818; padding:8px; border-radius:4px; line-height:1.6; }
+  .matrix .row { display:flex; justify-content:space-between; gap:8px; }
+  .matrix span { flex:1; text-align:right; }
+  #threed { width:100%; height:300px; background:#181818; border-radius:4px; }
+  footer { text-align:center; font-size:11px; color:var(--muted); margin-top:10px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Quaternion ↔ Euler (ZYX) ↔ Rotation Matrix</h1>
+  <div class="layout">
+    <div class="panel">
+      <h2>Quaternion (w, x, y, z) — auto-normalized</h2>
+      <div class="slider"><label>w</label><input id="qw" type="range" min="-1" max="1" step="0.001" value="1" aria-label="quaternion w"><span class="v" id="qwv">1.000</span></div>
+      <div class="slider"><label>x</label><input id="qx" type="range" min="-1" max="1" step="0.001" value="0" aria-label="quaternion x"><span class="v" id="qxv">0.000</span></div>
+      <div class="slider"><label>y</label><input id="qy" type="range" min="-1" max="1" step="0.001" value="0" aria-label="quaternion y"><span class="v" id="qyv">0.000</span></div>
+      <div class="slider"><label>z</label><input id="qz" type="range" min="-1" max="1" step="0.001" value="0" aria-label="quaternion z"><span class="v" id="qzv">0.000</span></div>
+
+      <h2 style="margin-top:14px">Euler ZYX (roll, pitch, yaw — degrees)</h2>
+      <div class="slider"><label>R</label><input id="er" type="range" min="-180" max="180" step="0.5" value="0" aria-label="roll"><span class="v" id="erv">0°</span></div>
+      <div class="slider"><label>P</label><input id="ep" type="range" min="-89" max="89" step="0.5" value="0" aria-label="pitch"><span class="v" id="epv">0°</span></div>
+      <div class="slider"><label>Y</label><input id="ey" type="range" min="-180" max="180" step="0.5" value="0" aria-label="yaw"><span class="v" id="eyv">0°</span></div>
+
+      <h2 style="margin-top:14px">Rotation Matrix R (3×3)</h2>
+      <div class="matrix" id="mat"></div>
+    </div>
+    <div class="panel">
+      <h2>3D Frame (X red, Y green, Z blue)</h2>
+      <div id="threed"></div>
+    </div>
+  </div>
+  <footer>Part of the Ultimate Robotics Handbook by Panav · panav.netlify.app</footer>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/mathjs@12.4.0/lib/browser/math.min.js" crossorigin="anonymous"></script>
+<script>
+(() => {
+  let q = { w:1, x:0, y:0, z:0 };
+  let updating = false;
+
+  function normalize(v) {
+    const n = Math.hypot(v.w, v.x, v.y, v.z) || 1;
+    return { w:v.w/n, x:v.x/n, y:v.y/n, z:v.z/n };
+  }
+
+  // Quaternion (w,x,y,z) -> 3x3 R
+  function qToR(q) {
+    const {w,x,y,z} = q;
+    return [
+      [1-2*(y*y+z*z), 2*(x*y-w*z),   2*(x*z+w*y)],
+      [2*(x*y+w*z),   1-2*(x*x+z*z), 2*(y*z-w*x)],
+      [2*(x*z-w*y),   2*(y*z+w*x),   1-2*(x*x+y*y)]
+    ];
+  }
+
+  // R -> Euler ZYX (roll about X, pitch about Y, yaw about Z) — applied as Rz*Ry*Rx
+  function rToEuler(R) {
+    const sy = -R[2][0];
+    let pitch = Math.asin(Math.max(-1, Math.min(1, sy)));
+    let roll, yaw;
+    if (Math.abs(sy) < 0.9999) {
+      roll = Math.atan2(R[2][1], R[2][2]);
+      yaw  = Math.atan2(R[1][0], R[0][0]);
+    } else {
+      // Gimbal lock fallback
+      roll = Math.atan2(-R[1][2], R[1][1]);
+      yaw = 0;
+    }
+    return { roll, pitch, yaw };
+  }
+
+  // Euler ZYX -> quaternion (Hamilton convention, R = Rz(yaw) Ry(pitch) Rx(roll))
+  function eulerToQ(roll, pitch, yaw) {
+    const cr = Math.cos(roll/2), sr = Math.sin(roll/2);
+    const cp = Math.cos(pitch/2), sp = Math.sin(pitch/2);
+    const cy = Math.cos(yaw/2), sy = Math.sin(yaw/2);
+    return {
+      w: cr*cp*cy + sr*sp*sy,
+      x: sr*cp*cy - cr*sp*sy,
+      y: cr*sp*cy + sr*cp*sy,
+      z: cr*cp*sy - sr*sp*cy
+    };
+  }
+
+  // DOM
+  const elQ = { w:document.getElementById('qw'), x:document.getElementById('qx'), y:document.getElementById('qy'), z:document.getElementById('qz') };
+  const elQV = { w:document.getElementById('qwv'), x:document.getElementById('qxv'), y:document.getElementById('qyv'), z:document.getElementById('qzv') };
+  const elE = { r:document.getElementById('er'), p:document.getElementById('ep'), y:document.getElementById('ey') };
+  const elEV = { r:document.getElementById('erv'), p:document.getElementById('epv'), y:document.getElementById('eyv') };
+  const matEl = document.getElementById('mat');
+
+  function refreshAll(source) {
+    q = normalize(q);
+    // Update quaternion sliders
+    if (source !== 'q') {
+      elQ.w.value = q.w; elQ.x.value = q.x; elQ.y.value = q.y; elQ.z.value = q.z;
+    }
+    elQV.w.textContent = q.w.toFixed(3); elQV.x.textContent = q.x.toFixed(3);
+    elQV.y.textContent = q.y.toFixed(3); elQV.z.textContent = q.z.toFixed(3);
+
+    const R = qToR(q);
+    const e = rToEuler(R);
+    if (source !== 'e') {
+      elE.r.value = (e.roll  * 180/Math.PI).toFixed(2);
+      elE.p.value = (e.pitch * 180/Math.PI).toFixed(2);
+      elE.y.value = (e.yaw   * 180/Math.PI).toFixed(2);
+    }
+    elEV.r.textContent = (e.roll  * 180/Math.PI).toFixed(1) + '°';
+    elEV.p.textContent = (e.pitch * 180/Math.PI).toFixed(1) + '°';
+    elEV.y.textContent = (e.yaw   * 180/Math.PI).toFixed(1) + '°';
+
+    matEl.innerHTML = R.map(row => '<div class="row">' + row.map(v => `<span>${v.toFixed(3)}</span>`).join('') + '</div>').join('');
+    applyTo3D(q);
+  }
+
+  Object.keys(elQ).forEach(k => {
+    elQ[k].addEventListener('input', () => {
+      q = { w:+elQ.w.value, x:+elQ.x.value, y:+elQ.y.value, z:+elQ.z.value };
+      refreshAll('q');
+    });
+  });
+  ['r','p','y'].forEach(k => {
+    elE[k].addEventListener('input', () => {
+      const roll = (+elE.r.value) * Math.PI / 180;
+      const pitch = (+elE.p.value) * Math.PI / 180;
+      const yaw = (+elE.y.value) * Math.PI / 180;
+      q = eulerToQ(roll, pitch, yaw);
+      refreshAll('e');
+    });
+  });
+
+  // 3D scene
+  const container = document.getElementById('threed');
+  const scene = new THREE.Scene();
+  const cam = new THREE.PerspectiveCamera(45, 1, 0.1, 100);
+  cam.position.set(2.5, 2.5, 2.5); cam.lookAt(0, 0, 0);
+  const renderer = new THREE.WebGLRenderer({ antialias:true, alpha:false });
+  renderer.setClearColor(0x181818);
+  container.appendChild(renderer.domElement);
+
+  function fit() {
+    const w = container.clientWidth, h = container.clientHeight;
+    renderer.setSize(w, h);
+    cam.aspect = w / h; cam.updateProjectionMatrix();
+  }
+  window.addEventListener('resize', fit);
+
+  // World axes (faint)
+  function axisLine(color, end) {
+    const geom = new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(0,0,0), end]);
+    return new THREE.Line(geom, new THREE.LineBasicMaterial({ color, transparent:true, opacity:0.25 }));
+  }
+  scene.add(axisLine(0xff5e5e, new THREE.Vector3(1.5,0,0)));
+  scene.add(axisLine(0x6bcb77, new THREE.Vector3(0,1.5,0)));
+  scene.add(axisLine(0x4a9eff, new THREE.Vector3(0,0,1.5)));
+
+  // Rotated frame group
+  const frame = new THREE.Group();
+  function arrow(color, dir) {
+    return new THREE.ArrowHelper(dir.clone().normalize(), new THREE.Vector3(0,0,0), 1.2, color, 0.18, 0.1);
+  }
+  frame.add(arrow(0xff5e5e, new THREE.Vector3(1,0,0)));
+  frame.add(arrow(0x6bcb77, new THREE.Vector3(0,1,0)));
+  frame.add(arrow(0x4a9eff, new THREE.Vector3(0,0,1)));
+  scene.add(frame);
+
+  function applyTo3D(q) {
+    // THREE uses (x,y,z,w)
+    frame.quaternion.set(q.x, q.y, q.z, q.w);
+  }
+
+  function loop() {
+    requestAnimationFrame(loop);
+    renderer.render(scene, cam);
+  }
+  fit(); loop();
+  refreshAll(null);
+})();
+</script>
+</body>
+</html>
