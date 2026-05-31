@@ -9,6 +9,14 @@
 * [Linear Algebra for Robotics](foundations/linear-algebra-for-robotics.md)
 * [Calculus](foundations/calculus.md)
 
+## Mathematical & Programming Foundations
+
+* [Mathematical & Programming Foundations (overview)](mathematical-and-programming-foundations/mathematical-and-programming-foundations.md)
+* [Discrete Mathematics & Graph Theory](mathematical-and-programming-foundations/discrete-math.md)
+* [Optimization Methods](mathematical-and-programming-foundations/optimization-methods.md)
+* [Numerical Methods](mathematical-and-programming-foundations/numerical-methods.md)
+* [Advanced Algorithms](mathematical-and-programming-foundations/advanced-algorithms.md)
+
 ## Programming for Robotics
 
 * [Programming for Robotics (overview)](programming-for-robotics/programming-for-robotics.md)
@@ -21,18 +29,17 @@
 
 ## Hardware
 
-* [Hardware](hardware/hardware/README.md)
+* [Hardware (overview)](hardware/hardware.md)
+* [Materials & Design](hardware/hardware/README.md)
   * [Materials Selection](hardware/hardware/materials-selection.md)
   * [Build and Prototyping](hardware/hardware/build-and-prototyping.md)
   * [3D Printing and Machining](hardware/hardware/3d-printing-and-machining.md)
+* [Common Mechanisms (overview)](common-mechanisms/common-mechanisms.md)
 * [Fabrication Parts](hardware/fabrication-parts.md)
-* [Common Mechanisms](hardware/common-mechanisms/README.md)
-  * [Wheels and Drives](hardware/common-mechanisms/wheels-and-drives.md)
-  * [Power Transmission](hardware/common-mechanisms/power-transmission.md)
 
-## Computer Aided Designs and Simulations
+## Computer-Aided Design & Simulations
 
-* [Computer Aided Design and Simulations](computer-aided-designs-and-simulations/computer-aided-design-and-simulations.md)
+* [CAD & Simulations (overview)](computer-aided-designs-and-simulations/computer-aided-design-and-simulations.md)
 * [3D Modelling CAD](computer-aided-designs-and-simulations/3d-modelling-cad/README.md)
   * [SolidWorks](computer-aided-designs-and-simulations/3d-modelling-cad/solidworks.md)
   * [CATIA, Rhino 3D and Ansys](computer-aided-designs-and-simulations/3d-modelling-cad/catia-rhino-3d-and-ansys.md)
@@ -68,15 +75,17 @@
 * [Visualization (rviz2, Foxglove, Lichtblick, PlotJuggler)](ros-2/visualization.md)
 * [Important Packages and Libraries](ros-2/important-packages-and-libraries.md)
 
-## ROS 1 (Legacy)
+## ROS Advanced & Legacy
 
-* [ROS 1 Overview](ros-1-legacy/ros/README.md)
-  * [Concepts and Packages (ROS 1)](ros-1-legacy/ros/concepts-and-packages.md)
-  * [Manual and Quick Setup (ROS 1)](ros-1-legacy/ros/manual-and-quick-setup.md)
+* [ROS Advanced](ros-advanced/ros-advanced.md)
+  * [ROS 1 Overview](ros-1-legacy/ros/README.md)
+    * [Concepts and Packages (ROS 1)](ros-1-legacy/ros/concepts-and-packages.md)
+    * [Manual and Quick Setup (ROS 1)](ros-1-legacy/ros/manual-and-quick-setup.md)
 
 ## Perception & Computer Vision
 
-* [ML and Perception (overview)](perception-and-computer-vision/ml-and-perception.md)
+* [Perception & Computer Vision (overview)](perception-and-computer-vision/perception-and-computer-vision.md)
+* [ML and Perception](perception-and-computer-vision/ml-and-perception.md)
 * [Cameras, Depth Sensors and LiDAR](perception-and-computer-vision/cameras-depth-sensors-and-lidar.md)
 * [Image Processing Basics (OpenCV)](perception-and-computer-vision/image-processing-basics-opencv.md)
 * [Object Detection and Tracking](perception-and-computer-vision/object-detection-and-tracking.md)
@@ -133,8 +142,7 @@
 
 ## Drones, Rocketry and Aviation
 
-* [Drones](drones-rocketry-and-aviation/drones/README.md)
-  * [Drone Anatomy](drones-rocketry-and-aviation/drones/drone-anatomy.md)
+* [Drones (overview)](drones-rocketry-and-aviation/drones.md)
 * [Rocketry](drones-rocketry-and-aviation/rocketry.md)
 
 ## Author's Projects
@@ -148,6 +156,7 @@
 
 ## Career Paths & Research Opportunities
 
+* [Career Paths (overview)](career-paths-and-research-opportunities/career-paths-and-research-opportunities.md)
 * [Career in Robotics](career-paths-and-research-opportunities/career-in-robotics.md)
 * [Job Roles In Robotics](career-paths-and-research-opportunities/job-roles-in-robotics.md)
 * [Conferences and Journals](career-paths-and-research-opportunities/conferences-and-journals.md)
