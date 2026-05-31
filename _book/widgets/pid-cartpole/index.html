@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PID Cart-Pole</title>
+<style>
+  :root { --bg:#1f1f1f; --fg:#eee; --accent:#4a9eff; --muted:#888; --panel:#2a2a2a; }
+  html,body { margin:0; padding:0; background:var(--bg); color:var(--fg); font-family:system-ui,-apple-system,sans-serif; }
+  .wrap { max-width:900px; margin:0 auto; padding:12px; }
+  h1 { font-size:16px; margin:0 0 8px; color:var(--accent); }
+  .controls { display:flex; flex-wrap:wrap; gap:12px; padding:8px; background:var(--panel); border-radius:6px; margin-bottom:8px; }
+  .controls label { display:flex; flex-direction:column; font-size:12px; color:var(--muted); min-width:140px; }
+  .controls input[type=range] { width:100%; accent-color:var(--accent); }
+  .controls .val { color:var(--fg); font-family:monospace; }
+  button { background:var(--accent); color:#fff; border:0; padding:6px 12px; border-radius:4px; cursor:pointer; font-size:13px; align-self:flex-end; }
+  button.secondary { background:#444; }
+  button:hover { filter:brightness(1.15); }
+  .views { display:grid; grid-template-columns: 1fr; gap:8px; }
+  .panel { background:var(--panel); border-radius:6px; padding:8px; }
+  footer { text-align:center; font-size:11px; color:var(--muted); margin-top:10px; }
+  @media (max-width:600px) { .controls label { min-width:100%; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>PID Cart-Pole Balancer</h1>
+  <div class="controls">
+    <label>Kp <span class="val" id="kpv">60</span><input id="kp" type="range" min="0" max="200" step="1" value="60" aria-label="Kp"></label>
+    <label>Ki <span class="val" id="kiv">5</span><input id="ki" type="range" min="0" max="50" step="0.5" value="5" aria-label="Ki"></label>
+    <label>Kd <span class="val" id="kdv">14</span><input id="kd" type="range" min="0" max="50" step="0.5" value="14" aria-label="Kd"></label>
+    <button id="impulse">Disturb</button>
+    <button id="reset" class="secondary">Reset</button>
+  </div>
+  <div class="views">
+    <div class="panel"><div id="cart"></div></div>
+    <div class="panel"><div id="chart"></div></div>
+  </div>
+  <footer>Part of the Ultimate Robotics Handbook by Panav · panav.netlify.app</footer>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/p5@1.9.0/lib/p5.min.js" crossorigin="anonymous"></script>
+<script>
+(() => {
+  // Cart-pole physics — standard nonlinear equations (Florian, 2007 derivation)
+  const M = 1.0;     // cart mass
+  const m = 0.1;     // pole mass
+  const L = 0.5;     // pole half-length
+  const g = 9.81;
+  const dt = 0.02;
+  const F_LIMIT = 50;
+
+  let x, xd, th, thd;
+  let i_acc = 0, prev_e = 0;
+  let Kp = 60, Ki = 5, Kd = 14;
+  const HIST = 400;
+  const angHist = new Array(HIST).fill(0);
+
+  function reset() {
+    x = 0; xd = 0;
+    th = (Math.random() - 0.5) * 0.1; // small disturbance from upright
+    thd = 0;
+    i_acc = 0; prev_e = 0;
+    for (let i = 0; i < HIST; i++) angHist[i] = 0;
+  }
+  reset();
+
+  function dynamics(F) {
+    // theta measured from vertical (upright = 0)
+    const s = Math.sin(th), c = Math.cos(th);
+    const total = M + m;
+    const tdd_num = g * s + c * ((-F - m * L * thd * thd * s) / total);
+    const tdd_den = L * (4/3 - (m * c * c) / total);
+    const thdd = tdd_num / tdd_den;
+    const xdd = (F + m * L * (thd * thd * s - thdd * c)) / total;
+    return { xdd, thdd };
+  }
+
+  function step() {
+    // PID on angle (setpoint = 0)
+    const e = -th; // we want th -> 0; positive theta => want negative force (push cart right pushes pole left)
+    const de = (e - prev_e) / dt;
+    i_acc += e * dt;
+    i_acc = Math.max(-2, Math.min(2, i_acc));
+    let F = Kp * e + Ki * i_acc + Kd * de;
+    // Add small soft penalty on cart drift so it doesn't slide off
+    F -= 1.5 * x + 0.8 * xd;
+    F = Math.max(-F_LIMIT, Math.min(F_LIMIT, F));
+    prev_e = e;
+
+    const a = dynamics(F);
+    xd += a.xdd * dt; x += xd * dt;
+    thd += a.thdd * dt; th += thd * dt;
+
+    // soft rail limits
+    if (Math.abs(x) > 2.4) { x = Math.sign(x) * 2.4; xd = 0; }
+
+    angHist.push(th);
+    if (angHist.length > HIST) angHist.shift();
+  }
+
+  document.getElementById('kp').addEventListener('input', e => { Kp = +e.target.value; document.getElementById('kpv').textContent = Kp; });
+  document.getElementById('ki').addEventListener('input', e => { Ki = +e.target.value; document.getElementById('kiv').textContent = Ki; });
+  document.getElementById('kd').addEventListener('input', e => { Kd = +e.target.value; document.getElementById('kdv').textContent = Kd; });
+  document.getElementById('impulse').addEventListener('click', () => { thd += (Math.random() < 0.5 ? -1 : 1) * 2.5; });
+  document.getElementById('reset').addEventListener('click', reset);
+
+  new p5((p) => {
+    p.setup = () => {
+      const c = p.createCanvas(820, 220); c.parent('cart'); p.frameRate(60);
+    };
+    p.windowResized = () => {
+      const w = Math.min(880, document.getElementById('cart').clientWidth);
+      p.resizeCanvas(w, 220);
+    };
+    p.draw = () => {
+      step();
+      p.background(42);
+      const cx = p.width / 2 + x * (p.width / 6);
+      const cy = p.height - 60;
+      // Rail
+      p.stroke(80); p.strokeWeight(2); p.line(0, cy + 25, p.width, cy + 25);
+      // Cart
+      p.fill(74, 158, 255); p.noStroke();
+      p.rect(cx - 40, cy, 80, 30, 4);
+      // Pole
+      const poleLen = 110;
+      const px = cx + poleLen * Math.sin(th);
+      const py = cy - poleLen * Math.cos(th);
+      p.stroke(107, 203, 119); p.strokeWeight(6); p.line(cx, cy, px, py);
+      p.noStroke(); p.fill(255, 209, 102); p.circle(px, py, 14);
+      // Read-out
+      p.fill(180); p.textSize(11); p.textAlign(p.LEFT);
+      p.text(`θ = ${(th * 180 / Math.PI).toFixed(1)}° · x = ${x.toFixed(2)}`, 10, 16);
+    };
+  });
+
+  new p5((p) => {
+    p.setup = () => {
+      const c = p.createCanvas(820, 160); c.parent('chart'); p.frameRate(30);
+    };
+    p.windowResized = () => {
+      const w = Math.min(880, document.getElementById('chart').clientWidth);
+      p.resizeCanvas(w, 160);
+    };
+    p.draw = () => {
+      p.background(24);
+      // zero line
+      p.stroke(70); p.line(0, p.height/2, p.width, p.height/2);
+      // bands
+      p.noStroke(); p.fill(74, 158, 255, 30);
+      const band = 0.1; // ~6 deg
+      const yh = p.map(band, -1, 1, p.height, 0) - p.height/2;
+      p.rect(0, p.height/2 - Math.abs(yh), p.width, 2 * Math.abs(yh));
+      // angle history
+      p.noFill(); p.stroke(255, 209, 102); p.strokeWeight(1.5);
+      p.beginShape();
+      for (let i = 0; i < angHist.length; i++) {
+        const xx = p.map(i, 0, HIST - 1, 0, p.width);
+        const yy = p.map(angHist[i], -1, 1, p.height, 0);
+        p.vertex(xx, yy);
+      }
+      p.endShape();
+      p.noStroke(); p.fill(140); p.textSize(10);
+      p.text('θ (rad), ±0.1 band', 6, 12);
+    };
+  });
+})();
+</script>
+</body>
+</html>

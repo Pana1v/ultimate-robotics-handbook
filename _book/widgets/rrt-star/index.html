@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RRT*</title>
+<style>
+  :root { --bg:#1f1f1f; --fg:#eee; --accent:#4a9eff; --muted:#888; --panel:#2a2a2a; }
+  html,body { margin:0; padding:0; background:var(--bg); color:var(--fg); font-family:system-ui,-apple-system,sans-serif; }
+  .wrap { max-width:900px; margin:0 auto; padding:12px; }
+  h1 { font-size:16px; margin:0 0 8px; color:var(--accent); }
+  .controls { display:flex; flex-wrap:wrap; gap:8px; padding:8px; background:var(--panel); border-radius:6px; margin-bottom:8px; align-items:center; }
+  button { background:var(--accent); color:#fff; border:0; padding:6px 12px; border-radius:4px; cursor:pointer; font-size:13px; }
+  button.secondary { background:#444; }
+  button:hover { filter:brightness(1.15); }
+  .hint { font-size:11px; color:var(--muted); }
+  .panel { background:var(--panel); padding:8px; border-radius:6px; }
+  canvas { display:block; background:#181818; border-radius:4px; touch-action:none; }
+  .stat { font-family:monospace; font-size:12px; margin-top:4px; color:var(--fg); }
+  footer { text-align:center; font-size:11px; color:var(--muted); margin-top:10px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>RRT* — Rapidly-exploring Random Tree (rewiring)</h1>
+  <div class="controls">
+    <button id="step">Step</button>
+    <button id="step10" class="secondary">Step ×10</button>
+    <button id="auto">Auto</button>
+    <button id="clear" class="secondary">Clear</button>
+    <button id="reset" class="secondary">Reset</button>
+    <span class="hint">Click empty space to add an obstacle · Drag start/goal</span>
+  </div>
+  <div class="panel">
+    <canvas id="cv" width="860" height="440" aria-label="RRT canvas"></canvas>
+    <div class="stat" id="stat">nodes: 1 · best cost: —</div>
+  </div>
+  <footer>Part of the Ultimate Robotics Handbook by Panav · panav.netlify.app</footer>
+</div>
+<script>
+(() => {
+  const cv = document.getElementById('cv');
+  const ctx = cv.getContext('2d');
+  const W = cv.width, H = cv.height;
+
+  let start = { x: 60, y: H/2 };
+  let goal  = { x: W - 60, y: H/2 };
+  let obstacles = [{ x: W*0.4, y: H*0.4, r: 50 }, { x: W*0.55, y: H*0.65, r: 60 }];
+  let nodes = [{ x:start.x, y:start.y, parent:-1, cost:0 }];
+  let bestGoalIdx = -1;
+  let auto = false;
+
+  const STEP = 22;
+  const SEARCH_RADIUS = 60;
+  const GOAL_RADIUS = 18;
+
+  function fit() {
+    const w = Math.min(880, document.querySelector('.panel').clientWidth - 16);
+    cv.style.width = w + 'px';
+  }
+  fit(); window.addEventListener('resize', fit);
+
+  function inObstacle(x, y) {
+    for (const o of obstacles) { const dx=x-o.x,dy=y-o.y; if (dx*dx+dy*dy<o.r*o.r) return true; }
+    return false;
+  }
+  function segHitsObstacle(a, b) {
+    // sample
+    const dx = b.x - a.x, dy = b.y - a.y;
+    const len = Math.hypot(dx, dy);
+    const n = Math.max(2, Math.ceil(len / 4));
+    for (let i = 0; i <= n; i++) {
+      const t = i / n;
+      if (inObstacle(a.x + t*dx, a.y + t*dy)) return true;
+    }
+    return false;
+  }
+  function dist(a, b) { return Math.hypot(a.x - b.x, a.y - b.y); }
+
+  function nearest(p) {
+    let bi = 0, bd = Infinity;
+    for (let i = 0; i < nodes.length; i++) {
+      const d = dist(nodes[i], p); if (d < bd) { bd = d; bi = i; }
+    }
+    return bi;
+  }
+  function near(p, r) {
+    const out = [];
+    for (let i = 0; i < nodes.length; i++) if (dist(nodes[i], p) <= r) out.push(i);
+    return out;
+  }
+
+  function step() {
+    // sample (goal bias 10%)
+    const sample = Math.random() < 0.1
+      ? { x: goal.x, y: goal.y }
+      : { x: Math.random() * W, y: Math.random() * H };
+    const ni = nearest(sample);
+    const n = nodes[ni];
+    const dx = sample.x - n.x, dy = sample.y - n.y;
+    const d = Math.hypot(dx, dy) || 1;
+    const nx = n.x + (dx / d) * Math.min(STEP, d);
+    const ny = n.y + (dy / d) * Math.min(STEP, d);
+    if (inObstacle(nx, ny)) return;
+    const newPt = { x: nx, y: ny };
+    if (segHitsObstacle(n, newPt)) return;
+    // choose parent: among near, lowest cost
+    const neigh = near(newPt, SEARCH_RADIUS);
+    let bestParent = ni;
+    let bestCost = n.cost + dist(n, newPt);
+    for (const k of neigh) {
+      if (segHitsObstacle(nodes[k], newPt)) continue;
+      const c = nodes[k].cost + dist(nodes[k], newPt);
+      if (c < bestCost) { bestCost = c; bestParent = k; }
+    }
+    const newIdx = nodes.length;
+    nodes.push({ x: newPt.x, y: newPt.y, parent: bestParent, cost: bestCost });
+    // rewire neighbors
+    for (const k of neigh) {
+      if (k === bestParent) continue;
+      const c = bestCost + dist(nodes[newIdx], nodes[k]);
+      if (c < nodes[k].cost && !segHitsObstacle(nodes[newIdx], nodes[k])) {
+        nodes[k].parent = newIdx;
+        nodes[k].cost = c;
+        propagateCost(k);
+      }
+    }
+    // check goal
+    if (dist(nodes[newIdx], goal) < GOAL_RADIUS && !segHitsObstacle(nodes[newIdx], goal)) {
+      const totalCost = nodes[newIdx].cost + dist(nodes[newIdx], goal);
+      if (bestGoalIdx < 0 || totalCost < nodes[bestGoalIdx].cost + dist(nodes[bestGoalIdx], goal)) {
+        bestGoalIdx = newIdx;
+      }
+    }
+  }
+
+  function propagateCost(i) {
+    // BFS to update descendants
+    const children = [];
+    for (let j = 0; j < nodes.length; j++) if (nodes[j].parent === i) children.push(j);
+    for (const c of children) {
+      nodes[c].cost = nodes[i].cost + dist(nodes[i], nodes[c]);
+      propagateCost(c);
+    }
+  }
+
+  function draw() {
+    ctx.fillStyle = '#181818'; ctx.fillRect(0, 0, W, H);
+    // obstacles
+    ctx.fillStyle = '#555';
+    for (const o of obstacles) { ctx.beginPath(); ctx.arc(o.x, o.y, o.r, 0, Math.PI*2); ctx.fill(); }
+    // tree
+    ctx.strokeStyle = 'rgba(74,158,255,0.35)'; ctx.lineWidth = 1;
+    for (let i = 1; i < nodes.length; i++) {
+      const p = nodes[nodes[i].parent];
+      ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(nodes[i].x, nodes[i].y); ctx.stroke();
+    }
+    // best path
+    if (bestGoalIdx >= 0) {
+      ctx.strokeStyle = '#ffd166'; ctx.lineWidth = 3; ctx.beginPath();
+      let cur = bestGoalIdx;
+      ctx.moveTo(goal.x, goal.y);
+      ctx.lineTo(nodes[cur].x, nodes[cur].y);
+      while (nodes[cur].parent !== -1) {
+        ctx.lineTo(nodes[nodes[cur].parent].x, nodes[nodes[cur].parent].y);
+        cur = nodes[cur].parent;
+      }
+      ctx.stroke();
+    }
+    // start/goal
+    ctx.fillStyle = '#6bcb77'; ctx.beginPath(); ctx.arc(start.x, start.y, 9, 0, Math.PI*2); ctx.fill();
+    ctx.fillStyle = '#ff5e5e'; ctx.beginPath(); ctx.arc(goal.x, goal.y, 9, 0, Math.PI*2); ctx.fill();
+
+    const bc = bestGoalIdx >= 0 ? (nodes[bestGoalIdx].cost + dist(nodes[bestGoalIdx], goal)).toFixed(1) : '—';
+    document.getElementById('stat').textContent = `nodes: ${nodes.length} · best cost: ${bc}`;
+  }
+
+  function reset() {
+    nodes = [{ x: start.x, y: start.y, parent: -1, cost: 0 }];
+    bestGoalIdx = -1;
+    draw();
+  }
+
+  document.getElementById('step').addEventListener('click', () => { step(); draw(); });
+  document.getElementById('step10').addEventListener('click', () => { for (let i = 0; i < 10; i++) step(); draw(); });
+  document.getElementById('auto').addEventListener('click', (e) => {
+    auto = !auto; e.target.textContent = auto ? 'Pause' : 'Auto';
+  });
+  document.getElementById('clear').addEventListener('click', () => { obstacles = []; reset(); });
+  document.getElementById('reset').addEventListener('click', reset);
+
+  let drag = null;
+  function pos(ev) {
+    const r = cv.getBoundingClientRect();
+    return { x: (ev.clientX - r.left) * (W / r.width), y: (ev.clientY - r.top) * (H / r.height) };
+  }
+  cv.addEventListener('pointerdown', (ev) => {
+    const p = pos(ev);
+    if (dist(p, start) < 12) drag = 'start';
+    else if (dist(p, goal) < 12) drag = 'goal';
+    else { obstacles.push({ x: p.x, y: p.y, r: 30 + Math.random() * 25 }); reset(); }
+  });
+  cv.addEventListener('pointermove', (ev) => {
+    if (!drag) return;
+    const p = pos(ev);
+    if (drag === 'start') { start.x = p.x; start.y = p.y; reset(); }
+    else if (drag === 'goal') { goal.x = p.x; goal.y = p.y; bestGoalIdx = -1; draw(); }
+  });
+  window.addEventListener('pointerup', () => { drag = null; });
+
+  function loop() {
+    if (auto) { for (let i = 0; i < 5; i++) step(); draw(); }
+    requestAnimationFrame(loop);
+  }
+  draw(); loop();
+})();
+</script>
+</body>
+</html>

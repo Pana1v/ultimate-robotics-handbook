@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ROS 2 QoS Chooser</title>
+<style>
+  :root { --bg:#1f1f1f; --fg:#eee; --accent:#4a9eff; --muted:#888; --panel:#2a2a2a; --ok:#6bcb77; --bad:#ff5e5e; }
+  html,body { margin:0; padding:0; background:var(--bg); color:var(--fg); font-family:system-ui,-apple-system,sans-serif; }
+  .wrap { max-width:900px; margin:0 auto; padding:12px; }
+  h1 { font-size:16px; margin:0 0 8px; color:var(--accent); }
+  .layout { display:grid; grid-template-columns: 1fr 1fr; gap:12px; }
+  @media (max-width:680px) { .layout { grid-template-columns:1fr; } }
+  .panel { background:var(--panel); padding:12px; border-radius:6px; }
+  .panel h2 { font-size:12px; color:var(--muted); margin:0 0 8px; text-transform:uppercase; letter-spacing:0.5px; }
+  .field { display:flex; flex-direction:column; gap:4px; margin-bottom:8px; font-size:13px; }
+  .field label { color:var(--muted); font-size:11px; text-transform:uppercase; letter-spacing:0.5px; }
+  select, input[type=number] { background:#181818; color:var(--fg); border:1px solid #333; border-radius:4px; padding:6px 8px; font-size:13px; font-family:inherit; }
+  .recommend { padding:10px; border-radius:4px; background:#181818; margin-top:6px; font-size:13px; }
+  .recommend .tag { display:inline-block; padding:2px 8px; border-radius:3px; background:var(--accent); color:#fff; font-size:11px; margin-right:6px; }
+  .matrix { margin-top:8px; font-family:monospace; font-size:11px; background:#181818; padding:8px; border-radius:4px; }
+  .matrix .row { display:flex; gap:6px; }
+  .matrix .cell { flex:1; padding:4px 6px; text-align:center; border-radius:3px; }
+  .matrix .ok { background: rgba(107,203,119,0.2); color:var(--ok); }
+  .matrix .bad { background: rgba(255,94,94,0.2); color:var(--bad); }
+  .matrix .head { background:#222; color:var(--muted); }
+  .code { font-family:monospace; font-size:11px; background:#181818; padding:8px; border-radius:4px; color:#cdd; margin-top:8px; white-space:pre-wrap; }
+  footer { text-align:center; font-size:11px; color:var(--muted); margin-top:10px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>ROS 2 QoS Profile Chooser</h1>
+  <div class="layout">
+    <div class="panel">
+      <h2>Publisher QoS</h2>
+      <div class="field"><label for="pr">Reliability</label>
+        <select id="pr"><option>RELIABLE</option><option>BEST_EFFORT</option></select>
+      </div>
+      <div class="field"><label for="pd">Durability</label>
+        <select id="pd"><option>VOLATILE</option><option>TRANSIENT_LOCAL</option></select>
+      </div>
+      <div class="field"><label for="ph">History</label>
+        <select id="ph"><option>KEEP_LAST</option><option>KEEP_ALL</option></select>
+      </div>
+      <div class="field"><label for="pdepth">Depth</label>
+        <input id="pdepth" type="number" min="1" max="10000" value="10">
+      </div>
+    </div>
+    <div class="panel">
+      <h2>Subscriber QoS</h2>
+      <div class="field"><label for="sr">Reliability</label>
+        <select id="sr"><option>RELIABLE</option><option>BEST_EFFORT</option></select>
+      </div>
+      <div class="field"><label for="sd">Durability</label>
+        <select id="sd"><option>VOLATILE</option><option>TRANSIENT_LOCAL</option></select>
+      </div>
+      <div class="field"><label for="sh">History</label>
+        <select id="sh"><option>KEEP_LAST</option><option>KEEP_ALL</option></select>
+      </div>
+      <div class="field"><label for="sdepth">Depth</label>
+        <input id="sdepth" type="number" min="1" max="10000" value="10">
+      </div>
+    </div>
+  </div>
+  <div class="panel" style="margin-top:12px">
+    <h2>Recommendation & Compatibility</h2>
+    <div class="recommend" id="rec">—</div>
+    <div class="matrix" id="mat"></div>
+    <div class="code" id="code"></div>
+  </div>
+  <footer>Part of the Ultimate Robotics Handbook by Panav · panav.netlify.app</footer>
+</div>
+<script>
+(() => {
+  const ids = ['pr','pd','ph','pdepth','sr','sd','sh','sdepth'];
+  const el = {}; ids.forEach(i => el[i] = document.getElementById(i));
+
+  function profile(prefix) {
+    return {
+      reliability: el[prefix + 'r'].value,
+      durability: el[prefix + 'd'].value,
+      history: el[prefix + 'h'].value,
+      depth: parseInt(el[prefix + 'depth'].value) || 1
+    };
+  }
+
+  // RMW request/offered compatibility: subscriber 'requests', publisher 'offers'.
+  // Compatible iff offered >= requested by RMW QoS contract.
+  function compat(pub, sub) {
+    const issues = [];
+    if (sub.reliability === 'RELIABLE' && pub.reliability === 'BEST_EFFORT') issues.push('Reliability: subscriber requests RELIABLE but publisher offers BEST_EFFORT');
+    if (sub.durability === 'TRANSIENT_LOCAL' && pub.durability === 'VOLATILE') issues.push('Durability: subscriber requests TRANSIENT_LOCAL but publisher offers VOLATILE');
+    return issues;
+  }
+
+  function recommend(pub) {
+    const r = pub.reliability, d = pub.durability, h = pub.history;
+    if (r === 'BEST_EFFORT' && d === 'VOLATILE') return { tag:'Sensor', text:'High-frequency sensor data (camera, lidar, IMU). Drop allowed; latest samples matter.' };
+    if (r === 'RELIABLE' && d === 'VOLATILE' && h === 'KEEP_LAST') return { tag:'Control', text:'Command topics like /cmd_vel. Guaranteed delivery, no replay for late joiners.' };
+    if (r === 'RELIABLE' && d === 'TRANSIENT_LOCAL') return { tag:'Latched', text:'Latched state (robot_description, map). Late subscribers receive last value.' };
+    if (h === 'KEEP_ALL') return { tag:'Stream', text:'Logging/archive use case. Buffers until subscriber catches up — beware unbounded memory.' };
+    return { tag:'Custom', text:'No standard profile matches — verify against your data rate, latency, and durability needs.' };
+  }
+
+  function cellClass(ok) { return ok ? 'cell ok' : 'cell bad'; }
+
+  function render() {
+    const pub = profile('p'), sub = profile('s');
+    const issues = compat(pub, sub);
+    const rec = recommend(pub);
+    const recEl = document.getElementById('rec');
+    recEl.innerHTML = `<span class="tag">${rec.tag}</span>${rec.text}`;
+
+    // Build compatibility matrix
+    const checks = [
+      { name: 'Reliability', ok: !(sub.reliability === 'RELIABLE' && pub.reliability === 'BEST_EFFORT'), pubV: pub.reliability, subV: sub.reliability },
+      { name: 'Durability',  ok: !(sub.durability === 'TRANSIENT_LOCAL' && pub.durability === 'VOLATILE'), pubV: pub.durability, subV: sub.durability },
+      { name: 'History',     ok: true, pubV: pub.history + '(' + pub.depth + ')', subV: sub.history + '(' + sub.depth + ')' }
+    ];
+    let html = '<div class="row"><div class="cell head">Policy</div><div class="cell head">Publisher</div><div class="cell head">Subscriber</div><div class="cell head">Match</div></div>';
+    for (const c of checks) {
+      html += `<div class="row">
+        <div class="cell head">${c.name}</div>
+        <div class="cell">${c.pubV}</div>
+        <div class="cell">${c.subV}</div>
+        <div class="${cellClass(c.ok)}">${c.ok ? 'OK' : 'INCOMPATIBLE'}</div>
+      </div>`;
+    }
+    if (issues.length === 0) html += '<div class="row"><div class="cell ok" style="flex:4">Publisher and subscriber will connect.</div></div>';
+    else html += '<div class="row"><div class="cell bad" style="flex:4">' + issues.join(' · ') + '</div></div>';
+    document.getElementById('mat').innerHTML = html;
+
+    // Python snippet
+    const code = `from rclpy.qos import QoSProfile, ReliabilityPolicy, DurabilityPolicy, HistoryPolicy
+
+pub_qos = QoSProfile(
+    reliability=ReliabilityPolicy.${pub.reliability},
+    durability=DurabilityPolicy.${pub.durability},
+    history=HistoryPolicy.${pub.history},
+    depth=${pub.depth},
+)`;
+    document.getElementById('code').textContent = code;
+  }
+
+  ids.forEach(i => el[i].addEventListener('input', render));
+  render();
+})();
+</script>
+</body>
+</html>
