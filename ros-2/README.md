@@ -38,14 +38,14 @@ ROS 2 ships on a roughly biannual cadence, alternating LTS and non-LTS releases.
 
 | Distro                | Released       | EOL              | Ubuntu       | Notes                                                  |
 | --------------------- | -------------- | ---------------- | ------------ | ------------------------------------------------------ |
-| **Humble Hawksbill**  | May 2022 (LTS) | May 2027 \[verify] | 22.04 Jammy  | The conservative choice - most third-party packages still target it |
-| **Jazzy Jalisco**     | May 2024 (LTS) | May 2029 \[verify] | 24.04 Noble  | The current default for new work                       |
-| **Kilted Kaiju**      | May 2025       | Nov 2026 \[verify] | 24.04 Noble  | Non-LTS, mostly used by Nav2/MoveIt developers chasing new features |
+| **Humble Hawksbill**  | May 2022 (LTS) | May 2027           | 22.04 Jammy  | The conservative choice - most third-party packages still target it |
+| **Jazzy Jalisco**     | May 2024 (LTS) | May 2029           | 24.04 Noble  | The current default for new work                       |
+| **Kilted Kaiju**      | May 2025       | Dec 2026           | 24.04 Noble  | Non-LTS, mostly used by Nav2/MoveIt developers chasing new features |
 | **Rolling Ridley**    | Continuous     | n/a              | tracks latest| The development branch - never deploy this to a robot |
 
 When I start a new project today I default to **Jazzy on Ubuntu 24.04**. I only pick Humble when a critical dependency (a vendor driver, a specific MoveIt configuration, a customer-pinned Docker image) has not been ported. Avoid mixing distros inside a single workspace; the binary interfaces of `rcl`, `rclcpp`, and message packages are not stable across distros.
 
-The official EOL schedule lives at [docs.ros.org/en/rolling/Releases.html](https://docs.ros.org/en/rolling/Releases.html) \[verify] - sanity-check the dates above against that page when planning a multi-year deployment.
+The official EOL schedule lives at [docs.ros.org/en/rolling/Releases.html](https://docs.ros.org/en/rolling/Releases.html) - sanity-check the dates above against that page when planning a multi-year deployment.
 
 ### What's in this section
 
@@ -66,6 +66,6 @@ The official EOL schedule lives at [docs.ros.org/en/rolling/Releases.html](https
 
 ### How to read this section
 
-These pages assume you already know what a topic, service, and action are at the conceptual level. If you don't, the official docs at [docs.ros.org/en/jazzy/Tutorials.html](https://docs.ros.org/en/jazzy/Tutorials.html) \[verify] are the right starting point. What I cover here is the layer above the tutorials - the design decisions and production gotchas that the docs assume you'll learn the hard way.
+These pages assume you already know what a topic, service, and action are at the conceptual level. If you don't, the official docs at [docs.ros.org/en/jazzy/Tutorials.html](https://docs.ros.org/en/jazzy/Tutorials.html) are the right starting point. What I cover here is the layer above the tutorials - the design decisions and production gotchas that the docs assume you'll learn the hard way.
 
 I lean on production examples from my own work where they add signal. If you spot something that drifts out of date as new distros land, the GitHub history of this handbook is the source of truth.

@@ -20,7 +20,7 @@ This is the model behind every serious SLAM back-end since about 2010: g2o, GTSA
 
 A factor graph (Kschischang, Frey, Loeliger 2001; popularized in robotics by Frank Dellaert and Michael Kaess) is a bipartite graph with two node types:
 
-* **Variable nodes** - the things you want to estimate. Poses $\mathbf{x}_i$, landmarks $\mathbf{l}_j$, IMU biases, calibration parameters.
+* **Variable nodes** - the things you want to estimate. Poses $$\mathbf{x}_i$$, landmarks $$\mathbf{l}_j$$, IMU biases, calibration parameters.
 * **Factor nodes** - the constraints / measurements. Each factor is a function of a small subset of variables and contributes a term to the global cost.
 
 The joint posterior factorizes as:
@@ -29,7 +29,7 @@ $$
 p(\mathbf{X} \mid \mathbf{Z}) \propto \prod_k \phi_k(\mathbf{X}_k)
 $$
 
-where each $\phi_k$ is one factor (e.g., a relative pose measurement, a landmark observation, an IMU preintegration factor).
+where each $$\phi_k$$ is one factor (e.g., a relative pose measurement, a landmark observation, an IMU preintegration factor).
 
 In log space and assuming Gaussian factors, this becomes the familiar nonlinear least-squares cost:
 
@@ -37,11 +37,11 @@ $$
 \mathbf{X}^* = \arg\min_{\mathbf{X}} \sum_k \| r_k(\mathbf{X}_k) \|^2_{\Sigma_k}
 $$
 
-where $r_k$ is the residual of factor $k$ (measured minus predicted) and $\| \cdot \|_{\Sigma}^2 = (\cdot)^\top \Sigma^{-1} (\cdot)$ is the Mahalanobis distance.
+where $$r_k$$ is the residual of factor $$k$$ (measured minus predicted) and $$\| \cdot \|_{\Sigma}^2 = (\cdot)^\top \Sigma^{-1} (\cdot)$$ is the Mahalanobis distance.
 
 If you can write your measurement as "predicted minus observed, weighted by uncertainty," it's a factor.
 
-> Read: Dellaert & Kaess (2017), *Factor Graphs for Robot Perception*. This is the book. [Now-Publishers PDF](https://www.cc.gatech.edu/~dellaert/pubs/Dellaert17fnt.pdf) `[verify]`.
+> Read: Dellaert & Kaess (2017), *Factor Graphs for Robot Perception*. This is the book. [Now-Publishers PDF](https://www.cs.cmu.edu/~kaess/pub/Dellaert17fnt.pdf).
 
 ***
 
@@ -53,9 +53,9 @@ $$
 \{\mathbf{x}_i\}^* = \arg\min_{\{\mathbf{x}_i\}} \sum_{(i,j) \in \mathcal{E}} \| \log\left( \tilde{\mathbf{T}}_{ij}^{-1} \mathbf{T}_i^{-1} \mathbf{T}_j \right)^\vee \|_{\Sigma_{ij}}^2
 $$
 
-where $\mathbf{T}_i \in SE(3)$ is the $i$-th pose, $\tilde{\mathbf{T}}_{ij}$ is the measured relative transform, and $\log(\cdot)^\vee$ extracts the Lie-algebra vector from the residual transform.
+where $$\mathbf{T}_i \in SE(3)$$ is the $$i$$-th pose, $$\tilde{\mathbf{T}}_{ij}$$ is the measured relative transform, and $$\log(\cdot)^\vee$$ extracts the Lie-algebra vector from the residual transform.
 
-This is what every LiDAR SLAM back-end is doing once you strip the front-end away - taking scan-to-scan + loop-closure transforms and optimizing the trajectory. It's also what I built in [GO-SLAM](../authors-projects/go-slam.md): a custom LM solver over $SE(3)$ pose nodes with GICP edges from the front-end.
+This is what every LiDAR SLAM back-end is doing once you strip the front-end away - taking scan-to-scan + loop-closure transforms and optimizing the trajectory. It's also what I built in [GO-SLAM](../authors-projects/go-slam.md): a custom LM solver over $$SE(3)$$ pose nodes with GICP edges from the front-end.
 
 ***
 
@@ -65,13 +65,13 @@ Standard Gauss-Newton / Levenberg-Marquardt loop. Linearize at the current estim
 
 ### Linearization
 
-For a small perturbation $\delta \mathbf{x}$, each residual is approximated as:
+For a small perturbation $$\delta \mathbf{x}$$, each residual is approximated as:
 
 $$
 r_k(\mathbf{x} \boxplus \delta \mathbf{x}) \approx r_k(\mathbf{x}) + \mathbf{J}_k \delta \mathbf{x}
 $$
 
-where $\mathbf{J}_k$ is the Jacobian of $r_k$ with respect to $\delta \mathbf{x}$ on the manifold (using the $\boxplus$ retraction). The total cost becomes quadratic:
+where $$\mathbf{J}_k$$ is the Jacobian of $$r_k$$ with respect to $$\delta \mathbf{x}$$ on the manifold (using the $$\boxplus$$ retraction). The total cost becomes quadratic:
 
 $$
 F(\delta \mathbf{x}) = \sum_k \| r_k + \mathbf{J}_k \delta \mathbf{x} \|_{\Sigma_k}^2
@@ -79,7 +79,7 @@ $$
 
 ### The normal equations
 
-Setting $\partial F / \partial \delta \mathbf{x} = 0$ gives:
+Setting $$\partial F / \partial \delta \mathbf{x} = 0$$ gives:
 
 $$
 \mathbf{H} \delta \mathbf{x} = -\mathbf{b}
@@ -91,39 +91,39 @@ $$
 \mathbf{H} = \sum_k \mathbf{J}_k^\top \Sigma_k^{-1} \mathbf{J}_k, \quad \mathbf{b} = \sum_k \mathbf{J}_k^\top \Sigma_k^{-1} r_k
 $$
 
-$\mathbf{H}$ is the **information matrix** (Gauss-Newton approximation of the Hessian). Levenberg-Marquardt adds a damping term $\lambda \mathbf{I}$ (or $\lambda \text{diag}(\mathbf{H})$):
+$$\mathbf{H}$$ is the **information matrix** (Gauss-Newton approximation of the Hessian). Levenberg-Marquardt adds a damping term $$\lambda \mathbf{I}$$ (or $$\lambda \text{diag}(\mathbf{H})$$):
 
 $$
 (\mathbf{H} + \lambda \mathbf{I}) \delta \mathbf{x} = -\mathbf{b}
 $$
 
-When $\lambda$ is large, you take a small gradient-descent step. When $\lambda$ is small, you take a Gauss-Newton step. The whole game is adjusting $\lambda$ each iteration based on whether the step reduced the cost. LM is robust where Gauss-Newton diverges.
+When $$\lambda$$ is large, you take a small gradient-descent step. When $$\lambda$$ is small, you take a Gauss-Newton step. The whole game is adjusting $$\lambda$$ each iteration based on whether the step reduced the cost. LM is robust where Gauss-Newton diverges.
 
 ### Why this is fast - sparsity
 
-Each factor touches only a few variables (a pose edge touches 2 poses; a landmark observation touches 1 pose + 1 landmark). So $\mathbf{J}_k$ is mostly zero, and $\mathbf{H}$ - the sum of $\mathbf{J}_k^\top \mathbf{J}_k$ - has a **sparse block structure** mirroring the graph topology.
+Each factor touches only a few variables (a pose edge touches 2 poses; a landmark observation touches 1 pose + 1 landmark). So $$\mathbf{J}_k$$ is mostly zero, and $$\mathbf{H}$$ - the sum of $$\mathbf{J}_k^\top \mathbf{J}_k$$ - has a **sparse block structure** mirroring the graph topology.
 
-> This is the punchline of graph SLAM: a Gaussian over the full posterior has a dense covariance matrix, but its inverse - the information matrix - is sparse. EKF-SLAM operates on the dense covariance ($O(N^2)$ entries). Graph SLAM operates on the sparse information matrix ($O(N)$ non-zeros). That's how you scale to $10^5$ poses.
+> This is the punchline of graph SLAM: a Gaussian over the full posterior has a dense covariance matrix, but its inverse - the information matrix - is sparse. EKF-SLAM operates on the dense covariance ($$O(N^2)$$ entries). Graph SLAM operates on the sparse information matrix ($$O(N)$$ non-zeros). That's how you scale to $$10^5$$ poses.
 
-A sparse Cholesky decomposition of $\mathbf{H}$ (CHOLMOD, SuiteSparse) solves the linear system in roughly $O(N^{1.5})$ for 2D problems, scaling worse but still tractable for 3D.
+A sparse Cholesky decomposition of $$\mathbf{H}$$ (CHOLMOD, SuiteSparse) solves the linear system in roughly $$O(N^{1.5})$$ for 2D problems, scaling worse but still tractable for 3D.
 
 ***
 
 ## The Schur complement and marginalization
 
-Many SLAM problems have a special structure: lots of landmarks, fewer poses. If you split the variables into poses $\mathbf{x}_p$ and landmarks $\mathbf{x}_l$:
+Many SLAM problems have a special structure: lots of landmarks, fewer poses. If you split the variables into poses $$\mathbf{x}_p$$ and landmarks $$\mathbf{x}_l$$:
 
 $$
 \begin{bmatrix} \mathbf{H}_{pp} & \mathbf{H}_{pl} \\ \mathbf{H}_{pl}^\top & \mathbf{H}_{ll} \end{bmatrix} \begin{bmatrix} \delta \mathbf{x}_p \\ \delta \mathbf{x}_l \end{bmatrix} = -\begin{bmatrix} \mathbf{b}_p \\ \mathbf{b}_l \end{bmatrix}
 $$
 
-The landmark block $\mathbf{H}_{ll}$ is **block-diagonal** (each landmark is observed by some poses, but landmarks don't directly constrain each other). You can invert it cheaply - just invert each $3\times 3$ block. Substituting back yields the Schur-complement system for the poses alone:
+The landmark block $$\mathbf{H}_{ll}$$ is **block-diagonal** (each landmark is observed by some poses, but landmarks don't directly constrain each other). You can invert it cheaply - just invert each $$3\times 3$$ block. Substituting back yields the Schur-complement system for the poses alone:
 
 $$
 (\mathbf{H}_{pp} - \mathbf{H}_{pl} \mathbf{H}_{ll}^{-1} \mathbf{H}_{pl}^\top) \delta \mathbf{x}_p = -(\mathbf{b}_p - \mathbf{H}_{pl} \mathbf{H}_{ll}^{-1} \mathbf{b}_l)
 $$
 
-Now you only solve over the (much smaller) pose space. Once you have $\delta \mathbf{x}_p$, back-substitute to get $\delta \mathbf{x}_l$.
+Now you only solve over the (much smaller) pose space. Once you have $$\delta \mathbf{x}_p$$, back-substitute to get $$\delta \mathbf{x}_l$$.
 
 This is exactly what bundle adjustment does (Triggs et al. 2000) and what ORB-SLAM, COLMAP, and Ceres all use under the hood.
 
@@ -144,7 +144,7 @@ This is exactly what bundle adjustment does (Triggs et al. 2000) and what ORB-SL
 
 ### g2o
 
-**General Graph Optimization.** Kümmerle, Grisetti, Strasdat, Konolige, Burgard (2011). [Paper](http://www2.informatik.uni-freiburg.de/~kuemmerl/pdf/kuemmerle11icra.pdf) `[verify]`. Repo: [github.com/RainerKuemmerle/g2o](https://github.com/RainerKuemmerle/g2o) `[verify]`.
+**General Graph Optimization.** Kümmerle, Grisetti, Strasdat, Konolige, Burgard (2011). [Paper](http://www2.informatik.uni-freiburg.de/~kuemmerl/pdf/kuemmerle11icra.pdf) `[verify]`. Repo: [github.com/RainerKuemmerle/g2o](https://github.com/RainerKuemmerle/g2o).
 
 * Born as the back-end for many 2D / 3D SLAM systems (ORB-SLAM, ORB-SLAM2 used g2o; ORB-SLAM3 moved to a custom solver).
 * Plug-in linear solvers (CSparse, CHOLMOD, PCG, dense, Eigen).
@@ -153,22 +153,22 @@ This is exactly what bundle adjustment does (Triggs et al. 2000) and what ORB-SL
 
 ### GTSAM
 
-Georgia Tech Smoothing and Mapping. Dellaert et al. Repo: [github.com/borglab/gtsam](https://github.com/borglab/gtsam) `[verify]`. Project page: [gtsam.org](https://gtsam.org).
+Georgia Tech Smoothing and Mapping. Dellaert et al. Repo: [github.com/borglab/gtsam](https://github.com/borglab/gtsam). Project page: [gtsam.org](https://gtsam.org).
 
 * Factor graph as first-class API. Adding a factor is `graph.add(BetweenFactor<Pose3>(key1, key2, measured, noise))`.
-* Excellent Lie group support - poses live on $SE(3)$, rotations on $SO(3)$, etc., with proper retractions and Jacobians built in.
+* Excellent Lie group support - poses live on $$SE(3)$$, rotations on $$SO(3)$$, etc., with proper retractions and Jacobians built in.
 * Includes **iSAM2** for incremental updates - when a new factor arrives, only the affected portion of the Bayes tree is re-solved. This is what makes GTSAM ideal for online SLAM.
 * IMU preintegration factor is built in. This is the reason LIO-SAM picked GTSAM.
 * Python bindings actually work (`pip install gtsam`).
 
 ### Ceres
 
-Google's general-purpose nonlinear LSQ library. Repo: [github.com/ceres-solver/ceres-solver](https://github.com/ceres-solver/ceres-solver) `[verify]`. Docs: [ceres-solver.org](http://ceres-solver.org).
+Google's general-purpose nonlinear LSQ library. Repo: [github.com/ceres-solver/ceres-solver](https://github.com/ceres-solver/ceres-solver). Docs: [ceres-solver.org](http://ceres-solver.org).
 
 * Not SLAM-specific. Designed for bundle adjustment at Google scale (Street View, photo tours).
 * You write **cost functors** with automatic differentiation (`AutoDiffCostFunction`) - no hand-derived Jacobians. This is enormous for prototyping.
 * Excellent at large-scale BA, structure-from-motion, calibration problems. VINS-Mono and VINS-Fusion both use Ceres.
-* No native Lie-group manifold types - you write a `LocalParameterization` (now `Manifold` in newer versions) for $SO(3)$ / $SE(3)$. Slightly annoying but well-documented.
+* No native Lie-group manifold types - you write a `LocalParameterization` (now `Manifold` in newer versions) for $$SO(3)$$ / $$SE(3)$$. Slightly annoying but well-documented.
 
 ### When each wins
 
@@ -208,10 +208,10 @@ Approaches you'll see:
 
 ### Robust kernels
 
-The naive least-squares cost $\|r\|^2$ is quadratic - an outlier with residual 100 contributes 10,000 to the cost and dominates everything. Robust kernels replace $\|r\|^2$ with $\rho(\|r\|)$ where $\rho$ grows sub-quadratically. Common choices:
+The naive least-squares cost $$\|r\|^2$$ is quadratic - an outlier with residual 100 contributes 10,000 to the cost and dominates everything. Robust kernels replace $$\|r\|^2$$ with $$\rho(\|r\|)$$ where $$\rho$$ grows sub-quadratically. Common choices:
 
 * **Huber:** quadratic inside threshold, linear outside. The safe default.
-* **Cauchy:** $\rho(r) = c^2 \log(1 + (r/c)^2)$. More aggressive.
+* **Cauchy:** $$\rho(r) = c^2 \log(1 + (r/c)^2)$$. More aggressive.
 * **DCS (Agarwal et al. 2013):** Dynamic Covariance Scaling. Scales the residual covariance based on the residual magnitude - effectively rejects outliers without hard thresholding.
 * **Switchable Constraints (Sünderhauf 2012):** add a switch variable per loop-closure edge; the optimizer can turn the edge off if it's inconsistent with the rest. Powerful but expensive.
 
@@ -223,7 +223,7 @@ Ceres and g2o both have built-in robust kernels. GTSAM has them via `noiseModel:
 
 Briefly, since this section is already long:
 
-* **SE-Sync (Rosen, Carlone, Bandeira, Leonard 2019)** - global, certifiably optimal pose graph optimization via semidefinite relaxation. When it converges, it returns a certificate that the solution is the global optimum. Used as a research benchmark for "did the optimizer find the right answer." [arxiv.org/abs/1611.00128](https://arxiv.org/abs/1611.00128) `[verify]`.
+* **SE-Sync (Rosen, Carlone, Bandeira, Leonard 2019)** - global, certifiably optimal pose graph optimization via semidefinite relaxation. When it converges, it returns a certificate that the solution is the global optimum. Used as a research benchmark for "did the optimizer find the right answer." [arxiv.org/abs/1611.00128](https://arxiv.org/abs/1611.00128).
 * **Square-root SAM (Dellaert & Kaess 2006)** - solve via QR factorization of the Jacobian instead of Cholesky of the information matrix. More numerically stable.
 * **Maximum-Mixture / GMM factors (Olson & Agarwal 2013)** - model multi-modal uncertainty in single factors. Useful when data association is ambiguous.
 
@@ -239,6 +239,6 @@ Read these once you're comfortable with the basics. None of them changes the day
 | Online incremental SLAM                               | GTSAM with iSAM2                          |
 | Bundle adjustment / SfM / calibration                 | Ceres                                     |
 | Visual SLAM you're consuming (not writing)            | Whatever ORB-SLAM3 / VINS / OKVIS uses - read their code first |
-| Learning the math                                     | Build your own LM solver over $SE(3)$. Once.     |
+| Learning the math                                     | Build your own LM solver over $$SE(3)$$. Once.     |
 
 Continue to [visual-slam.md](visual-slam.md) and [lidar-slam.md](lidar-slam.md) to see how these back-ends get wired to actual sensor front-ends.

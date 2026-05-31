@@ -1,4 +1,5 @@
 ---
+description: Aerial robotics — drone design, flight control, autonomy, perception, and applications from UAVs to autonomous aircraft systems.
 icon: drone-front
 ---
 

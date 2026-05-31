@@ -15,7 +15,7 @@ icon: route
 
 ## Disambiguation
 
-There is an **academic paper** titled "GO-SLAM" by Zhang et al. (ICCV 2023) on neural implicit SLAM with global optimization. **This is not that.** My project shares only the name - it predates and parallels their work in name only. The acronym, in my case, stands roughly for "Graph-Optimized SLAM" and was chosen before I knew the paper existed. If you're looking for Zhang et al.'s neural SLAM, [their paper is here](https://arxiv.org/abs/2309.02436) `[verify arxiv ID]`.
+There is an **academic paper** titled "GO-SLAM" by Zhang et al. (ICCV 2023) on neural implicit SLAM with global optimization. **This is not that.** My project shares only the name - it predates and parallels their work in name only. The acronym, in my case, stands roughly for "Graph-Optimized SLAM" and was chosen before I knew the paper existed. If you're looking for Zhang et al.'s neural SLAM, [their paper is here](https://arxiv.org/abs/2309.02436).
 
 Mine is a classical geometric pipeline. No neural anything. Just point clouds, ICP variants, and graph optimization done by hand.
 
@@ -239,7 +239,7 @@ GO-SLAM in its current form is a learning project plus a usable system. I'm not 
 
 * Port the LM solver out into a tiny standalone header-only library
 * Write up the Jacobian derivations as a separate handbook page (linked from [Mobile Robotics → SLAM and Navigation](../mobile-robotics/slam-and-navigation.md))
-* Use the pose-graph back-end as a teaching tool for the [BRAIn Lab](leap.md) reading group
+* Use the pose-graph back-end as a teaching tool for the BRAIn Lab reading group
 
 ***
 

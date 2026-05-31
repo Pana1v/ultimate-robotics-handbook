@@ -5,11 +5,13 @@
 
 ## Foundations
 
+* [Foundations (overview)](foundations/foundations.md)
 * [Linear Algebra for Robotics](foundations/linear-algebra-for-robotics.md)
 * [Calculus](foundations/calculus.md)
 
 ## Programming for Robotics
 
+* [Programming for Robotics (overview)](programming-for-robotics/programming-for-robotics.md)
 * [Common Languages](programming-for-robotics/common-languages.md)
 * [C++ for Robotics](programming-for-robotics/cpp-for-robotics.md)
 * [Python for Robotics](programming-for-robotics/python-for-robotics.md)
@@ -140,8 +142,9 @@
 * [Author's Projects (overview)](authors-projects/authors-projects.md)
 * [Polka - Multi-LiDAR Fusion](authors-projects/polka.md)
 * [GO-SLAM - Built from Scratch](authors-projects/go-slam.md)
-* [LEAP - Pick-and-Place Optimization](authors-projects/leap.md)
+<!-- LEAP hidden for now: * [LEAP - Pick-and-Place Optimization](authors-projects/leap.md) -->
 * [BARN Challenge 2026 - Breadcrumb Explorer](authors-projects/barn-challenge.md)
+* [Intrinsic AI Challenge - Cable Insertion](authors-projects/intrinsic-ai-challenge.md)
 
 ## Career Paths & Research Opportunities
 
@@ -150,6 +153,10 @@
 * [Conferences and Journals](career-paths-and-research-opportunities/conferences-and-journals.md)
 * [Companies Hiring for Robotics](career-paths-and-research-opportunities/companies-hiring-for-robotics.md)
 * [Leading Institutes](career-paths-and-research-opportunities/leading-institutes.md)
+
+## Interactive Widgets
+
+* [Interactive Widgets](widgets/widgets.md)
 
 ## Other Resources
 

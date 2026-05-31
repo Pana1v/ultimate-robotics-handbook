@@ -23,7 +23,7 @@ If you publish a SLAM paper, your reviewers will check whether you ran on the ri
 
 ### KITTI Odometry - the autonomous-driving classic
 
-Geiger, Lenz, Stiller, Urtasun (2013). [cvlibs.net/datasets/kitti](https://www.cvlibs.net/datasets/kitti/) `[verify]`.
+Geiger, Lenz, Stiller, Urtasun (2013). [cvlibs.net/datasets/kitti](https://www.cvlibs.net/datasets/kitti/).
 
 * 22 sequences (11 with ground truth, 11 held out for the test server) of car-mounted stereo cameras + Velodyne HDL-64E + GPS/IMU through Karlsruhe.
 * The reference benchmark for any LiDAR or visual SLAM that wants to be taken seriously in 2014-2020.
@@ -36,7 +36,7 @@ What it's not good for in 2026: it's solved. The leaderboard is saturated. Real 
 
 ### TUM RGB-D - indoor visual SLAM
 
-Sturm, Engelhard, Endres, Burgard, Cremers (2012). [cvg.cit.tum.de/data/datasets/rgbd-dataset](https://cvg.cit.tum.de/data/datasets/rgbd-dataset) `[verify]`.
+Sturm, Engelhard, Endres, Burgard, Cremers (2012). [cvg.cit.tum.de/data/datasets/rgbd-dataset](https://cvg.cit.tum.de/data/datasets/rgbd-dataset).
 
 * Indoor scenes captured with a Kinect (RGB-D), pose ground truth from a motion-capture system.
 * Sequences range from "desk" (small, easy) to "long\_office" (drift-test) to "structure\_texture\_far" (hard).
@@ -60,7 +60,7 @@ What it's not good for: long traverses (the dataset is sub-100 m), LiDAR (no LiD
 
 ### Newer College - outdoor LiDAR-VIO
 
-Ramezani et al. (2020), University of Oxford. [ori-drs.github.io/newer-college-dataset](https://ori-drs.github.io/newer-college-dataset/) `[verify]`.
+Ramezani et al. (2020), University of Oxford. [ori-drs.github.io/newer-college-dataset](https://ori-drs.github.io/newer-college-dataset/).
 
 * Handheld and quadruped sensor rig: Ouster OS0/OS1 LiDAR + stereo + IMU.
 * Sequences across Oxford's New College quad - indoor + outdoor mix, structured + organic geometry.
@@ -70,7 +70,7 @@ What it's good for: outdoor LiDAR-VIO, robust SLAM in mixed environments, modern
 
 ### Hilti SLAM Challenge - the hardest public benchmark
 
-Hilti + ETH + Oxford. Annual since 2021. [hilti-challenge.com](https://hilti-challenge.com/) `[verify]`.
+Hilti + ETH + Oxford. Annual since 2021. [hilti-challenge.com](https://hilti-challenge.com/).
 
 * Construction-site sensor rig: 3D LiDAR + multiple cameras + IMU + GNSS.
 * Real construction sites: stairwells, scaffolding, dust, dynamic objects, repetitive geometry.
@@ -100,7 +100,7 @@ $$
 F_i = Q_i^{-1} \mathbf{T} P_i
 $$
 
-where $P_i$ is the estimated pose, $Q_i$ the ground-truth pose, and $\mathbf{T}$ the alignment transform. ATE is then the RMSE of the translation part of $F_i$ over the trajectory:
+where $$P_i$$ is the estimated pose, $$Q_i$$ the ground-truth pose, and $$\mathbf{T}$$ the alignment transform. ATE is then the RMSE of the translation part of $$F_i$$ over the trajectory:
 
 $$
 ATE_{rmse} = \sqrt{ \frac{1}{N} \sum_i \| \mathrm{trans}(F_i) \|^2 }
@@ -110,13 +110,13 @@ ATE captures the *global* trajectory accuracy - how close the estimated path is 
 
 ### Relative Pose Error (RPE)
 
-For a time window $\Delta$ (e.g., 1 m or 1 s):
+For a time window $$\Delta$$ (e.g., 1 m or 1 s):
 
 $$
 E_i = (Q_i^{-1} Q_{i+\Delta})^{-1} (P_i^{-1} P_{i+\Delta})
 $$
 
-RPE is the RMSE of translation and rotation parts of $E_i$ over the trajectory.
+RPE is the RMSE of translation and rotation parts of $$E_i$$ over the trajectory.
 
 RPE captures the *local* accuracy - how well does the SLAM estimate motion between two nearby times. RPE is approximately invariant to drift; it measures the odometry quality, not the loop closure.
 
@@ -131,7 +131,7 @@ Before you compute ATE, you have to *align* the estimated trajectory to ground t
 
 * **SE(3) alignment** - find the rigid 6-DoF transform that minimizes ATE. Standard for stereo / RGB-D / LiDAR SLAM (with known scale).
 * **Sim(3) alignment** - also estimate a global scale. Required for *monocular* SLAM, which is scale-ambiguous. Reporting "ATE" on monocular without Sim(3) alignment is meaningless.
-* **Per-segment alignment** - re-align every $k$ meters / seconds. Effectively reports something between ATE and RPE.
+* **Per-segment alignment** - re-align every $$k$$ meters / seconds. Effectively reports something between ATE and RPE.
 
 Two common alignment errors:
 
@@ -144,7 +144,7 @@ Pick the alignment that matches what your system *is supposed to estimate*.
 
 ## evo - the tool
 
-Michael Grupp's `evo` library is what everyone uses. Repo: [github.com/MichaelGrupp/evo](https://github.com/MichaelGrupp/evo) `[verify]`.
+Michael Grupp's `evo` library is what everyone uses. Repo: [github.com/MichaelGrupp/evo](https://github.com/MichaelGrupp/evo).
 
 `pip install evo` and you have:
 
@@ -237,9 +237,9 @@ If you're building a new SLAM (or testing an existing one for your project), I'd
 
 ## Further reading
 
-* Sturm, Engelhard, Endres, Burgard, Cremers (2012) - "A Benchmark for the Evaluation of RGB-D SLAM Systems." [IROS 2012](https://www.cvlibs.net/publications/Sturm2012IROS.pdf) `[verify]`. The TUM RGB-D paper; defined the ATE/RPE convention.
+* Sturm, Engelhard, Endres, Burgard, Cremers (2012) - "A Benchmark for the Evaluation of RGB-D SLAM Systems." [IROS 2012](https://cvg.cit.tum.de/_media/spezial/bib/sturm12iros.pdf). The TUM RGB-D paper; defined the ATE/RPE convention.
 * Zhang & Scaramuzza (2018) - "A Tutorial on Quantitative Trajectory Evaluation for Visual(-Inertial) Odometry." [arxiv.org/abs/1810.08628](https://arxiv.org/abs/1810.08628) `[verify]`. The clearest tutorial on alignment, metrics, and pitfalls.
-* `evo` documentation: [github.com/MichaelGrupp/evo/wiki](https://github.com/MichaelGrupp/evo/wiki) `[verify]`.
+* `evo` documentation: [github.com/MichaelGrupp/evo/wiki](https://github.com/MichaelGrupp/evo/wiki).
 
 ### Cross-references
 

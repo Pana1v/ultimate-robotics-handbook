@@ -66,8 +66,8 @@ What it did *not* prove:
 
 ## GELLO (Berkeley, 2023)
 
-Wu, Yang et al. [https://wuphilipp.github.io/gello_site/](https://wuphilipp.github.io/gello_site/) [verify]
-Paper: [https://arxiv.org/abs/2309.13037](https://arxiv.org/abs/2309.13037) [verify]
+Wu, Yang et al. [https://wuphilipp.github.io/gello_site/](https://wuphilipp.github.io/gello_site/)
+Paper: [https://arxiv.org/abs/2309.13037](https://arxiv.org/abs/2309.13037)
 
 A general-purpose, low-cost leader-follower kit. Same principle as ALOHA - kinematically similar leader arm copies joint angles to a follower - but designed to retrofit onto *any* arm (Franka, UR, xArm, etc.) rather than a fixed hardware spec.
 
@@ -79,18 +79,18 @@ In 2026, GELLO + LeRobot + ACT/Diffusion Policy is the standard student-project 
 
 LeRobot ecosystem hardware. [https://github.com/huggingface/lerobot](https://github.com/huggingface/lerobot)
 
-- **SO-100 / SO-101** - TheRobotStudio's open-source 5-DOF arm + leader. ~$110 BOM each (so ~$220 for a leader-follower pair). [https://github.com/TheRobotStudio/SO-ARM100](https://github.com/TheRobotStudio/SO-ARM100) [verify]
-- **Koch v1.1** - Alexander Koch's design, similar concept, ~$250. [verify]
-- **LeKiwi** - wheeled mobile base for SO-100. [verify]
+- **SO-100 / SO-101** - TheRobotStudio's open-source 5-DOF arm + leader. ~$110 BOM each (so ~$220 for a leader-follower pair). [https://github.com/TheRobotStudio/SO-ARM100](https://github.com/TheRobotStudio/SO-ARM100)
+- **Koch v1.1** - Alexander Koch's design, similar concept, ~$250.
+- **LeKiwi** - wheeled mobile base for SO-100.
 
 These are *the* hobbyist / educator hardware in 2026. Performance is below ALOHA (5 DOF vs 6, less rigidity, smaller payload), but the entry price is dramatically lower and the LeRobot dataset / model pipeline is excellent.
 
 If you are an individual or a class setting up IL for the first time, start here.
 
-## AnyTeleop (CMU, 2023)
+## AnyTeleop (UC San Diego / NVIDIA, 2023)
 
-Qin et al. [https://anyteleop.com/](https://anyteleop.com/) [verify]
-Paper: [https://arxiv.org/abs/2307.04577](https://arxiv.org/abs/2307.04577) [verify]
+Qin et al. [https://yzqin.github.io/anyteleop/](https://yzqin.github.io/anyteleop/)
+Paper: [https://arxiv.org/abs/2307.04577](https://arxiv.org/abs/2307.04577)
 
 Vision-based teleop. Use a camera + hand pose estimation to drive the robot end-effector. Operator does not need any physical leader hardware.
 
@@ -128,11 +128,11 @@ For humanoid teleop, this is arguably the dominant paradigm in 2026. For arm-onl
 
 ## Other teleop approaches worth knowing
 
-- **Open-Television** (IIIS / MIT, 2024) - VR-based humanoid teleop with stereo passthrough. [https://github.com/OpenTeleVision/TeleVision](https://github.com/OpenTeleVision/TeleVision) [verify]
-- **HOMIE** (Han et al., 2024) - wearable exoskeleton for humanoid teleop. [verify]
-- **DexCap** - wearable motion capture for dexterous manipulation. [https://dex-cap.github.io/](https://dex-cap.github.io/) [verify]
+- **Open-Television** (IIIS / MIT, 2024) - VR-based humanoid teleop with stereo passthrough. [https://github.com/OpenTeleVision/TeleVision](https://github.com/OpenTeleVision/TeleVision)
+- **HOMIE** (Ben et al., 2025) - wearable exoskeleton for humanoid teleop.
+- **DexCap** - wearable motion capture for dexterous manipulation. [https://dex-cap.github.io/](https://dex-cap.github.io/)
 - **UMI (Universal Manipulation Interface)** - Chi et al., 2024. Handheld grippers that record manipulation data *without a robot*. The operator just does the task; later you map it onto a robot. [https://umi-gripper.github.io/](https://umi-gripper.github.io/)
-- **DOBB-E** (NYU / Hello Robot, 2023) - extension reacher with a camera; collect manipulation data via grocery-grabber. [https://dobb-e.com/](https://dobb-e.com/) [verify]
+- **DOBB-E** (NYU / Hello Robot, 2023) - extension reacher with a camera; collect manipulation data via grocery-grabber. [https://dobb-e.com/](https://dobb-e.com/)
 
 UMI deserves special attention: it dramatically reduces the cost of data collection by **decoupling demonstration from the robot**. You can record 100 hours of cooking demos with a UMI gripper for the cost of a few groceries; mapping those to a robot is a post-processing step. As of 2026 this is one of the more promising directions for *scaling* data collection.
 
@@ -237,6 +237,6 @@ A real production-grade pipeline is more elaborate (CI on the dataset, regressio
 
 - Zhao et al., *"Learning Fine-Grained Bimanual Manipulation with Low-Cost Hardware"* (ALOHA + ACT) - [https://arxiv.org/abs/2304.13705](https://arxiv.org/abs/2304.13705)
 - Fu et al., *"Mobile ALOHA: Learning Bimanual Mobile Manipulation with Low-Cost Whole-Body Teleoperation"* - [https://arxiv.org/abs/2401.02117](https://arxiv.org/abs/2401.02117)
-- Wu et al., *"GELLO: A General, Low-Cost, and Intuitive Teleoperation Framework for Robot Manipulators"* - [https://arxiv.org/abs/2309.13037](https://arxiv.org/abs/2309.13037) [verify]
+- Wu et al., *"GELLO: A General, Low-Cost, and Intuitive Teleoperation Framework for Robot Manipulators"* - [https://arxiv.org/abs/2309.13037](https://arxiv.org/abs/2309.13037)
 - Chi et al., *"Universal Manipulation Interface: In-The-Wild Robot Teaching Without In-The-Wild Robots"* (UMI) - [https://umi-gripper.github.io/](https://umi-gripper.github.io/)
-- LeRobot teleop documentation - [https://huggingface.co/docs/lerobot/](https://huggingface.co/docs/lerobot/) [verify]
+- LeRobot teleop documentation - [https://huggingface.co/docs/lerobot/](https://huggingface.co/docs/lerobot/)

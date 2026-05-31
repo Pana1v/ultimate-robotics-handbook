@@ -1,4 +1,5 @@
 ---
+description: SLAM and state estimation — 2D/3D visual/LiDAR SLAM, learned SLAM, sensor fusion, filter and graph backends, benchmarking on real robots.
 icon: route
 ---
 
@@ -118,10 +119,10 @@ A few opinions I've earned the hard way:
 These are the books and surveys I keep open:
 
 * **Probabilistic Robotics** - Thrun, Burgard, Fox (2005). Still the foundation. Chapters 9-15 cover EKF, particle filter, and GraphSLAM.
-* **Factor Graphs for Robot Perception** - Dellaert & Kaess (2017). [Free PDF from author](https://www.cc.gatech.edu/~dellaert/FrankDellaert/Frank_Dellaert/Frank_Dellaert.html) `[verify]`. The mental model for modern SLAM back-ends.
+* **Factor Graphs for Robot Perception** - Dellaert & Kaess (2017). [Free PDF from author](https://www.cs.cmu.edu/~kaess/pub/Dellaert17fnt.pdf). The mental model for modern SLAM back-ends.
 * **State Estimation for Robotics** - Tim Barfoot (2nd ed, 2024). Lie groups, on-manifold optimization, the math under GTSAM.
 * **Past, Present, and Future of SIM - Cadena et al. (2016)** - [arxiv.org/abs/1606.05830](https://arxiv.org/abs/1606.05830). The "where is SLAM going" survey everyone cites.
-* **Visual SLAM survey** - Macario Barros et al. (2022). [arxiv.org/abs/2209.02786](https://arxiv.org/abs/2209.02786) `[verify]`.
+* **Visual SLAM survey** - Macario Barros et al. (2022). [doi.org/10.3390/robotics11010024](https://www.mdpi.com/2218-6581/11/1/24).
 
 ***
 
@@ -130,4 +131,4 @@ These are the books and surveys I keep open:
 * [Polka](../authors-projects/polka.md) - my multi-LiDAR fusion + deskewing node. Deskewing is covered in depth in [lidar-slam.md](lidar-slam.md).
 * [GO-SLAM (Pan's)](../authors-projects/go-slam.md) - my from-scratch GICP + pose-graph SLAM. Linked from [lidar-slam.md](lidar-slam.md) and called out in [learned-slam.md](learned-slam.md) to disambiguate from the ICCV 2023 paper of the same name.
 * [Cameras, Depth Sensors and LiDAR](../ml-and-perception/cameras-depth-sensors-and-lidar.md) - sensor-level details that SLAM builds on.
-* [Linear Algebra for Robotics](../mathematical-and-programming-foundations/linear-algebra-for-robotics.md) - SE(3), rotations, the linear algebra under every estimator on this page.
+* [Linear Algebra for Robotics](../foundations/linear-algebra-for-robotics.md) - SE(3), rotations, the linear algebra under every estimator on this page.

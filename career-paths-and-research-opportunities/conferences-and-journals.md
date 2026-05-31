@@ -21,7 +21,7 @@ If you're submitting research or want to track the field, these are the **tier-1
 
 **Workshops at ICRA, IROS, RSS, CoRL** are often where state-of-the-art is presented before journal publication. Skim the workshop lists every year - they're frequently more current than the main proceedings.
 
-**arXiv `cs.RO`** is where most papers land before/after publication. RSS announcements: [robotics-worldwide mailing list](http://www.cds.caltech.edu/mailman/listinfo/robotics-worldwide). \[verify]
+**arXiv `cs.RO`** is where most papers land before/after publication. RSS announcements: [robotics-worldwide mailing list](https://www.lists.kit.edu/sympa/info/robotics-worldwide).
 
 ***
 

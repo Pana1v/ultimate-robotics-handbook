@@ -137,7 +137,7 @@ for (int i = 1; /* forever */; ++i) {
 
 **The killer feature:** iSAM2 incrementally updates the solution as new measurements arrive without re-solving from scratch. For online SLAM where you can't afford a full batch solve every iteration, this is the technique. <https://gtsam.org/>
 
-GTSAM has Python bindings (`pip install gtsam`) that are first-class, not an afterthought. <https://gtsam.org/get_started/> [verify]
+GTSAM has Python bindings (`pip install gtsam`) that are first-class, not an afterthought. <https://gtsam.org/get_started/>
 
 **When to use:** online SLAM, multi-sensor fusion via factor graphs, anything where the problem structure is naturally a graph of measurements. Modern alternatives like Kimera-VIO and LIO-SAM are built on GTSAM.
 
@@ -213,7 +213,7 @@ u_safe = u.value
 
 **When to use:** safe-control filters (CBF-QPs), low-level controllers expressible as QP, anything where you'd otherwise hand-write a QP setup. Prototyping is where it shines.
 
-**When not to use:** hard real-time. CVXPY's per-solve overhead in pure Python is hundreds of microseconds even with cached compilation. For deployed real-time QPs, write directly against `osqp` (its Python and C interfaces) or use `cvxpygen` to generate C code from a CVXPY problem. <https://github.com/cvxgrp/cvxpygen> [verify]
+**When not to use:** hard real-time. CVXPY's per-solve overhead in pure Python is hundreds of microseconds even with cached compilation. For deployed real-time QPs, write directly against `osqp` (its Python and C interfaces) or use `cvxpygen` to generate C code from a CVXPY problem. <https://github.com/cvxgrp/cvxpygen>
 
 ## OR-Tools - combinatorial / integer
 
@@ -248,7 +248,9 @@ if status in (cp_model.OPTIMAL, cp_model.FEASIBLE):
     order = sorted(range(n), key=lambda i: solver.Value(x[i]))
 ```
 
+<!-- LEAP hidden for now
 **Pan used CP-SAT in LEAP** (his pick-and-place TSP project) for the task-sequencing layer - given a set of pick locations, place locations, and reachability constraints, find the order that minimizes manipulator travel time. CP-SAT was the right call because: small N (tens of items), hard ordering constraints, and the cost function wasn't quite a clean TSP. See [LEAP](../authors-projects/leap.md) for the project write-up.
+-->
 
 **When to use:** task scheduling, pick orderings, multi-robot task allocation, anything with integer or boolean variables, vehicle routing (OR-Tools also has a dedicated VRP solver).
 
@@ -326,13 +328,15 @@ print(result.GetSolution(x))
 
 - **IPOPT** - the workhorse interior-point NLP solver under most of the above. <https://github.com/coin-or/Ipopt>
 - **OSQP** - small, fast operator-splitting QP. Used by CVXPY by default. <https://osqp.org/>
-- **HPIPM** - Hagen-Penzler interior-point QP, fast for MPC-shaped problems. Used inside acados. <https://github.com/giaf/hpipm> [verify]
+- **HPIPM** - Hagen-Penzler interior-point QP, fast for MPC-shaped problems. Used inside acados. <https://github.com/giaf/hpipm>
 - **NLOPT** - collection of nonlinear optimization algorithms, good for derivative-free. <https://nlopt.readthedocs.io/>
 - **JAX + Optax** - for ML-flavored optimization, learned controllers. Different world but increasingly relevant.
 
 ## Related pages
 
+<!-- LEAP hidden for now
 - [LEAP - pick-and-place TSP with CP-SAT](../authors-projects/leap.md) - Pan's project applying OR-Tools CP-SAT to manipulator task sequencing.
+-->
 - [Graph SLAM](../slam-and-state-estimation/graph-slam.md) - deeper dive into where Ceres/g2o/GTSAM fit in the SLAM back-end.
 
 ## Further reading
@@ -340,6 +344,6 @@ print(result.GetSolution(x))
 - *Convex Optimization* - Boyd & Vandenberghe. Free online. Foundational. <https://web.stanford.edu/~boyd/cvxbook/>
 - *Numerical Optimization* - Nocedal & Wright. The reference for nonlinear methods.
 - *Underactuated Robotics* - Russ Tedrake. Free online. The Drake-flavored tour of trajectory optimization. <https://underactuated.mit.edu/>
-- *Factor Graphs for Robot Perception* - Dellaert & Kaess. The GTSAM-flavored tour. <https://www.cs.cmu.edu/~kaess/pub/Dellaert17fnt.pdf> [verify]
+- *Factor Graphs for Robot Perception* - Dellaert & Kaess. The GTSAM-flavored tour. <https://www.cs.cmu.edu/~kaess/pub/Dellaert17fnt.pdf>
 
 The skill that compounds: recognize the shape of a problem fast, and pick the library that's already designed for that shape. Don't bring CasADi to a least-squares fight; don't bring Ceres to an integer programming fight.

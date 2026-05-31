@@ -1,4 +1,5 @@
 ---
+description: Production robotics projects — Polka (multi-LiDAR fusion), GO-SLAM (custom SLAM stack), BARN Challenge (mapless navigation), Intrinsic AI (learning-based control).
 icon: code
 ---
 
@@ -16,6 +17,8 @@ The pages here aren't a CV. They're engineering write-ups - motivation, design c
 
 ## Projects
 
+<table data-view="cards"><thead><tr><th></th><th data-type="content-ref"></th><th data-hidden data-card-cover data-type="files"></th></tr></thead><tbody><tr><td>Polka - Multi-LiDAR Fusion</td><td><a href="polka.md">polka.md</a></td><td><a href="../.gitbook/assets/polka-pipeline-demo.gif">polka-pipeline-demo.gif</a></td></tr><tr><td>GO-SLAM - Built from Scratch</td><td><a href="go-slam.md">go-slam.md</a></td><td></td></tr><!-- LEAP card hidden for now --><tr><td>BARN Challenge 2026 - Breadcrumb Explorer</td><td><a href="barn-challenge.md">barn-challenge.md</a></td><td></td></tr><tr><td>Intrinsic AI for Industry Challenge</td><td><a href="intrinsic-ai-challenge.md">intrinsic-ai-challenge.md</a></td><td><a href="../.gitbook/assets/intrinsic-challenge-hero.jpg">intrinsic-challenge-hero.jpg</a></td></tr></tbody></table>
+
 ### [Polka](polka.md) - Multi-LiDAR Fusion for ROS 2
 
 A single composable node that merges heterogeneous `PointCloud2` and `LaserScan` streams into unified outputs. Per-source filtering, TF2-aligned fusion, optional CUDA acceleration, and IMU-based deskewing with per-source overrides for articulated platforms. Supports both ROS 2 Humble and Jazzy. Built to replace the relay-filter-merge node soup that plagues most multi-LiDAR stacks.
@@ -32,6 +35,7 @@ A complete SLAM system I built from scratch in two months: GICP front-end, pose-
 
 ***
 
+<!-- LEAP hidden for now
 ### [LEAP](leap.md) - Learning-Augmented Exact Optimization for Pick-and-Place
 
 Research at BRAIn Lab, IIT Patna. Pick-and-place sequencing is **not** symmetric TSP - the transition cost depends on which bin the previous item was placed in. LEAP formulates this as asymmetric TSP, replaces the standard Miller-Tucker-Zemlin subtour constraints with a CP-SAT Hamiltonian circuit formulation (5-7× speedup), then uses an imitation-learned heterogeneous GNN to prune the decision-variable space from O(N²) to O(Nk). 17.5× faster than baselines at N=200 with a worst-case optimality gap of 0.06%. Manuscript in preparation.
@@ -39,10 +43,19 @@ Research at BRAIn Lab, IIT Patna. Pick-and-place sequencing is **not** symmetric
 > **Advisor:** Dr. Atul Thakur, BRAIn Lab IIT Patna.
 
 ***
+-->
 
 ### [BARN Challenge 2026](barn-challenge.md) - Mapless Navigation, Solo Submission
 
 IEEE ICRA BARN Challenge 2026 entry. Clearpath Jackal in Gazebo, 270° sensor coverage, dynamic obstacle fields. I built a **Breadcrumb Explorer** architecture instead of the standard SLAM-based baselines - no map, no laser odometry, just an odom-frame memory of "tasty" vs "stale" trajectories that improves over repeated trials. First submission scored **0.3682/0.5** - the highest score by an Indian team since the benchmark began in 2022. Physical finals in Vienna.
+
+***
+
+### [Intrinsic AI for Industry Challenge](intrinsic-ai-challenge.md) - Learning to Plug a Cable
+
+Intrinsic's (Alphabet) AI for Industry Challenge: autonomously plug a fiber-optic cable into a port reachable by a UR5e arm. I climbed the full ladder of approaches - hand-coded FSM in ground-truth mode (280+), classical CV blob detection, learned perception (ResNet18, U-Net), YOLO detection, and finally imitation learning with **ACT** and **SmolVLA** - and hit the real bottleneck: **the data wall**. Scored **286/300** with perfect pose information, but the randomized real-world evaluation (multi-NIC scenes, board-pose randomization) exposed how thin my demonstration coverage was.
+
+> **Lesson:** the constraint was never the model architecture - it was collecting diverse teleop demonstrations. Imitation learning is only as good as its data coverage. Full write-up on [Substack](https://pana1v.substack.com/p/a-journey-through-the-intrinsic-ai).
 
 ***
 
@@ -52,10 +65,9 @@ If you're here from my resume or LinkedIn and want the fastest path through this
 
 1. Skim [Polka](polka.md) for the **engineering depth** signal (composable nodes, TF2, CUDA, IMU deskewing).
 2. Read [GO-SLAM](go-slam.md) for the **fundamentals** signal (custom optimizers, no libraries).
-3. Read [LEAP](leap.md) for the **research** signal (problem formulation, CP-SAT, GNN pruning).
-4. Read [BARN](barn-challenge.md) for the **shipping under pressure** signal (solo, leaderboard, finals).
+3. Read [BARN](barn-challenge.md) for the **shipping under pressure** signal (solo, leaderboard, finals).
 
-Each page is self-contained. Cross-references are linked where they're load-bearing - Polka feeds deskewed clouds into GO-SLAM, for example, and LEAP connects to the Robot Learning material elsewhere in this handbook.
+Each page is self-contained. Cross-references are linked where they're load-bearing - Polka feeds deskewed clouds into GO-SLAM, for example.
 
 ***
 

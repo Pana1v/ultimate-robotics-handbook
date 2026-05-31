@@ -31,7 +31,7 @@ This is the most successful real-world RL recipe in robotics, full stop. Every q
 
 The recipe, as established by:
 
-* Lee et al., _"Learning quadrupedal locomotion over challenging terrain"_, Science Robotics 2020 - [https://arxiv.org/abs/2010.11251](https://arxiv.org/abs/2010.11251) \[verify]
+* Lee et al., _"Learning quadrupedal locomotion over challenging terrain"_, Science Robotics 2020 - [https://arxiv.org/abs/2010.11251](https://arxiv.org/abs/2010.11251)
 * Margolis & Agrawal, _"Walk These Ways"_, CoRL 2022 - [https://arxiv.org/abs/2212.03238](https://arxiv.org/abs/2212.03238)
 * Kumar et al., _"RMA: Rapid Motor Adaptation for Legged Robots"_, RSS 2021 - [https://arxiv.org/abs/2107.04034](https://arxiv.org/abs/2107.04034)
 
@@ -100,11 +100,11 @@ For a class of tasks - primarily those where reward shaping was the bottleneck -
 * It works best in _Isaac Gym / Isaac Lab_, where the simulation API is in the LLM's training data.
 * It struggles with subtle physics (e.g., contact-dependent shaping) that requires actually running episodes to understand.
 * The iteration loop is expensive (you train hundreds of policies).
-* DrEureka (the sim-to-real successor) extends this to _generate_ the domain randomization ranges automatically: [https://eureka-research.github.io/dr-eureka/](https://eureka-research.github.io/dr-eureka/) \[verify]
+* DrEureka (the sim-to-real successor) extends this to _generate_ the domain randomization ranges automatically: [https://eureka-research.github.io/dr-eureka/](https://eureka-research.github.io/dr-eureka/)
 
 ## SERL and HIL-SERL: real-world sample-efficient RL
 
-Luo, Hu, Schaal et al., Berkeley, 2024. [https://serl-robot.github.io/](https://serl-robot.github.io/) \[verify]
+Luo, Hu, Schaal et al., Berkeley, 2024. [https://serl-robot.github.io/](https://serl-robot.github.io/)
 
 SERL (Sample-Efficient Robotic Reinforcement Learning) showed that with the right algorithmic stack you can do real-world RL on a manipulation task in 30 minutes to 2 hours of robot time. This was a watershed result - it shifted the conversation from "sim-to-real is the only path" to "actually maybe we can do real-world RL after all."
 
@@ -115,7 +115,7 @@ Key ingredients:
 * **Image encoder pretrained on the demo data.**
 * **Sparse binary reward** ("did the gripper close on the object? did the part insert?"). No reward shaping.
 
-**HIL-SERL** (Human-in-the-Loop SERL, 2024) [https://hil-serl.github.io/](https://hil-serl.github.io/) \[verify] adds DAgger-style human corrections during training. When the policy is about to do something dumb, a human grabs a joystick and corrects. The correction goes into the buffer with high priority. This combines IL warm-start + RL refinement + human safety in one loop.
+**HIL-SERL** (Human-in-the-Loop SERL, 2024) [https://hil-serl.github.io/](https://hil-serl.github.io/) adds DAgger-style human corrections during training. When the policy is about to do something dumb, a human grabs a joystick and corrects. The correction goes into the buffer with high priority. This combines IL warm-start + RL refinement + human safety in one loop.
 
 Results: trains contact-rich tasks (RAM insertion, dynamic flipping, cable routing) on real hardware in 1-3 hours total robot time.
 
@@ -175,12 +175,12 @@ In practice for real robots in 2026:
 | --------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------- | ------------------------------------------------------ |
 | **Isaac Lab** - [https://github.com/isaac-sim/IsaacLab](https://github.com/isaac-sim/IsaacLab)                                                | Massively parallel sim for RL on Isaac Sim                     | The 2026 default for locomotion/manipulation RL.       |
 | **rsl\_rl** - [https://github.com/leggedrobotics/rsl\_rl](https://github.com/leggedrobotics/rsl_rl)                                           | Clean PPO for legged robots                                    | What ETH/ANYmal uses.                                  |
-| **MuJoCo MJX** - [https://github.com/google-deepmind/mujoco/tree/main/mjx](https://github.com/google-deepmind/mujoco/tree/main/mjx) \[verify] | JAX-based MuJoCo, GPU-parallel                                 | Fastest option for many manipulation envs.             |
+| **MuJoCo MJX** - [https://github.com/google-deepmind/mujoco/tree/main/mjx](https://github.com/google-deepmind/mujoco/tree/main/mjx) | JAX-based MuJoCo, GPU-parallel                                 | Fastest option for many manipulation envs.             |
 | **Brax** - [https://github.com/google/brax](https://github.com/google/brax)                                                                   | JAX-based physics + RL                                         | Differentiable, GPU-parallel. Older but solid.         |
-| **Genesis** - [https://github.com/Genesis-Embodied-AI/Genesis](https://github.com/Genesis-Embodied-AI/Genesis) \[verify]                      | Differentiable physics, claims to beat Isaac Gym in throughput | New (late 2024). Worth evaluating.                     |
+| **Genesis** - [https://github.com/Genesis-Embodied-AI/Genesis](https://github.com/Genesis-Embodied-AI/Genesis)                      | Differentiable physics, claims to beat Isaac Gym in throughput | New (late 2024). Worth evaluating.                     |
 | **Stable Baselines3** - [https://github.com/DLR-RM/stable-baselines3](https://github.com/DLR-RM/stable-baselines3)                            | PPO, SAC, TD3 in PyTorch                                       | Use for non-Isaac envs.                                |
 | **CleanRL** - [https://github.com/vwxyzjn/cleanrl](https://github.com/vwxyzjn/cleanrl)                                                        | Single-file PPO/SAC implementations                            | Pedagogical, easy to fork.                             |
-| **SERL/HIL-SERL** - [https://github.com/rail-berkeley/serl](https://github.com/rail-berkeley/serl) \[verify]                                  | Real-world RL for manipulation                                 | The reference impl for real-world sample-efficient RL. |
+| **SERL/HIL-SERL** - [https://github.com/rail-berkeley/serl](https://github.com/rail-berkeley/serl)                                  | Real-world RL for manipulation                                 | The reference impl for real-world sample-efficient RL. |
 
 ## Practical pipeline I recommend (2026)
 
@@ -198,9 +198,9 @@ For someone tackling their first robot RL project:
 
 ## Further reading
 
-* Lee et al., _"Learning quadrupedal locomotion over challenging terrain"_ - [https://arxiv.org/abs/2010.11251](https://arxiv.org/abs/2010.11251) \[verify]
+* Lee et al., _"Learning quadrupedal locomotion over challenging terrain"_ - [https://arxiv.org/abs/2010.11251](https://arxiv.org/abs/2010.11251)
 * Margolis & Agrawal, _"Walk These Ways: Tuning Robot Control for Generalization with Multiplicity of Behavior"_ - [https://arxiv.org/abs/2212.03238](https://arxiv.org/abs/2212.03238)
 * Kumar et al., _"RMA: Rapid Motor Adaptation for Legged Robots"_ - [https://arxiv.org/abs/2107.04034](https://arxiv.org/abs/2107.04034)
 * Ma et al., _"Eureka: Human-Level Reward Design via Coding Large Language Models"_ - [https://arxiv.org/abs/2310.12931](https://arxiv.org/abs/2310.12931)
-* Luo et al., _"SERL: A Software Suite for Sample-Efficient Robotic Reinforcement Learning"_ - [https://serl-robot.github.io/](https://serl-robot.github.io/) \[verify]
+* Luo et al., _"SERL: A Software Suite for Sample-Efficient Robotic Reinforcement Learning"_ - [https://serl-robot.github.io/](https://serl-robot.github.io/)
 * Schulman et al., _"Proximal Policy Optimization Algorithms"_ (PPO original) - [https://arxiv.org/abs/1707.06347](https://arxiv.org/abs/1707.06347)

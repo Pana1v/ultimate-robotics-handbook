@@ -77,7 +77,7 @@ Robotics systems rely on a rich toolbox of algorithms for sensing, estimation, c
 * **Gradient Descent & Stochastic Gradient Descent**: Iterative minimization for learning and control parameter tuning
 * **Convex Optimization (CVX, CVXPY)**: Fast solvers for quadratic and semidefinite programs in control and state estimation
 * **Trajectory Optimization (iLQR, DDP)**: Nonlinear optimization of state-action trajectories - the math behind MPC for robotics
-* **Constraint Programming (CP-SAT, OR-Tools)**: Discrete optimization for task sequencing, scheduling. See [LEAP](../authors-projects/leap.md) for asymmetric TSP pick-and-place.
+* **Constraint Programming (CP-SAT, OR-Tools)**: Discrete optimization for task sequencing, scheduling.
 * **Factor Graphs (g2o, GTSAM, Ceres)**: Library-backed graph optimization - the modern way to solve SLAM, calibration, and sensor fusion. See [Optimization Libraries](optimization-libraries.md).
 
 ### Pseudocode: Core Algorithms

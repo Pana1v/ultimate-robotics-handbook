@@ -8,7 +8,7 @@ Calculus is the mathematical language of *change* - and robotics is the engineer
 
 ### Differentiation in Kinematics
 
-Robotic motion is defined by a position function $q(t)$ of joint angles or Cartesian coordinates over time. Differentiation yields:
+Robotic motion is defined by a position function $$q(t)$$ of joint angles or Cartesian coordinates over time. Differentiation yields:
 
 * **Velocity**
 
@@ -22,7 +22,7 @@ $$
 \ddot{q}(t) = \frac{d^2}{dt^2} q(t)
 $$
 
-**Example - cubic joint trajectory.** For a single-joint rotary robot moving smoothly from $\theta_0$ to $\theta_f$ via a cubic in $t$:
+**Example - cubic joint trajectory.** For a single-joint rotary robot moving smoothly from $$\theta_0$$ to $$\theta_f$$ via a cubic in $t$:
 
 $$
 \theta(t) = a_0 + a_1 t + a_2 t^2 + a_3 t^3
@@ -42,7 +42,7 @@ Cubics give continuous velocity but discontinuous jerk - fine for low-speed mani
 
 Integration accumulates rates into displacements or sensor estimates:
 
-* **Position from velocity:** $q(t) = q(t_0) + \int_{t_0}^{t} \dot{q}(\tau)\, d\tau$
+* **Position from velocity:** $$q(t) = q(t_0) + \int_{t_0}^{t} \dot{q}(\tau)\, d\tau$$
 * **Odometry:** integrating wheel velocities to track robot pose (and accumulating drift in the process - this is why you fuse with IMU/LiDAR).
 
 **Example - constant acceleration:**
@@ -57,7 +57,7 @@ $$
 
 ### Trajectory Planning
 
-Smooth paths between waypoints require piecewise-polynomial fits with continuous position, velocity, and (often) acceleration. A common segment between times $t_i$ and $t_{i+1}$ is the cubic:
+Smooth paths between waypoints require piecewise-polynomial fits with continuous position, velocity, and (often) acceleration. A common segment between times $$t_i$$ and $$t_{i+1}$$ is the cubic:
 
 $$
 q_i(\tau) = C_0 + C_1 \tau + C_2 \tau^2 + C_3 \tau^3,\quad \tau \in [0,\,T]
@@ -73,11 +73,11 @@ $$
 q_i(T) = q(t_{i+1}),\quad \dot{q}_i(T) = \dot{q}(t_{i+1})
 $$
 
-This gives four equations for the four unknowns $C_0, C_1, C_2, C_3$. Higher-order splines (quintic, septic) add acceleration/jerk continuity at extra computational cost.
+This gives four equations for the four unknowns $$C_0, C_1, C_2, C_3$$. Higher-order splines (quintic, septic) add acceleration/jerk continuity at extra computational cost.
 
 ### Dynamics via Lagrange's Equations
 
-Robot dynamics relate joint torques $\boldsymbol{\tau}$, positions $\mathbf{q}$, velocities $\dot{\mathbf{q}}$, and accelerations $\ddot{\mathbf{q}}$. The Euler–Lagrange formulation yields the canonical manipulator equation:
+Robot dynamics relate joint torques $$\boldsymbol{\tau}$$, positions $$\mathbf{q}$$, velocities $$\dot{\mathbf{q}}$$, and accelerations $$\ddot{\mathbf{q}}$$. The Euler–Lagrange formulation yields the canonical manipulator equation:
 
 $$
 M(\mathbf{q})\,\ddot{\mathbf{q}} + C(\mathbf{q},\dot{\mathbf{q}})\,\dot{\mathbf{q}} + \mathbf{g}(\mathbf{q}) = \boldsymbol{\tau}
@@ -85,11 +85,11 @@ $$
 
 Where:
 
-* $M(\mathbf{q})$ is the mass (inertia) matrix
-* $C(\mathbf{q},\dot{\mathbf{q}})$ contains Coriolis and centrifugal terms
-* $\mathbf{g}(\mathbf{q})$ is the gravity vector
+* $$M(\mathbf{q})$$ is the mass (inertia) matrix
+* $$C(\mathbf{q},\dot{\mathbf{q}})$$ contains Coriolis and centrifugal terms
+* $$\mathbf{g}(\mathbf{q})$$ is the gravity vector
 
-Inverse dynamics (compute $\boldsymbol{\tau}$ from $\ddot{\mathbf{q}}$) is the basis for computed-torque control. Forward dynamics (compute $\ddot{\mathbf{q}}$ from $\boldsymbol{\tau}$) drives simulation.
+Inverse dynamics (compute $$\boldsymbol{\tau}$$ from $$\ddot{\mathbf{q}}$$) is the basis for computed-torque control. Forward dynamics (compute $$\ddot{\mathbf{q}}$$ from $$\boldsymbol{\tau}$$) drives simulation.
 
 ### Control System Design
 
@@ -103,7 +103,7 @@ $$
 
 The integral term eliminates steady-state error; the derivative term provides damping. Tuning is mostly empirical - start with P, add D for damping, add I last and sparingly (it causes wind-up).
 
-**Linear Quadratic Regulator (LQR)** solves the continuous-time algebraic Riccati equation to minimize a quadratic cost $J = \int (\mathbf{x}^\top Q \mathbf{x} + \mathbf{u}^\top R \mathbf{u})\,dt$. The result is a state-feedback gain $\mathbf{u} = -K\mathbf{x}$ that's optimal for the linearized system.
+**Linear Quadratic Regulator (LQR)** solves the continuous-time algebraic Riccati equation to minimize a quadratic cost $$J = \int (\mathbf{x}^\top Q \mathbf{x} + \mathbf{u}^\top R \mathbf{u})\,dt$$. The result is a state-feedback gain $$\mathbf{u} = -K\mathbf{x}$$ that's optimal for the linearized system.
 
 **Model Predictive Control (MPC)** rolls the optimization forward in time over a finite horizon, re-solving every timestep. Heavier compute, but handles constraints (joint limits, obstacle avoidance) natively. See `../programming-for-robotics/optimization-libraries.md`.
 
@@ -115,14 +115,14 @@ $$
 \frac{\partial I}{\partial t} + \nabla I \cdot \mathbf{v} = 0
 $$
 
-Where $\partial I / \partial t$ is the temporal derivative, $\nabla I = (I_u, I_v)$ is the spatial gradient, and $\mathbf{v}$ is the pixel velocity field. This single equation per pixel is under-constrained (two unknowns, one equation - the aperture problem), so methods like Lucas-Kanade add a smoothness assumption over a local window.
+Where $$\partial I / \partial t$$ is the temporal derivative, $$\nabla I = (I_u, I_v)$$ is the spatial gradient, and $$\mathbf{v}$$ is the pixel velocity field. This single equation per pixel is under-constrained (two unknowns, one equation - the aperture problem), so methods like Lucas-Kanade add a smoothness assumption over a local window.
 
 ### Probability and Sensor Fusion (a teaser)
 
 For state estimation (Kalman filters, particle filters), calculus shows up as:
 
 * **Gaussian densities** - multiplying, marginalizing, conditioning all involve integrals.
-* **Linearization** - the EKF approximates a nonlinear function $f(\mathbf{x})$ via its first-order Taylor expansion $f(\mathbf{x}) \approx f(\mathbf{x}_0) + J_f(\mathbf{x}_0)(\mathbf{x} - \mathbf{x}_0)$. The Jacobian $J_f$ is pure calculus.
+* **Linearization** - the EKF approximates a nonlinear function $$f(\mathbf{x})$$ via its first-order Taylor expansion $$f(\mathbf{x}) \approx f(\mathbf{x}_0) + J_f(\mathbf{x}_0)(\mathbf{x} - \mathbf{x}_0)$$. The Jacobian $$J_f$$ is pure calculus.
 * **Optimization** - graph SLAM (g2o, GTSAM, Ceres) minimizes nonlinear least squares via Gauss-Newton or Levenberg-Marquardt, both gradient-based.
 
 See `../slam-and-state-estimation/sensor-fusion.md` and `../programming-for-robotics/optimization-libraries.md` for how these become real code.

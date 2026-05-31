@@ -194,7 +194,7 @@ class MyNode(Node):
 - `MutuallyExclusiveCallbackGroup` - at most one callback in the group runs at a time. Safe default. Used when you want to avoid races on shared state.
 - `ReentrantCallbackGroup` - any number of callbacks in the group can run in parallel. Use when callbacks are independent (e.g., sensor topics that update separate fields).
 
-If you do a service call from inside a callback, that service callback **must** be in a different group than the calling callback - otherwise you deadlock. This is the single most common `rclpy` gotcha. <https://docs.ros.org/en/jazzy/Concepts/Intermediate/About-Executors.html> [verify]
+If you do a service call from inside a callback, that service callback **must** be in a different group than the calling callback - otherwise you deadlock. This is the single most common `rclpy` gotcha. <https://docs.ros.org/en/jazzy/Concepts/Intermediate/About-Executors.html>
 
 ### QoS profiles
 
@@ -273,7 +273,7 @@ async def amain(node):
     node.get_logger().info(f'Got: {response.message}')
 ```
 
-Caveats: as of early 2026 the asyncio-with-rclpy story is still evolving. The classic synchronous pattern with futures plus `spin_until_future_complete` works everywhere; asyncio works but watch out for executor interactions. <https://docs.ros.org/en/jazzy/How-To-Guides/Using-callback-groups.html> [verify]
+Caveats: as of early 2026 the asyncio-with-rclpy story is still evolving. The classic synchronous pattern with futures plus `spin_until_future_complete` works everywhere; asyncio works but watch out for executor interactions. <https://docs.ros.org/en/jazzy/How-To-Guides/Using-callback-groups.html>
 
 ## Type hints + mypy
 
@@ -331,8 +331,8 @@ pstats.Stats(profiler).sort_stats('cumulative').print_stats(20)
 ```
 
 - `py-spy record -o flame.svg -- python my_node.py` - sampling profiler, produces flame graph, ~5% overhead. Best first-resort tool. <https://github.com/benfred/py-spy>
-- `line_profiler` - decorate a function with `@profile`, get per-line timing. Use when cProfile points at a function but you need to know which line. <https://github.com/pyutils/line_profiler> [verify]
-- `memory_profiler` - for memory leaks, which absolutely happen in long-running rclpy nodes. <https://github.com/pythonprofilers/memory_profiler> [verify]
+- `line_profiler` - decorate a function with `@profile`, get per-line timing. Use when cProfile points at a function but you need to know which line. <https://github.com/pyutils/line_profiler>
+- `memory_profiler` - for memory leaks, which absolutely happen in long-running rclpy nodes. <https://github.com/pythonprofilers/memory_profiler>
 
 If your `rclpy` node is eating CPU you didn't expect, 90% of the time it's one of: a callback in a tight loop with no rate limiting, a numpy operation that's looping in Python instead of vectorized, or a logging statement at high frequency without throttling.
 
@@ -365,7 +365,7 @@ Deployment options, from most-portable to fastest:
 
 1. **`torch.jit.script` / `torch.jit.trace`** - produces a `.pt` you can load without your model source code. First step. Easy.
 2. **ONNX export** - `torch.onnx.export(model, dummy_input, 'model.onnx')`. Now your model is framework-agnostic; you can run it under ONNX Runtime, TensorRT, OpenVINO. <https://pytorch.org/docs/stable/onnx.html>
-3. **TensorRT** - NVIDIA's inference engine. Convert ONNX to a TRT engine (`trtexec` or the `tensorrt` Python API). On Jetson and discrete NVIDIA GPUs, this is typically 2-5x faster than raw PyTorch. <https://developer.nvidia.com/tensorrt> [verify]
+3. **TensorRT** - NVIDIA's inference engine. Convert ONNX to a TRT engine (`trtexec` or the `tensorrt` Python API). On Jetson and discrete NVIDIA GPUs, this is typically 2-5x faster than raw PyTorch. <https://developer.nvidia.com/tensorrt>
 4. **`torch.compile` (PyTorch 2.x)** - JIT compilation. Sometimes great, sometimes flaky with dynamic shapes. Worth trying when ONNX export is painful.
 
 Common production stack: train in PyTorch, export to ONNX, build TensorRT engine on the target hardware (Jetson Orin, RTX A4000, etc.), call from a Python `rclpy` node that handles I/O.
@@ -375,7 +375,7 @@ Common production stack: train in PyTorch, export to ONNX, build TensorRT engine
 - *Effective Python* - Brett Slatkin. The Python equivalent of *Effective C++*.
 - *High Performance Python* - Gorelick & Ozsvald. Profiling, vectorization, Cython.
 - `rclpy` source: <https://github.com/ros2/rclpy> - reading the actual implementation clarifies more than any tutorial.
-- ROS 2 Python style guide: <https://docs.ros.org/en/jazzy/The-ROS2-Project/Contributing/Code-Style-Language-Versions.html> [verify]
+- ROS 2 Python style guide: <https://docs.ros.org/en/jazzy/The-ROS2-Project/Contributing/Code-Style-Language-Versions.html>
 - numpy docs on broadcasting: <https://numpy.org/doc/stable/user/basics.broadcasting.html>
 
 The rule I keep coming back to: write it in Python first. Measure. If a hot loop shows up in the profile, vectorize it. If that's not enough, port that one function to C++ via pybind11. Almost never do you need to rewrite the whole node.

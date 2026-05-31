@@ -75,16 +75,16 @@ The field has seen continuous innovation, with key platforms demonstrating growi
 | **Atlas** (Electric)    | Boston Dynamics (USA, Hyundai-owned)   | New all-electric Atlas unveiled Apr 2024 replacing the hydraulic version; aimed at industrial deployment.     |
 | **Digit**               | Agility Robotics (USA)                 | Logistics-focused; deployed in GXO and Amazon warehouses; v4 added head/manipulators.                         |
 | **Optimus** (Gen 2/3)   | Tesla (USA)                            | Unveiled Oct 2022; Gen 2 (Dec 2023) added tactile fingers; "We Robot" event Oct 2024 demoed Gen 3 prototypes. |
-| **Figure 02**           | Figure AI (USA)                        | Series B 2024; BMW factory pilot; integrated with OpenAI/Microsoft for reasoning. \[verify funding]           |
+| **Figure 02**           | Figure AI (USA)                        | Series B 2024; BMW factory pilot; integrated with OpenAI/Microsoft for reasoning.           |
 | **NEO Beta / NEO Home** | 1X Technologies (Norway/USA)           | Soft-bodied home humanoid; OpenAI investor. Targeting consumer/home market.                                   |
 | **Apollo**              | Apptronik (USA, ex-NASA Valkyrie team) | Industrial humanoid; Mercedes-Benz pilot 2024.                                                                |
 | **Phoenix**             | Sanctuary AI (Canada)                  | General-purpose humanoid with manipulation-first design.                                                      |
 | **Unitree G1 / H1**     | Unitree Robotics (China)               | G1 (May 2024) - sub-$20k humanoid democratizing access; H1 for higher-payload work.                           |
 | **GR-1 / GR-2**         | Fourier Intelligence (China)           | GR-2 (2024) - rehabilitation roots, now general-purpose.                                                      |
 | **Walker S**            | UBTECH Robotics (China)                | Deployed in BYD/Geely factories.                                                                              |
-| **Iron**                | XPeng (China)                          | Auto-OEM-backed humanoid; first reveal Nov 2024. \[verify]                                                    |
+| **Iron**                | XPeng (China)                          | Auto-OEM-backed humanoid; first reveal Nov 2024.                                                    |
 | **Booster T1**          | Booster Robotics (China)               | Lightweight humanoid, soccer/research focus.                                                                  |
-| **Galbot G1**           | Galbot (China)                         | Foundation-model-driven manipulation. \[verify]                                                               |
+| **Galbot G1**           | Galbot (China)                         | Foundation-model-driven manipulation.                                                               |
 | **Ameca**               | Engineered Arts (UK)                   | Highly expressive face; advanced HRI.                                                                         |
 | **HumanPlus**           | Stanford (USA)                         | Research prototype (Jun 2024) - shadow-learning whole-body humanoid skills via human video + RL.              |
 | **iCub**                | Italian Inst. of Technology            | Open-source cognitive humanoid; long-standing research platform.                                              |

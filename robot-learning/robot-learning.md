@@ -1,4 +1,5 @@
 ---
+description: Robot learning — imitation learning, reinforcement learning, foundation models, VLAs, world models, sim-to-real, and teleop for modern robotics.
 icon: brain
 ---
 
@@ -7,6 +8,10 @@ icon: brain
 Robot learning is the part of the field that exploded between 2022 and 2026. If you trained as a robotics engineer before the LLM era, this is the half of the discipline that probably did not exist when you took your first controls course. If you are just entering the field now, this is probably what drew you in.
 
 This section covers the modern paradigm: how robots learn skills from data instead of being programmed with closed-form controllers. It is opinionated. The field moves fast and a lot of what gets shipped in demos does not survive contact with a real factory floor.
+
+### In this section
+
+<table data-view="cards"><thead><tr><th></th><th data-type="content-ref"></th><th data-hidden data-card-cover data-type="files"></th></tr></thead><tbody><tr><td>Imitation Learning</td><td><a href="imitation-learning.md">imitation-learning.md</a></td><td><a href="../.gitbook/assets/fetch_e1.gif">fetch_e1.gif</a></td></tr><tr><td>Reinforcement Learning (modern)</td><td><a href="reinforcement-learning-modern.md">reinforcement-learning-modern.md</a></td><td><a href="../.gitbook/assets/Digit_RL_1.gif">Digit_RL_1.gif</a></td></tr><tr><td>Foundation Models / VLAs</td><td><a href="foundation-models-vla.md">foundation-models-vla.md</a></td><td></td></tr><tr><td>World Models</td><td><a href="world-models.md">world-models.md</a></td><td></td></tr><tr><td>Sim-to-Real</td><td><a href="sim-to-real.md">sim-to-real.md</a></td><td><a href="../.gitbook/assets/DesignValidateObjectDetectionMotionPlanningGazeboExample_01.gif">DesignValidateObjectDetectionMotionPlanningGazeboExample_01.gif</a></td></tr><tr><td>Teleoperation and Data Collection</td><td><a href="teleop-and-data.md">teleop-and-data.md</a></td><td><a href="../.gitbook/assets/1586981532434-robot-handCloseClaw (2).gif">1586981532434-robot-handCloseClaw (2).gif</a></td></tr><tr><td>Datasets and Benchmarks</td><td><a href="datasets-and-benchmarks.md">datasets-and-benchmarks.md</a></td><td></td></tr></tbody></table>
 
 ## The four (and a half) paradigms
 

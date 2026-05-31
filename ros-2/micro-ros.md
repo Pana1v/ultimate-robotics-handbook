@@ -6,7 +6,7 @@ icon: gear
 
 micro-ROS is how you get a real ROS 2 node - same QoS, same DDS semantics, same `rclc` API - running on a microcontroller. It is the modern answer to ROS 1's `rosserial`, and it is a complete rebuild rather than a port. If you have ever tried to wedge `rosserial_arduino` into a project with serious sensor traffic, micro-ROS is a relief.
 
-The project lives at [micro.ros.org](https://micro.ros.org) \[verify]. Source: [github.com/micro-ROS](https://github.com/micro-ROS) \[verify].
+The project lives at [micro.ros.org](https://micro.ros.org). Source: [github.com/micro-ROS](https://github.com/micro-ROS).
 
 I've used micro-ROS in production for ESP32-based motor controllers and sensor interfaces in mobile platforms - wheel encoders, ESC interfaces, IMU shims. It is also what I would reach for if I were building [Polka](../authors-projects/polka.md) again today, instead of the custom serial protocol I started with.
 
@@ -77,7 +77,7 @@ micro-ROS targets a long list of hardware. The ones I actually see in the field:
 | **Arduino UNO R4 (Minima / WiFi)** | 32 KB | Lower bound. Renesas RA4M1, ESP32-S3 co-processor on WiFi variant. |
 | Nuttx, Zephyr, FreeRTOS, ThreadX | - | RTOSes supported alongside bare-metal. |
 
-The official list is at [micro.ros.org/docs/overview/hardware/](https://micro.ros.org/docs/overview/hardware/) \[verify]. The official Arduino integration is `micro_ros_arduino` ([github.com/micro-ROS/micro\_ros\_arduino](https://github.com/micro-ROS/micro_ros_arduino) \[verify]).
+The official list is at [micro.vulcanexus.org/docs/overview/hardware/](https://micro.vulcanexus.org/docs/overview/hardware/). The official Arduino integration is `micro_ros_arduino` ([github.com/micro-ROS/micro\_ros\_arduino](https://github.com/micro-ROS/micro_ros_arduino)).
 
 ### Practical RAM minimum
 
@@ -327,8 +327,8 @@ This is verbose but bulletproof. The examples folder in `micro_ros_arduino` has 
 
 ## Where to go next
 
-* [micro.ros.org](https://micro.ros.org) \[verify] - official docs, tutorials, supported boards.
-* [github.com/micro-ROS/micro\_ros\_arduino](https://github.com/micro-ROS/micro_ros_arduino) \[verify] - pre-built Arduino library, easiest path for ESP32 / Teensy / Portenta.
+* [micro.ros.org](https://micro.ros.org) - official docs, tutorials, supported boards.
+* [github.com/micro-ROS/micro\_ros\_arduino](https://github.com/micro-ROS/micro_ros_arduino) - pre-built Arduino library, easiest path for ESP32 / Teensy / Portenta.
 * [DDS and QoS](dds-qos.md) - the QoS settings work the same on micro-ROS, with caveats about reliable streams.
 * [Setup](setup.md) - installing the agent on your robot's main computer.
 * [Polka](../authors-projects/polka.md) - my mobile platform, candidate for a micro-ROS firmware rewrite.

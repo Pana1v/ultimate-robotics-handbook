@@ -8,7 +8,7 @@ Nav2 is the ROS 2 reincarnation of the ROS 1 Navigation Stack - except that "rei
 
 This page is a guided tour of the stack, focused on the parts where you actually have decisions to make. I draw on production experience: a Swerve Drive MPPI motion model, custom BT nodes, and improvements to the Collision Monitor - all shipped in a real Nav2 deployment.
 
-The upstream repo is [github.com/ros-navigation/navigation2](https://github.com/ros-navigation/navigation2) \[verify]. The docs at [docs.nav2.org](https://docs.nav2.org) \[verify] are excellent and worth reading end-to-end at least once.
+The upstream repo is [github.com/ros-navigation/navigation2](https://github.com/ros-navigation/navigation2). The docs at [docs.nav2.org](https://docs.nav2.org) are excellent and worth reading end-to-end at least once.
 
 ## Architecture
 
@@ -58,7 +58,7 @@ Every one of these is a `LifecycleNode` and can be loaded as a composable compon
 
 ## The behavior tree (BT.CPP)
 
-The BT is what makes Nav2 reconfigurable without recompiling. Instead of hardcoded recovery logic in C++, you write an XML tree that calls action servers in order. Default tree lives in `nav2_bt_navigator/behavior_trees/navigate_to_pose_w_replanning_and_recovery.xml` \[verify].
+The BT is what makes Nav2 reconfigurable without recompiling. Instead of hardcoded recovery logic in C++, you write an XML tree that calls action servers in order. Default tree lives in `nav2_bt_navigator/behavior_trees/navigate_to_pose_w_replanning_and_recovery.xml`.
 
 A simplified version:
 
@@ -145,7 +145,7 @@ bt_navigator:
       - my_pkg_bt_nodes      # ← your library
 ```
 
-Plugin development docs: [docs.nav2.org/plugins](https://docs.nav2.org/plugins) \[verify].
+Plugin development docs: [docs.nav2.org/plugins](https://docs.nav2.org/plugins).
 
 ## Controllers
 
@@ -168,7 +168,7 @@ The structure of the upstream `nav2_mppi_controller` plugin:
 * `Critic` interface - scores a trajectory rollout against goals, obstacles, path adherence, etc.
 * `Optimizer` - samples controls, weights, computes the next command.
 
-Adding a motion model is a `~200`-line C++ file (the math is most of it). The MPPI design doc is at [docs.nav2.org/configuration/packages/configuring-mppic.html](https://docs.nav2.org/configuration/packages/configuring-mppic.html) \[verify].
+Adding a motion model is a `~200`-line C++ file (the math is most of it). The MPPI design doc is at [docs.nav2.org/configuration/packages/configuring-mppic.html](https://docs.nav2.org/configuration/packages/configuring-mppic.html).
 
 Tuning MPPI is mostly about the critics' weights. A starter `nav2_params.yaml`:
 
@@ -219,7 +219,7 @@ The planner produces the global path that the controller follows. Nav2 supports 
 | Smac Lattice   | State lattice                      | Holonomic robots that need motion-primitive-respecting paths. |
 | Theta\*        | Any-angle path                     | When you want straighter paths over open space. |
 
-The Smac family ([github.com/ros-navigation/navigation2/tree/main/nav2\_smac\_planner](https://github.com/ros-navigation/navigation2/tree/main/nav2_smac_planner) \[verify]) is what most modern projects use. NavFn is still there for compatibility but Smac 2D is a strict upgrade.
+The Smac family ([github.com/ros-navigation/navigation2/tree/main/nav2\_smac\_planner](https://github.com/ros-navigation/navigation2/tree/main/nav2_smac_planner)) is what most modern projects use. NavFn is still there for compatibility but Smac 2D is a strict upgrade.
 
 ```yaml
 planner_server:
@@ -295,7 +295,7 @@ Rule of thumb: `inflation_radius = robot_radius + safety_margin`. A 30 cm radius
 
 ## Collision Monitor
 
-The Collision Monitor (`nav2_collision_monitor`, [source](https://github.com/ros-navigation/navigation2/tree/main/nav2_collision_monitor) \[verify]) is an independent safety layer that subscribes to raw sensor data and can override `/cmd_vel` in real time. It does not depend on the costmaps or planner - even if Nav2 itself is unhealthy, the collision monitor still vetoes commands that would lead to a crash.
+The Collision Monitor (`nav2_collision_monitor`, [source](https://github.com/ros-navigation/navigation2/tree/main/nav2_collision_monitor)) is an independent safety layer that subscribes to raw sensor data and can override `/cmd_vel` in real time. It does not depend on the costmaps or planner - even if Nav2 itself is unhealthy, the collision monitor still vetoes commands that would lead to a crash.
 
 It works on the notion of **polygons**: you define one or more polygons around the robot, classify them as `stop`, `slowdown`, or `approach`, and a triggering action when any polygon contains sensor points.
 

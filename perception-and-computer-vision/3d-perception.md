@@ -31,7 +31,7 @@ A point cloud is just (x, y, z) points - sometimes with color or intensity. It's
 [PCL](https://pointclouds.org/) is the C++ workhorse of point cloud processing. Filters, segmentation, registration (ICP), feature extraction (FPFH, SHOT), surface reconstruction. Old, big, and somewhat clunky to build - but it's what's already in ROS, what `pcl_ros` wraps, and what most production robotics code uses.
 
 * Repo: [github.com/PointCloudLibrary/pcl](https://github.com/PointCloudLibrary/pcl)
-* Tutorials: [pcl.readthedocs.io](https://pcl.readthedocs.io/) `[verify]`
+* Tutorials: [pcl.readthedocs.io](https://pcl.readthedocs.io/)
 
 Common operations every robotics engineer will write at some point:
 
@@ -66,7 +66,7 @@ Sometimes you don't have a depth sensor. Sometimes your depth sensor doesn't wor
 
 * **MiDaS** (Intel ISL) - the classic. Relative depth, multiple model sizes. [github.com/isl-org/MiDaS](https://github.com/isl-org/MiDaS)
 * **Depth Anything v2** (HKU + TikTok, 2024) - current state of the art for monocular relative depth. [github.com/DepthAnything/Depth-Anything-V2](https://github.com/DepthAnything/Depth-Anything-V2)
-* **UniDepth** - metric monocular depth without test-time scaling. [arxiv.org/abs/2403.18913](https://arxiv.org/abs/2403.18913) `[verify]`
+* **UniDepth** - metric monocular depth without test-time scaling. [arxiv.org/abs/2403.18913](https://arxiv.org/abs/2403.18913)
 * **Marigold** - diffusion-based, beautiful but slow. [arxiv.org/abs/2312.02145](https://arxiv.org/abs/2312.02145)
 
 Full discussion of these models, latency, and integration is in [foundation-vision-models.md](foundation-vision-models.md). For 3D perception purposes the question is **how to use monocular depth**:
@@ -135,8 +135,8 @@ The interesting robotics application: SLAM that builds a 3D Gaussian Splat map o
 
 * **SplaTAM** (CMU, CVPR 2024) - Gaussian Splatting for RGB-D SLAM. Builds a map of 3D Gaussians, tracks camera against it. [arxiv.org/abs/2312.02126](https://arxiv.org/abs/2312.02126), code: [github.com/spla-tam/SplaTAM](https://github.com/spla-tam/SplaTAM)
 * **Gaussian Splatting SLAM (MonoGS)** (Imperial College, CVPR 2024) - does it from monocular RGB. [arxiv.org/abs/2312.06741](https://arxiv.org/abs/2312.06741), code: [github.com/muskie82/MonoGS](https://github.com/muskie82/MonoGS)
-* **GS-ICP SLAM** - combines Gaussian splats with ICP-based tracking. `[verify]`
-* **Photo-SLAM** - photorealistic SLAM using Gaussian splatting. [arxiv.org/abs/2311.16728](https://arxiv.org/abs/2311.16728) `[verify]`
+* **GS-ICP SLAM** - combines Gaussian splats with ICP-based tracking. [arxiv.org/abs/2403.12550](https://arxiv.org/abs/2403.12550)
+* **Photo-SLAM** - photorealistic SLAM using Gaussian splatting. [arxiv.org/abs/2311.16728](https://arxiv.org/abs/2311.16728)
 
 These systems run at single-digit-to-low-tens of FPS on a desktop GPU. On a Jetson Orin they're not real-time yet, but they're the direction the field is moving. If you're starting a new dense reconstruction project in 2026, you should at least evaluate splat-based SLAM.
 
@@ -144,9 +144,9 @@ These systems run at single-digit-to-low-tens of FPS on a desktop GPU. On a Jets
 
 * **2D Gaussian Splatting** - surface-aligned 2D Gaussians for better mesh extraction. [arxiv.org/abs/2403.17888](https://arxiv.org/abs/2403.17888)
 * **SuGaR** - surface-aligned regularization on top of 3DGS, much cleaner meshes. [arxiv.org/abs/2311.12775](https://arxiv.org/abs/2311.12775)
-* **Mip-Splatting** - fixes aliasing at varying scales. [arxiv.org/abs/2311.16493](https://arxiv.org/abs/2311.16493) `[verify]`
-* **4D Gaussian Splatting** - adds time, for dynamic scenes. `[verify]`
-* **Scaffold-GS** - structured Gaussians around an anchor grid, more compact. [arxiv.org/abs/2312.00109](https://arxiv.org/abs/2312.00109) `[verify]`
+* **Mip-Splatting** - fixes aliasing at varying scales. [arxiv.org/abs/2311.16493](https://arxiv.org/abs/2311.16493)
+* **4D Gaussian Splatting** - adds time, for dynamic scenes. [arxiv.org/abs/2310.08528](https://arxiv.org/abs/2310.08528)
+* **Scaffold-GS** - structured Gaussians around an anchor grid, more compact. [arxiv.org/abs/2312.00109](https://arxiv.org/abs/2312.00109)
 
 ### 6. NeRF vs Gaussian Splatting vs traditional 3D reconstruction
 
@@ -231,9 +231,9 @@ Everything in 3D perception has a coordinate frame. Mix them up and your robot d
 
 ### 10. Further reading and references
 
-* PCL tutorials: [pcl.readthedocs.io](https://pcl.readthedocs.io/) `[verify]`
+* PCL tutorials: [pcl.readthedocs.io](https://pcl.readthedocs.io/)
 * Open3D docs: [www.open3d.org/docs](https://www.open3d.org/docs/)
-* nerfstudio docs: [docs.nerf.studio](https://docs.nerf.studio/) `[verify]`
+* nerfstudio docs: [docs.nerf.studio](https://docs.nerf.studio/)
 * 3DGS awesome list: [github.com/MrNeRF/awesome-3D-gaussian-splatting](https://github.com/MrNeRF/awesome-3D-gaussian-splatting)
 * NeRF awesome list: [github.com/awesome-NeRF/awesome-NeRF](https://github.com/awesome-NeRF/awesome-NeRF)
 * For monocular depth and other foundation models, see [foundation-vision-models.md](foundation-vision-models.md).

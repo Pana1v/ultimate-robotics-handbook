@@ -79,7 +79,7 @@ In 2026 you mostly want SysID *plus* DR - identify the nominal parameters and th
 **Tools:**
 
 - **MuJoCo's `mj_inverse`** + scipy optimizers for offline SysID.
-- **Isaac Lab** has SysID utilities for actuator models. [verify]
+- **Isaac Lab** has SysID utilities for actuator models.
 - **Drake** has rich tooling for inertia identification.
 
 ## Strategy 3: Dynamics Randomization
@@ -134,7 +134,7 @@ When your policy works in sim and fails on real, do these *in order*. Most teams
 | **Isaac Lab** (NVIDIA) - [https://github.com/isaac-sim/IsaacLab](https://github.com/isaac-sim/IsaacLab) | RL, locomotion, manipulation | Yes (PhysX-GPU) | No | Replaced Isaac Gym (2024). Current default for RL. |
 | **MuJoCo MJX** - [https://github.com/google-deepmind/mujoco](https://github.com/google-deepmind/mujoco) | RL, manipulation, MPC | Yes (JAX) | Yes | DeepMind's GPU MuJoCo. Excellent for fast iteration. |
 | **MuJoCo (classic)** - same repo | MPC, controls research | No | Limited | Still the gold standard for contact dynamics. |
-| **Genesis** - [https://github.com/Genesis-Embodied-AI/Genesis](https://github.com/Genesis-Embodied-AI/Genesis) [verify] | RL, diff physics | Yes | Yes | New (late 2024). Claims 80x speedup over Isaac Gym. Worth evaluating. |
+| **Genesis** - [https://github.com/Genesis-Embodied-AI/genesis-world](https://github.com/Genesis-Embodied-AI/genesis-world) | RL, diff physics | Yes | Yes | New (late 2024). Claims 80x speedup over Isaac Gym. Worth evaluating. |
 | **Brax** - [https://github.com/google/brax](https://github.com/google/brax) | RL, differentiable physics | Yes (JAX) | Yes | Older, well-tested. |
 | **Drake** - [https://drake.mit.edu/](https://drake.mit.edu/) | Trajectory opt, MPC, planning | No | Yes | High-fidelity multibody. The "controls people" simulator. |
 | **Gazebo / Ignition** - [https://gazebosim.org/](https://gazebosim.org/) | Multi-robot, ROS integration | No | No | Standard for system integration testing. Slow for RL. |
@@ -159,7 +159,7 @@ MuJoCo is the gold standard for contact-rich rigid-body dynamics. Always has bee
 
 Genesis claims dramatic speedups over Isaac Gym for RL (80x in published benchmarks). It is differentiable, GPU-parallel, supports rigid + soft body + fluids in one framework. Too new to have a confident "is it production-ready" verdict (early 2026), but worth evaluating for new projects.
 
-[https://github.com/Genesis-Embodied-AI/Genesis](https://github.com/Genesis-Embodied-AI/Genesis) [verify]
+[https://github.com/Genesis-Embodied-AI/genesis-world](https://github.com/Genesis-Embodied-AI/genesis-world)
 
 ## Case studies - what actually worked
 
@@ -220,6 +220,6 @@ If you are bringing up sim-to-real on a new platform for the first time:
 - Tobin et al., *"Domain Randomization for Transferring Deep Neural Networks from Simulation to the Real World"* - [https://arxiv.org/abs/1703.06907](https://arxiv.org/abs/1703.06907)
 - OpenAI et al., *"Solving Rubik's Cube with a Robot Hand"* - [https://arxiv.org/abs/1910.07113](https://arxiv.org/abs/1910.07113)
 - Peng et al., *"Sim-to-Real Transfer of Robotic Control with Dynamics Randomization"* - [https://arxiv.org/abs/1710.06537](https://arxiv.org/abs/1710.06537)
-- Lee et al., *"Learning quadrupedal locomotion over challenging terrain"* - [https://arxiv.org/abs/2010.11251](https://arxiv.org/abs/2010.11251) [verify]
-- Isaac Lab documentation - [https://isaac-sim.github.io/IsaacLab/](https://isaac-sim.github.io/IsaacLab/) [verify]
+- Lee et al., *"Learning quadrupedal locomotion over challenging terrain"* - [https://arxiv.org/abs/2010.11251](https://arxiv.org/abs/2010.11251)
+- Isaac Lab documentation - [https://isaac-sim.github.io/IsaacLab/](https://isaac-sim.github.io/IsaacLab/)
 - *"Sim-to-Real in Robotics: A Survey"* - Zhao, Queralta, Westerlund. [https://arxiv.org/abs/2009.13303](https://arxiv.org/abs/2009.13303)

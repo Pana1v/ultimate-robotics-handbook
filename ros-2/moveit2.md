@@ -6,7 +6,7 @@ icon: gear
 
 MoveIt is what Nav2 is for arms: the de facto manipulation framework on ROS 2. It owns motion planning, kinematics, collision checking, trajectory execution, and a planning-scene representation of the world. If you are building a robot with a 6+ DOF arm in 2026, you almost certainly start here.
 
-The upstream repo is [github.com/moveit/moveit2](https://github.com/moveit/moveit2) \[verify]. The docs at [moveit.picknik.ai](https://moveit.picknik.ai) \[verify] are maintained by PickNik Robotics, who also operate the commercial **MoveIt Pro** product.
+The upstream repo is [github.com/moveit/moveit2](https://github.com/moveit/moveit2). The docs at [moveit.picknik.ai](https://moveit.picknik.ai) are maintained by PickNik Robotics, who also operate the commercial **MoveIt Pro** product.
 
 My ROS 2 production experience is heavier on mobile than manipulation, but MoveIt 2 is the standard answer when a question involves an arm, so this page covers what you need to know to make sensible architecture choices.
 
@@ -54,7 +54,7 @@ Keeping this representation in sync with reality is the single biggest source of
 
 ### OMPL - the default planner
 
-OMPL (Open Motion Planning Library, [ompl.kavrakilab.org](https://ompl.kavrakilab.org) \[verify]) is the sampling-based planning library MoveIt uses by default. It's not a single algorithm - it's a library of planners.
+OMPL (Open Motion Planning Library, [ompl.kavrakilab.org](https://ompl.kavrakilab.org)) is the sampling-based planning library MoveIt uses by default. It's not a single algorithm - it's a library of planners.
 
 Planners you'll see in the `ompl_planning.yaml`:
 
@@ -78,7 +78,7 @@ Optimization-based planners shipped alongside OMPL. They start from a seed traje
 
 MoveIt plans trajectories. To actually move the arm, those trajectories need to reach motor controllers - that's ros2\_control's job.
 
-`ros2_control` ([control.ros.org](https://control.ros.org) \[verify]) is a hardware abstraction framework. You write:
+`ros2_control` ([control.ros.org](https://control.ros.org)) is a hardware abstraction framework. You write:
 
 * A **hardware interface** that reads sensor state and writes commands to your specific motor controllers (EtherCAT, CAN, serial, vendor SDK).
 * A **controller** (usually `joint_trajectory_controller`) that follows the trajectory MoveIt sends.
@@ -138,7 +138,7 @@ Pilz is the right choice for industrial pick-and-place where determinism and rep
 
 ## MoveIt Pro
 
-PickNik Robotics maintains a commercial product called [MoveIt Pro](https://picknik.ai/moveit-pro) \[verify] that bundles MoveIt with a behavior-tree based skill framework, a web UI, and commercial support. If you are building a manipulation product and don't want to roll your own task planner, it's worth looking at.
+PickNik Robotics maintains a commercial product called [MoveIt Pro](https://picknik.ai/pro/) that bundles MoveIt with a behavior-tree based skill framework, a web UI, and commercial support. If you are building a manipulation product and don't want to roll your own task planner, it's worth looking at.
 
 The open source MoveIt is everything you actually need; MoveIt Pro is the productized layer on top.
 
@@ -155,7 +155,7 @@ MoveIt is the wrong tool when:
 
 * You're doing reactive, sub-100ms control with no obstacle constraints - a custom IK + Cartesian impedance controller will be cleaner.
 * You're doing learning-based manipulation where the policy outputs joint targets directly - MoveIt's planning loop is dead weight.
-* You only need IK and FK once - call `kdl_kinematics_plugin` or [Pinocchio](https://github.com/stack-of-tasks/pinocchio) \[verify] directly.
+* You only need IK and FK once - call `kdl_kinematics_plugin` or [Pinocchio](https://github.com/stack-of-tasks/pinocchio) directly.
 * The arm is single-purpose and the path is hardcoded - a trajectory msg published directly to `joint_trajectory_controller` is enough.
 
 For trajectory planning on a mobile base, you do not want MoveIt - that's Nav2's job. See [Nav2 Deep Dive](nav2-deep-dive.md).
@@ -232,7 +232,7 @@ The URDF describes the robot's geometry. The SRDF (Semantic Robot Description Fo
 * **Disabled collision pairs** - links that are adjacent and shouldn't trigger self-collision checks.
 * **Named poses** - "home", "park", "ready".
 
-You generate the SRDF via the MoveIt Setup Assistant (`ros2 launch moveit_setup_assistant setup_assistant.launch.py` \[verify]). Run this once per robot. The Setup Assistant produces a full MoveIt config package you then customize.
+You generate the SRDF via the MoveIt Setup Assistant (`ros2 launch moveit_setup_assistant setup_assistant.launch.py`). Run this once per robot. The Setup Assistant produces a full MoveIt config package you then customize.
 
 ### Disabled collision pairs
 
@@ -260,8 +260,8 @@ If you miss a pair, you'll get spurious self-collision errors that make IK fail.
 
 ## Where to go next
 
-* [docs.moveit.picknik.ai](https://docs.moveit.picknik.ai) \[verify] - the canonical MoveIt 2 docs, well maintained.
-* [control.ros.org](https://control.ros.org) \[verify] - ros2\_control reference.
+* [moveit.picknik.ai](https://moveit.picknik.ai) - the canonical MoveIt 2 docs, well maintained.
+* [control.ros.org](https://control.ros.org) - ros2\_control reference.
 * [Nav2 Deep Dive](nav2-deep-dive.md) - the mobile counterpart.
 * [Lifecycle and Composition](lifecycle-and-composition.md) - `move_group` itself is composable; useful when you embed it into a larger application.
 * [Optimization libraries](../mathematical-and-programming-foundations/optimization-libraries.md) - what's underneath CHOMP, STOMP, and modern trajectory optimization.

@@ -126,11 +126,11 @@ Use DDIM or DDPM scheduler. 10-100 denoising steps per action chunk. The slow in
 
 The field has not stood still. A non-exhaustive list of what is worth knowing:
 
-- **3D Diffusion Policy (DP3)** - Ze et al., RSS 2024. Diffusion Policy with point cloud inputs instead of RGB. Generalizes much better across scenes. [https://3d-diffusion-policy.github.io/](https://3d-diffusion-policy.github.io/) [verify]
-- **Flow Matching Policies** - used in π0 / π0.5. Replaces the diffusion denoising loop with a single ODE solve. Order of magnitude faster inference at similar quality. The π0 paper: [https://www.physicalintelligence.company/blog/pi0](https://www.physicalintelligence.company/blog/pi0) [verify]
+- **3D Diffusion Policy (DP3)** - Ze et al., RSS 2024. Diffusion Policy with point cloud inputs instead of RGB. Generalizes much better across scenes. [https://3d-diffusion-policy.github.io/](https://3d-diffusion-policy.github.io/)
+- **Flow Matching Policies** - used in π0 / π0.5. Replaces the diffusion denoising loop with a single ODE solve. Order of magnitude faster inference at similar quality. The π0 paper: [https://www.physicalintelligence.company/blog/pi0](https://www.physicalintelligence.company/blog/pi0)
 - **VQ-BeT / BeT (Behavior Transformer)** - Shafiullah et al., NeurIPS 2022. Discrete action tokens via VQ-VAE + transformer. Handles multimodality cheaply. [https://arxiv.org/abs/2206.11251](https://arxiv.org/abs/2206.11251)
-- **HPT (Heterogeneous Pre-trained Transformers)** - Wang et al., NeurIPS 2024. Pretrain on heterogeneous robot data, then fine-tune. [https://liruiw.github.io/hpt/](https://liruiw.github.io/hpt/) [verify]
-- **RDT-1B** - Robotics Diffusion Transformer. Scaled diffusion policy to 1B params, pretrained on Open X-Embodiment. [https://rdt-robotics.github.io/rdt-robotics/](https://rdt-robotics.github.io/rdt-robotics/) [verify]
+- **HPT (Heterogeneous Pre-trained Transformers)** - Wang et al., NeurIPS 2024. Pretrain on heterogeneous robot data, then fine-tune. [https://liruiw.github.io/hpt/](https://liruiw.github.io/hpt/)
+- **RDT-1B** - Robotics Diffusion Transformer. Scaled diffusion policy to 1B params, pretrained on Open X-Embodiment. [https://rdt-robotics.github.io/rdt-robotics/](https://rdt-robotics.github.io/rdt-robotics/)
 
 For language-conditioned IL and full VLAs (RT-1, RT-2, OpenVLA, π0), see [Foundation Models & VLAs](foundation-models-vla.md).
 
@@ -165,11 +165,11 @@ For the teleop hardware side, see [Teleoperation & Data Collection](teleop-and-d
 | **Diffusion Policy** (Columbia) - [https://github.com/real-stanford/diffusion_policy](https://github.com/real-stanford/diffusion_policy) | Reference impl, faithful to paper | If you want to dig into the original. |
 | **ACT** (Stanford) - [https://github.com/tonyzhaozh/act](https://github.com/tonyzhaozh/act) | Reference ACT + ALOHA stack | If running on ALOHA hardware specifically. |
 | **Robomimic** (Stanford) - [https://robomimic.github.io/](https://robomimic.github.io/) | BC, BC-RNN, hierarchical IL, benchmarks | Older but well-engineered. Good for ablations. |
-| **OpenPi** - [https://github.com/Physical-Intelligence/openpi](https://github.com/Physical-Intelligence/openpi) [verify] | π0 weights and fine-tuning code | For VLA-style flow matching policies. |
+| **OpenPi** - [https://github.com/Physical-Intelligence/openpi](https://github.com/Physical-Intelligence/openpi) | π0 weights and fine-tuning code | For VLA-style flow matching policies. |
 
 ## Connection to graph-based policies
 
-For tasks with structured spatial reasoning (e.g., multi-object manipulation, articulated objects), GNN-based imitation policies are an underexplored but powerful direction. See [LEAP](../authors-projects/leap.md) for an example of using GNNs in an imitation setting - encodes scene structure as a graph and learns policy via behavior cloning over graph features.
+For tasks with structured spatial reasoning (e.g., multi-object manipulation, articulated objects), GNN-based imitation policies are an underexplored but powerful direction.
 
 ## Common pitfalls
 

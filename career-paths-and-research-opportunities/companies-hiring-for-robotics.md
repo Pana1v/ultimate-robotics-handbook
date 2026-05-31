@@ -57,8 +57,8 @@ The hottest category in robotics 2024-2026. Most are pre-revenue or piloting; va
 | **UBTech Robotics**      | 2012      | Shenzhen, China        | Walker S series humanoid; piloted in Chinese auto plants                                | ubtrobot.com                         |
 | **Physical Intelligence (PI)** | 2024 | San Francisco, CA, USA | π₀ / π0.5 foundation models for robots; cross-embodiment policies                       | physicalintelligence.company         |
 | **Skild AI**             | 2023      | Pittsburgh, PA, USA    | General-purpose robot foundation models; CMU spin-out                                   | skild.ai                             |
-| **XPeng Robotics**       | 2020 [verify] | Guangzhou, China  | Iron humanoid; XPeng (EV maker) subsidiary                                              | heyxpeng.com                         |
-| **Booster Robotics**     | 2023 [verify] | Beijing, China    | T1 humanoid platform; targets developers and research                                   | boosterobotics.com [verify]          |
+| **XPeng Robotics**       | 2020      | Guangzhou, China  | Iron humanoid; XPeng (EV maker) subsidiary                                              | heyxpeng.com                         |
+| **Booster Robotics**     | 2023      | Beijing, China    | T1 humanoid platform; targets developers and research                                   | boosterobotics.com                   |
 | **Galbot**               | 2023      | Beijing, China         | Bimanual mobile manipulator with wheeled base; retail/logistics focus                    | galbot.com                           |
 
 ***
@@ -70,7 +70,7 @@ The space consolidated heavily in 2024-2025. Several formerly-hot startups have 
 | Company                  | Founded | HQ                       | Focus / Current Status                                                                                  | URL                          |
 | ------------------------ | ------- | ------------------------ | ------------------------------------------------------------------------------------------------------- | ---------------------------- |
 | **Waymo**                | 2009    | Mountain View, CA, USA   | Robotaxi (Phoenix, SF, LA, Austin, Miami expansion); Alphabet subsidiary                                | waymo.com                    |
-| **Cruise**               | 2013    | San Francisco, CA, USA   | **Paused driverless ops late 2024 after GM pulled funding; future uncertain** [verify current status]   | getcruise.com                |
+| **Cruise**               | 2013    | San Francisco, CA, USA   | **GM shut down Cruise's robotaxi program Dec 2024; ~1,000 jobs cut; operations wound down**             | getcruise.com                |
 | **Wayve**                | 2017    | London, UK               | End-to-end AV foundation models; partnerships with Uber, Nissan                                         | wayve.ai                     |
 | **Waabi**                | 2021    | Toronto, Canada          | Autonomous trucking; Raquel Urtasun (ex-Uber ATG)                                                       | waabi.ai                     |
 | **Tesla FSD / Robotaxi** | 2003    | Austin, TX, USA          | FSD v12/v13 end-to-end; Cybercab unveiled 2024                                                          | tesla.com                    |
@@ -98,6 +98,7 @@ The most production-deployed category. Mature unit economics, real revenue.
 | **Geek+**                | 2015    | Beijing, China            | Goods-to-person AMRs; large APAC/EMEA deployments                                      | geekplus.com              |
 | **Hai Robotics**         | 2016    | Shenzhen, China           | Autonomous case-handling robots (HaiPick); dense storage focus                          | hairobotics.com           |
 | **Amazon Robotics**      | 2003 (Kiva) | North Reading, MA, USA | Fleet of 750K+ mobile robots across FCs; Sequoia / Sparrow / Proteus lines             | amazon.science/robotics   |
+| **Eternal.ag**           | 2025        | Cologne, Germany        | Fully autonomous greenhouse harvesting robots (tomato focus); exited stealth 2026      | eternal.ag                |
 
 ***
 
@@ -109,9 +110,9 @@ High regulatory bar, slower hype cycles, durable revenue.
 | ------------------------ | ------- | ------------------------- | -------------------------------------------------------------------------------------- | ------------------------- |
 | **Intuitive Surgical**   | 1995    | Sunnyvale, CA, USA        | da Vinci 5 (released 2024); dominant in robotic-assisted surgery                       | intuitive.com             |
 | **CMR Surgical**         | 2014    | Cambridge, UK             | Versius modular surgical robot; growing OUS deployments                                | cmrsurgical.com           |
-| **Vicarious Surgical**   | 2014    | Waltham, MA, USA          | Single-port surgical robot with VR interface; commercial readiness pending [verify]    | vicarioussurgical.com     |
+| **Vicarious Surgical**   | 2014    | Waltham, MA, USA          | Single-port surgical robot with VR interface; commercial readiness pending              | vicarioussurgical.com     |
 | **Stryker (Mako)**       | 1941    | Kalamazoo, MI, USA        | Mako orthopedic surgical robot (knee, hip, shoulder)                                   | stryker.com               |
-| **Asensus Surgical**     | 2006    | Durham, NC, USA           | Senhance digital laparoscopic platform; small-cap, has had turbulence [verify]         | asensus.com               |
+| **Asensus Surgical**     | 2006    | Durham, NC, USA           | Senhance digital laparoscopic platform; acquired by Karl Storz                         | asensus.com               |
 
 ***
 
@@ -141,47 +142,49 @@ The Indian ecosystem matured between 2022 and 2026 - credible product companies,
 | **Ati Motors**             | 2017    | Bangalore, India         | Sherpa autonomous industrial tugger; outdoor + indoor AMR                               | atimotors.com                |
 | **GreyOrange**             | 2011    | Atlanta / Gurgaon        | Butler AMRs + GreyMatter fulfilment OS; originally Indian, now US-HQ                    | greyorange.com               |
 | **Peer Robotics**          | 2020    | Delhi NCR, India / USA   | Collaborative AMRs for SMB manufacturing                                                | peerrobotics.com             |
-| **Hi-Tech Robotic Systemz** | 2004   | Gurgaon, India           | Novus-class AMRs; long-running player                                                  | hitechroboticsystemz.com [verify] |
-| **Difacto Robotics & Automation** | 2012 | Bangalore, India     | Industrial robotics integration, vision-guided robotics                                 | difacto.com [verify]         |
-| **Asimov Robotics**        | 2012    | Kochi, Kerala            | Industrial and humanoid prototypes; small but long-running                              | asimovrobotics.com [verify]  |
+| **Hi-Tech Robotic Systemz** | 2004   | Gurgaon, India           | Novus-class AMRs; long-running player                                                  | hitechroboticsystemz.com          |
+| **Difacto Robotics & Automation** | 2012 | Bangalore, India     | Industrial robotics integration, vision-guided robotics                                 | difacto.com                  |
+| **Asimov Robotics**        | 2012    | Kochi, Kerala            | Industrial and humanoid prototypes; acquired by Zoho Corp                               | asimovrobotics.com           |
 
 **Manipulation & vision**
 
 | Company                    | Founded | HQ                       | Focus / Current Product                                                                | URL                          |
 | -------------------------- | ------- | ------------------------ | -------------------------------------------------------------------------------------- | ---------------------------- |
-| **CynLr** (Cybernetics Laboratory) | 2019 | Bangalore, India   | Universal robot vision for unstructured grasping; "visual object intelligence"          | cynlr.com [verify]           |
-| **Sastra Robotics**        | 2013    | Kochi, Kerala            | Test-automation robotic arms for medical / automotive / consumer electronics            | sastrarobotics.com [verify]  |
-| **Genrobotics**            | 2017    | Trivandrum, Kerala       | Bandicoot manhole-cleaning robot; eliminating manual scavenging                         | genrobotics.com [verify]     |
-| **Miko**                   | 2015    | Mumbai, India            | Companion social robot for children                                                     | miko.ai [verify]             |
+| **CynLr** (Cybernetics Laboratory) | 2019 | Bangalore, India   | Universal robot vision for unstructured grasping; "visual object intelligence"          | cynlr.com                    |
+| **Sastra Robotics**        | 2013    | Kochi, Kerala            | Test-automation robotic arms for medical / automotive / consumer electronics            | sastrarobotics.com           |
+| **Genrobotics**            | 2017    | Trivandrum, Kerala       | Bandicoot manhole-cleaning robot; eliminating manual scavenging                         | genrobotics.com              |
+| **Miko**                   | 2015    | Mumbai, India            | Companion social robot for children                                                     | miko.ai                      |
 | **Postman / Postler Robotics** | -   | -                        | Status uncertain; verify before listing                                                 | [verify]                     |
 
 **Agriculture & food**
 
 | Company                    | Founded | HQ                       | Focus / Current Product                                                                | URL                          |
 | -------------------------- | ------- | ------------------------ | -------------------------------------------------------------------------------------- | ---------------------------- |
-| **Niqo Robotics**          | 2017    | Bangalore, India         | Precision agriculture robotics (See & Spray-style targeted spraying)                    | niqo.in [verify]             |
-| **Garuda Aerospace**       | 2015    | Chennai, India           | Agricultural drones, surveillance, delivery; large fleet in operation                   | garuda-aerospace.com [verify]|
-| **TartanSense**            | 2017    | Bangalore, India         | BrijBot cotton-field robot for precision spraying                                       | tartansense.com [verify]     |
+| **Niqo Robotics**          | 2015    | Bangalore, India         | Precision agriculture robotics (See & Spray-style targeted spraying); formerly TartanSense | niqorobotics.com          |
+| **Garuda Aerospace**       | 2015    | Chennai, India           | Agricultural drones, surveillance, delivery; large fleet in operation                   | garudaaerospace.com          |
+| **TartanSense**            | 2015    | Bangalore, India         | BrijBot cotton-field robot for precision spraying; rebranded as Niqo Robotics           | tartansense.com              |
 
 **Drones / aerial**
 
 | Company                    | Founded | HQ                       | Focus / Current Product                                                                | URL                          |
 | -------------------------- | ------- | ------------------------ | -------------------------------------------------------------------------------------- | ---------------------------- |
-| **ideaForge Technology**   | 2007    | Mumbai / Navi Mumbai     | Defense and surveillance drones; NSE/BSE-listed                                          | ideaforgetech.com [verify]   |
-| **NewSpace Research & Technologies** | 2017 | Bangalore, India | Defense UAVs and swarm systems                                                          | newspaceresearch.com [verify]|
-| **Asteria Aerospace**      | 2011    | Bangalore, India         | Defense + commercial drones; Reliance-owned                                              | asteria.co.in [verify]       |
-| **Botlab Dynamics**        | 2016    | New Delhi, India         | Drone-light-show choreography and FPV; IIT Delhi spinout                                 | botlabdynamics.com [verify]  |
-| **Aarav Unmanned Systems** | 2013    | Bangalore, India         | Survey / inspection drones; Honeywell partnership                                        | aus.co.in [verify]           |
-| **Detect Technologies**    | 2016    | Chennai / Bangalore      | Industrial inspection drones + analytics for oil & gas, infra                            | detecttechnologies.com [verify] |
-| **Big Bang Boom Solutions**| 2018    | Chennai, India           | Defense robotics / drones                                                                | bbbs.in [verify]             |
-| **The ePlane Company**     | 2019    | Chennai, India           | Electric VTOL aircraft; IIT Madras incubated                                             | eplane.aero [verify]         |
+| **ideaForge Technology**   | 2007    | Mumbai / Navi Mumbai     | Defense and surveillance drones; NSE/BSE-listed                                          | ideaforgetech.com            |
+| **NewSpace Research & Technologies** | 2017 | Bangalore, India | Defense UAVs and swarm systems                                                          | newspace.co.in               |
+| **Asteria Aerospace**      | 2011    | Bangalore, India         | Defense + commercial drones; Reliance-owned                                              | asteria.co.in                |
+| **Botlab Dynamics**        | 2016    | New Delhi, India         | Drone-light-show choreography and FPV; IIT Delhi spinout                                 | botlabdynamics.com           |
+| **Aarav Unmanned Systems** | 2013    | Bangalore, India         | Survey / inspection drones; rebranded as Aereo                                           | aereo.io                     |
+| **Detect Technologies**    | 2016    | Chennai / Bangalore      | Industrial inspection drones + analytics for oil & gas, infra                            | detecttechnologies.com          |
+| **Big Bang Boom Solutions**| 2018    | Chennai, India           | Defense robotics / drones                                                                | bigbangboom.com              |
+| **The ePlane Company**     | 2019    | Chennai, India           | Electric VTOL aircraft; IIT Madras incubated                                             | eplane.ai                    |
+| **EndureAir Systems**      | 2018     | Kanpur, India           | Single-main-rotor helicopter UAVs (Vibhram) for payload delivery; airframes + autopilots | endureair.com                |
+| **Vecros**                 | 2021     | Bengaluru, India        | Non-GPS vision-based autonomous drones (JETPIX software, JETCORE PCB)                     | vecros.com                   |
 
 **Adjacent / security & inspection**
 
 | Company                    | Founded | HQ                       | Focus / Current Product                                                                | URL                          |
 | -------------------------- | ------- | ------------------------ | -------------------------------------------------------------------------------------- | ---------------------------- |
-| **Cron Systems**           | 2015    | Delhi NCR, India         | Perimeter security with drones and LiDAR                                                | cronsystems.com [verify]     |
-| **Swaayatt Robots**        | 2015    | Bhopal / Bangalore       | Autonomous driving stack research; lean team                                            | swaayatt.com [verify]        |
+| **Cron Systems**           | 2015    | Delhi NCR, India         | Perimeter security with drones and LiDAR                                                | cronsystems.com              |
+| **Swaayatt Robots**        | 2015    | Bhopal / Bangalore       | Autonomous driving stack research; lean team                                            | swaayattrobots.com           |
 
 ***
 
@@ -193,7 +196,7 @@ Not robot makers per se, but increasingly central to whoever's hiring.
 - **Google DeepMind Robotics** (RT-X, RT-2 successors) - deepmind.google
 - **Intrinsic** (Alphabet) - flowstate platform; absorbed Open Robotics 2024 - intrinsic.ai
 - **Hugging Face LeRobot** - open-source robot learning library - huggingface.co/lerobot
-- **Covariant** - manipulation foundation models; Amazon acqui-hired the leadership 2024 - covariant.ai [verify]
+- **Covariant** - manipulation foundation models; Amazon acqui-hired the leadership 2024 - covariant.ai
 
 ***
 

@@ -81,7 +81,7 @@ Combine it with SAM and you get **Grounded-SAM**: "person wearing a hard hat" â†
 **SigLIP** (Google, 2023) replaces CLIP's softmax contrastive loss with a sigmoid loss - trains better at scale and works well at smaller batch sizes. **SigLIP 2** (2025) is the current go-to.
 
 * SigLIP paper: [arxiv.org/abs/2303.15343](https://arxiv.org/abs/2303.15343)
-* SigLIP 2 paper: [arxiv.org/abs/2502.14786](https://arxiv.org/abs/2502.14786) `[verify]`
+* SigLIP 2 paper: [arxiv.org/abs/2502.14786](https://arxiv.org/abs/2502.14786)
 
 **On a robot:**
 
@@ -121,7 +121,7 @@ Other options worth knowing:
 
 * **MiDaS** (Intel ISL) - the predecessor, still common: [github.com/isl-org/MiDaS](https://github.com/isl-org/MiDaS).
 * **Marigold** - diffusion-based depth, beautiful results but slow: [arxiv.org/abs/2312.02145](https://arxiv.org/abs/2312.02145).
-* **UniDepth** - metric monocular depth without test-time scaling tricks: [arxiv.org/abs/2403.18913](https://arxiv.org/abs/2403.18913) `[verify]`.
+* **UniDepth** - metric monocular depth without test-time scaling tricks: [arxiv.org/abs/2403.18913](https://arxiv.org/abs/2403.18913).
 
 ### 7. Inference cost on Jetson Orin / desktop GPU
 
@@ -169,7 +169,7 @@ There are three reasonable paths to get a foundation model into a ROS 2 system. 
 
 NVIDIA's [Isaac ROS DNN inference](https://github.com/NVIDIA-ISAAC-ROS/isaac_ros_dnn_inference) gives you TensorRT-backed nodes with sensible message types. Wraps the model as a regular ROS 2 component, accepts `sensor_msgs/Image`, publishes detections/masks. Best path on Jetson because it pipes through GXF/NITROS for zero-copy GPU buffers.
 
-There are also Isaac-ROS-specific repos for [foundation pose](https://github.com/NVIDIA-ISAAC-ROS/isaac_ros_foundationpose), [SAM-style segmentation](https://github.com/NVIDIA-ISAAC-ROS/isaac_ros_image_segmentation) `[verify]`, and DNN inference templates.
+There are also Isaac-ROS-specific repos for [foundation pose](https://github.com/NVIDIA-ISAAC-ROS/isaac_ros_foundationpose), [SAM-style segmentation](https://github.com/NVIDIA-ISAAC-ROS/isaac_ros_image_segmentation), and DNN inference templates.
 
 #### 9.2 jetson-inference / jetson-containers (prototyping on Jetson)
 
@@ -276,8 +276,8 @@ Use this as a decision table when designing perception:
 
 ### 11. Further reading
 
-* Awesome SAM list: [github.com/Hedlen/awesome-segment-anything](https://github.com/Hedlen/awesome-segment-anything) `[verify]`
-* Awesome foundation models for robotics: [github.com/JeffreyYH/Awesome-Generalist-Robots-via-Foundation-Models](https://github.com/JeffreyYH/Awesome-Generalist-Robots-via-Foundation-Models) `[verify]`
+* Awesome SAM list: [github.com/Hedlen/awesome-segment-anything](https://github.com/Hedlen/awesome-segment-anything)
+* Awesome foundation models for robotics: [github.com/JeffreyYH/Awesome-Generalist-Robots-via-Foundation-Models](https://github.com/JeffreyYH/Awesome-Generalist-Robots-via-Foundation-Models)
 * Isaac ROS overview: [nvidia-isaac-ros.github.io](https://nvidia-isaac-ros.github.io/)
 * Foundation models for robotics survey (Firoozi et al.): [arxiv.org/abs/2312.07843](https://arxiv.org/abs/2312.07843)
 * For 3D foundation models (point clouds, NeRF, Gaussian Splatting), see [3d-perception.md](3d-perception.md).

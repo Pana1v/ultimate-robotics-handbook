@@ -1,4 +1,5 @@
 ---
+description: Robotics hardware — mechanical design, materials, fabrication, 3D printing, actuators, sensors, power systems, and mechanisms.
 icon: pen-ruler
 ---
 

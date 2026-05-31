@@ -12,6 +12,10 @@ I built [GO-SLAM](../authors-projects/go-slam.md) from scratch in two months - G
 
 If you only read one thing: **SLAM is a state estimation problem with a map as a side effect.** Everything else - features, ICP, factor graphs, neural fields - is implementation detail layered on top of probabilistic state estimation.
 
+### In this section
+
+<table data-view="cards"><thead><tr><th></th><th data-type="content-ref"></th><th data-hidden data-card-cover data-type="files"></th></tr></thead><tbody><tr><td>Filter-Based SLAM</td><td><a href="filter-slam.md">filter-slam.md</a></td><td><a href="../.gitbook/assets/Kalman_filter_animation,_1d.gif">Kalman_filter_animation,_1d.gif</a></td></tr><tr><td>Graph SLAM</td><td><a href="graph-slam.md">graph-slam.md</a></td><td><a href="../.gitbook/assets/graph-slam-pose-pose.gif">graph-slam-pose-pose.gif</a></td></tr><tr><td>Visual SLAM</td><td><a href="visual-slam.md">visual-slam.md</a></td><td><a href="../.gitbook/assets/ball-tracking-animated-02.gif">ball-tracking-animated-02.gif</a></td></tr><tr><td>LiDAR SLAM</td><td><a href="lidar-slam.md">lidar-slam.md</a></td><td><a href="../.gitbook/assets/LIDARanim.gif">LIDARanim.gif</a></td></tr><tr><td>Learned &#x26; Neural SLAM</td><td><a href="learned-slam.md">learned-slam.md</a></td><td></td></tr><tr><td>Sensor Fusion</td><td><a href="sensor-fusion.md">sensor-fusion.md</a></td><td></td></tr><tr><td>SLAM Evaluation &#x26; Benchmarks</td><td><a href="slam-evaluation.md">slam-evaluation.md</a></td><td></td></tr></tbody></table>
+
 ***
 
 ## SLAM taxonomy
@@ -114,7 +118,7 @@ A few opinions I've earned the hard way:
 These are the books and surveys I keep open:
 
 * **Probabilistic Robotics** - Thrun, Burgard, Fox (2005). Still the foundation. Chapters 9-15 cover EKF, particle filter, and GraphSLAM.
-* **Factor Graphs for Robot Perception** - Dellaert & Kaess (2017). [Free PDF from author](https://www.cc.gatech.edu/~dellaert/FrankDellaert/Frank_Dellaert/Frank_Dellaert.html) `[verify]`. The mental model for modern SLAM back-ends.
+* **Factor Graphs for Robot Perception** - Dellaert & Kaess (2017). [Free PDF from author](https://www.cs.cmu.edu/~kaess/pub/Dellaert17fnt.pdf). The mental model for modern SLAM back-ends.
 * **State Estimation for Robotics** - Tim Barfoot (2nd ed, 2024). Lie groups, on-manifold optimization, the math under GTSAM.
 * **Past, Present, and Future of SIM - Cadena et al. (2016)** - [arxiv.org/abs/1606.05830](https://arxiv.org/abs/1606.05830). The "where is SLAM going" survey everyone cites.
 * **Visual SLAM survey** - Macario Barros et al. (2022). [arxiv.org/abs/2209.02786](https://arxiv.org/abs/2209.02786) `[verify]`.
