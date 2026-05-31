@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ICP Step-Through</title>
+<style>
+  :root { --bg:#1f1f1f; --fg:#eee; --accent:#4a9eff; --muted:#888; --panel:#2a2a2a; }
+  html,body { margin:0; padding:0; background:var(--bg); color:var(--fg); font-family:system-ui,-apple-system,sans-serif; }
+  .wrap { max-width:900px; margin:0 auto; padding:12px; }
+  h1 { font-size:16px; margin:0 0 8px; color:var(--accent); }
+  .controls { display:flex; flex-wrap:wrap; gap:12px; padding:8px; background:var(--panel); border-radius:6px; margin-bottom:8px; align-items:center; }
+  .controls label { display:flex; flex-direction:column; font-size:12px; color:var(--muted); min-width:200px; flex:1; }
+  .controls input[type=range] { width:100%; accent-color:var(--accent); }
+  button { background:var(--accent); color:#fff; border:0; padding:6px 12px; border-radius:4px; cursor:pointer; font-size:13px; }
+  button.secondary { background:#444; }
+  button:hover { filter:brightness(1.15); }
+  .panel { background:var(--panel); padding:8px; border-radius:6px; }
+  canvas { display:block; background:#181818; border-radius:4px; }
+  .legend { display:flex; gap:14px; font-size:11px; color:var(--muted); margin-top:6px; flex-wrap:wrap; }
+  .swatch { display:inline-block; width:10px; height:10px; vertical-align:middle; margin-right:4px; border-radius:50%; }
+  .stat { font-family:monospace; font-size:12px; color:var(--fg); margin-top:4px; }
+  footer { text-align:center; font-size:11px; color:var(--muted); margin-top:10px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>ICP — Iterative Closest Point</h1>
+  <div class="controls">
+    <label>Iteration <span id="itv" style="color:var(--fg);font-family:monospace">0</span>
+      <input id="it" type="range" min="0" max="20" step="1" value="0" aria-label="iteration">
+    </label>
+    <button id="regen" class="secondary">New scene</button>
+  </div>
+  <div class="panel">
+    <canvas id="cv" width="860" height="380" aria-label="ICP canvas"></canvas>
+    <div class="legend">
+      <span><span class="swatch" style="background:#6bcb77"></span>Target</span>
+      <span><span class="swatch" style="background:#ff5e5e"></span>Source (transformed)</span>
+      <span><span class="swatch" style="background:#888"></span>Correspondences</span>
+    </div>
+    <div class="stat" id="stat">—</div>
+  </div>
+  <footer>Part of the Ultimate Robotics Handbook by Panav · panav.netlify.app</footer>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/mathjs@12.4.0/lib/browser/math.min.js" crossorigin="anonymous"></script>
+<script>
+(() => {
+  const cv = document.getElementById('cv');
+  const ctx = cv.getContext('2d');
+  const itEl = document.getElementById('it');
+  const itVal = document.getElementById('itv');
+  const stat = document.getElementById('stat');
+  let target = [], source0 = [];
+  let history = []; // history[i] = {pts:[[x,y]...], err, R, t}
+
+  function fitCanvas() {
+    const w = Math.min(880, document.querySelector('.panel').clientWidth - 16);
+    cv.style.width = w + 'px';
+  }
+  fitCanvas();
+  window.addEventListener('resize', fitCanvas);
+
+  function genScene() {
+    target = [];
+    // an S-curve shape
+    for (let i = 0; i < 60; i++) {
+      const t = i / 59;
+      const x = -1.5 + 3 * t;
+      const y = 0.6 * Math.sin(3 * t * Math.PI);
+      target.push([x + (Math.random() - 0.5) * 0.04, y + (Math.random() - 0.5) * 0.04]);
+    }
+    // source = target transformed by R(angle), translation t, plus noise + some missing
+    const ang = (Math.random() - 0.5) * 1.2; // up to ~68 deg
+    const tr = [(Math.random() - 0.5) * 1.4, (Math.random() - 0.5) * 1.0];
+    const c = Math.cos(ang), s = Math.sin(ang);
+    source0 = target
+      .filter(() => Math.random() > 0.1)
+      .map(([x, y]) => [c*x - s*y + tr[0] + (Math.random()-0.5)*0.03,
+                        s*x + c*y + tr[1] + (Math.random()-0.5)*0.03]);
+    computeHistory();
+  }
+
+  // One ICP iteration: source -> target (point-to-point, closed form via SVD)
+  function icpStep(src, tgt) {
+    // 1. nearest neighbors
+    const pairs = src.map(p => {
+      let best = 0, bd = Infinity;
+      for (let j = 0; j < tgt.length; j++) {
+        const dx = p[0] - tgt[j][0], dy = p[1] - tgt[j][1];
+        const d = dx*dx + dy*dy;
+        if (d < bd) { bd = d; best = j; }
+      }
+      return tgt[best];
+    });
+    // 2. centroids
+    const muS = centroid(src), muT = centroid(pairs);
+    // 3. covariance H = sum (s - muS)(t - muT)^T
+    let H00=0, H01=0, H10=0, H11=0;
+    for (let i = 0; i < src.length; i++) {
+      const sx = src[i][0] - muS[0], sy = src[i][1] - muS[1];
+      const tx = pairs[i][0] - muT[0], ty = pairs[i][1] - muT[1];
+      H00 += sx * tx; H01 += sx * ty;
+      H10 += sy * tx; H11 += sy * ty;
+    }
+    // 4. SVD via mathjs
+    const svd = svd2x2([[H00, H01], [H10, H11]]);
+    let R = math.multiply(svd.V, math.transpose(svd.U));
+    // Reflection correction
+    if (math.det(R) < 0) {
+      const V = svd.V.map(row => row.slice());
+      V[0][1] = -V[0][1]; V[1][1] = -V[1][1];
+      R = math.multiply(V, math.transpose(svd.U));
+    }
+    const t = [muT[0] - (R[0][0]*muS[0] + R[0][1]*muS[1]),
+               muT[1] - (R[1][0]*muS[0] + R[1][1]*muS[1])];
+    const newSrc = src.map(p => [R[0][0]*p[0] + R[0][1]*p[1] + t[0],
+                                 R[1][0]*p[0] + R[1][1]*p[1] + t[1]]);
+    let err = 0;
+    for (let i = 0; i < newSrc.length; i++) {
+      const dx = newSrc[i][0] - pairs[i][0], dy = newSrc[i][1] - pairs[i][1];
+      err += dx*dx + dy*dy;
+    }
+    return { src:newSrc, pairs, err: Math.sqrt(err / newSrc.length) };
+  }
+
+  function centroid(pts) {
+    let sx=0, sy=0; for (const p of pts) { sx+=p[0]; sy+=p[1]; }
+    return [sx/pts.length, sy/pts.length];
+  }
+
+  // Compact 2x2 SVD using eigen-decomposition of H^T H
+  function svd2x2(H) {
+    const HtH = math.multiply(math.transpose(H), H);
+    const ev = math.eigs(HtH);
+    // ev.values has eigenvalues; ev.eigenvectors is array of {value, vector}
+    const eigs = ev.eigenvectors
+      ? ev.eigenvectors.map(e => ({ val:e.value, vec:e.vector }))
+      : ev.values.map((v,i) => ({ val:v, vec:ev.vectors.map(r => r[i]) }));
+    eigs.sort((a, b) => b.val - a.val);
+    const V = [[eigs[0].vec[0], eigs[1].vec[0]], [eigs[0].vec[1], eigs[1].vec[1]]];
+    const s0 = Math.sqrt(Math.max(0, eigs[0].val));
+    const s1 = Math.sqrt(Math.max(0, eigs[1].val));
+    // U = H V Sigma^{-1}
+    const HV = math.multiply(H, V);
+    const u0 = s0 > 1e-9 ? [HV[0][0]/s0, HV[1][0]/s0] : [1, 0];
+    const u1 = s1 > 1e-9 ? [HV[0][1]/s1, HV[1][1]/s1] : [-u0[1], u0[0]];
+    const U = [[u0[0], u1[0]], [u0[1], u1[1]]];
+    return { U, V, S:[s0, s1] };
+  }
+
+  function computeHistory() {
+    history = [{ pts: source0.map(p => p.slice()), err: rms(source0, target) }];
+    let cur = source0.map(p => p.slice());
+    for (let i = 0; i < 20; i++) {
+      const step = icpStep(cur, target);
+      cur = step.src;
+      history.push({ pts: cur, err: step.err, pairs: step.pairs });
+    }
+    itEl.max = history.length - 1;
+    itEl.value = 0;
+    itVal.textContent = '0';
+    draw(0);
+  }
+
+  function rms(a, b) {
+    let s = 0;
+    for (const p of a) {
+      let bd = Infinity;
+      for (const q of b) { const dx = p[0]-q[0], dy = p[1]-q[1]; const d = dx*dx+dy*dy; if (d<bd) bd=d; }
+      s += bd;
+    }
+    return Math.sqrt(s / a.length);
+  }
+
+  function draw(i) {
+    const W = cv.width, H = cv.height;
+    ctx.fillStyle = '#181818'; ctx.fillRect(0, 0, W, H);
+    // World -> canvas
+    const xmin = -3, xmax = 3, ymin = -2, ymax = 2;
+    const sx = W / (xmax - xmin), sy = H / (ymax - ymin);
+    const w2c = (p) => [(p[0] - xmin) * sx, H - (p[1] - ymin) * sy];
+
+    // grid
+    ctx.strokeStyle = '#262626';
+    for (let x = xmin; x <= xmax; x += 0.5) { const [cx,] = w2c([x, 0]); ctx.beginPath(); ctx.moveTo(cx, 0); ctx.lineTo(cx, H); ctx.stroke(); }
+    for (let y = ymin; y <= ymax; y += 0.5) { const [,cy] = w2c([0, y]); ctx.beginPath(); ctx.moveTo(0, cy); ctx.lineTo(W, cy); ctx.stroke(); }
+
+    // target
+    ctx.fillStyle = '#6bcb77';
+    for (const p of target) { const [cx, cy] = w2c(p); ctx.beginPath(); ctx.arc(cx, cy, 3, 0, Math.PI*2); ctx.fill(); }
+
+    const cur = history[i];
+    // correspondences (only when iter > 0)
+    if (i > 0 && cur.pairs) {
+      ctx.strokeStyle = 'rgba(180,180,180,0.35)'; ctx.lineWidth = 1;
+      for (let k = 0; k < cur.pts.length; k++) {
+        const [ax, ay] = w2c(cur.pts[k]);
+        const [bx, by] = w2c(cur.pairs[k]);
+        ctx.beginPath(); ctx.moveTo(ax, ay); ctx.lineTo(bx, by); ctx.stroke();
+      }
+    }
+    // source
+    ctx.fillStyle = '#ff5e5e';
+    for (const p of cur.pts) { const [cx, cy] = w2c(p); ctx.beginPath(); ctx.arc(cx, cy, 3, 0, Math.PI*2); ctx.fill(); }
+
+    stat.textContent = `iter ${i} / ${history.length - 1} · RMS error = ${cur.err.toFixed(4)}`;
+  }
+
+  itEl.addEventListener('input', () => { itVal.textContent = itEl.value; draw(+itEl.value); });
+  document.getElementById('regen').addEventListener('click', genScene);
+  genScene();
+})();
+</script>
+</body>
+</html>
