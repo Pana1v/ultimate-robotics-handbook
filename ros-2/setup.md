@@ -4,7 +4,7 @@ icon: gear
 
 # Setup
 
-This page is the install-and-bootstrap guide I wish someone had handed me on day one. The official docs at [docs.ros.org/en/jazzy/Installation.html](https://docs.ros.org/en/jazzy/Installation.html) \[verify] cover the happy path. What you get here is the same path with the failure modes called out, plus the colcon workspace pattern I use on every project.
+This page is the install-and-bootstrap guide I wish someone had handed me on day one. The official docs at [docs.ros.org/en/jazzy/Installation.html](https://docs.ros.org/en/jazzy/Installation.html) cover the happy path. What you get here is the same path with the failure modes called out, plus the colcon workspace pattern I use on every project.
 
 ## Pick your distro and OS pair
 
@@ -21,7 +21,7 @@ ARM64 (Jetson, Raspberry Pi 4/5) builds exist for both - same `apt` flow, just o
 
 This is what you use on a developer machine or a robot in production. Source builds are only for distro contributors or people patching `rcl`.
 
-The official instructions are at [docs.ros.org/en/jazzy/Installation/Ubuntu-Install-Debs.html](https://docs.ros.org/en/jazzy/Installation/Ubuntu-Install-Debs.html) \[verify]. The condensed flow for Jazzy on Ubuntu 24.04:
+The official instructions are at [docs.ros.org/en/jazzy/Installation/Ubuntu-Install-Debs.html](https://docs.ros.org/en/jazzy/Installation/Ubuntu-Install-Debs.html). The condensed flow for Jazzy on Ubuntu 24.04:
 
 ```bash
 # Locale - ROS 2 assumes UTF-8
@@ -200,13 +200,13 @@ rosdep install --from-paths src --ignore-src -r -y \
 colcon build --symlink-install --cmake-args -DCMAKE_BUILD_TYPE=Release
 ```
 
-This takes 30–90 minutes on a fast workstation. The result is a workspace in `~/ros2_jazzy/install/` that you source instead of `/opt/ros/jazzy/setup.bash`. Authoritative source: [docs.ros.org/en/jazzy/Installation/Alternatives/Ubuntu-Development-Setup.html](https://docs.ros.org/en/jazzy/Installation/Alternatives/Ubuntu-Development-Setup.html) \[verify].
+This takes 30–90 minutes on a fast workstation. The result is a workspace in `~/ros2_jazzy/install/` that you source instead of `/opt/ros/jazzy/setup.bash`. Authoritative source: [docs.ros.org/en/jazzy/Installation/Alternatives/Ubuntu-Development-Setup.html](https://docs.ros.org/en/jazzy/Installation/Alternatives/Ubuntu-Development-Setup.html).
 
 In practice, when I need to patch a single Nav2 package I clone just that package into my workspace's `src/` and let colcon's overlay shadow the binary version. Much faster than a full source build.
 
 ## Docker as an alternative
 
-If your host OS is not on the right Ubuntu version, or you want CI parity with the robot, Docker is the cleanest path. The Open Source Robotics Foundation maintains official images at [hub.docker.com/r/osrf/ros](https://hub.docker.com/r/osrf/ros) \[verify].
+If your host OS is not on the right Ubuntu version, or you want CI parity with the robot, Docker is the cleanest path. The Open Source Robotics Foundation maintains official images at [hub.docker.com/r/osrf/ros](https://hub.docker.com/r/osrf/ros).
 
 Useful tags:
 
@@ -289,4 +289,4 @@ These are the ones I see junior engineers hit weekly.
 
 * [DDS and QoS](dds-qos.md) - the part of ROS 2 that will bite you next.
 * [Lifecycle and Composition](lifecycle-and-composition.md) - once you have a multi-node bringup that needs determinism.
-* The official tutorials at [docs.ros.org/en/jazzy/Tutorials.html](https://docs.ros.org/en/jazzy/Tutorials.html) \[verify] are still the right place to learn the CLI muscle memory.
+* The official tutorials at [docs.ros.org/en/jazzy/Tutorials.html](https://docs.ros.org/en/jazzy/Tutorials.html) are still the right place to learn the CLI muscle memory.

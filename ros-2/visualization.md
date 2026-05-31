@@ -18,7 +18,7 @@ The tools I'll cover:
 
 Successor to ROS 1's rviz. Same shape (a 3D scene with pluggable display panels), rebuilt on Qt 5/6 and OpenGL, sourced as ROS 2 packages.
 
-The repo: [github.com/ros2/rviz](https://github.com/ros2/rviz) \[verify]. Ships as `ros-jazzy-rviz2` (or your distro).
+The repo: [github.com/ros2/rviz](https://github.com/ros2/rviz). Ships as `ros-jazzy-rviz2` (or your distro).
 
 ### What rviz2 is good at
 
@@ -54,12 +54,12 @@ The repo: [github.com/ros2/rviz](https://github.com/ros2/rviz) \[verify]. Ships 
 
 ## Foxglove Studio
 
-[Foxglove Studio](https://foxglove.dev) \[verify] is an Electron/web app for visualizing robotics data. It started as a modern alternative to rviz with a focus on remote viewing and bag analysis.
+[Foxglove Studio](https://foxglove.dev) is an Electron/web app for visualizing robotics data. It started as a modern alternative to rviz with a focus on remote viewing and bag analysis.
 
 ### Why teams reach for it
 
 * **Web-native** - runs in the browser. Connect to a robot over WebSocket bridge (`foxglove_bridge`), no X11.
-* **MCAP-native** - Foxglove is the company behind [MCAP](https://mcap.dev) \[verify], a modern bag format that supplanted `.bag`/`.db3` for many teams.
+* **MCAP-native** - Foxglove is the company behind [MCAP](https://mcap.dev), a modern bag format that supplanted `.bag`/`.db3` for many teams.
 * **Layouts** - multi-panel layouts (3D, plot, image, raw, log) that you can save and share.
 * **TypeScript extensions** - you write panels in TypeScript, not C++. Way faster iteration than rviz2 plugins.
 
@@ -99,7 +99,7 @@ A fork of Foxglove Studio I've contributed to. The original Foxglove had three p
 2. **No mobile / Android support** - our operators wanted to monitor robots from tablets.
 3. **MoveIt 2 visualization** was awkward - no first-class planning-scene panel.
 
-Lichtblick exists to fix these. The repo: [github.com/Lichtblick-Suite/lichtblick](https://github.com/Lichtblick-Suite/lichtblick) \[verify]. License is Apache 2.0.
+Lichtblick exists to fix these. The repo: [github.com/Lichtblick-Suite/lichtblick](https://github.com/Lichtblick-Suite/lichtblick). License is Apache 2.0.
 
 ### What I worked on
 
@@ -126,7 +126,7 @@ Both speak the same `foxglove_bridge` protocol, so switching is a same-day opera
 
 ## PlotJuggler
 
-[PlotJuggler](https://github.com/facontidavide/PlotJuggler) \[verify] is the time-series plotting tool in ROS 2. Authored by Davide Faconti; I have contributed upstream as well.
+[PlotJuggler](https://github.com/facontidavide/PlotJuggler) is the time-series plotting tool in ROS 2. Authored by Davide Faconti; I have contributed upstream as well.
 
 If you have ever tried to plot a topic in rviz2's "Plot" panel and given up: PlotJuggler is the alternative. It is purpose-built for the "I want to see how this number changes over time, alongside three other numbers, with annotations" workflow that you do constantly.
 
@@ -223,5 +223,5 @@ A few things I've learned the hard way:
 * [DDS and QoS](dds-qos.md) - the source of most "I see no data" symptoms.
 * [Nav2 Deep Dive](nav2-deep-dive.md) - the stack I usually visualize with this tooling.
 * [Polka](../authors-projects/polka.md) - my own platform, used as the canvas for most of this work.
-* [Lichtblick on GitHub](https://github.com/Lichtblick-Suite/lichtblick) \[verify] - if you want to read the actual CPU-reduction commits.
-* [PlotJuggler on GitHub](https://github.com/facontidavide/PlotJuggler) \[verify] - Davide's repo, where I contribute.
+* [Lichtblick on GitHub](https://github.com/Lichtblick-Suite/lichtblick) - if you want to read the actual CPU-reduction commits.
+* [PlotJuggler on GitHub](https://github.com/facontidavide/PlotJuggler) - Davide's repo, where I contribute.

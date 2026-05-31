@@ -44,7 +44,7 @@ The standardization is the point. Open X-Embodiment is heterogeneous; DROID is o
 
 ### BridgeData V2
 
-Walke, Black, Lee et al., 2023. [https://rail-berkeley.github.io/bridgedata/](https://rail-berkeley.github.io/bridgedata/) [verify]
+Walke, Black, Lee et al., 2023. [https://rail-berkeley.github.io/bridgedata/](https://rail-berkeley.github.io/bridgedata/)
 Paper: [https://arxiv.org/abs/2308.12952](https://arxiv.org/abs/2308.12952)
 
 - 60k trajectories
@@ -56,19 +56,19 @@ Still widely used as a transfer-learning testbed.
 
 ### RH20T
 
-Fang et al., 2023. [https://rh20t.github.io/](https://rh20t.github.io/) [verify]
+Fang et al., 2023. [https://rh20t.github.io/](https://rh20t.github.io/)
 
-20k+ trajectories across 7 robots and 110+ tasks. Strong on contact-rich tasks. Frequently cited for VLA pretraining mixes.
+110k+ sequences across 7 robots and 147 tasks. Strong on contact-rich tasks. Frequently cited for VLA pretraining mixes.
 
 ### RoboSet
 
-Bharadhwaj et al., 2024. [verify]
+Bharadhwaj et al., 2023.
 
-A diverse multi-task manipulation dataset from CMU. ~100k trajectories. Less mainstream than DROID but worth knowing.
+A diverse multi-task manipulation dataset from CMU. ~28.5k trajectories. Less mainstream than DROID but worth knowing.
 
 ### LeRobot community datasets
 
-HuggingFace hosts hundreds of community-contributed datasets in the LeRobot format. [https://huggingface.co/datasets?other=LeRobot](https://huggingface.co/datasets?other=LeRobot) [verify]
+HuggingFace hosts hundreds of community-contributed datasets in the LeRobot format. [https://huggingface.co/datasets?other=LeRobot](https://huggingface.co/datasets?other=LeRobot)
 
 Quality is uneven - some are excellent (SO-100 demos from competent operators), some are unusable. As of 2026 this is the wild west of robotics data; useful for narrow tasks if you find the right one.
 
@@ -105,7 +105,7 @@ RoboCasa is the closest thing in 2026 to a "kitchen ImageNet." If you are traini
 ### BEHAVIOR-1K
 
 Li, Zhang et al. (Stanford), 2023. [https://behavior.stanford.edu/](https://behavior.stanford.edu/)
-Paper: [https://arxiv.org/abs/2403.09227](https://arxiv.org/abs/2403.09227) [verify]
+Paper: [https://arxiv.org/abs/2403.09227](https://arxiv.org/abs/2403.09227)
 
 A simulation benchmark of 1000+ household activities. Built on OmniGibson (Isaac Sim + iGibson). More complex than RoboCasa - full mobile manipulation in cluttered homes, including soft bodies, fluids, cloth.
 
@@ -156,7 +156,7 @@ Mobile robotics benchmarks have a different culture than manipulation.
 
 ### BARN Challenge
 
-[https://www.cs.utexas.edu/~xiao/BARN_Challenge/BARN_Challenge.html](https://www.cs.utexas.edu/~xiao/BARN_Challenge/BARN_Challenge.html) [verify]
+[https://www.cs.utexas.edu/~xiao/BARN_Challenge/BARN_Challenge.html](https://www.cs.utexas.edu/~xiao/BARN_Challenge/BARN_Challenge.html)
 
 The Benchmark for Autonomous Robot Navigation. A simulation + real-world challenge run at ICRA each year. Tests local navigation through cluttered, narrow environments.
 
@@ -189,9 +189,9 @@ Both are foundational for autonomous-driving perception and prediction. The driv
 VLA papers in 2024-2026 typically benchmark on a combination of:
 
 - **LIBERO** (sim, manipulation)
-- **SimplerEnv** - [https://simpler-env.github.io/](https://simpler-env.github.io/) [verify] - a simulator designed to *match* real-robot evaluation distributions for OpenX-trained models. Letting you eval a real-trained VLA in sim with reasonable correlation.
+- **SimplerEnv** - [https://simpler-env.github.io/](https://simpler-env.github.io/) - a simulator designed to *match* real-robot evaluation distributions for OpenX-trained models. Letting you eval a real-trained VLA in sim with reasonable correlation.
 - **Real-world Franka / WidowX evals** - manually scored, on the lab's own setup, often non-reproducible.
-- **CALVIN** - [http://calvin.cs.uni-freiburg.de/](http://calvin.cs.uni-freiburg.de/) [verify] - long-horizon language-conditioned manipulation benchmark.
+- **CALVIN** - [http://calvin.cs.uni-freiburg.de/](http://calvin.cs.uni-freiburg.de/) - long-horizon language-conditioned manipulation benchmark.
 
 SimplerEnv is the most underrated of these - it provides a sim eval that actually correlates with real-robot results, which is more than LIBERO claims.
 
@@ -219,7 +219,7 @@ Most "sim-to-real" papers do not use a shared benchmark - they show the same pol
 
 A few attempts at shared sim-to-real benchmarks:
 
-- **RoboHive** - [https://sites.google.com/view/robohive](https://sites.google.com/view/robohive) [verify] - a benchmark suite spanning sim + real for manipulation.
+- **RoboHive** - [https://sites.google.com/view/robohive](https://sites.google.com/view/robohive) - a benchmark suite spanning sim + real for manipulation.
 - **SimplerEnv** (above) - explicitly designed to predict real-robot performance from sim.
 
 The reality is that sim-to-real claims still mostly need to be evaluated on the specific robot in the specific deployment. No benchmark substitutes for that.
@@ -257,4 +257,4 @@ The reality is that sim-to-real claims still mostly need to be evaluated on the 
 - Khazatsky et al., *"DROID: A Large-Scale In-The-Wild Robot Manipulation Dataset"* - [https://arxiv.org/abs/2403.12945](https://arxiv.org/abs/2403.12945)
 - Liu et al., *"LIBERO: Benchmarking Knowledge Transfer for Lifelong Robot Learning"* - [https://arxiv.org/abs/2306.03310](https://arxiv.org/abs/2306.03310)
 - Nasiriany et al., *"RoboCasa: Large-Scale Simulation of Everyday Tasks for Generalist Robots"* - [https://arxiv.org/abs/2406.02523](https://arxiv.org/abs/2406.02523)
-- Li et al., *"BEHAVIOR-1K: A Human-Centered, Embodied AI Benchmark with 1,000 Everyday Activities and Realistic Simulation"* - [https://arxiv.org/abs/2403.09227](https://arxiv.org/abs/2403.09227) [verify]
+- Li et al., *"BEHAVIOR-1K: A Human-Centered, Embodied AI Benchmark with 1,000 Everyday Activities and Realistic Simulation"* - [https://arxiv.org/abs/2403.09227](https://arxiv.org/abs/2403.09227)

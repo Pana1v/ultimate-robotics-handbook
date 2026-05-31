@@ -64,24 +64,24 @@ The classical textbooks above cover kinematics, dynamics, classical control, and
 
 | Topic                 | Paper                                                                                        | Link                                                                                   |
 | --------------------- | -------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
-| **Diffusion Policy**  | Chi et al., "Diffusion Policy: Visuomotor Policy Learning via Action Diffusion" (RSS 2023)   | [arxiv.org/abs/2303.04137](https://arxiv.org/abs/2303.04137) \[verify]                 |
-| **ACT / ALOHA**       | Zhao et al., "Learning Fine-Grained Bimanual Manipulation with Low-Cost Hardware" (RSS 2023) | [tonyzhaozh.github.io/aloha/](https://tonyzhaozh.github.io/aloha/) \[verify]           |
-| **RT-2 VLA**          | Brohan et al., "RT-2: Vision-Language-Action Models" (CoRL 2023)                             | [robotics-transformer2.github.io](https://robotics-transformer2.github.io) \[verify]   |
-| **OpenVLA**           | Kim et al., "OpenVLA: An Open-Source Vision-Language-Action Model" (2024)                    | [openvla.github.io](https://openvla.github.io) \[verify]                               |
-| **Open X-Embodiment** | Open X-Embodiment Collaboration (ICRA 2024 Best Paper)                                       | [robotics-transformer-x.github.io](https://robotics-transformer-x.github.io) \[verify] |
-| **HumanPlus**         | Fu et al., "HumanPlus: Humanoid Shadowing and Imitation from Humans" (CoRL 2024)             | [humanoid-ai.github.io](https://humanoid-ai.github.io) \[verify]                       |
-| **DreamerV3**         | Hafner et al., "Mastering Diverse Domains through World Models" (Nature 2024)                | [arxiv.org/abs/2301.04104](https://arxiv.org/abs/2301.04104) \[verify]                 |
+| **Diffusion Policy**  | Chi et al., "Diffusion Policy: Visuomotor Policy Learning via Action Diffusion" (RSS 2023)   | [arxiv.org/abs/2303.04137](https://arxiv.org/abs/2303.04137)                 |
+| **ACT / ALOHA**       | Zhao et al., "Learning Fine-Grained Bimanual Manipulation with Low-Cost Hardware" (RSS 2023) | [tonyzhaozh.github.io/aloha/](https://tonyzhaozh.github.io/aloha/)           |
+| **RT-2 VLA**          | Brohan et al., "RT-2: Vision-Language-Action Models" (CoRL 2023)                             | [robotics-transformer2.github.io](https://robotics-transformer2.github.io)   |
+| **OpenVLA**           | Kim et al., "OpenVLA: An Open-Source Vision-Language-Action Model" (2024)                    | [openvla.github.io](https://openvla.github.io)                               |
+| **Open X-Embodiment** | Open X-Embodiment Collaboration (ICRA 2024 Best Paper)                                       | [robotics-transformer-x.github.io](https://robotics-transformer-x.github.io) |
+| **HumanPlus**         | Fu et al., "HumanPlus: Humanoid Shadowing and Imitation from Humans" (CoRL 2024)             | [humanoid-ai.github.io](https://humanoid-ai.github.io)                       |
+| **DreamerV3**         | Hafner et al., "Mastering Diverse Domains through World Models" (Nature 2025)                | [arxiv.org/abs/2301.04104](https://arxiv.org/abs/2301.04104)                 |
 
 **Toolkits and frameworks:**
 
 | Tool           | What it is                                                              | Link                                                                               |
 | -------------- | ----------------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
-| **LeRobot**    | HuggingFace's robot-learning library (BC, ACT, Diffusion Policy, π0)    | [github.com/huggingface/lerobot](https://github.com/huggingface/lerobot) \[verify] |
-| **Isaac Lab**  | NVIDIA's GPU-accelerated RL training framework (successor to Isaac Gym) | [isaac-sim.github.io/IsaacLab](https://isaac-sim.github.io/IsaacLab) \[verify]     |
+| **LeRobot**    | HuggingFace's robot-learning library (BC, ACT, Diffusion Policy, π0)    | [github.com/huggingface/lerobot](https://github.com/huggingface/lerobot) |
+| **Isaac Lab**  | NVIDIA's GPU-accelerated RL training framework (successor to Isaac Gym) | [isaac-sim.github.io/IsaacLab](https://isaac-sim.github.io/IsaacLab)     |
 | **MuJoCo MJX** | DeepMind's GPU/JAX-compatible physics simulator                         | [mujoco.org](https://mujoco.org)                                                   |
 | **Brax**       | DeepMind's differentiable physics engine                                | [github.com/google/brax](https://github.com/google/brax)                           |
-| **Genesis**    | CMU's fast differentiable physics engine (2024)                         | [genesis-embodied-ai.github.io](https://genesis-embodied-ai.github.io) \[verify]   |
-| **Cosmos**     | NVIDIA's world foundation model for robotics (CES 2025)                 | [github.com/NVIDIA/Cosmos](https://github.com/NVIDIA/Cosmos) \[verify]             |
+| **Genesis**    | CMU's fast differentiable physics engine (2024)                         | [genesis-embodied-ai.github.io](https://genesis-embodied-ai.github.io)   |
+| **Cosmos**     | NVIDIA's world foundation model for robotics (CES 2025)                 | [github.com/NVIDIA/Cosmos](https://github.com/NVIDIA/Cosmos)             |
 
 **Communities & blogs to follow in 2026:**
 

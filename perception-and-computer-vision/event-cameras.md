@@ -37,7 +37,7 @@ Two main vendors matter in 2026:
 Founded out of Pierre Fabre's CNRS / Vision Institute work. They now ship sensors integrated into Sony silicon (IMX636 and successors). High resolution, robust SDK, used in many industrial applications.
 
 * Site: [www.prophesee.ai](https://www.prophesee.ai/)
-* SDK (Metavision): [docs.prophesee.ai](https://docs.prophesee.ai/) `[verify]`
+* SDK (Metavision): [docs.prophesee.ai](https://docs.prophesee.ai/)
 * OpenEB (open-source subset of the SDK): [github.com/prophesee-ai/openeb](https://github.com/prophesee-ai/openeb)
 
 Common sensors:
@@ -50,7 +50,7 @@ Common sensors:
 Spun out of ETH Zürich / Tobi Delbrück's lab. The originators of the DAVIS (Dynamic and Active-pixel Vision Sensor), which combines event output with a co-located low-rate APS (conventional) frame.
 
 * Site: [inivation.com](https://inivation.com/)
-* SDK: dv-processing - [gitlab.com/inivation/dv/dv-processing](https://gitlab.com/inivation/dv/dv-processing) `[verify]`
+* SDK: dv-processing - [gitlab.com/inivation/dv/dv-processing](https://gitlab.com/inivation/dv/dv-processing)
 
 Common sensors:
 
@@ -71,7 +71,7 @@ The arguments for choosing an event camera, in priority order:
 
 The places these have shown up in real robotics:
 
-* **High-speed drone obstacle avoidance** (Davide Scaramuzza's group at UZH; see [arxiv.org/abs/2002.05847](https://arxiv.org/abs/2002.05847) for the original "Event-based vision for drones" line of work `[verify]`).
+* **High-speed drone obstacle avoidance** (Davide Scaramuzza's group at UZH; see Falanga et al., Science Robotics 2020, DOI: 10.1126/scirobotics.aaz9712 for the original "Event-based vision for drones" line of work).
 * **Visual-inertial odometry for agile flight.**
 * **Industrial inspection** where lighting is bad or the part is moving fast.
 * **Particle / spark detection** in monitoring.
@@ -101,7 +101,7 @@ Event data isn't a frame, so you can't just call OpenCV on it. The standard prep
 
 For deep learning specifically:
 
-* **Spiking Neural Networks (SNNs)** - natural fit for event data, but the deployment story is thin in 2026 except on neuromorphic hardware (Intel Loihi, BrainChip Akida) `[verify]`.
+* **Spiking Neural Networks (SNNs)** - natural fit for event data, but the deployment story is thin in 2026 except on neuromorphic hardware (Intel Loihi, BrainChip Akida).
 * **Graph Neural Networks** - treat events as a point cloud in (x, y, t) and run a GNN. Used by some research groups, not yet mainstream.
 * **Vanilla CNNs on event frames** - most common approach, works fine for many tasks.
 
@@ -111,7 +111,7 @@ For deep learning specifically:
 
 Tracking sparse features from event streams. Used as a front-end for VO/VIO/SLAM.
 
-* **eklt** (UZH, 2018) - combined event + frame feature tracking. Code: [github.com/uzh-rpg/rpg\_eklt](https://github.com/uzh-rpg/rpg_eklt) `[verify]`
+* **eklt** (UZH, 2018) - combined event + frame feature tracking. Code: [github.com/uzh-rpg/rpg\_eklt](https://github.com/uzh-rpg/rpg_eklt)
 * **Event-based feature trackers** from the UZH RPG group.
 
 #### 6.2 Optical flow
@@ -119,16 +119,16 @@ Tracking sparse features from event streams. Used as a front-end for VO/VIO/SLAM
 Estimating per-pixel motion from events.
 
 * **EV-FlowNet** (Zhu et al., RSS 2018) - learning event-based optical flow. [arxiv.org/abs/1802.06898](https://arxiv.org/abs/1802.06898)
-* **E-RAFT** (Gehrig et al., 3DV 2021) - adapts RAFT to events, current strong baseline. [arxiv.org/abs/2108.10552](https://arxiv.org/abs/2108.10552) `[verify]`
+* **E-RAFT** (Gehrig et al., 3DV 2021) - adapts RAFT to events, current strong baseline. [arxiv.org/abs/2108.10552](https://arxiv.org/abs/2108.10552)
 
 #### 6.3 Event-based SLAM and VIO
 
 Where event cameras get put to actual work on robots.
 
-* **EVO** (Rebecq et al., 2016) - event-based VO (monocular, no IMU). [arxiv.org/abs/1607.03468](https://arxiv.org/abs/1607.03468) `[verify]`
-* **ESVO** (Zhou et al., TRO 2021) - event-based stereo VO. Code: [github.com/HKUST-Aerial-Robotics/ESVO](https://github.com/HKUST-Aerial-Robotics/ESVO) `[verify]`
-* **Ultimate SLAM** (Vidal et al., 2018) - events + frames + IMU fused. [arxiv.org/abs/1810.05803](https://arxiv.org/abs/1810.05803) `[verify]`
-* **EDS** - event-aided direct sparse odometry. `[verify]`
+* **EVO** (Rebecq et al., RA-L 2017) - event-based VO (monocular, no IMU). Code: [github.com/uzh-rpg/rpg\_dvs\_evo\_open](https://github.com/uzh-rpg/rpg_dvs_evo_open)
+* **ESVO** (Zhou et al., TRO 2021) - event-based stereo VO. Code: [github.com/HKUST-Aerial-Robotics/ESVO](https://github.com/HKUST-Aerial-Robotics/ESVO)
+* **Ultimate SLAM** (Vidal et al., 2018) - events + frames + IMU fused. [arxiv.org/abs/1709.06310](https://arxiv.org/abs/1709.06310)
+* **EDS** (Hidalgo-Carrió et al., CVPR 2022) - event-aided direct sparse odometry. [arxiv.org/abs/2204.07640](https://arxiv.org/abs/2204.07640)
 
 The best-performing systems pair events with conventional frames and an IMU, because each modality covers the others' failures: events handle fast motion and HDR, frames handle static scenes and texture, IMU handles short-term motion estimation.
 
@@ -136,8 +136,8 @@ The best-performing systems pair events with conventional frames and an IMU, bec
 
 Mostly research-stage but worth knowing:
 
-* **E2VID** (Rebecq et al., 2019) - reconstruct video from events. [arxiv.org/abs/1906.07165](https://arxiv.org/abs/1906.07165) `[verify]`
-* **DSEC dataset** - event + frame + LiDAR driving dataset for benchmarking. [dsec.ifi.uzh.ch](https://dsec.ifi.uzh.ch/) `[verify]`
+* **E2VID** (Rebecq et al., 2019) - reconstruct video from events. [arxiv.org/abs/1906.07165](https://arxiv.org/abs/1906.07165)
+* **DSEC dataset** - event + frame + LiDAR driving dataset for benchmarking. [dsec.ifi.uzh.ch](https://dsec.ifi.uzh.ch/)
 
 ### 7. Software stacks
 
@@ -147,21 +147,21 @@ The Prophesee stack. C++ and Python APIs. Hardware connection, recording, the st
 
 * OpenEB (the open-source pieces): [github.com/prophesee-ai/openeb](https://github.com/prophesee-ai/openeb)
 * Full Metavision SDK is licensed; OpenEB covers most of what you need for research and prototyping.
-* ROS 2 driver: [github.com/ros-event-camera/metavision\_driver](https://github.com/ros-event-camera/metavision_driver) `[verify]`
+* ROS 2 driver: [github.com/ros-event-camera/metavision\_driver](https://github.com/ros-event-camera/metavision_driver)
 
 #### 7.2 dv-processing (iniVation)
 
 iniVation's stack for DAVIS / DVXplorer sensors. C++ core, Python bindings, modules for filtering, frame generation, feature detection.
 
-* Repo: [gitlab.com/inivation/dv/dv-processing](https://gitlab.com/inivation/dv/dv-processing) `[verify]`
-* ROS 2 driver (dv-ros): [gitlab.com/inivation/dv/dv-ros](https://gitlab.com/inivation/dv/dv-ros) `[verify]`
+* Repo: [gitlab.com/inivation/dv/dv-processing](https://gitlab.com/inivation/dv/dv-processing)
+* ROS 2 driver (dv-ros): [gitlab.com/inivation/dv/dv-ros](https://gitlab.com/inivation/dv/dv-ros)
 
 #### 7.3 ROS 2 integration
 
 There's a community `event_camera_msgs` package for ROS 2 that defines a standard message type for events.
 
-* `event_camera_msgs`: [github.com/ros-event-camera/event\_camera\_msgs](https://github.com/ros-event-camera/event_camera_msgs) `[verify]`
-* `event_camera_codecs`: [github.com/ros-event-camera/event\_camera\_codecs](https://github.com/ros-event-camera/event_camera_codecs) `[verify]`
+* `event_camera_msgs`: [github.com/ros-event-camera/event\_camera\_msgs](https://github.com/ros-event-camera/event_camera_msgs)
+* `event_camera_codecs`: [github.com/ros-event-camera/event\_camera\_codecs](https://github.com/ros-event-camera/event_camera_codecs)
 
 The message type packs events into a compressed format because publishing individual `(x, y, t, p)` events as one ROS 2 message each would obliterate the middleware. Always batch.
 
@@ -215,8 +215,8 @@ If at least one applies, an event camera is at least worth a prototype. The patt
 ### 9. Further reading
 
 * Scaramuzza group event vision survey (Gallego et al., TPAMI 2022): [arxiv.org/abs/1904.08405](https://arxiv.org/abs/1904.08405)
-* UZH RPG event-camera datasets: [rpg.ifi.uzh.ch/davis\_data.html](https://rpg.ifi.uzh.ch/davis_data.html) `[verify]`
+* UZH RPG event-camera datasets: [rpg.ifi.uzh.ch/davis\_data.html](https://rpg.ifi.uzh.ch/davis_data.html)
 * Awesome event vision: [github.com/uzh-rpg/event-based\_vision\_resources](https://github.com/uzh-rpg/event-based_vision_resources)
-* DSEC driving dataset: [dsec.ifi.uzh.ch](https://dsec.ifi.uzh.ch/) `[verify]`
+* DSEC driving dataset: [dsec.ifi.uzh.ch](https://dsec.ifi.uzh.ch/)
 * For conventional CMOS perception, see [cameras-depth-sensors-and-lidar.md](cameras-depth-sensors-and-lidar.md).
 * For foundation models that don't yet really exist for event data, see [foundation-vision-models.md](foundation-vision-models.md) - this is a gap, not a finished story.

@@ -1,4 +1,5 @@
 ---
+description: Production robotics projects — Polka (multi-LiDAR fusion), GO-SLAM (custom SLAM stack), BARN Challenge (mapless navigation), Intrinsic AI (learning-based control).
 icon: code
 ---
 
@@ -32,6 +33,7 @@ A complete SLAM system I built from scratch in two months: GICP front-end, pose-
 
 ***
 
+<!-- LEAP hidden for now
 ### [LEAP](leap.md) - Learning-Augmented Exact Optimization for Pick-and-Place
 
 Research at BRAIn Lab, IIT Patna. Pick-and-place sequencing is **not** symmetric TSP - the transition cost depends on which bin the previous item was placed in. LEAP formulates this as asymmetric TSP, replaces the standard Miller-Tucker-Zemlin subtour constraints with a CP-SAT Hamiltonian circuit formulation (5-7× speedup), then uses an imitation-learned heterogeneous GNN to prune the decision-variable space from O(N²) to O(Nk). 17.5× faster than baselines at N=200 with a worst-case optimality gap of 0.06%. Manuscript in preparation.
@@ -39,6 +41,7 @@ Research at BRAIn Lab, IIT Patna. Pick-and-place sequencing is **not** symmetric
 > **Advisor:** Dr. Atul Thakur, BRAIn Lab IIT Patna.
 
 ***
+-->
 
 ### [BARN Challenge 2026](barn-challenge.md) - Mapless Navigation, Solo Submission
 
@@ -52,10 +55,9 @@ If you're here from my resume or LinkedIn and want the fastest path through this
 
 1. Skim [Polka](polka.md) for the **engineering depth** signal (composable nodes, TF2, CUDA, IMU deskewing).
 2. Read [GO-SLAM](go-slam.md) for the **fundamentals** signal (custom optimizers, no libraries).
-3. Read [LEAP](leap.md) for the **research** signal (problem formulation, CP-SAT, GNN pruning).
-4. Read [BARN](barn-challenge.md) for the **shipping under pressure** signal (solo, leaderboard, finals).
+3. Read [BARN](barn-challenge.md) for the **shipping under pressure** signal (solo, leaderboard, finals).
 
-Each page is self-contained. Cross-references are linked where they're load-bearing - Polka feeds deskewed clouds into GO-SLAM, for example, and LEAP connects to the Robot Learning material elsewhere in this handbook.
+Each page is self-contained. Cross-references are linked where they're load-bearing - Polka feeds deskewed clouds into GO-SLAM, for example.
 
 ***
 

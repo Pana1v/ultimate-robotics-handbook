@@ -37,10 +37,10 @@ The implementations you will actually see in 2026:
 | ----------------------- | --------------- | --------------------------------------------------- |
 | `rmw_cyclonedds_cpp`    | Eclipse Cyclone | **Default on Humble and Jazzy.** Solid, fast discovery. |
 | `rmw_fastrtps_cpp`      | eProsima Fast DDS | Was the default on Foxy/Galactic. Heavier, more configurable. Still well supported. |
-| `rmw_zenoh_cpp`         | Eclipse Zenoh   | Newer, designed for lossy/wireless networks and routing across NAT. Gaining adoption \[verify]. |
+| `rmw_zenoh_cpp`         | Eclipse Zenoh   | Newer, designed for lossy/wireless networks and routing across NAT. Gaining adoption. |
 | `rmw_connextdds`        | RTI Connext     | Commercial, used in regulated industries (automotive, defense).  |
 
-Pick one and pin it across your whole network. They interoperate via the DDS-RTPS spec, but discovery quirks differ - discovery storms across mixed RMWs are a known headache. The official RMW comparison: [docs.ros.org/en/jazzy/Concepts/Intermediate/About-Different-Middleware-Vendors.html](https://docs.ros.org/en/jazzy/Concepts/Intermediate/About-Different-Middleware-Vendors.html) \[verify].
+Pick one and pin it across your whole network. They interoperate via the DDS-RTPS spec, but discovery quirks differ - discovery storms across mixed RMWs are a known headache. The official RMW comparison: [docs.ros.org/en/jazzy/Concepts/Intermediate/About-Different-Middleware-Vendors.html](https://docs.ros.org/en/jazzy/Concepts/Intermediate/About-Different-Middleware-Vendors.html).
 
 For most projects: **stick with Cyclone DDS.** It is the lightest, has the fastest discovery, and is what the Jazzy installers ship. Only reach for Fast DDS if you need its specific tuning knobs (XML profile files, large discovery, etc.) or for Zenoh if you have a hostile network.
 
@@ -267,7 +267,7 @@ For Cyclone DDS, edit a `cyclonedds.xml` config file and point `CYCLONEDDS_URI` 
 export CYCLONEDDS_URI=file:///etc/cyclonedds.xml
 ```
 
-Verify the spec at [github.com/eclipse-cyclonedds/cyclonedds](https://github.com/eclipse-cyclonedds/cyclonedds) \[verify].
+Verify the spec at [github.com/eclipse-cyclonedds/cyclonedds](https://github.com/eclipse-cyclonedds/cyclonedds).
 
 ### 3. Composable nodes (intra-process zero-copy)
 
@@ -300,7 +300,7 @@ This is also the right configuration for cloud / multi-site deployments where mu
 
 ### 5. Discovery server (Fast DDS)
 
-Fast DDS supports a centralized discovery server that participants connect to instead of broadcasting. Adds a single point of coordination back (irony noted), but solves the discovery storm problem on large fleets. Docs: [fast-dds.docs.eprosima.com](https://fast-dds.docs.eprosima.com) \[verify].
+Fast DDS supports a centralized discovery server that participants connect to instead of broadcasting. Adds a single point of coordination back (irony noted), but solves the discovery storm problem on large fleets. Docs: [fast-dds.docs.eprosima.com](https://fast-dds.docs.eprosima.com).
 
 ### 6. Pin endpoint count
 
@@ -323,4 +323,4 @@ For network-level issues: `tcpdump -i any 'udp port 7400 or udp port 7401'` show
 
 * [Lifecycle and Composition](lifecycle-and-composition.md) - composable nodes are the biggest perf lever once QoS is right.
 * [Visualization](visualization.md) - rviz2 and Foxglove have their own QoS subtleties when you subscribe to a robot's topics.
-* The deeper DDS spec lives at [omg.org/spec/DDS](https://www.omg.org/spec/DDS/) \[verify] - useful if you ever have to debug something exotic like partition keys or content-filtered topics.
+* The deeper DDS spec lives at [omg.org/spec/DDS](https://www.omg.org/spec/DDS/) - useful if you ever have to debug something exotic like partition keys or content-filtered topics.

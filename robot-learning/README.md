@@ -1,4 +1,5 @@
 ---
+description: Robot learning paradigms — imitation learning (ACT, Diffusion Policy), RL (PPO), foundation models (VLAs), world models, sim-to-real, and data collection.
 icon: brain
 ---
 

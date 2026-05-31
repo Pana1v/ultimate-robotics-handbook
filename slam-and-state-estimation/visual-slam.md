@@ -38,7 +38,7 @@ There's also a **hybrid** middle ground: SVO (Forster, Pizzoli, Scaramuzza 2014)
 If you implement one visual SLAM system, this is it. ORB-SLAM3 (Campos, Elvira, Gómez Rodríguez, Montiel, Tardós 2021) is the third generation of a line of work that started with ORB-SLAM (2015) and added stereo / RGB-D (ORB-SLAM2, 2017). The 3 brings two huge additions: **tightly-coupled visual-inertial SLAM** and **multi-map (Atlas) operation**.
 
 * Paper: [arxiv.org/abs/2007.11898](https://arxiv.org/abs/2007.11898)
-* Code: [github.com/UZ-SLAMLab/ORB\_SLAM3](https://github.com/UZ-SLAMLab/ORB_SLAM3) `[verify]`
+* Code: [github.com/UZ-SLAMLab/ORB\_SLAM3](https://github.com/UZ-SLAMLab/ORB_SLAM3)
 
 ### Architecture
 
@@ -82,8 +82,8 @@ The visual-inertial mode does *tightly-coupled* fusion with IMU preintegration (
 
 VINS = Visual-INertial System. From the HKUST Aerial Robotics group (Qin, Li, Shen et al.). The killer system for drone VIO.
 
-* **VINS-Mono** (Qin, Li, Shen 2018) - monocular + IMU. [arxiv.org/abs/1708.03852](https://arxiv.org/abs/1708.03852). Code: [github.com/HKUST-Aerial-Robotics/VINS-Mono](https://github.com/HKUST-Aerial-Robotics/VINS-Mono) `[verify]`.
-* **VINS-Fusion** (Qin et al. 2019) - extension to stereo, stereo+IMU, GPS fusion. Code: [github.com/HKUST-Aerial-Robotics/VINS-Fusion](https://github.com/HKUST-Aerial-Robotics/VINS-Fusion) `[verify]`.
+* **VINS-Mono** (Qin, Li, Shen 2018) - monocular + IMU. [arxiv.org/abs/1708.03852](https://arxiv.org/abs/1708.03852). Code: [github.com/HKUST-Aerial-Robotics/VINS-Mono](https://github.com/HKUST-Aerial-Robotics/VINS-Mono).
+* **VINS-Fusion** (Qin et al. 2019) - extension to stereo, stereo+IMU, GPS fusion. Code: [github.com/HKUST-Aerial-Robotics/VINS-Fusion](https://github.com/HKUST-Aerial-Robotics/VINS-Fusion).
 
 ### Why it matters
 
@@ -118,8 +118,8 @@ When the window fills, **marginalize** out the oldest frame's state (Schur compl
 Direct Sparse Odometry (Engel, Koltun, Cremers 2017) is the canonical direct visual odometry. No features. Instead: pick ~2000 high-gradient pixels per keyframe and minimize photometric error across keyframes.
 
 * DSO paper: [arxiv.org/abs/1607.02565](https://arxiv.org/abs/1607.02565)
-* Code: [github.com/JakobEngel/dso](https://github.com/JakobEngel/dso) `[verify]`
-* LDSO (DSO + loop closure, Gao, Wang, Cremers 2018): [github.com/tum-vision/LDSO](https://github.com/tum-vision/LDSO) `[verify]`
+* Code: [github.com/JakobEngel/dso](https://github.com/JakobEngel/dso)
+* LDSO (DSO + loop closure, Gao, Wang, Cremers 2018): [github.com/tum-vision/LDSO](https://github.com/tum-vision/LDSO)
 
 ### Why direct methods exist
 
@@ -188,7 +188,7 @@ This is fragile. Many monocular SLAM failures are at initialization, not steady-
 RTAB-Map (Labbé & Michaud 2019) is the production RGB-D SLAM. Not as accurate as ORB-SLAM3 in head-to-head benchmarks but it ships an entire system: drivers, loop closure, occupancy grid output, multi-session SLAM, ROS integration.
 
 * Paper: [introlab.github.io/rtabmap](https://introlab.github.io/rtabmap/)
-* Code: [github.com/introlab/rtabmap](https://github.com/introlab/rtabmap) `[verify]`
+* Code: [github.com/introlab/rtabmap](https://github.com/introlab/rtabmap)
 
 Pick RTAB-Map when you want SLAM-as-product (your project is "build a 3D map of a building") and don't have time to integrate ORB-SLAM3 into ROS yourself.
 
@@ -201,11 +201,11 @@ Pick RTAB-Map when you want SLAM-as-product (your project is "build a 3D map of 
 | ORB-SLAM3      | mono / stereo / RGB-D, ± IMU, fisheye   | Yes (DBoW2)  | Yes                 | UZ-SLAMLab/ORB\_SLAM3                 |
 | VINS-Mono      | mono + IMU                              | Yes (DBoW2)  | Yes                 | HKUST-Aerial-Robotics/VINS-Mono       |
 | VINS-Fusion    | mono / stereo, ± IMU, ± GPS             | Yes          | Yes                 | HKUST-Aerial-Robotics/VINS-Fusion     |
-| OpenVINS       | mono / stereo + IMU                     | No (pure VIO) | Yes (MSCKF style)  | rpng/open\_vins `[verify]`            |
+| OpenVINS       | mono / stereo + IMU                     | No (pure VIO) | Yes (MSCKF style)  | rpng/open\_vins                       |
 | DSO            | mono                                    | No           | No                  | JakobEngel/dso                        |
 | LDSO           | mono                                    | Yes          | No                  | tum-vision/LDSO                       |
 | RTAB-Map       | RGB-D, stereo                           | Yes          | Loose IMU fusion    | introlab/rtabmap                      |
-| SVO            | mono / stereo                           | No (pure VO) | Optional            | uzh-rpg/rpg\_svo\_pro\_open `[verify]` |
+| SVO            | mono / stereo                           | No (pure VO) | Optional            | uzh-rpg/rpg\_svo\_pro\_open            |
 
 ***
 
@@ -222,7 +222,7 @@ Pick RTAB-Map when you want SLAM-as-product (your project is "build a 3D map of 
 ## Further reading
 
 * Cadena et al. (2016) survey, "Past, Present, and Future of SLAM" - [arxiv.org/abs/1606.05830](https://arxiv.org/abs/1606.05830). The visual SLAM landscape circa 2016, still mostly relevant.
-* Macario Barros et al. (2022) "A Comprehensive Survey of Visual SLAM Algorithms." [arxiv.org/abs/2209.02786](https://arxiv.org/abs/2209.02786) `[verify]`.
+* Macario Barros et al. (2022) "A Comprehensive Survey of Visual SLAM Algorithms." [mdpi.com/2218-6581/11/1/24](https://www.mdpi.com/2218-6581/11/1/24).
 * Scaramuzza & Fraundorfer two-part tutorial on Visual Odometry (IEEE RAM 2011 / 2012) - still the cleanest intro to VO fundamentals.
 
 Continue to [lidar-slam.md](lidar-slam.md) for the LiDAR side of the story.

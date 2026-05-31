@@ -6,7 +6,7 @@ icon: route
 
 ## What this page is
 
-SLAM is a special case of state estimation where one of the things you're estimating is the map. This page covers the more general problem: given a robot with $N$ sensors of different rates, accuracies, and biases, how do you produce one consistent estimate of where the robot is and how it's moving?
+SLAM is a special case of state estimation where one of the things you're estimating is the map. This page covers the more general problem: given a robot with $$N$$ sensors of different rates, accuracies, and biases, how do you produce one consistent estimate of where the robot is and how it's moving?
 
 The math underneath is exactly the math from [filter-slam.md](filter-slam.md) and [graph-slam.md](graph-slam.md) - Bayesian filters and factor graphs. But the framing here is different: you usually have a known map (or no map at all), and the goal is *robust, high-rate state estimation* for control.
 
@@ -40,7 +40,7 @@ $$
 K = P H^\top (H P H^\top + R)^{-1}
 $$
 
-where $K$ is the Kalman gain, $P$ is the prior covariance, and $R$ is the measurement covariance. This is the **only thing happening** in 95% of robot state estimators - even if it's wrapped in a fancy filter class with 20 parameters.
+where $$K$$ is the Kalman gain, $$P$$ is the prior covariance, and $$R$$ is the measurement covariance. This is the **only thing happening** in 95% of robot state estimators - even if it's wrapped in a fancy filter class with 20 parameters.
 
 The art is:
 * Picking the right *state representation* (Euclidean? on a Lie group? error-state?).
@@ -54,7 +54,7 @@ The art is:
 
 ### EKF - the default
 
-For a state $\mathbf{x} \in \mathbb{R}^n$ with nonlinear motion $f(x, u)$ and measurement $h(x)$ models, the EKF linearizes at the current mean and applies the Kalman update.
+For a state $$\mathbf{x} \in \mathbb{R}^n$$ with nonlinear motion $$f(x, u)$$ and measurement $$h(x)$$ models, the EKF linearizes at the current mean and applies the Kalman update.
 
 **Predict:**
 
@@ -88,7 +88,7 @@ $$
 P_k = (I - K_k H_k) P_{k|k-1}
 $$
 
-with $F_k = \partial f / \partial x$ and $H_k = \partial h / \partial x$.
+with $$F_k = \partial f / \partial x$$ and $$H_k = \partial h / \partial x$$.
 
 The EKF is fast, well-understood, and works when the nonlinearity isn't too bad relative to the noise. It fails when:
 * The state lives on a manifold (rotations) and you treat it as Euclidean.
@@ -97,7 +97,7 @@ The EKF is fast, well-understood, and works when the nonlinearity isn't too bad 
 
 ### UKF - the better-behaved cousin
 
-The Unscented Kalman Filter (Julier & Uhlmann 1997) avoids linearization. Instead, it picks $2n+1$ **sigma points** that summarize the prior mean and covariance, propagates each through the *nonlinear* motion / measurement model, and refits a Gaussian to the propagated cloud.
+The Unscented Kalman Filter (Julier & Uhlmann 1997) avoids linearization. Instead, it picks $$2n+1$$ **sigma points** that summarize the prior mean and covariance, propagates each through the *nonlinear* motion / measurement model, and refits a Gaussian to the propagated cloud.
 
 * Captures the mean / covariance of a transformed Gaussian to second order (third for symmetric distributions), vs first for EKF.
 * No Jacobian needed.
@@ -110,17 +110,17 @@ In SLAM you'll see UKF mostly in VIO papers where IMU integration is highly nonl
 The ESKF (Sola 2017) is the right way to do EKF when the state lives on a Lie group (rotations, SE(3) poses).
 
 * Maintain a **nominal state** (the current best estimate) and an **error state** (a small perturbation in the tangent space).
-* The error state lives in $\mathbb{R}^n$ - flat - so all the EKF math works.
+* The error state lives in $$\mathbb{R}^n$$ - flat - so all the EKF math works.
 * On update, the error correction is **injected** back into the nominal state via the manifold retraction (e.g., compose rotations).
 * The error state is reset to zero after each update.
 
-This is the canonical pattern for IMU integration in modern VIO and LIO. FAST-LIO2's filter is an *iterated* ESKF (re-linearize the measurement model inside the update loop) operating on $SE(3) \times \mathbb{R}^{velocity} \times \mathbb{R}^{biases}$.
+This is the canonical pattern for IMU integration in modern VIO and LIO. FAST-LIO2's filter is an *iterated* ESKF (re-linearize the measurement model inside the update loop) operating on $$SE(3) \times \mathbb{R}^{velocity} \times \mathbb{R}^{biases}$$.
 
 Reading: **Joan Sola, "Quaternion kinematics for the error-state Kalman filter."** [arxiv.org/abs/1711.02508](https://arxiv.org/abs/1711.02508). The clearest derivation of ESKF for IMU integration.
 
 ### IEKF
 
-The Invariant Extended Kalman Filter (Barrau & Bonnabel 2017). [arxiv.org/abs/1410.1465](https://arxiv.org/abs/1410.1465) `[verify]`. For state spaces with group structure (like $SE(3)$), the IEKF defines the error in a way that's invariant under group actions - leading to better consistency properties than the standard EKF on rotation states. Used in FAST-LIO2.
+The Invariant Extended Kalman Filter (Barrau & Bonnabel 2017). [arxiv.org/abs/1410.1465](https://arxiv.org/abs/1410.1465). For state spaces with group structure (like $$SE(3)$$), the IEKF defines the error in a way that's invariant under group actions - leading to better consistency properties than the standard EKF on rotation states. Used in FAST-LIO2.
 
 If you're writing a paper, use it and cite Barrau-Bonnabel. If you're shipping a product, ESKF is fine for the most part - the consistency gap matters mostly when biases are poorly observable.
 
@@ -130,7 +130,7 @@ If you're writing a paper, use it and cite Barrau-Bonnabel. If you're shipping a
 
 In ROS 2, the de facto multi-sensor EKF is **`robot_localization`** (Tom Moore, formerly Locus Robotics; now widely maintained).
 
-* Repo: [github.com/cra-ros-pkg/robot\_localization](https://github.com/cra-ros-pkg/robot_localization) `[verify]`
+* Repo: [github.com/cra-ros-pkg/robot\_localization](https://github.com/cra-ros-pkg/robot_localization)
 * Two nodes: `ekf_node` and `ukf_node`. EKF is the right default.
 
 What it does:
@@ -156,7 +156,7 @@ For background: in my current work I maintain a multimodal EKF state estimator t
 * **IMU pre-integration** drives the high-rate prediction (200 Hz).
 * **3D ICP** between the latest scan and a local sliding-window map produces relative-pose measurements at ~10 Hz.
 * **Wheel encoder velocity** acts as a slow constraint when the robot is stationary or moving slowly (anti-drift when ICP doesn't have enough geometric constraint).
-* An **error-state EKF** on $SE(3) \times \mathbb{R}^{velocity} \times \mathbb{R}^{biases}$ fuses all three.
+* An **error-state EKF** on $$SE(3) \times \mathbb{R}^{velocity} \times \mathbb{R}^{biases}$$ fuses all three.
 
 The reason for an EKF at this layer (rather than a graph) is *latency*. Control loops need pose at 200 Hz with sub-millisecond filter cost. A factor graph back-end runs alongside this at a lower rate to keep the map consistent over long traverses. This split - fast filter for state, slow graph for map - is the production pattern for most modern SLAM stacks.
 
@@ -168,7 +168,7 @@ Most fusion of point clouds against a map / previous frame is done with some ICP
 
 ### Point-to-Point
 
-For each source point $p_i$, find target nearest neighbor $q_i$. Minimize:
+For each source point $$p_i$$, find target nearest neighbor $$q_i$$. Minimize:
 
 $$
 E = \sum_i \| \mathbf{R} p_i + \mathbf{t} - q_i \|^2
@@ -176,11 +176,11 @@ $$
 
 Closed-form solution per iteration via SVD:
 
-1. Compute centroids $\bar{p}, \bar{q}$.
-2. Build cross-covariance $H = \sum_i (p_i - \bar{p})(q_i - \bar{q})^\top$.
-3. SVD: $H = U \Sigma V^\top$.
-4. Rotation: $\mathbf{R} = V U^\top$ (with a sign correction if $\det(VU^\top) < 0$).
-5. Translation: $\mathbf{t} = \bar{q} - \mathbf{R} \bar{p}$.
+1. Compute centroids $$\bar{p}, \bar{q}$$.
+2. Build cross-covariance $$H = \sum_i (p_i - \bar{p})(q_i - \bar{q})^\top$$.
+3. SVD: $$H = U \Sigma V^\top$$.
+4. Rotation: $$\mathbf{R} = V U^\top$$ (with a sign correction if $$\det(VU^\top) < 0$$).
+5. Translation: $$\mathbf{t} = \bar{q} - \mathbf{R} \bar{p}$$.
 
 Apply, recompute correspondences, repeat. Converges in 10-50 iterations for good initializations.
 
@@ -192,19 +192,19 @@ $$
 E = \sum_i \left( (\mathbf{R} p_i + \mathbf{t} - q_i) \cdot \mathbf{n}_i \right)^2
 $$
 
-No closed form for the SVD trick because the cost is no longer isotropic in residuals. Solve via Gauss-Newton: linearize the rotation as $\mathbf{R} \approx \mathbf{I} + [\boldsymbol{\omega}]_\times$ for small $\boldsymbol{\omega}$, solve a 6-DoF linear system per iteration.
+No closed form for the SVD trick because the cost is no longer isotropic in residuals. Solve via Gauss-Newton: linearize the rotation as $$\mathbf{R} \approx \mathbf{I} + [\boldsymbol{\omega}]_\times$$ for small $$\boldsymbol{\omega}$$, solve a 6-DoF linear system per iteration.
 
 The convergence is dramatically better for planar / urban scenes. Each iteration is more expensive, but you need fewer of them.
 
 ### GICP (Generalized ICP)
 
-Segal, Hähnel, Thrun (2009). The probabilistic generalization. Each point has a local covariance $C_i$ (estimated from its neighbors - typically planar surfaces have a thin covariance along the surface normal). The cost:
+Segal, Hähnel, Thrun (2009). The probabilistic generalization. Each point has a local covariance $$C_i$$ (estimated from its neighbors - typically planar surfaces have a thin covariance along the surface normal). The cost:
 
 $$
 E = \sum_i d_i^\top (C^B_i + \mathbf{R} C^A_i \mathbf{R}^\top)^{-1} d_i
 $$
 
-where $d_i = q_i - (\mathbf{R} p_i + \mathbf{t})$. The weighting naturally interpolates between point-to-point (isotropic covariances) and point-to-plane (one tiny eigenvalue along the surface normal).
+where $$d_i = q_i - (\mathbf{R} p_i + \mathbf{t})$$. The weighting naturally interpolates between point-to-point (isotropic covariances) and point-to-plane (one tiny eigenvalue along the surface normal).
 
 Solve via Gauss-Newton, just like point-to-plane. Reference implementation: PCL's `pcl::GeneralizedIterativeClosestPoint`. Used in [GO-SLAM](../authors-projects/go-slam.md) and many production LiDAR SLAM pipelines.
 
@@ -228,7 +228,7 @@ Cover this in [lidar-slam.md](lidar-slam.md) at the conceptual level. Here's the
 
 ### What an IMU measures
 
-A 6-axis IMU at time $t$ gives you:
+A 6-axis IMU at time $$t$$ gives you:
 
 $$
 \tilde{\boldsymbol{\omega}}_t = \boldsymbol{\omega}_t + b^g_t + n^g_t
@@ -238,7 +238,7 @@ $$
 \tilde{\mathbf{a}}_t = \mathbf{R}_t^\top (\mathbf{a}^W_t - \mathbf{g}^W) + b^a_t + n^a_t
 $$
 
-- angular velocity and specific force in the body frame, corrupted by gyro/accel biases and noise. ($\mathbf{g}^W$ is gravity in world frame, $\mathbf{a}^W$ is true acceleration.)
+- angular velocity and specific force in the body frame, corrupted by gyro/accel biases and noise. ($$\mathbf{g}^W$$ is gravity in world frame, $$\mathbf{a}^W$$ is true acceleration.)
 
 To get pose, you'd naively integrate:
 
@@ -254,13 +254,13 @@ $$
 \mathbf{p}^W_{t+\Delta t} = \mathbf{p}^W_t + \mathbf{v}^W_t \Delta t + \frac{1}{2}(\mathbf{R}_t (\tilde{\mathbf{a}}_t - b^a_t) - \mathbf{g}^W) \Delta t^2
 $$
 
-Problem: every step depends on $\mathbf{R}_t$ and $\mathbf{v}^W_t$, which depend on the starting state. If you're optimizing the starting state in a graph, you'd have to re-integrate every iteration.
+Problem: every step depends on $$\mathbf{R}_t$$ and $$\mathbf{v}^W_t$$, which depend on the starting state. If you're optimizing the starting state in a graph, you'd have to re-integrate every iteration.
 
 ### Forster et al.'s trick
 
 Reformulate the integration so the precomputed quantities don't depend on the starting state - only on the **biases** (which change slowly).
 
-Specifically, between keyframes $i$ and $j$, define:
+Specifically, between keyframes $$i$$ and $$j$$, define:
 
 $$
 \Delta \mathbf{R}_{ij} = \mathbf{R}_i^\top \mathbf{R}_j
@@ -274,17 +274,17 @@ $$
 \Delta \mathbf{p}_{ij} = \mathbf{R}_i^\top (\mathbf{p}^W_j - \mathbf{p}^W_i - \mathbf{v}^W_i \Delta t_{ij} - \frac{1}{2}\mathbf{g}^W \Delta t_{ij}^2)
 $$
 
-Now expand these as integrals of the *raw* IMU measurements. With careful algebra, $\Delta \mathbf{R}_{ij}, \Delta \mathbf{v}_{ij}, \Delta \mathbf{p}_{ij}$ can be computed by integrating the raw IMU between $t_i$ and $t_j$ - *without ever using $\mathbf{R}_i$ or $\mathbf{v}^W_i$*. Only the biases $b^g, b^a$ appear.
+Now expand these as integrals of the *raw* IMU measurements. With careful algebra, $$\Delta \mathbf{R}_{ij}, \Delta \mathbf{v}_{ij}, \Delta \mathbf{p}_{ij}$$ can be computed by integrating the raw IMU between $$t_i$$ and $$t_j$$ - *without ever using $$\mathbf{R}_i$$ or $$\mathbf{v}^W_i$$*. Only the biases $$b^g, b^a$$ appear.
 
 When biases change slightly (during optimization), apply first-order corrections via the precomputed bias Jacobians. No re-integration needed.
 
 ### What this gives you in the graph
 
-A single **IMU factor** between keyframes $i$ and $j$:
+A single **IMU factor** between keyframes $$i$$ and $$j$$:
 
-* State at $i$: pose $\mathbf{T}_i$, velocity $\mathbf{v}^W_i$, biases $b^g_i, b^a_i$.
-* State at $j$: pose $\mathbf{T}_j$, velocity $\mathbf{v}^W_j$, biases $b^g_j, b^a_j$.
-* Constraint: the predicted $\Delta \mathbf{R}_{ij}, \Delta \mathbf{v}_{ij}, \Delta \mathbf{p}_{ij}$ from the IMU integration must match what you'd compute from $\mathbf{T}_i, \mathbf{T}_j, \mathbf{v}_i, \mathbf{v}_j$.
+* State at $$i$$: pose $$\mathbf{T}_i$$, velocity $$\mathbf{v}^W_i$$, biases $$b^g_i, b^a_i$$.
+* State at $$j$$: pose $$\mathbf{T}_j$$, velocity $$\mathbf{v}^W_j$$, biases $$b^g_j, b^a_j$$.
+* Constraint: the predicted $$\Delta \mathbf{R}_{ij}, \Delta \mathbf{v}_{ij}, \Delta \mathbf{p}_{ij}$$ from the IMU integration must match what you'd compute from $$\mathbf{T}_i, \mathbf{T}_j, \mathbf{v}_i, \mathbf{v}_j$$.
 * Plus bias random walk constraints between consecutive keyframes.
 
 GTSAM has all of this implemented in `PreintegratedImuMeasurements`. If you're rolling your own VIO/LIO, do not derive this from scratch - read Forster et al. 2017 and copy the formulas.
@@ -308,7 +308,7 @@ Quick cheat sheet for picking your fusion architecture:
 | Outdoor wheeled robot with GPS                    | Wheel + IMU in local EKF; +GPS in global EKF (with `navsat_transform_node`) |
 | Drone                                             | Tightly-coupled VIO (VINS-Fusion) or VIO + GPS fallback |
 | Heavy industrial robot with 3D LiDAR              | LIO-SAM or FAST-LIO2 as the SLAM-and-state pipeline; add wheel-encoder constraint for slow motions |
-| Multi-LiDAR + IMU + wheel encoders (my setup)     | Deskew + fuse LiDAR via [Polka](../authors-projects/polka.md); ICP against local map; ESKF over $SE(3) \times$ velocity $\times$ biases |
+| Multi-LiDAR + IMU + wheel encoders (my setup)     | Deskew + fuse LiDAR via [Polka](../authors-projects/polka.md); ICP against local map; ESKF over $$SE(3) \times$$ velocity $$\times$$ biases |
 | Aerial vehicle, high agility                      | OpenVINS or VINS-Fusion (tight visual-inertial); IMU at the top of the stack |
 
 Two principles that save you headaches:
@@ -323,7 +323,7 @@ Two principles that save you headaches:
 A list of things I've personally debugged at 2 AM:
 
 1. **Time sync is off.** A 30 ms timestamp offset between IMU and LiDAR will silently corrupt every IMU-deskewed point. Always validate timestamps before trusting fusion.
-2. **Covariances are wrong.** People copy default covariances from tutorials. Your sensor's covariance is yours to measure. Run static calibration. Look at Allan variance for IMU noise (use [IMU TK](https://github.com/Kyle-ak/imu_tk) `[verify]` or [Kalibr](https://github.com/ethz-asl/kalibr) `[verify]`).
+2. **Covariances are wrong.** People copy default covariances from tutorials. Your sensor's covariance is yours to measure. Run static calibration. Look at Allan variance for IMU noise (use [IMU TK](https://github.com/Kyle-ak/imu_tk) or [Kalibr](https://github.com/ethz-asl/kalibr)).
 3. **Extrinsics are wrong.** A 3 cm offset between LiDAR and IMU frames creates a phantom angular component in IMU-deskewed scans. Calibrate, don't guess.
 4. **One measurement source has unmodeled outliers.** GPS multipath, wheel slip, dynamic obstacles in LiDAR. Either gate the measurement (chi-square test) or use a robust kernel.
 5. **The filter converged to a bad local minimum because initialization was bad.** Initialize aggressively (static IMU at startup to get gravity; static GPS to get initial position; etc.).

@@ -184,7 +184,7 @@ void process(const Eigen::Ref<const Eigen::MatrixXd>& m);  // best, accepts bloc
 // If you copy a raw buffer in, make sure layouts match.
 ```
 
-See: <https://eigen.tuxfamily.org/dox/group__TopicPitfalls.html> [verify]
+See: <https://eigen.tuxfamily.org/dox/group__TopicPitfalls.html>
 
 ## Real-time considerations
 
@@ -219,8 +219,8 @@ private:
 
 `std::mutex` can cause priority inversion. For producer/consumer between a real-time thread and a non-RT thread, use a lock-free SPSC queue.
 
-- `boost::lockfree::spsc_queue` - single-producer single-consumer, header-only Boost. <https://www.boost.org/doc/libs/release/doc/html/boost/lockfree/spsc_queue.html> [verify]
-- `folly::ProducerConsumerQueue` - Meta's version, similar API. <https://github.com/facebook/folly> [verify]
+- `boost::lockfree::spsc_queue` - single-producer single-consumer, header-only Boost. <https://www.boost.org/doc/libs/1_85_0/doc/html/boost/lockfree/spsc_queue.html>
+- `folly::ProducerConsumerQueue` - Meta's version, similar API. <https://github.com/facebook/folly>
 - `moodycamel::ReaderWriterQueue` - another popular choice. <https://github.com/cameron314/readerwriterqueue>
 
 ```cpp
@@ -412,7 +412,7 @@ public:
 RCLCPP_COMPONENTS_REGISTER_NODE(MyNode)
 ```
 
-Then load into a container via `ros2 component load /component_container my_pkg my_pkg::MyNode`. Intra-process communication becomes a pointer pass instead of serialize/deserialize. For perception pipelines passing point clouds between nodes, this is 5-10x faster than separate processes. <https://docs.ros.org/en/jazzy/Concepts/Intermediate/About-Composition.html> [verify]
+Then load into a container via `ros2 component load /component_container my_pkg my_pkg::MyNode`. Intra-process communication becomes a pointer pass instead of serialize/deserialize. For perception pipelines passing point clouds between nodes, this is 5-10x faster than separate processes. <https://docs.ros.org/en/jazzy/Concepts/Intermediate/About-Composition.html>
 
 ### Lifecycle nodes - managed state machines
 
@@ -472,6 +472,6 @@ The default `MutuallyExclusive` group on the default executor means *all* your c
 - *A Philosophy of Software Design* - John Ousterhout. Not C++ specific, but the chapter on minimizing exceptions matters for RT code.
 - *C++ Concurrency in Action* - Anthony Williams. The threading reference.
 - ROS 2 design docs: <https://design.ros2.org/> - read the executor and intra-process comms ones.
-- `rclcpp` API: <https://docs.ros.org/en/jazzy/p/rclcpp/> [verify]
+- `rclcpp` API: <https://docs.ros.org/en/jazzy/p/rclcpp/>
 
 If you take one thing from this page: profile before you optimize, but know enough about the hardware (cache, allocator, scheduler) that your "vibes" optimizations are at least pointed in the right direction.

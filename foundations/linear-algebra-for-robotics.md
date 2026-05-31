@@ -14,13 +14,13 @@ Linear algebra provides the mathematical language for describing and solving geo
 
 **Vectors and Norms**
 
-A vector $\mathbf{v} \in \mathbb{R}^n$ encodes quantities like position, velocity, or torque. Its length (the Euclidean norm) is:
+A vector $$\mathbf{v} \in \mathbb{R}^n$$ encodes quantities like position, velocity, or torque. Its length (the Euclidean norm) is:
 
 $$
 \|\mathbf{v}\| = \sqrt{\mathbf{v}^\top \mathbf{v}}
 $$
 
-The projection of $\mathbf{v}$ onto $\mathbf{u}$:
+The projection of $$\mathbf{v}$$ onto $$\mathbf{u}$$:
 
 $$
 \text{proj}_{\mathbf{u}}(\mathbf{v}) = \frac{\mathbf{u}^\top \mathbf{v}}{\mathbf{u}^\top \mathbf{u}} \mathbf{u}
@@ -30,7 +30,7 @@ $$
 
 **Inner Products and Orthogonality**
 
-The dot product $\mathbf{u}^\top \mathbf{v}$ measures similarity and defines the angle between vectors:
+The dot product $$\mathbf{u}^\top \mathbf{v}$$ measures similarity and defines the angle between vectors:
 
 $$
 \cos \theta = \frac{\mathbf{u}^\top \mathbf{v}}{\|\mathbf{u}\|\,\|\mathbf{v}\|}
@@ -44,7 +44,7 @@ Orthonormal bases (built via Gram–Schmidt) simplify coordinate transforms and 
 
 **Linear Transformations**
 
-A matrix $A \in \mathbb{R}^{m \times n}$ maps $\mathbb{R}^n \rightarrow \mathbb{R}^m$. Composition is matrix multiplication: $(AB)\mathbf{x} = A(B\mathbf{x})$. Order matters - rotation followed by translation is not the same as translation followed by rotation.
+A matrix $$A \in \mathbb{R}^{m \times n}$$ maps $$\mathbb{R}^n \rightarrow \mathbb{R}^m$$. Composition is matrix multiplication: $(AB)\mathbf{x} = A(B\mathbf{x})$. Order matters - rotation followed by translation is not the same as translation followed by rotation.
 
 ***
 
@@ -95,7 +95,7 @@ with minimum norm. In vision, used for decomposing the essential matrix.
 
 **Rotation Matrices - the group SO(3)**
 
-A 3D rotation is a matrix $R \in SO(3)$ satisfying:
+A 3D rotation is a matrix $$R \in SO(3)$$ satisfying:
 
 $$
 R^\top R = I,\quad \det(R) = +1
@@ -107,10 +107,10 @@ That's 9 entries with 6 constraints → 3 degrees of freedom (as expected for a 
 
 | Representation | Parameters | Pros | Cons |
 |---|---|---|---|
-| Rotation matrix $R$ | 9 (with 6 constraints) | Compose by multiplication; geometric clarity | Redundant; orthogonality drifts under numerical updates |
-| Euler angles $(\phi, \theta, \psi)$ | 3 | Intuitive | **Gimbal lock**; ambiguous (12+ conventions); never use these in production |
-| Axis–angle / rotation vector $\boldsymbol{\omega} = \theta \hat{\mathbf{u}}$ | 3 | Minimal; matches Lie-algebra $\mathfrak{so}(3)$ | Singular at $\theta = 0$ unless using rotation-vector form |
-| Quaternion $\mathbf{q} = [q_w, q_x, q_y, q_z]$ | 4 (with $\|\mathbf{q}\|=1$) | No gimbal lock; cheap composition; smooth interpolation (SLERP) | Sign ambiguity ($\mathbf{q}$ and $-\mathbf{q}$ are the same rotation) |
+| Rotation matrix $$R$$ | 9 (with 6 constraints) | Compose by multiplication; geometric clarity | Redundant; orthogonality drifts under numerical updates |
+| Euler angles $$(\phi, \theta, \psi)$$ | 3 | Intuitive | **Gimbal lock**; ambiguous (12+ conventions); never use these in production |
+| Axis–angle / rotation vector $$\boldsymbol{\omega} = \theta \hat{\mathbf{u}}$$ | 3 | Minimal; matches Lie-algebra $$\mathfrak{so}(3)$$ | Singular at $$\theta = 0$$ unless using rotation-vector form |
+| Quaternion $$\mathbf{q} = [q_w, q_x, q_y, q_z]$$ | 4 (with $$\|\mathbf{q}\|=1$$) | No gimbal lock; cheap composition; smooth interpolation (SLERP) | Sign ambiguity ($$\mathbf{q}$$ and $$-\mathbf{q}$$ are the same rotation) |
 
 **Rule of thumb (Pan's field note):** internal storage and computation → quaternions. User input/display → Euler. Math derivations and dynamics → rotation matrices. Conversions are cheap; pick the right tool per layer.
 
@@ -123,7 +123,7 @@ T = \begin{bmatrix} R & \mathbf{t} \\ \mathbf{0}^\top & 1 \end{bmatrix} \in SE(3
 \mathbf{p}_{\text{world}} = T\,\mathbf{p}_{\text{local}}
 $$
 
-Composition is matrix multiplication: $T_{ac} = T_{ab}\,T_{bc}$. Inversion is *not* matrix inverse:
+Composition is matrix multiplication: $$T_{ac} = T_{ab}\,T_{bc}$$. Inversion is *not* matrix inverse:
 
 $$
 T^{-1} = \begin{bmatrix} R^\top & -R^\top \mathbf{t} \\ \mathbf{0}^\top & 1 \end{bmatrix}
@@ -131,25 +131,25 @@ $$
 
 In ROS 2, `tf2` handles all this for you - but understanding the algebra is essential for SLAM, calibration, and IK.
 
-**The Lie algebra side: $\mathfrak{so}(3)$ and $\mathfrak{se}(3)$**
+**The Lie algebra side: $$\mathfrak{so}(3)$$ and $$\mathfrak{se}(3)$$**
 
 Optimization on SO(3)/SE(3) (used in graph SLAM, bundle adjustment, MPC on manifolds) is done by *lifting* to the Lie algebra - a vector space - via the matrix logarithm, performing updates additively, and *retracting* back to the group via the exponential.
 
-For SO(3): the algebra is the space of 3-vectors $\boldsymbol{\omega} \in \mathbb{R}^3$ (the *rotation vector*), mapped to a rotation by Rodrigues' formula:
+For SO(3): the algebra is the space of 3-vectors $$\boldsymbol{\omega} \in \mathbb{R}^3$$ (the *rotation vector*), mapped to a rotation by Rodrigues' formula:
 
 $$
 R = \exp([\boldsymbol{\omega}]_\times) = I + \frac{\sin\theta}{\theta}[\boldsymbol{\omega}]_\times + \frac{1-\cos\theta}{\theta^2}[\boldsymbol{\omega}]_\times^2
 $$
 
-where $\theta = \|\boldsymbol{\omega}\|$ and $[\cdot]_\times$ is the skew-symmetric cross-product matrix.
+where $$\theta = \|\boldsymbol{\omega}\|$$ and $$[\cdot]_\times$$ is the skew-symmetric cross-product matrix.
 
-For SE(3): the algebra is 6-dimensional - a *twist* $\boldsymbol{\xi} = (\mathbf{v}, \boldsymbol{\omega}) \in \mathbb{R}^6$ combining linear and angular velocity.
+For SE(3): the algebra is 6-dimensional - a *twist* $$\boldsymbol{\xi} = (\mathbf{v}, \boldsymbol{\omega}) \in \mathbb{R}^6$$ combining linear and angular velocity.
 
 You don't need to derive this from scratch - GTSAM, Sophus, manif, and `tf2` handle the algebra correctly. But you *do* need to know that "adding two rotations" is undefined; "composing on the manifold via the Lie group" is what you mean.
 
 **DH Parameters**
 
-$(\theta, d, a, \alpha)$ - the classical Denavit–Hartenberg convention encodes each joint of a kinematic chain in 4 numbers, allowing systematic forward and inverse kinematic derivation. Modified DH (Craig's convention) differs slightly in axis placement; pick one and document it.
+$$(\theta, d, a, \alpha)$$ - the classical Denavit–Hartenberg convention encodes each joint of a kinematic chain in 4 numbers, allowing systematic forward and inverse kinematic derivation. Modified DH (Craig's convention) differs slightly in axis placement; pick one and document it.
 
 In 2026, URDF/xacro + KDL or Pinocchio supersedes hand-derived DH for most production work - but DH still shows up in classical IK papers and in industry textbooks.
 
@@ -183,7 +183,7 @@ $$
 
 **Jacobian Matrix**
 
-Relates joint velocities $\dot{\mathbf{q}}$ to end-effector twist $\boldsymbol{\xi}$:
+Relates joint velocities $$\dot{\mathbf{q}}$$ to end-effector twist $$\boldsymbol{\xi}$$:
 
 $$
 \boldsymbol{\xi} = \begin{bmatrix} \dot{\mathbf{p}} \\ \boldsymbol{\omega} \end{bmatrix}
@@ -237,7 +237,7 @@ $$
 
 **Pinhole Camera Model**
 
-Maps a 3D world point $\mathbf{X} = [X, Y, Z, 1]^\top$ to an image point $\mathbf{x} = [u, v, 1]^\top$ via:
+Maps a 3D world point $$\mathbf{X} = [X, Y, Z, 1]^\top$$ to an image point $$\mathbf{x} = [u, v, 1]^\top$$ via:
 
 $$
 \mathbf{x} \sim K [R \mid \mathbf{t}] \mathbf{X}

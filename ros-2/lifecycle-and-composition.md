@@ -14,7 +14,7 @@ A lifecycle node makes the state explicit. The node is created in `Unconfigured`
 
 ### State machine
 
-The states defined in [ROS Enhancement Proposal 2007](https://design.ros2.org/articles/node_lifecycle.html) \[verify]:
+The states defined in [Managed nodes (ROS 2 design article)](https://design.ros2.org/articles/node_lifecycle.html):
 
 ```
                   ┌─────────────────┐
@@ -244,7 +244,7 @@ def generate_launch_description():
     return LaunchDescription([talker, configure_event, activate_on_inactive])
 ```
 
-For real bringup with multiple nodes, use the `nav2_lifecycle_manager` node - it takes a list of node names and walks them through transitions for you. Source: [github.com/ros-navigation/navigation2/tree/main/nav2\_lifecycle\_manager](https://github.com/ros-navigation/navigation2/tree/main/nav2_lifecycle_manager) \[verify].
+For real bringup with multiple nodes, use the `nav2_lifecycle_manager` node - it takes a list of node names and walks them through transitions for you. Source: [github.com/ros-navigation/navigation2/tree/main/nav2\_lifecycle\_manager](https://github.com/ros-navigation/navigation2/tree/main/nav2_lifecycle_manager).
 
 ## Composable nodes (component containers)
 

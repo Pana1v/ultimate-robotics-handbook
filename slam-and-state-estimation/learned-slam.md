@@ -8,7 +8,7 @@ icon: route
 
 Classical SLAM uses explicit representations: point clouds, occupancy grids, sparse landmark maps, voxel grids. The estimators (filters, factor graphs) live on top of these.
 
-Around 2020 the community started asking: what if the map itself were a *neural network* - a function $f_\theta(\mathbf{x})$ that takes a 3D position and returns geometry (occupancy, signed distance) or appearance (color, density)? This is the **neural radiance field** lineage (NeRF, Mildenhall et al. 2020) ported into SLAM.
+Around 2020 the community started asking: what if the map itself were a *neural network* - a function $$f_\theta(\mathbf{x})$$ that takes a 3D position and returns geometry (occupancy, signed distance) or appearance (color, density)? This is the **neural radiance field** lineage (NeRF, Mildenhall et al. 2020) ported into SLAM.
 
 Then in 2023 came **3D Gaussian Splatting** (Kerbl, Kopanas, Leimkühler, Drettakis), which dropped the neural network in favor of millions of explicit 3D Gaussians and a differentiable splatting rasterizer. Faster training, real-time rendering. The SLAM community pivoted within a year. SplaTAM and Gaussian-Splatting SLAM appeared at the major venues in 2024.
 
@@ -20,7 +20,7 @@ This page covers the systems that defined the lineage.
 
 This is an unfortunate name collision. There are **two distinct projects** named GO-SLAM that you'll find on the internet:
 
-1. **GO-SLAM (Zhang et al., ICCV 2023)** - an *academic neural / deep SLAM* paper from the Computer Vision Lab at ETH Zürich / KAIST and collaborators. Uses an implicit neural representation with online learning, global optimization, and loop closure. Visual SLAM. [arxiv.org/abs/2309.02436](https://arxiv.org/abs/2309.02436) `[verify]`. This is what this page is about.
+1. **GO-SLAM (Zhang et al., ICCV 2023)** - an *academic neural / deep SLAM* paper from the Computer Vision Lab at ETH Zürich / KAIST and collaborators. Uses an implicit neural representation with online learning, global optimization, and loop closure. Visual SLAM. [arxiv.org/abs/2309.02436](https://arxiv.org/abs/2309.02436). This is what this page is about.
 
 2. **[GO-SLAM (Pan's)](../authors-projects/go-slam.md)** - *my from-scratch classical LiDAR SLAM* with GICP front-end and a custom Levenberg-Marquardt pose-graph solver. Built in two months as a learning project. **No relation to the ETH/KAIST paper** - I just happened to pick the same acronym (Global Optimization SLAM) before realizing there was a published paper with that name. Mentioned in [lidar-slam.md](lidar-slam.md).
 
@@ -32,7 +32,7 @@ If a colleague says "go-slam" without context, ask which one. They are completel
 
 ### NICE-SLAM (CVPR 2022)
 
-Zhu, Peng, Larsson, Xu, Bao, Cui, Oswald, Pollefeys. ETH + Microsoft. [arxiv.org/abs/2112.12130](https://arxiv.org/abs/2112.12130). Code: [github.com/cvg/nice-slam](https://github.com/cvg/nice-slam) `[verify]`.
+Zhu, Peng, Larsson, Xu, Bao, Cui, Oswald, Pollefeys. ETH + Microsoft. [arxiv.org/abs/2112.12130](https://arxiv.org/abs/2112.12130). Code: [github.com/cvg/nice-slam](https://github.com/cvg/nice-slam).
 
 The first widely-cited "neural implicit + multi-scale" RGB-D SLAM. Key ideas:
 
@@ -49,7 +49,7 @@ Trade-offs:
 
 ### GO-SLAM (ICCV 2023) - the academic paper
 
-Zhang, Sun, Tang, Lin, Wang, Theobalt, Pollefeys. [arxiv.org/abs/2309.02436](https://arxiv.org/abs/2309.02436) `[verify]`. Code: [github.com/youmi-zym/GO-SLAM](https://github.com/youmi-zym/GO-SLAM) `[verify]`.
+Zhang, Sun, Tang, Lin, Wang, Theobalt, Pollefeys. [arxiv.org/abs/2309.02436](https://arxiv.org/abs/2309.02436). Code: [github.com/youmi-zym/GO-SLAM](https://github.com/youmi-zym/GO-SLAM).
 
 Built on top of DROID-SLAM (Teed & Deng, NeurIPS 2021). Contributions:
 
@@ -66,11 +66,11 @@ This was the SOTA neural visual SLAM at ICCV 2023 (margin over NICE-SLAM, ESLAM,
 
 ### 3D Gaussian Splatting (SIGGRAPH 2023)
 
-Kerbl, Kopanas, Leimkühler, Drettakis. [arxiv.org/abs/2308.04079](https://arxiv.org/abs/2308.04079). Code: [github.com/graphdeco-inria/gaussian-splatting](https://github.com/graphdeco-inria/gaussian-splatting) `[verify]`.
+Kerbl, Kopanas, Leimkühler, Drettakis. [arxiv.org/abs/2308.04079](https://arxiv.org/abs/2308.04079). Code: [github.com/graphdeco-inria/gaussian-splatting](https://github.com/graphdeco-inria/gaussian-splatting).
 
 Not a SLAM paper, but the foundation for everything that followed. The idea:
 
-* Represent the scene as a (large) set of **3D Gaussians**, each with: position $\mu \in \mathbb{R}^3$, anisotropic covariance $\Sigma$, opacity $\alpha$, and view-dependent color (spherical harmonic coefficients).
+* Represent the scene as a (large) set of **3D Gaussians**, each with: position $$\mu \in \mathbb{R}^3$$, anisotropic covariance $$\Sigma$$, opacity $$\alpha$$, and view-dependent color (spherical harmonic coefficients).
 * Render by **projecting each Gaussian to 2D** (a 2D Gaussian on the image plane), then alpha-blending front-to-back. This rasterization is differentiable.
 * Optimize positions, shapes, colors, opacities by minimizing rendered-vs-ground-truth image loss. **Adaptive density control** clones / splits / prunes Gaussians as training proceeds.
 
@@ -83,7 +83,7 @@ And critically: the representation is *explicit*. You can move individual Gaussi
 
 ### SplaTAM (CVPR 2024)
 
-Keetha, Karhade, Jatavallabhula, Yang, Scherer, Ramanan, Luiten. [arxiv.org/abs/2312.02126](https://arxiv.org/abs/2312.02126). Code: [github.com/spla-tam/SplaTAM](https://github.com/spla-tam/SplaTAM) `[verify]`.
+Keetha, Karhade, Jatavallabhula, Yang, Scherer, Ramanan, Luiten. [arxiv.org/abs/2312.02126](https://arxiv.org/abs/2312.02126). Code: [github.com/spla-tam/SplaTAM](https://github.com/spla-tam/SplaTAM).
 
 The first widely-adopted Gaussian-Splat SLAM. RGB-D.
 
@@ -96,7 +96,7 @@ SplaTAM is closer to a "differentiable RGB-D fusion" than to a classical SLAM. T
 
 ### Gaussian Splatting SLAM (CVPR 2024)
 
-Matsuki, Murai, Kelly, Davison. Imperial College London. [arxiv.org/abs/2312.06741](https://arxiv.org/abs/2312.06741). Code: [github.com/muskie82/MonoGS](https://github.com/muskie82/MonoGS) `[verify]`.
+Matsuki, Murai, Kelly, Davison. Imperial College London. [arxiv.org/abs/2312.06741](https://arxiv.org/abs/2312.06741). Code: [github.com/muskie82/MonoGS](https://github.com/muskie82/MonoGS).
 
 Andrew Davison's group (who did MonoSLAM in 2003 - the first real-time monocular visual SLAM) returned to the problem with Gaussians. Their contribution was **monocular** Gaussian-splat SLAM:
 
@@ -109,7 +109,7 @@ The Davison-lab heritage shows: this is the cleanest framing of "SLAM as differe
 
 ### GS-SLAM (CVPR 2024)
 
-Yan, Qiu, Liu, Liu, Sun, Wang, Liu, Lin, Cui, Yang. [arxiv.org/abs/2311.11700](https://arxiv.org/abs/2311.11700) `[verify]`. Code: [github.com/yanchi-3dv/GS-SLAM](https://github.com/yanchi-3dv/GS-SLAM) `[verify]`.
+Yan, Qiu, Liu, Liu, Sun, Wang, Liu, Lin, Cui, Yang. [arxiv.org/abs/2311.11700](https://arxiv.org/abs/2311.11700). Code: [github.com/yanchi-3dv/GS-SLAM](https://github.com/yanchi-3dv/GS-SLAM) `[verify]`.
 
 Another Gaussian-splat RGB-D SLAM, concurrent with SplaTAM. Adds an explicit coarse-to-fine selection strategy for which Gaussians to optimize per frame, and a render-then-refine loop. Comparable accuracy / speed to SplaTAM on standard benchmarks.
 

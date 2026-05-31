@@ -7,7 +7,7 @@ icon: gear
 > A ROS 2 multi-LiDAR fusion node that merges heterogeneous `PointCloud2` and `LaserScan` streams into unified cloud and scan outputs through a **single composable pipeline**. Per-source filtering, TF2-aligned fusion, optional CUDA acceleration, and IMU-based deskewing with per-source IMU overrides for articulated platforms. Supports ROS 2 **Humble** and **Jazzy**.
 
 **Role:** Creator
-**Repo:** [github.com/Pana1v/Polka](https://github.com/Pana1v/Polka) `[verify]`
+**Repo:** [github.com/Pana1v/Polka](https://github.com/Pana1v/Polka)
 **Status:** Active
 
 ***
@@ -247,7 +247,7 @@ Polka supports both ROS 2 **Humble** (Ubuntu 22.04) and **Jazzy** (Ubuntu 24.04)
 | Intra-process comms | Opt-in via `NodeOptions().use_intra_process_comms(true)` | Default for components |
 | `rclcpp::Time` arithmetic | Identical | Identical |
 | `sensor_msgs/msg/PointCloud2` | Identical | Identical |
-| Default DDS | Fast DDS | Cyclone DDS (in Jazzy) - different QoS defaults `[verify]` |
+| Default DDS | Fast DDS | Fast DDS (same as Humble) - different QoS defaults |
 
 The CMake file uses `if(NOT "$ENV{ROS_DISTRO}" STREQUAL "")` checks plus `find_package(... REQUIRED)` version probes to switch between paths. CI runs both distros on every PR.
 
@@ -364,7 +364,7 @@ ComposableNode(
 * **Live re-config** - accept parameter updates without container restart (currently you have to relaunch to add a source).
 * **Recorded-bag mode** - replay bag files into Polka without the live driver stack, for offline tuning of filters.
 
-If you want any of these to happen faster, [open an issue](https://github.com/Pana1v/Polka/issues) `[verify URL]` or PR it.
+If you want any of these to happen faster, [open an issue](https://github.com/Pana1v/Polka/issues) or PR it.
 
 ***
 

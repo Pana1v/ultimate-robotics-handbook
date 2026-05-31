@@ -78,20 +78,20 @@ Black, Brown, Driess, Esmail, et al. [https://www.physicalintelligence.company/b
 
 π0 introduced **flow matching action heads** - instead of autoregressive token sampling or diffusion denoising, generate the action chunk via a single ODE solve. Order of magnitude faster inference at similar quality. Pretrained on a substantially larger and more diverse robot dataset than what was public at the time.
 
-π0.5 (2025) [verify] extended to long-horizon mobile manipulation with open-ended language instructions ("clean the kitchen") - including some of the most impressive autonomous home demonstrations to date.
+π0.5 (2025) extended to long-horizon mobile manipulation with open-ended language instructions ("clean the kitchen") - including some of the most impressive autonomous home demonstrations to date.
 
-**OpenPi** [https://github.com/Physical-Intelligence/openpi](https://github.com/Physical-Intelligence/openpi) [verify] is the open release of π0-base + fine-tuning code. As of 2026 this is the strongest open-weights VLA and what I would build on if starting today.
+**OpenPi** [https://github.com/Physical-Intelligence/openpi](https://github.com/Physical-Intelligence/openpi) is the open release of π0-base + fine-tuning code. As of 2026 this is the strongest open-weights VLA and what I would build on if starting today.
 
 ### Other 2024–2026 VLAs worth knowing
 
 | Model | Org | Distinguishing feature | Open weights? |
 |---|---|---|---|
-| **RDT-1B** | Tsinghua | 1B diffusion VLA, bimanual focus | Yes [verify] |
+| **RDT-1B** | Tsinghua | 1B diffusion VLA, bimanual focus | Yes |
 | **GR00T N1 / N1.5** | NVIDIA | Humanoid-first VLA, system-1 + system-2 split | Partial |
-| **HPT** | MIT (Wang et al.) | Heterogeneous robot transformer | Yes [verify] |
-| **CogACT** | Microsoft | VLM + diffusion action head | Yes [verify] |
+| **HPT** | MIT (Wang et al.) | Heterogeneous robot transformer | Yes |
+| **CogACT** | Microsoft | VLM + diffusion action head | Yes |
 | **Helix** | Figure AI | Humanoid VLA | No (closed) |
-| **TinyVLA** | Various | Compressed VLAs <1B params | Some [verify] |
+| **TinyVLA** | Various | Compressed VLAs <1B params | Some |
 
 ## How VLAs are trained
 
@@ -246,11 +246,11 @@ Flow matching head means inference is faster than diffusion, so this is preferre
 | Library | What it gives you | Notes |
 |---|---|---|
 | **OpenVLA** - [https://github.com/openvla/openvla](https://github.com/openvla/openvla) | OpenVLA training + inference + LoRA fine-tuning | The de-facto open VLA baseline. |
-| **OpenPi** - [https://github.com/Physical-Intelligence/openpi](https://github.com/Physical-Intelligence/openpi) [verify] | π0 weights, fine-tuning, flow matching | The 2026 strongest open-weights VLA. |
-| **Octo** - [https://github.com/octo-models/octo](https://github.com/octo-models/octo) [verify] | Octo-Small/Base + fine-tuning | Lighter weight, good for resource-constrained. |
+| **OpenPi** - [https://github.com/Physical-Intelligence/openpi](https://github.com/Physical-Intelligence/openpi) | π0 weights, fine-tuning, flow matching | The 2026 strongest open-weights VLA. |
+| **Octo** - [https://github.com/octo-models/octo](https://github.com/octo-models/octo) | Octo-Small/Base + fine-tuning | Lighter weight, good for resource-constrained. |
 | **LeRobot** - [https://github.com/huggingface/lerobot](https://github.com/huggingface/lerobot) | VLA fine-tuning recipes, dataset tooling | Has OpenVLA, π0 integrations. The integration layer. |
-| **RDT-1B** - [https://github.com/thu-ml/RoboticsDiffusionTransformer](https://github.com/thu-ml/RoboticsDiffusionTransformer) [verify] | 1B bimanual diffusion VLA | If your task is bimanual. |
-| **NVIDIA GR00T** - [https://github.com/NVIDIA/Isaac-GR00T](https://github.com/NVIDIA/Isaac-GR00T) [verify] | Humanoid-focused foundation model stack | New (2025), humanoid-specific. |
+| **RDT-1B** - [https://github.com/thu-ml/RoboticsDiffusionTransformer](https://github.com/thu-ml/RoboticsDiffusionTransformer) | 1B bimanual diffusion VLA | If your task is bimanual. |
+| **NVIDIA GR00T** - [https://github.com/NVIDIA/Isaac-GR00T](https://github.com/NVIDIA/Isaac-GR00T) | Humanoid-focused foundation model stack | New (2025), humanoid-specific. |
 
 ## Honest assessment of state of the art (early 2026)
 
@@ -259,7 +259,7 @@ What you can actually do today with off-the-shelf open VLAs:
 - Fine-tune for a kitchen-scale manipulation task (~50-200 demos, single arm, single scene): ~70-85% success rate.
 - Multi-scene generalization (same task, different rooms): ~50-70%.
 - Cross-task generalization (related tasks unseen at fine-tune time): hit or miss, often <50%.
-- Mobile manipulation: still early; π0.5 [verify] and Mobile ALOHA-derived work show promise but few open-weights baselines.
+- Mobile manipulation: still early; π0.5 and Mobile ALOHA-derived work show promise but few open-weights baselines.
 - Force-sensitive contact tasks: poor without specific force/torque conditioning.
 - Sub-second precision tasks: poor due to inference latency.
 
@@ -271,5 +271,5 @@ For comparison: a Diffusion Policy or ACT trained from scratch on the *exact* ta
 - Padalkar et al., *"Open X-Embodiment: Robotic Learning Datasets and RT-X Models"* - [https://arxiv.org/abs/2310.08864](https://arxiv.org/abs/2310.08864)
 - Kim et al., *"OpenVLA: An Open-Source Vision-Language-Action Model"* - [https://arxiv.org/abs/2406.09246](https://arxiv.org/abs/2406.09246)
 - Octo Team, *"Octo: An Open-Source Generalist Robot Policy"* - [https://arxiv.org/abs/2405.12213](https://arxiv.org/abs/2405.12213)
-- Physical Intelligence, *"π0: A Vision-Language-Action Flow Model for General Robot Control"* - [https://www.physicalintelligence.company/blog/pi0](https://www.physicalintelligence.company/blog/pi0) [verify]
+- Physical Intelligence, *"π0: A Vision-Language-Action Flow Model for General Robot Control"* - [https://www.physicalintelligence.company/blog/pi0](https://www.physicalintelligence.company/blog/pi0)
 - CoRL 2024 and CoRL 2025 best papers - the VLA frontier is published here.

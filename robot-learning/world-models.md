@@ -74,7 +74,7 @@ For robotics specifically, DreamerV3 has been applied to:
 
 Micheli et al., ICLR 2023. [https://arxiv.org/abs/2209.00588](https://arxiv.org/abs/2209.00588)
 
-Code: [https://github.com/eloialonso/iris](https://github.com/eloialonso/iris) [verify]
+Code: [https://github.com/eloialonso/iris](https://github.com/eloialonso/iris)
 
 IRIS replaces the latent RSSM with a discrete VQ-VAE tokenizer + autoregressive transformer (think GPT-2 over image tokens). The policy is then trained inside an imagination rolled out by the transformer.
 
@@ -84,7 +84,7 @@ Strong on Atari at very low sample counts (2 hours of game time vs. weeks for SA
 
 GAIA-1: [https://arxiv.org/abs/2309.17080](https://arxiv.org/abs/2309.17080)
 
-GAIA-2: [https://wayve.ai/thinking/gaia-2/](https://wayve.ai/thinking/gaia-2/) [verify]
+GAIA-2: [https://wayve.ai/thinking/gaia-2/](https://wayve.ai/thinking/gaia-2/)
 
 Wayve's autonomous-driving world models. Conditioned on video + actions + text + ego-vehicle state, they generate plausible driving futures. GAIA-2 (2024) added multi-camera, multi-modal conditioning and is used internally for closed-loop policy evaluation - train a policy, evaluate it inside GAIA-2 before putting it on a real car.
 
@@ -92,9 +92,9 @@ Wayve's autonomous-driving world models. Conditioned on video + actions + text +
 
 ## Cosmos (NVIDIA, 2025)
 
-[https://www.nvidia.com/en-us/ai/cosmos/](https://www.nvidia.com/en-us/ai/cosmos/) [verify]
+[https://www.nvidia.com/en-us/ai/cosmos/](https://www.nvidia.com/en-us/ai/cosmos/)
 
-Paper: [https://arxiv.org/abs/2501.03575](https://arxiv.org/abs/2501.03575) [verify]
+Paper: [https://arxiv.org/abs/2501.03575](https://arxiv.org/abs/2501.03575)
 
 NVIDIA's bid for a *world foundation model for robotics*. Released early 2025. Architecturally similar to Sora-style diffusion video models, but trained on ~20 million hours of physical-world video curated to emphasize manipulation, locomotion, and embodied scenes.
 
@@ -116,7 +116,7 @@ Stated use cases:
 
 ## Genie 1 / Genie 2 (DeepMind)
 
-Genie 2 [https://deepmind.google/discover/blog/genie-2-a-large-scale-foundation-world-model/](https://deepmind.google/discover/blog/genie-2-a-large-scale-foundation-world-model/) [verify]
+Genie 2 [https://deepmind.google/discover/blog/genie-2-a-large-scale-foundation-world-model/](https://deepmind.google/discover/blog/genie-2-a-large-scale-foundation-world-model/)
 
 DeepMind's foundation world model. The key trick: trained *unsupervised* on internet video, learns latent action representations *automatically* (no need for ground-truth actions in the training data). You can then prompt it with an image and a (learned) action to generate plausible futures.
 
@@ -124,7 +124,7 @@ For robotics this is less directly useful than Cosmos (Genie's actions are abstr
 
 ## Diffusion world models for RL
 
-**DIAMOND** - Alonso et al., NeurIPS 2024. [https://arxiv.org/abs/2405.12399](https://arxiv.org/abs/2405.12399) [verify] - trains an Atari policy entirely inside a diffusion world model. The model generates the game frames; the policy plays the game it imagines. State of the art on Atari 100k at the time.
+**DIAMOND** - Alonso et al., NeurIPS 2024. [https://arxiv.org/abs/2405.12399](https://arxiv.org/abs/2405.12399) - trains an Atari policy entirely inside a diffusion world model. The model generates the game frames; the policy plays the game it imagines. State of the art on Atari 100k at the time.
 
 This is conceptually significant: if a 100M-param diffusion model can simulate Atari well enough to train a policy, what does a 100B-param model trained on robot video give us?
 
@@ -189,6 +189,6 @@ Be honest with yourself. World models are oversold in research and undershipped 
 - Ha & Schmidhuber, *"World Models"* - [https://arxiv.org/abs/1803.10122](https://arxiv.org/abs/1803.10122) (the modern starting point)
 - Hafner et al., *"Mastering Diverse Domains through World Models"* (DreamerV3) - [https://arxiv.org/abs/2301.04104](https://arxiv.org/abs/2301.04104)
 - Wu et al., *"DayDreamer: World Models for Physical Robot Learning"* - [https://arxiv.org/abs/2206.14176](https://arxiv.org/abs/2206.14176)
-- NVIDIA, *"Cosmos World Foundation Model Platform"* - [https://arxiv.org/abs/2501.03575](https://arxiv.org/abs/2501.03575) [verify]
+- NVIDIA, *"Cosmos World Foundation Model Platform"* - [https://arxiv.org/abs/2501.03575](https://arxiv.org/abs/2501.03575)
 - Hansen, Wang, Su, *"TD-MPC2: Scalable, Robust World Models for Continuous Control"* - [https://arxiv.org/abs/2310.16828](https://arxiv.org/abs/2310.16828)
 - Bruce et al., *"Genie: Generative Interactive Environments"* - [https://arxiv.org/abs/2402.15391](https://arxiv.org/abs/2402.15391)

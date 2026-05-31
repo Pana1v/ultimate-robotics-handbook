@@ -1,4 +1,5 @@
 ---
+description: ROS 2 — middleware for robotics from setup to Nav2, MoveIt 2, microROS, and production deployment on Humble and Jazzy.
 icon: gear
 ---
 
@@ -7,6 +8,10 @@ icon: gear
 ROS 1 reached end-of-life with Noetic in **May 2025**. If you are starting a robotics project in 2026, you start it on ROS 2 - full stop. This section is the modern, ROS 2 first counterpart to the legacy `ros-advanced/ros-1/` material, which we keep around purely so older codebases and tutorials still make sense to readers.
 
 I have been writing ROS 2 code daily since Foxy, shipped a Humble + Jazzy mobile platform ([Polka](../authors-projects/polka.md)), and contributed upstream to Nav2 and PlotJuggler. The pages in this section reflect what I actually do at work, not just what the docs say.
+
+### In this section
+
+<table data-view="cards"><thead><tr><th></th><th data-type="content-ref"></th><th data-hidden data-card-cover data-type="files"></th></tr></thead><tbody><tr><td>Setup</td><td><a href="setup.md">setup.md</a></td><td></td></tr><tr><td>DDS and QoS</td><td><a href="dds-qos.md">dds-qos.md</a></td><td><a href="../.gitbook/assets/dds.gif">dds.gif</a></td></tr><tr><td>Lifecycle and Composition</td><td><a href="lifecycle-and-composition.md">lifecycle-and-composition.md</a></td><td><a href="../.gitbook/assets/lifecycle.jpeg">lifecycle.jpeg</a></td></tr><tr><td>Nav2 Deep Dive</td><td><a href="nav2-deep-dive.md">nav2-deep-dive.md</a></td><td><a href="../.gitbook/assets/nav2-pure-pursuit.gif">nav2-pure-pursuit.gif</a></td></tr><tr><td>MoveIt 2</td><td><a href="moveit2.md">moveit2.md</a></td><td><a href="../.gitbook/assets/ik1.gif">ik1.gif</a></td></tr><tr><td>micro-ROS</td><td><a href="micro-ros.md">micro-ros.md</a></td><td><a href="../.gitbook/assets/ESP32-blink-gif.gif">ESP32-blink-gif.gif</a></td></tr><tr><td>Visualization (rviz2, Foxglove, Lichtblick, PlotJuggler)</td><td><a href="visualization.md">visualization.md</a></td><td><a href="../.gitbook/assets/ros2-visualization.gif">ros2-visualization.gif</a></td></tr><tr><td>Important Packages and Libraries</td><td><a href="important-packages-and-libraries.md">important-packages-and-libraries.md</a></td><td></td></tr></tbody></table>
 
 ### Why ROS 2 (and not ROS 1)
 
@@ -38,14 +43,14 @@ ROS 2 ships on a roughly biannual cadence, alternating LTS and non-LTS releases.
 
 | Distro                | Released       | EOL              | Ubuntu       | Notes                                                  |
 | --------------------- | -------------- | ---------------- | ------------ | ------------------------------------------------------ |
-| **Humble Hawksbill**  | May 2022 (LTS) | May 2027 \[verify] | 22.04 Jammy  | The conservative choice - most third-party packages still target it |
-| **Jazzy Jalisco**     | May 2024 (LTS) | May 2029 \[verify] | 24.04 Noble  | The current default for new work                       |
-| **Kilted Kaiju**      | May 2025       | Nov 2026 \[verify] | 24.04 Noble  | Non-LTS, mostly used by Nav2/MoveIt developers chasing new features |
+| **Humble Hawksbill**  | May 2022 (LTS) | May 2027 | 22.04 Jammy  | The conservative choice - most third-party packages still target it |
+| **Jazzy Jalisco**     | May 2024 (LTS) | May 2029 | 24.04 Noble  | The current default for new work                       |
+| **Kilted Kaiju**      | May 2025       | Dec 2026 | 24.04 Noble  | Non-LTS, mostly used by Nav2/MoveIt developers chasing new features |
 | **Rolling Ridley**    | Continuous     | n/a              | tracks latest| The development branch - never deploy this to a robot |
 
 When I start a new project today I default to **Jazzy on Ubuntu 24.04**. I only pick Humble when a critical dependency (a vendor driver, a specific MoveIt configuration, a customer-pinned Docker image) has not been ported. Avoid mixing distros inside a single workspace; the binary interfaces of `rcl`, `rclcpp`, and message packages are not stable across distros.
 
-The official EOL schedule lives at [docs.ros.org/en/rolling/Releases.html](https://docs.ros.org/en/rolling/Releases.html) \[verify] - sanity-check the dates above against that page when planning a multi-year deployment.
+The official EOL schedule lives at [docs.ros.org/en/rolling/Releases.html](https://docs.ros.org/en/rolling/Releases.html) - sanity-check the dates above against that page when planning a multi-year deployment.
 
 ### What's in this section
 
@@ -66,6 +71,6 @@ The official EOL schedule lives at [docs.ros.org/en/rolling/Releases.html](https
 
 ### How to read this section
 
-These pages assume you already know what a topic, service, and action are at the conceptual level. If you don't, the official docs at [docs.ros.org/en/jazzy/Tutorials.html](https://docs.ros.org/en/jazzy/Tutorials.html) \[verify] are the right starting point. What I cover here is the layer above the tutorials - the design decisions and production gotchas that the docs assume you'll learn the hard way.
+These pages assume you already know what a topic, service, and action are at the conceptual level. If you don't, the official docs at [docs.ros.org/en/jazzy/Tutorials.html](https://docs.ros.org/en/jazzy/Tutorials.html) are the right starting point. What I cover here is the layer above the tutorials - the design decisions and production gotchas that the docs assume you'll learn the hard way.
 
 I lean on production examples from my own work where they add signal. If you spot something that drifts out of date as new distros land, the GitHub history of this handbook is the source of truth.
