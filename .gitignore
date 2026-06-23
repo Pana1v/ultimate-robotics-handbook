@@ -1,0 +1,9 @@
+# Local static-render output (build artifact)
+_site/
+_book/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
