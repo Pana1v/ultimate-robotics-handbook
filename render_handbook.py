@@ -37,14 +37,41 @@ def generate_index():
         if os.path.isdir(item) and not item.startswith('.') and item != '_book':
             # Check for landing page
             landing = f"{item}/{item}.md"
-            if os.path.exists(landing):
-                with open(landing, 'r') as f:
-                    first_line = f.readline().strip()
-                    if first_line.startswith('# '):
-                        title = first_line[2:]
-                        sections.append((item, title, landing))
-    
+            if not os.path.exists(landing):
+                landing = find_landing(item)
+            if landing:
+                title = extract_title(landing)
+                if title:
+                    sections.append((item, title, landing))
+
     return sections
+
+def find_landing(item):
+    """Fallback: the section landing page is the single top-level .md
+    in the directory that carries a card grid."""
+    candidates = []
+    for name in sorted(os.listdir(item)):
+        path = f"{item}/{name}"
+        if os.path.isfile(path) and name.endswith('.md'):
+            with open(path, 'r') as f:
+                if 'data-view="cards"' in f.read():
+                    candidates.append(path)
+    return candidates[0] if len(candidates) == 1 else None
+
+def extract_title(filepath):
+    """Return the first '# ' heading, skipping any YAML frontmatter."""
+    with open(filepath, 'r') as f:
+        lines = f.read().splitlines()
+    i = 0
+    if lines and lines[0].strip() == '---':
+        i = 1
+        while i < len(lines) and lines[i].strip() != '---':
+            i += 1
+        i += 1
+    for line in lines[i:]:
+        if line.startswith('# '):
+            return line[2:].strip()
+    return None
 
 # Generate HTML
 html_template = """<!DOCTYPE html>
