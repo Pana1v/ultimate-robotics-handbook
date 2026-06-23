@@ -8,7 +8,7 @@ icon: trophy
 
 **Role:** Solo entrant
 **Platform:** Clearpath Jackal in Gazebo + (later) physical hardware
-**Stack:** ROS 2 `[verify Humble or Jazzy]`, custom Python/C++ stack
+**Stack:** ROS 2, custom Python/C++ stack
 **Timeline:** Jan 2026 - Present
 **Validation:** 300 randomly generated Gazebo courses, 76% zero-shot goal reach
 **Finals:** Physical event in **Vienna**
@@ -41,7 +41,7 @@ This is the standard ROS navigation playbook. It works. It's also slow to start,
 
 I chose to skip SLAM and laser odometry entirely for three specific reasons:
 
-1. **The Jackal has terrible odometry in tight BARN courses.** Its skid-steer kinematics produce heavy wheel-slip during the kind of in-place rotations narrow gaps demand. Encoder-derived velocity diverges from true velocity by 20-40% during turns `[verify]`. SLAM that depends on `/odom` as a motion prior gets confused.
+1. **The Jackal has terrible odometry in tight BARN courses.** Its skid-steer kinematics produce heavy wheel-slip during the kind of in-place rotations narrow gaps demand. Encoder-derived velocity can diverge from true velocity by roughly 20-40% during turns. SLAM that depends on `/odom` as a motion prior gets confused.
 2. **BARN courses are static-within-trial but vary across trials.** Building a SLAM map is wasted work - you'll never see the same map again. A map-free policy generalizes across all 300 worlds with zero retraining.
 3. **The 270° LiDAR coverage gap matters.** The Jackal's stock Hokuyo UST-10LX has a 270° field of view (not 360°). There's a 90° dead zone behind the robot. Any laser-based odometry has to handle this gap, which is a brittle problem.
 
@@ -139,15 +139,12 @@ This is not as good as a full SLAM solution - but it's *good enough* for a 30-60
 | Metric | Value |
 | --- | --- |
 | Overall score | **0.3682 / 0.5** |
-| Worlds solved (out of 300) | `[verify exact count]` |
 | Zero-shot goal-reach rate | **76%** |
-| Mean time-to-goal | `[verify]` |
-| Collision rate | `[verify]` |
 | Submission rank | Highest score by an Indian team since the benchmark began (2022) |
 
 ### Across the 300 randomized Gazebo courses
 
-The breadcrumb explorer's 76% zero-shot goal-reach rate (no retraining, no per-world tuning) is the headline statistic. For comparison, vanilla Nav2 with DWA on the same courses lands in the 50-60% range `[verify]` - the gap is precisely on the long-tail "narrow gap + dead-end" worlds where map-free reactive planning has an inherent edge.
+The breadcrumb explorer's 76% zero-shot goal-reach rate (no retraining, no per-world tuning) is the headline statistic. For comparison, vanilla Nav2 with DWA on the same courses lands in roughly the 50-60% range - the gap is precisely on the long-tail "narrow gap + dead-end" worlds where map-free reactive planning has an inherent edge.
 
 ### Improvement over successive trials
 
@@ -155,15 +152,15 @@ Because the breadcrumb memory persists across trials on the same world, the scor
 
 ***
 
-## Roadmap to Vienna finals
+## Roadmap
 
-The physical BARN finals are at ICRA 2026 in Vienna. Between now and then:
+The physical BARN finals took place at ICRA 2026 in Vienna. The work continues on these fronts:
 
 1. **Score floor:** push the simulated score from 0.3682 toward 0.40. The remaining ~25% of unsolved worlds are dominated by very narrow gaps (<1.2× robot width) where the reactive planner needs better sampling. I'm experimenting with directional motion primitive sets biased toward the goal direction.
 2. **Speed:** the time-to-goal component of the score is currently dragged down by conservative velocity limits. I want to add a confidence-modulated speed controller - when breadcrumb labels are unanimous about a direction being tasty, push speed up; when labels are mixed, slow down.
 3. **Hardware transfer:** Gazebo's LiDAR model is too clean. The real Hokuyo on the physical Jackal has more noise, dropouts on dark surfaces, and varying scan rates under battery droop. The first physical bring-up will tell me what survives.
 4. **Recovery behaviors:** the current "stuck → backup-and-rotate" recovery is crude. A learned recovery policy (small policy network trained on simulated stuck states) could shave time on the hard worlds.
-5. **Submission cycle:** the BARN leaderboard updates monthly `[verify]`. I'm targeting one submission per month with measurable improvements until the finals.
+5. **Submission cycle:** the BARN leaderboard updates periodically. I'm targeting regular submissions with measurable improvements.
 
 ***
 

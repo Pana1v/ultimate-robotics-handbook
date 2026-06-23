@@ -184,5 +184,5 @@ For tasks with structured spatial reasoning (e.g., multi-object manipulation, ar
 - Chi et al., *"Diffusion Policy: Visuomotor Policy Learning via Action Diffusion"* - [https://arxiv.org/abs/2303.04137](https://arxiv.org/abs/2303.04137)
 - Zhao et al., *"Learning Fine-Grained Bimanual Manipulation with Low-Cost Hardware"* (ACT/ALOHA) - [https://arxiv.org/abs/2304.13705](https://arxiv.org/abs/2304.13705)
 - Ross, Gordon & Bagnell, *"A Reduction of Imitation Learning and Structured Prediction to No-Regret Online Learning"* (DAgger) - [https://arxiv.org/abs/1011.0686](https://arxiv.org/abs/1011.0686)
-- LeRobot blog post series: [https://huggingface.co/blog/lerobot](https://huggingface.co/blog/lerobot) [verify]
+- LeRobot project hub (models, datasets, tutorials): [https://huggingface.co/lerobot](https://huggingface.co/lerobot)
 - Pieter Abbeel & Andrew Ng, *"Apprenticeship Learning via Inverse Reinforcement Learning"* (2004) - the classic IRL paper, useful for context on what IL is *not*.

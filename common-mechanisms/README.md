@@ -115,8 +115,6 @@ Use Cases
 
 <figure><img src="https://upload.wikimedia.org/wikipedia/commons/f/f4/ExtraSimpleWalkerBaseMechanism.gif" alt="" width="375"><figcaption><p>Simple Linkage Mechanism</p></figcaption></figure>
 
-<figure><img src="https://codeavour.org/wp-content/uploads/2024/11/20240913-LR-Assembly-Linkage-Corner-Joint-2.gif" alt="" width="188"><figcaption><p>Rotary Linkage (Joint)</p></figcaption></figure>
-
 <figure><img src="https://global.discourse-cdn.com/sketchup/original/3X/6/4/642148de48380d976973a66b396e700e01752966.gif" alt="" width="188"><figcaption><p>HInge</p></figcaption></figure>
 
 

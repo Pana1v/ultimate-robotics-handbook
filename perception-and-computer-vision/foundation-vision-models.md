@@ -103,7 +103,7 @@ Combine it with SAM and you get **Grounded-SAM**: "person wearing a hard hat" â†
 * Features cluster by semantic identity even without labels - great for unsupervised object discovery.
 * Used as the backbone for Depth Anything, many VLAs, and lots of policy learning work.
 
-**DINOv3** (2025) extends this further with better scaling and longer-range features `[verify]`.
+**DINOv3** (Meta AI, August 2025, [arxiv.org/abs/2508.10104](https://arxiv.org/abs/2508.10104)) extends this further - a 7B-parameter ViT teacher trained on 1.7B images, with "Gram anchoring" to stop dense feature degradation during long training, distilled down into ViT-B/L and ConvNeXt variants for practical deployment. As of mid-2026 it is still the latest DINO release - no DINOv4 has been announced.
 
 DINOv2 is what you reach for when you want "the best general visual representation, no language needed." If your task is geometric (correspondence, depth, tracking), DINOv2 features are often better than CLIP's because CLIP collapses things into a language-aligned space that loses fine spatial detail.
 
@@ -125,23 +125,23 @@ Other options worth knowing:
 
 ### 7. Inference cost on Jetson Orin / desktop GPU
 
-This is the actually-important table. Numbers below are rough orders of magnitude - your mileage varies based on input resolution, precision (FP32/FP16/INT8), and TensorRT optimization. Treat them as "what to expect" not "what you will measure."
+This is the actually-important table. Numbers below are rough orders of magnitude - your mileage varies based on input resolution, precision (FP32/FP16/INT8), and TensorRT optimization. Treat them as "what to expect" not "what you will measure." These are literature and community-benchmark estimates, not numbers I have measured on this exact hardware - measure on your own stack before you commit to a design.
 
 | Model                  | RTX 4090 (FP16)   | Jetson Orin NX 16GB (FP16) | Jetson Orin Nano 8GB (FP16) | Notes                                                  |
 | ---------------------- | ----------------- | -------------------------- | --------------------------- | ------------------------------------------------------ |
-| SAM ViT-H              | ~3-6 FPS          | ~0.3-0.8 FPS               | OOM / unusable              | Use MobileSAM/EfficientSAM instead `[verify]`          |
-| MobileSAM              | ~30-50 FPS        | ~10-15 FPS                 | ~4-6 FPS                    | Good for on-robot interactive segmentation `[verify]`  |
-| FastSAM                | ~25-40 FPS        | ~8-12 FPS                  | ~3-5 FPS                    | YOLO-based, faster than SAM ViT-H `[verify]`           |
-| SAM 2 (Hiera-Tiny)     | ~30-45 FPS        | ~6-10 FPS                  | ~2-3 FPS                    | Video tracking, single object `[verify]`               |
-| Grounding DINO         | ~5-10 FPS         | ~1-2 FPS                   | OOM-prone                   | Use offline for labeling, not on-robot `[verify]`      |
-| YOLO-World v2          | ~60-120 FPS       | ~15-30 FPS                 | ~6-10 FPS                   | Real-time open-vocab detection `[verify]`              |
-| CLIP ViT-B/32          | ~500+ FPS         | ~60-100 FPS                | ~25-40 FPS                  | Embedding only, no decoding `[verify]`                 |
-| CLIP ViT-L/14          | ~150 FPS          | ~20-30 FPS                 | ~5-10 FPS                   | Bigger backbone `[verify]`                             |
-| SigLIP B/16            | ~200+ FPS         | ~30-50 FPS                 | ~10-15 FPS                  | `[verify]`                                             |
-| DINOv2 ViT-S/14        | ~200 FPS          | ~25-40 FPS                 | ~10-15 FPS                  | Distilled small variant `[verify]`                     |
-| DINOv2 ViT-L/14        | ~50-80 FPS        | ~5-10 FPS                  | ~2-3 FPS                    | `[verify]`                                             |
-| Depth Anything v2 Small| ~40-80 FPS        | ~10-15 FPS                 | ~4-6 FPS                    | At 518x518 input `[verify]`                            |
-| Depth Anything v2 Large| ~10-20 FPS        | ~2-3 FPS                   | sub-1 FPS                   | `[verify]`                                             |
+| SAM ViT-H              | ~3-6 FPS          | ~0.3-0.8 FPS               | OOM / unusable              | Use MobileSAM/EfficientSAM instead          |
+| MobileSAM              | ~30-50 FPS        | ~10-15 FPS                 | ~4-6 FPS                    | Good for on-robot interactive segmentation  |
+| FastSAM                | ~25-40 FPS        | ~8-12 FPS                  | ~3-5 FPS                    | YOLO-based, faster than SAM ViT-H           |
+| SAM 2 (Hiera-Tiny)     | ~30-45 FPS        | ~6-10 FPS                  | ~2-3 FPS                    | Video tracking, single object               |
+| Grounding DINO         | ~5-10 FPS         | ~1-2 FPS                   | OOM-prone                   | Use offline for labeling, not on-robot      |
+| YOLO-World v2          | ~60-120 FPS       | ~15-30 FPS                 | ~6-10 FPS                   | Real-time open-vocab detection              |
+| CLIP ViT-B/32          | ~500+ FPS         | ~60-100 FPS                | ~25-40 FPS                  | Embedding only, no decoding                 |
+| CLIP ViT-L/14          | ~150 FPS          | ~20-30 FPS                 | ~5-10 FPS                   | Bigger backbone                             |
+| SigLIP B/16            | ~200+ FPS         | ~30-50 FPS                 | ~10-15 FPS                  |                                             |
+| DINOv2 ViT-S/14        | ~200 FPS          | ~25-40 FPS                 | ~10-15 FPS                  | Distilled small variant                     |
+| DINOv2 ViT-L/14        | ~50-80 FPS        | ~5-10 FPS                  | ~2-3 FPS                    |                                             |
+| Depth Anything v2 Small| ~40-80 FPS        | ~10-15 FPS                 | ~4-6 FPS                    | At 518x518 input                            |
+| Depth Anything v2 Large| ~10-20 FPS        | ~2-3 FPS                   | sub-1 FPS                   |                                             |
 
 **Hard-won lessons:**
 

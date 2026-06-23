@@ -264,4 +264,4 @@ If you miss a pair, you'll get spurious self-collision errors that make IK fail.
 * [control.ros.org](https://control.ros.org) - ros2\_control reference.
 * [Nav2 Deep Dive](nav2-deep-dive.md) - the mobile counterpart.
 * [Lifecycle and Composition](lifecycle-and-composition.md) - `move_group` itself is composable; useful when you embed it into a larger application.
-* [Optimization libraries](../mathematical-and-programming-foundations/optimization-libraries.md) - what's underneath CHOMP, STOMP, and modern trajectory optimization.
+* [Optimization libraries](../programming-for-robotics/optimization-libraries.md) - what's underneath CHOMP, STOMP, and modern trajectory optimization.

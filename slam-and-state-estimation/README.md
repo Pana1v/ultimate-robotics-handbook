@@ -130,5 +130,5 @@ These are the books and surveys I keep open:
 
 * [Polka](../authors-projects/polka.md) - my multi-LiDAR fusion + deskewing node. Deskewing is covered in depth in [lidar-slam.md](lidar-slam.md).
 * [GO-SLAM (Pan's)](../authors-projects/go-slam.md) - my from-scratch GICP + pose-graph SLAM. Linked from [lidar-slam.md](lidar-slam.md) and called out in [learned-slam.md](learned-slam.md) to disambiguate from the ICCV 2023 paper of the same name.
-* [Cameras, Depth Sensors and LiDAR](../ml-and-perception/cameras-depth-sensors-and-lidar.md) - sensor-level details that SLAM builds on.
+* [Cameras, Depth Sensors and LiDAR](../perception-and-computer-vision/cameras-depth-sensors-and-lidar.md) - sensor-level details that SLAM builds on.
 * [Linear Algebra for Robotics](../foundations/linear-algebra-for-robotics.md) - SE(3), rotations, the linear algebra under every estimator on this page.

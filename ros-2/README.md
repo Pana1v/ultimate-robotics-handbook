@@ -4,7 +4,7 @@ icon: gear
 
 # ROS 2
 
-ROS 1 reached end-of-life with Noetic in **May 2025**. If you are starting a robotics project in 2026, you start it on ROS 2 - full stop. This section is the modern, ROS 2 first counterpart to the legacy `ros-advanced/ros-1/` material, which we keep around purely so older codebases and tutorials still make sense to readers.
+ROS 1 reached end-of-life with Noetic in **May 2025**. If you are starting a robotics project in 2026, you start it on ROS 2 - full stop. This section is the modern, ROS 2 first counterpart to the legacy `ros-1-legacy/ros/` material, which we keep around purely so older codebases and tutorials still make sense to readers.
 
 I have been writing ROS 2 code daily since Foxy, shipped a Humble + Jazzy mobile platform ([Polka](../authors-projects/polka.md)), and contributed upstream to Nav2 and PlotJuggler. The pages in this section reflect what I actually do at work, not just what the docs say.
 
@@ -61,8 +61,8 @@ The official EOL schedule lives at [docs.ros.org/en/rolling/Releases.html](https
 
 * [Polka](../authors-projects/polka.md) - my mobile platform running Humble + Jazzy side by side.
 * [SLAM and State Estimation → LiDAR SLAM](../slam-and-state-estimation/lidar-slam.md) - the perception layer most ROS 2 navigation stacks rely on.
-* [Optimization libraries](../mathematical-and-programming-foundations/optimization-libraries.md) - the math underneath MPPI, Smac, MoveIt, and most modern planners.
-* [Legacy ROS 1](../ros-advanced/ros-1/README.md) - kept for archaeology only; do not start new projects there.
+* [Optimization libraries](../programming-for-robotics/optimization-libraries.md) - the math underneath MPPI, Smac, MoveIt, and most modern planners.
+* [Legacy ROS 1](../ros-1-legacy/ros/README.md) - kept for archaeology only; do not start new projects there.
 
 ### How to read this section
 

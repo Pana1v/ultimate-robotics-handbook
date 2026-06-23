@@ -412,4 +412,4 @@ The `/**:` is a wildcard that applies to all nodes.
 * [LiDAR SLAM](../slam-and-state-estimation/lidar-slam.md) - the perception layer that produces the `/map` and `odom` Nav2 needs.
 * [MoveIt 2](moveit2.md) - the manipulation counterpart for arms.
 * [Polka](../authors-projects/polka.md) - my own platform running this stack.
-* [Optimization libraries](../mathematical-and-programming-foundations/optimization-libraries.md) - the math underneath MPPI and the Smac planners.
+* [Optimization libraries](../programming-for-robotics/optimization-libraries.md) - the math underneath MPPI and the Smac planners.

@@ -9,4 +9,4 @@ ROS 1 reached end-of-life in May 2025. This section archives advanced ROS 1 mate
 
 ### In this section
 
-<table data-view="cards"><thead><tr><th></th><th data-type="content-ref"></th><th data-hidden data-card-cover data-type="files"></th></tr></thead><tbody><tr><td>ROS 1 Legacy (Noetic)</td><td><a href="ros-1/README.md">ros-1/README.md</a></td><td></td></tr></tbody></table>
+<table data-view="cards"><thead><tr><th></th><th data-type="content-ref"></th><th data-hidden data-card-cover data-type="files"></th></tr></thead><tbody><tr><td>ROS 1 Legacy (Noetic)</td><td><a href="../ros-1-legacy/ros/README.md">README.md</a></td><td><a href="../.gitbook/assets/ros1-turtlebot.png">ros1-turtlebot.png</a></td></tr></tbody></table>

@@ -91,7 +91,7 @@ Ma et al., NVIDIA & UPenn, 2023. [https://arxiv.org/abs/2310.12931](https://arxi
 
 Project: [https://eureka-research.github.io/](https://eureka-research.github.io/)
 
-Eureka uses GPT-4 to _write_ reward functions. You describe the task in natural language, GPT-4 outputs candidate Python reward functions, you train policies with each in parallel, and iterate based on which policies perform best.
+Eureka uses an LLM to _write_ reward functions - GPT-4 in the original 2023 paper, though any current frontier model does the job at least as well. You describe the task in natural language, the model outputs candidate Python reward functions, you train policies with each in parallel, and iterate based on which policies perform best.
 
 For a class of tasks - primarily those where reward shaping was the bottleneck - Eureka generates rewards that beat human-engineered ones. It is particularly good at the "many small reward components I would not have thought of" problem.
 

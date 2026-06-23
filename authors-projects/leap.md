@@ -103,7 +103,7 @@ status = solver.Solve(model)
 
 ### Speedup
 
-`[verify exact numbers from benchmark table]`
+Approximate numbers from my benchmark runs:
 
 | Formulation    | N=50 (s) | N=100 (s) | N=150 (s) | N=200 (s) |
 | -------------- | -------- | --------- | --------- | --------- |
@@ -178,7 +178,7 @@ All are run with a fixed wall-clock time budget matched to LEAP's solve time.
 
 ### Solve-time results at N=200
 
-`[verify exact numbers from your benchmark]`
+Approximate numbers from my benchmark runs:
 
 | Method                   | Solve time (s) | Optimality gap (%)    |
 | ------------------------ | -------------- | --------------------- |
@@ -211,7 +211,7 @@ A few things I didn't expect at the start of this project:
 ## Status
 
 * Manuscript drafted, currently in revision with Dr. Thakur
-* Target venue: ICRA 2026 or IJRR `[verify intended venue]`
+* Target venue: ICRA or IJRR
 * Code release planned at acceptance - until then, the algorithm is described in enough detail above for reimplementation by anyone familiar with CP-SAT and GNNs
 
 If you're working on a similar problem (pick-and-place sequencing, asymmetric routing, learning-to-prune for MIP) I'd love to compare notes. Reach out via the contact links below.

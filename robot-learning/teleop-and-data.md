@@ -211,7 +211,6 @@ For your own datasets: just use LeRobot's format. Re-inventing data formats is a
 
 - **LeRobot teleop scripts** - control rig + record + replay all in one. The 2026 default.
 - **Foxglove** - visualize and replay teleop sessions. [https://foxglove.dev/](https://foxglove.dev/) Useful for QA-ing demos.
-- **OpenLeap** - open-source ALOHA-compatible record/replay tooling. [verify]
 
 ## Practical workflow
 

@@ -72,13 +72,15 @@ Paper: [https://arxiv.org/abs/2405.12213](https://arxiv.org/abs/2405.12213)
 
 Berkeley's open VLA. Smaller (Octo-Base is ~93M params, Octo-Small ~27M), uses diffusion action heads instead of discrete tokens. Designed for fast fine-tuning and inference. Less flashy than OpenVLA but often a better default for hardware-constrained deployments.
 
-### π0 / π0.5 / π0-FAST (Physical Intelligence, 2024–2025)
+### π0 / π0.5 / π0-FAST (Physical Intelligence, 2024–2026)
 
 Black, Brown, Driess, Esmail, et al. [https://www.physicalintelligence.company/blog/pi0](https://www.physicalintelligence.company/blog/pi0)
 
 π0 introduced **flow matching action heads** - instead of autoregressive token sampling or diffusion denoising, generate the action chunk via a single ODE solve. Order of magnitude faster inference at similar quality. Pretrained on a substantially larger and more diverse robot dataset than what was public at the time.
 
 π0.5 (2025) extended to long-horizon mobile manipulation with open-ended language instructions ("clean the kitchen") - including some of the most impressive autonomous home demonstrations to date.
+
+The lineage has since continued: π\*0.6 (late 2025) added reinforcement learning from real-world experience on top of the π0.5 recipe, and π0.7 (April 2026) is PI's current flagship - a steerable generalist model with a claimed step-change in generalization. Neither has open weights as of mid-2026.
 
 **OpenPi** [https://github.com/Physical-Intelligence/openpi](https://github.com/Physical-Intelligence/openpi) is the open release of π0-base + fine-tuning code. As of 2026 this is the strongest open-weights VLA and what I would build on if starting today.
 
@@ -122,10 +124,10 @@ For context - what "internet-scale robot data" actually means:
 | Dataset / model | Trajectories | Robot-hours (approx) | Notes |
 |---|---|---|---|
 | RT-1 internal | 130k | ~17k | EveryDay Robots fleet, ~17 months |
-| Open X-Embodiment | 1M+ | ~60k+ [verify] | Aggregated from 30+ labs |
+| Open X-Embodiment | 1M+ across 22 robot types | not reported | Aggregated from 60 datasets, 34 labs |
 | DROID | 76k | ~350 | Single-arm Franka, large scene diversity |
 | BridgeData V2 | 60k | ~140 | Berkeley, WidowX |
-| Physical Intelligence π0 internal | "millions" of trajectories [verify] | ??? | Largest non-public corpus as of 2025 |
+| Physical Intelligence π0 internal | not disclosed | ~10k (per π0 paper) | 7 robot configurations, 68 tasks + OXE; largest non-public corpus as of mid-2026 |
 | RT-2 / web pretraining contribution | ~9B image-text pairs (web) | n/a | The "magic" of VLAs is mostly here |
 
 Compare to LLM scales (10T+ tokens) and you see why robot foundation models are still early. The "internet of robot data" is not a thing yet.
