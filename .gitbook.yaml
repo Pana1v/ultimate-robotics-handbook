@@ -1,0 +1,26 @@
+root: ./
+
+structure:
+  readme: README.md
+  summary: SUMMARY.md
+
+redirects:
+  # ml-and-perception/* merged into perception-and-computer-vision/
+  ml-and-perception/cameras-depth-sensors-and-lidar: perception-and-computer-vision/cameras-depth-sensors-and-lidar.md
+  ml-and-perception/example-of-a-vision-pipeline: perception-and-computer-vision/example-of-a-vision-pipeline.md
+  ml-and-perception/image-processing-basics-opencv: perception-and-computer-vision/image-processing-basics-opencv.md
+  ml-and-perception/ml-and-perception: perception-and-computer-vision/ml-and-perception.md
+  ml-and-perception/object-detection-and-tracking: perception-and-computer-vision/object-detection-and-tracking.md
+  ml-and-perception/reinforcement-learning: perception-and-computer-vision/reinforcement-learning.md
+  # ros-advanced/ros-1/* moved to ros-1-legacy/ros/
+  ros-advanced/ros-1/README: ros-1-legacy/ros/README.md
+  ros-advanced/ros-1/concepts-and-packages: ros-1-legacy/ros/concepts-and-packages.md
+  ros-advanced/ros-1/manual-and-quick-setup: ros-1-legacy/ros/manual-and-quick-setup.md
+  ros-advanced/ros: ros-advanced/ros-advanced.md
+  ros-advanced/important-packages-and-libraries: ros-2/important-packages-and-libraries.md
+  # hardware/common-mechanisms/* merged into common-mechanisms/
+  hardware/common-mechanisms/README: common-mechanisms/common-mechanisms.md
+  hardware/common-mechanisms/power-transmission: common-mechanisms/power-transmission.md
+  hardware/common-mechanisms/wheels-and-drives: common-mechanisms/wheels-and-drives.md
+  # authors-projects/README folded into the overview page
+  authors-projects/README: authors-projects/authors-projects.md
