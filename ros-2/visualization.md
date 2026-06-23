@@ -65,13 +65,13 @@ The repo: [github.com/ros2/rviz](https://github.com/ros2/rviz). Ships as `ros-ja
 
 ### The license change
 
-In 2024, Foxglove relicensed Studio under the **Business Source License (BUSL-1.1)** \[verify]. Practically, this means:
+In February 2024, Foxglove shipped the **last open-source release of Studio (v1.87.0)** and stopped open-sourcing it. The open-source Studio was under the **Mozilla Public License v2.0 (MPL-2.0)**, and those archived repos keep that license. Practically, this means:
 
-* The source is still on GitHub, you can still build it.
-* Commercial use *as a product* (selling Foxglove-derived tools) requires a paid license.
-* Internal use by an end-user robotics team is generally fine, but read the terms carefully if you're a vendor.
+* The last open-source version is still on GitHub (archived) and you can still build it.
+* Foxglove pivoted standalone Studio into a closed commercial data-infrastructure product; new development is not open source.
+* If you want a maintained open-source path, use one of the forks of v1.87.0 rather than waiting on upstream.
 
-The license change triggered several forks, including Lichtblick.
+The discontinuation triggered several forks, the most active being Lichtblick (originally forked by bmw software engineering, now its own project, still MPL-2.0).
 
 ### Connection patterns
 

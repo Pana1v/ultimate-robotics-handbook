@@ -50,15 +50,15 @@ A decision tree that has saved me about a year of false starts:
 
 ## What does NOT belong here
 
-A lot of robotics ML is just perception (detection, segmentation, depth estimation). That lives in [ML and Perception](../ml-and-perception/ml-and-perception.md). Robot learning is specifically about learning policies, dynamics, or world models - about closing the loop from sensors to actions, not just labeling pixels.
+A lot of robotics ML is just perception (detection, segmentation, depth estimation). That lives in [ML and Perception](../perception-and-computer-vision/ml-and-perception.md). Robot learning is specifically about learning policies, dynamics, or world models - about closing the loop from sensors to actions, not just labeling pixels.
 
-Classical reinforcement learning theory (MDPs, Bellman equations, DQN, the Sutton & Barto material) lives in [Reinforcement Learning](../ml-and-perception/reinforcement-learning.md). This section assumes you have at least skimmed that page.
+Classical reinforcement learning theory (MDPs, Bellman equations, DQN, the Sutton & Barto material) lives in [Reinforcement Learning](../perception-and-computer-vision/reinforcement-learning.md). This section assumes you have at least skimmed that page.
 
 ## Reading order
 
 If you are new to robot learning, here is the path I wish I had taken:
 
-1. Read the Sutton & Barto Chapter 1 + the existing [RL page](../ml-and-perception/reinforcement-learning.md) so MDPs and policy gradients are not mysteries.
+1. Read the Sutton & Barto Chapter 1 + the existing [RL page](../perception-and-computer-vision/reinforcement-learning.md) so MDPs and policy gradients are not mysteries.
 2. Read the [Imitation Learning](imitation-learning.md) page. Clone `lerobot`. Run the ACT tutorial on a sim arm. ~1 weekend.
 3. Read the [Sim-to-Real](sim-to-real.md) page. Install Isaac Lab. Run the cartpole and quadruped tutorials. ~1 weekend.
 4. Read the [Modern RL](reinforcement-learning-modern.md) page. Train a quadruped to walk in Isaac Lab. ~1 week if you have a GPU.

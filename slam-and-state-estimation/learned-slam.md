@@ -109,7 +109,7 @@ The Davison-lab heritage shows: this is the cleanest framing of "SLAM as differe
 
 ### GS-SLAM (CVPR 2024)
 
-Yan, Qiu, Liu, Liu, Sun, Wang, Liu, Lin, Cui, Yang. [arxiv.org/abs/2311.11700](https://arxiv.org/abs/2311.11700). Code: [github.com/yanchi-3dv/GS-SLAM](https://github.com/yanchi-3dv/GS-SLAM) `[verify]`.
+Yan, Qiu, Liu, Liu, Sun, Wang, Liu, Lin, Cui, Yang. [arxiv.org/abs/2311.11700](https://arxiv.org/abs/2311.11700). Project page: [gs-slam.github.io](https://gs-slam.github.io/). Code (modified rasterizer only; the full SLAM system is unreleased): [github.com/yanchi-3dv/diff-gaussian-rasterization-for-gsslam](https://github.com/yanchi-3dv/diff-gaussian-rasterization-for-gsslam).
 
 Another Gaussian-splat RGB-D SLAM, concurrent with SplaTAM. Adds an explicit coarse-to-fine selection strategy for which Gaussians to optimize per frame, and a render-then-refine loop. Comparable accuracy / speed to SplaTAM on standard benchmarks.
 

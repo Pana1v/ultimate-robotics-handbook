@@ -35,6 +35,9 @@
   * [Build and Prototyping](hardware/hardware/build-and-prototyping.md)
   * [3D Printing and Machining](hardware/hardware/3d-printing-and-machining.md)
 * [Common Mechanisms (overview)](common-mechanisms/common-mechanisms.md)
+  * [Mechanism Catalog](common-mechanisms/README.md)
+  * [Power Transmission](common-mechanisms/power-transmission.md)
+  * [Wheels and Drives](common-mechanisms/wheels-and-drives.md)
 * [Fabrication Parts](hardware/fabrication-parts.md)
 
 ## Computer-Aided Design & Simulations
@@ -143,6 +146,8 @@
 ## Drones, Rocketry and Aviation
 
 * [Drones (overview)](drones-rocketry-and-aviation/drones.md)
+  * [Drones: A Comprehensive Guide](drones-rocketry-and-aviation/drones/README.md)
+  * [Drone Anatomy](drones-rocketry-and-aviation/drones/drone-anatomy.md)
 * [Rocketry](drones-rocketry-and-aviation/rocketry.md)
 
 ## Author's Projects
@@ -170,3 +175,6 @@
 ## Other Resources
 
 * [Other Resources](other-resources/other-resources.md)
+* [Tools & Libraries](other-resources/tools-libraries.md)
+* [Datasets & Benchmarks](other-resources/datasets-benchmarks.md)
+* [External Resources & Communities](other-resources/external-resources.md)

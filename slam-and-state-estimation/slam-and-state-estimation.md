@@ -120,8 +120,8 @@ These are the books and surveys I keep open:
 * **Probabilistic Robotics** - Thrun, Burgard, Fox (2005). Still the foundation. Chapters 9-15 cover EKF, particle filter, and GraphSLAM.
 * **Factor Graphs for Robot Perception** - Dellaert & Kaess (2017). [Free PDF from author](https://www.cs.cmu.edu/~kaess/pub/Dellaert17fnt.pdf). The mental model for modern SLAM back-ends.
 * **State Estimation for Robotics** - Tim Barfoot (2nd ed, 2024). Lie groups, on-manifold optimization, the math under GTSAM.
-* **Past, Present, and Future of SIM - Cadena et al. (2016)** - [arxiv.org/abs/1606.05830](https://arxiv.org/abs/1606.05830). The "where is SLAM going" survey everyone cites.
-* **Visual SLAM survey** - Macario Barros et al. (2022). [arxiv.org/abs/2209.02786](https://arxiv.org/abs/2209.02786) `[verify]`.
+* **Past, Present, and Future of SLAM - Cadena et al. (2016)** - [arxiv.org/abs/1606.05830](https://arxiv.org/abs/1606.05830). The "where is SLAM going" survey everyone cites.
+* **Visual SLAM survey** - Macario Barros et al. (2022). [A Comprehensive Survey of Visual SLAM Algorithms](https://www.mdpi.com/2218-6581/11/1/24).
 
 ***
 

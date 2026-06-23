@@ -4,7 +4,7 @@ icon: buildings
 
 # Companies Hiring for Robotics
 
-> **Note**: This list reflects a 2026-05 snapshot. The robotics industry moves fast - verify before relying on contact/recruiting info. Funding rounds, acquisitions, and pivots happen monthly. Where I'm not 100% sure on a fact, I've flagged it with `[verify]`.
+> **Note**: This list reflects a 2026-05 snapshot. The robotics industry moves fast - verify before relying on contact/recruiting info. Funding rounds, acquisitions, and pivots happen monthly, so double-check anything before you act on it.
 
 ### **Companies Hiring for Robotics: India and Global Opportunities** <a href="#undefined" id="undefined"></a>
 
@@ -132,7 +132,7 @@ The "robotics-meets-defense-tech" wave has serious capital behind it from 2024 o
 
 ### **Indian Robotics**
 
-The Indian ecosystem matured between 2022 and 2026 - credible product companies, not just service shops. The list below splits into industrial / AMR, agriculture, manipulation & vision, drones, and consumer / social robotics. All entries should be fact-checked before relying on contact or hiring info; flagged `[verify]` where I'm less than fully confident.
+The Indian ecosystem matured between 2022 and 2026 - credible product companies, not just service shops. The list below splits into industrial / AMR, agriculture, manipulation & vision, drones, and consumer / social robotics. All entries should be fact-checked before relying on contact or hiring info.
 
 **AMRs / industrial automation**
 
@@ -154,7 +154,6 @@ The Indian ecosystem matured between 2022 and 2026 - credible product companies,
 | **Sastra Robotics**        | 2013    | Kochi, Kerala            | Test-automation robotic arms for medical / automotive / consumer electronics            | sastrarobotics.com           |
 | **Genrobotics**            | 2017    | Trivandrum, Kerala       | Bandicoot manhole-cleaning robot; eliminating manual scavenging                         | genrobotics.com              |
 | **Miko**                   | 2015    | Mumbai, India            | Companion social robot for children                                                     | miko.ai                      |
-| **Postman / Postler Robotics** | -   | -                        | Status uncertain; verify before listing                                                 | [verify]                     |
 
 **Agriculture & food**
 

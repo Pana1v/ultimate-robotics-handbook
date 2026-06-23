@@ -48,7 +48,7 @@ What it's not good for: anything outdoor, anything with aggressive motion, anyth
 
 ### EuRoC MAV - drone VIO benchmark
 
-Burri et al. (2016). [projects.asl.ethz.ch/datasets/euroc](https://projects.asl.ethz.ch/datasets/doku.php?id=kmavvisualinertialdatasets) `[verify]`.
+Burri et al. (2016). [projects.asl.ethz.ch/datasets/euroc](https://projects.asl.ethz.ch/datasets/doku.php?id=kmavvisualinertialdatasets).
 
 * Stereo visual + IMU, ground truth from Vicon (machine hall) or laser tracker (Vicon room).
 * Sequences split by difficulty: easy / medium / hard. Hard = aggressive 6-DoF maneuvers.
@@ -238,7 +238,7 @@ If you're building a new SLAM (or testing an existing one for your project), I'd
 ## Further reading
 
 * Sturm, Engelhard, Endres, Burgard, Cremers (2012) - "A Benchmark for the Evaluation of RGB-D SLAM Systems." [IROS 2012](https://cvg.cit.tum.de/_media/spezial/bib/sturm12iros.pdf). The TUM RGB-D paper; defined the ATE/RPE convention.
-* Zhang & Scaramuzza (2018) - "A Tutorial on Quantitative Trajectory Evaluation for Visual(-Inertial) Odometry." [arxiv.org/abs/1810.08628](https://arxiv.org/abs/1810.08628) `[verify]`. The clearest tutorial on alignment, metrics, and pitfalls.
+* Zhang & Scaramuzza (2018) - "A Tutorial on Quantitative Trajectory Evaluation for Visual(-Inertial) Odometry." [arxiv.org/abs/1810.08628](https://arxiv.org/abs/1810.08628). The clearest tutorial on alignment, metrics, and pitfalls.
 * `evo` documentation: [github.com/MichaelGrupp/evo/wiki](https://github.com/MichaelGrupp/evo/wiki).
 
 ### Cross-references

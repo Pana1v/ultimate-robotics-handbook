@@ -173,17 +173,19 @@ A few opinionated takes:
 
 ### 7. Inference cost on Jetson Orin / desktop GPU
 
+Order-of-magnitude estimates compiled from papers and community benchmarks - not measured by me on this hardware. Treat them as planning numbers and verify before committing.
+
 | Operation                               | RTX 4090       | Jetson Orin NX | Notes                                        |
 | --------------------------------------- | -------------- | -------------- | -------------------------------------------- |
-| Open3D voxel downsample 100k pts        | ~1-3 ms        | ~10-30 ms      | CPU-bound `[verify]`                         |
-| PCL GICP (10k → 10k)                    | ~50-200 ms     | ~200-800 ms    | CPU `[verify]`                               |
-| Depth Anything v2 Small @ 518²          | ~12 ms         | ~70 ms         | FP16 TensorRT `[verify]`                     |
-| Instant-NGP training (typical scene)    | 1-5 min        | impractical    | Use desktop offline `[verify]`               |
-| Instant-NGP rendering @ 1080p           | 30-60 FPS      | 1-3 FPS        | `[verify]`                                   |
-| Gaussian Splatting training (1M splats) | 10-30 min      | impractical    | `[verify]`                                   |
-| Gaussian Splatting rendering @ 1080p    | 100-300 FPS    | 5-15 FPS       | `[verify]`                                   |
-| SplaTAM tracking                        | ~3-8 FPS       | sub-1 FPS      | RGB-D, depends on map size `[verify]`        |
-| MonoGS tracking                         | ~3-10 FPS      | sub-1 FPS      | Monocular `[verify]`                         |
+| Open3D voxel downsample 100k pts        | ~1-3 ms        | ~10-30 ms      | CPU-bound                         |
+| PCL GICP (10k → 10k)                    | ~50-200 ms     | ~200-800 ms    | CPU                               |
+| Depth Anything v2 Small @ 518²          | ~12 ms         | ~70 ms         | FP16 TensorRT                     |
+| Instant-NGP training (typical scene)    | 1-5 min        | impractical    | Use desktop offline               |
+| Instant-NGP rendering @ 1080p           | 30-60 FPS      | 1-3 FPS        |                                   |
+| Gaussian Splatting training (1M splats) | 10-30 min      | impractical    |                                   |
+| Gaussian Splatting rendering @ 1080p    | 100-300 FPS    | 5-15 FPS       |                                   |
+| SplaTAM tracking                        | ~3-8 FPS       | sub-1 FPS      | RGB-D, depends on map size        |
+| MonoGS tracking                         | ~3-10 FPS      | sub-1 FPS      | Monocular                         |
 
 **Reality check**: most NeRF/3DGS work today still happens on desktop or workstation GPUs. The "deploy on Jetson" story for splat-based methods is improving but not mature. If your robot has a thin GPU (Orin Nano), you're going to want a classical 3D stack and treat NeRF/3DGS as offline / ground-station tools.
 

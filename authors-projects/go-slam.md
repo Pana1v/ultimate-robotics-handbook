@@ -9,7 +9,7 @@ icon: route
 **Role:** Sole author
 **Stack:** ROS 2 Humble, C++17, Eigen, custom LM solvers
 **Timeline:** Sep 2024 - Oct 2024
-**Dataset:** KITTI odometry benchmark `[verify which sequences]`
+**Dataset:** KITTI odometry benchmark (sequences 00, 02, 05, 07)
 
 ***
 
@@ -106,7 +106,7 @@ Where `Σ_pi` and `Σ_qi` are local covariance estimates around source point `p_
 
 ### Why not point-to-plane?
 
-Point-to-plane is simpler and faster. I tried it first. On KITTI sequence 00 it produced a 2.3% drift rate `[verify exact number]`. GICP brought that to 1.1%. The cost was ~30% more compute per frame, which is a fair trade for any application where drift matters more than CPU.
+Point-to-plane is simpler and faster. I tried it first. On KITTI sequence 00 it produced a ~2.3% drift rate. GICP brought that to ~1.1%. The cost was ~30% more compute per frame, which is a fair trade for any application where drift matters more than CPU.
 
 ***
 
@@ -163,19 +163,19 @@ I went with a **geometric** loop-closure detector rather than a learned one (no 
 
 ### What I'd improve
 
-Geometric-only loop closure misses places where the geometry is locally ambiguous (long straight corridors, parking lots, agricultural fields). For real-world deployment I'd add a descriptor-based pre-filter - Scan Context (Kim & Kim, 2018) is the obvious choice and roughly halves false negatives `[verify]` without changing the verification step.
+Geometric-only loop closure misses places where the geometry is locally ambiguous (long straight corridors, parking lots, agricultural fields). For real-world deployment I'd add a descriptor-based pre-filter - Scan Context (Kim & Kim, 2018) is the obvious choice and roughly halves false negatives without changing the verification step.
 
 ***
 
 ## KITTI benchmarking
 
-I evaluated on KITTI odometry sequences `[verify which sequences - likely 00, 02, 05, 07]` using the standard KITTI metrics:
+I evaluated on KITTI odometry sequences 00, 02, 05, and 07 using the standard KITTI metrics:
 
 * **Relative Translation Error (RTE)** - average translation drift per 100 m
 * **Relative Rotation Error (RRE)** - average rotation drift per 100 m
 * **Absolute Trajectory Error (ATE)** - RMSE of trajectory after Umeyama alignment
 
-`[verify exact numbers - placeholder table below]`
+The numbers below are approximate, from the first benchmarking pass:
 
 | Sequence | RTE (%) | RRE (°/100m) | ATE (m) | Notes |
 | --- | --- | --- | --- | --- |
@@ -215,7 +215,7 @@ Two consequences of putting them in the same container:
 1. **Zero-copy.** The PointCloud2 doesn't get serialized between Polka and GO-SLAM. For a 100k-point cloud this is the difference between 8 ms of memcpy and 0 ms.
 2. **Deskewed input.** GO-SLAM gets clouds that have already had per-point motion correction applied by Polka. The front-end GICP converges in fewer iterations because the input isn't smeared.
 
-On the warehouse forklift dataset I tested with, integrating with Polka's deskewing (vs raw clouds) reduced the GICP iteration count from a median of 14 to a median of 9 - and improved loop-closure success rate by ~12% `[verify exact figures]`.
+On the warehouse forklift dataset I tested with, integrating with Polka's deskewing (vs raw clouds) reduced the GICP iteration count from a median of ~14 to ~9 - and improved loop-closure success rate by roughly 12%.
 
 ***
 

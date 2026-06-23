@@ -144,7 +144,7 @@ This is exactly what bundle adjustment does (Triggs et al. 2000) and what ORB-SL
 
 ### g2o
 
-**General Graph Optimization.** Kümmerle, Grisetti, Strasdat, Konolige, Burgard (2011). [Paper](http://www2.informatik.uni-freiburg.de/~kuemmerl/pdf/kuemmerle11icra.pdf) `[verify]`. Repo: [github.com/RainerKuemmerle/g2o](https://github.com/RainerKuemmerle/g2o).
+**General Graph Optimization.** Kümmerle, Grisetti, Strasdat, Konolige, Burgard (2011). [Paper](http://ais.informatik.uni-freiburg.de/publications/papers/kuemmerle11icra.pdf). Repo: [github.com/RainerKuemmerle/g2o](https://github.com/RainerKuemmerle/g2o).
 
 * Born as the back-end for many 2D / 3D SLAM systems (ORB-SLAM, ORB-SLAM2 used g2o; ORB-SLAM3 moved to a custom solver).
 * Plug-in linear solvers (CSparse, CHOLMOD, PCG, dense, Eigen).
