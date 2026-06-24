@@ -1,5 +1,5 @@
 ---
-description: Hardware for robotics — mechanical design, materials, fasteners, power systems, sensors, and actuators.
+description: Hardware for robotics - mechanical design, materials, fasteners, power systems, sensors, and actuators.
 icon: hammer
 ---
 

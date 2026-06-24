@@ -1,5 +1,5 @@
 ---
-description: Other resources — tools, libraries, datasets, benchmarks, and curated links for robotics development.
+description: Other resources - tools, libraries, datasets, benchmarks, and curated links for robotics development.
 icon: link
 ---
 

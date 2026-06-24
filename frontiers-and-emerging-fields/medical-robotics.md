@@ -1,5 +1,5 @@
 ---
-description: Medical robotics — surgical systems (da Vinci), rehabilitation, diagnostic imaging, and surgical assistance from da Vinci, Stryker, and others.
+description: Medical robotics - surgical systems (da Vinci), rehabilitation, diagnostic imaging, and surgical assistance from da Vinci, Stryker, and others.
 icon: activity
 ---
 

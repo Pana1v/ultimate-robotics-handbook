@@ -1,5 +1,5 @@
 ---
-description: Career paths in robotics — academic research, industry roles, startups, and emerging opportunities from autonomous systems to humanoids.
+description: Career paths in robotics - academic research, industry roles, startups, and emerging opportunities from autonomous systems to humanoids.
 icon: briefcase
 ---
 

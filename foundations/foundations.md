@@ -1,5 +1,5 @@
 ---
-description: Mathematical foundations for robotics — linear algebra, calculus, and geometric concepts essential for kinematics, control, and perception.
+description: Mathematical foundations for robotics - linear algebra, calculus, and geometric concepts essential for kinematics, control, and perception.
 icon: square-root-variable
 ---
 

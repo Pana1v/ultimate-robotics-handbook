@@ -1,5 +1,5 @@
 ---
-description: Production robotics projects — Polka (multi-LiDAR fusion), GO-SLAM (custom SLAM stack), BARN Challenge (mapless navigation), Intrinsic AI (learning-based control).
+description: Production robotics projects - Polka (multi-LiDAR fusion), GO-SLAM (custom SLAM stack), BARN Challenge (mapless navigation), Intrinsic AI (learning-based control).
 icon: code
 ---
 

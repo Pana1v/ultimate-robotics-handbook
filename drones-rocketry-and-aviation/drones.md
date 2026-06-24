@@ -1,5 +1,5 @@
 ---
-description: Drones and aerial robotics — multirotor platforms, fixed-wing aircraft, control, state estimation, and autonomous flight.
+description: Drones and aerial robotics - multirotor platforms, fixed-wing aircraft, control, state estimation, and autonomous flight.
 icon: plane
 ---
 
