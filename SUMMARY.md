@@ -168,10 +168,6 @@
 * [Companies Hiring for Robotics](career-paths-and-research-opportunities/companies-hiring-for-robotics.md)
 * [Leading Institutes](career-paths-and-research-opportunities/leading-institutes.md)
 
-## Interactive Widgets
-
-* [Interactive Widgets](widgets/widgets.md)
-
 ## Other Resources
 
 * [Other Resources](other-resources/other-resources.md)

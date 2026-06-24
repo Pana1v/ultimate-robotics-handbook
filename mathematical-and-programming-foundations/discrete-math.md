@@ -63,8 +63,6 @@ Things that bite in practice:
 * **8-connected grids with Euclidean $$h$$** produce paths that hug obstacles diagonally. That's the costmap inflation layer's job to fix, not the search's.
 * **Replanning** - D\* Lite and friends reuse the previous search when a few edge costs change. Worth knowing they exist; rarely worth implementing yourself in 2026.
 
-Don't just read this - run it. The [interactive widgets](../widgets/widgets.md) page has an A\*-vs-Dijkstra grid pathfinder where you can paint obstacles and watch the expansion frontiers side by side. Watching Dijkstra's circular wavefront versus A\*'s directed cone is worth a thousand words of Big-O.
-
 ***
 
 ## Trees, spanning structures, and sampling-based planners
@@ -73,8 +71,7 @@ A tree is a connected acyclic graph - $$n$$ vertices, $$n-1$$ edges, unique path
 
 * **TF trees** (above) - the acyclicity is the feature.
 * **Search trees** - the explored portion of A\* with parent pointers *is* a tree; that's why path reconstruction is just "follow parents to the root."
-* **RRTs** - Rapidly-exploring Random Trees grow a tree through configuration space by sampling a random point and extending the nearest tree node toward it. RRT\* adds rewiring so path cost converges toward optimal as samples increase. The RRT\* widget on the [widgets page](../widgets/widgets.md) lets you watch the rewiring happen - the moment a shorter branch steals children from a longer one is the whole algorithm.
-* **Behavior trees** - next section.
+* **RRTs** - Rapidly-exploring Random Trees grow a tree through configuration space by sampling a random point and extending the nearest tree node toward it. RRT\* adds rewiring so path cost converges toward optimal as samples increase.* **Behavior trees** - next section.
 
 The tree-vs-graph distinction maps cleanly onto the two big sampling-based planner families:
 
@@ -137,4 +134,3 @@ The engineering takeaway: when a planning problem feels intractable, don't reach
 * [graph-slam.md](../slam-and-state-estimation/graph-slam.md) - pose graphs and factor graphs as nonlinear least squares; where the graph structure becomes the sparsity of your solver.
 * [nav2-deep-dive.md](../ros-2/nav2-deep-dive.md) - graph search and behavior trees as deployed software: planners, costmaps, and the `bt_navigator` XML.
 * [advanced-algorithms.md](advanced-algorithms.md) - the algorithmic toolbox beyond search: complexity, dynamic programming, and the data structures behind real-time robotics code.
-* [widgets.md](../widgets/widgets.md) - run A\* vs Dijkstra and RRT\* interactively; ten minutes there beats re-reading this page.

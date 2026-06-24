@@ -66,8 +66,6 @@ The variants worth knowing:
 * **ARA*** (Anytime Repairing A*, Likhachev et al.) - start with large $$w$$, get a feasible path fast, then decrease $$w$$ and reuse previous search effort to refine. The right shape for planning under a deadline: you always have *some* answer, and it improves if time allows.
 * **D* Lite** (Koenig & Likhachev 2002) - incremental replanning. When edge costs change (an obstacle appears in the costmap), it repairs only the affected part of the search instead of replanning from scratch. The win is real when changes are local and the map is big; for small grids (~200x200), honestly, replanning A* from scratch is so cheap that D* Lite's bookkeeping isn't worth it. Measure before committing.
 
-The [A* vs Dijkstra widget](../widgets/widgets.md) lets you watch the heuristic prune the expansion frontier live - worth two minutes if you've never seen it visualized.
-
 ***
 
 ## Sampling-based planning: RRT, RRT*, PRM
@@ -85,8 +83,7 @@ Grid search dies with dimension: a 7-DoF arm at 1° resolution is ~$$360^7$$ cel
 | PRM | Asymptotically (PRM*) | Static environments, many queries |
 | Hybrid-A* / lattice | Resolution-optimal | Car-like kinematics, 2D-3D state spaces |
 
-Two things every newcomer misses. First, the sampling-based output is a *path*, not a trajectory - it has no timing, and feeding raw RRT waypoints to a controller produces robot dance. Smoothing and time-parameterization are mandatory; that's the subject of [Trajectory Planning](../mobile-robotics/trajectory-planning.md). Second, in low dimensions (2D-3D mobile robots), search-based planners usually beat sampling-based ones - sampling earns its keep above ~4-5 DoF. There's an [RRT* widget](../widgets/widgets.md) in the handbook if you want to watch the rewiring happen.
-
+Two things every newcomer misses. First, the sampling-based output is a *path*, not a trajectory - it has no timing, and feeding raw RRT waypoints to a controller produces robot dance. Smoothing and time-parameterization are mandatory; that's the subject of [Trajectory Planning](../mobile-robotics/trajectory-planning.md). Second, in low dimensions (2D-3D mobile robots), search-based planners usually beat sampling-based ones - sampling earns its keep above ~4-5 DoF.
 ***
 
 ## Dynamic programming and value iteration
@@ -137,5 +134,4 @@ My [BARN Challenge](../authors-projects/barn-challenge.md) entry drove this home
 
 * [LiDAR SLAM](../slam-and-state-estimation/lidar-slam.md) - see KD-trees, ikd-Tree, and voxel hashing earning their keep inside real registration pipelines.
 * [Trajectory Planning](../mobile-robotics/trajectory-planning.md) - turning planner paths into time-parameterized trajectories a controller can actually follow.
-* [Interactive Widgets](../widgets/widgets.md) - run A* vs Dijkstra, RRT*, and ICP step-by-step in the browser.
 * [Modern RL](../robot-learning/reinforcement-learning-modern.md) - where value iteration goes when the state space stops fitting in a table.
