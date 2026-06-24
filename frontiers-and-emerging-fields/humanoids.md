@@ -1,5 +1,5 @@
 ---
-description: Humanoid robotics — bipedal locomotion, whole-body control, and embodied AI from Boston Dynamics, Tesla, Unitree, and Toyota.
+description: Humanoid robotics - bipedal locomotion, whole-body control, and embodied AI from Boston Dynamics, Tesla, Unitree, and Toyota.
 icon: person
 ---
 

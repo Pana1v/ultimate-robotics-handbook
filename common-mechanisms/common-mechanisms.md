@@ -1,5 +1,5 @@
 ---
-description: Common mechanisms in robotics — gears, linkages, actuators, transmissions, and mechanical primitives that appear in every robot.
+description: Common mechanisms in robotics - gears, linkages, actuators, transmissions, and mechanical primitives that appear in every robot.
 icon: cog
 ---
 

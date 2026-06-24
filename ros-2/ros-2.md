@@ -1,5 +1,5 @@
 ---
-description: ROS 2 — middleware for robotics from setup to Nav2, MoveIt 2, microROS, and production deployment on Humble and Jazzy.
+description: ROS 2 - middleware for robotics from setup to Nav2, MoveIt 2, microROS, and production deployment on Humble and Jazzy.
 icon: gear
 ---
 

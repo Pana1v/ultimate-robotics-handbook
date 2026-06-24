@@ -1,5 +1,5 @@
 ---
-description: Robot learning — imitation learning, reinforcement learning, foundation models, VLAs, world models, sim-to-real, and teleop for modern robotics.
+description: Robot learning - imitation learning, reinforcement learning, foundation models, VLAs, world models, sim-to-real, and teleop for modern robotics.
 icon: brain
 ---
 

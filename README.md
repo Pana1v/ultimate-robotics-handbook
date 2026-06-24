@@ -1,5 +1,5 @@
 ---
-description: Comprehensive robotics guide covering hardware, ROS 2, SLAM, robot learning, and AI — from fundamentals to production systems.
+description: Comprehensive robotics guide covering hardware, ROS 2, SLAM, robot learning, and AI - from fundamentals to production systems.
 icon: hand-wave
 cover: >-
   https://images.unsplash.com/photo-1518314916381-77a37c2a49ae?crop=entropy&cs=srgb&fm=jpg&ixid=M3wxOTcwMjR8MHwxfHNlYXJjaHwxfHxyb2JvdGljc3xlbnwwfHx8fDE3NDYzNjI3NzZ8MA&ixlib=rb-4.0.3&q=85

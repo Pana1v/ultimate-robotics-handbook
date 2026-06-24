@@ -1,5 +1,5 @@
 ---
-description: ROS Advanced — ROS 1 legacy material, advanced patterns, and historical context for older robotics systems.
+description: ROS Advanced - ROS 1 legacy material, advanced patterns, and historical context for older robotics systems.
 icon: git-branch
 ---
 

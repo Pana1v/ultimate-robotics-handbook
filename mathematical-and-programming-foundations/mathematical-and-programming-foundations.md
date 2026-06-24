@@ -1,5 +1,5 @@
 ---
-description: Mathematical and programming foundations — discrete math, graph theory, numerical methods, optimization, and advanced algorithms.
+description: Mathematical and programming foundations - discrete math, graph theory, numerical methods, optimization, and advanced algorithms.
 icon: function
 ---
 

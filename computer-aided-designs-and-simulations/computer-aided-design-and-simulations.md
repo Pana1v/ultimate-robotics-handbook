@@ -1,5 +1,5 @@
 ---
-description: CAD and simulation for robotics — modeling, URDF/Xacro, Gazebo, Isaac Lab, physics engines, and digital twins.
+description: CAD and simulation for robotics - modeling, URDF/Xacro, Gazebo, Isaac Lab, physics engines, and digital twins.
 icon: cube
 ---
 

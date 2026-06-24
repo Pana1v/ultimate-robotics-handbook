@@ -1,5 +1,5 @@
 ---
-description: Embedded systems for robotics — microcontrollers, real-time scheduling, sensor interfaces, and low-level robot control.
+description: Embedded systems for robotics - microcontrollers, real-time scheduling, sensor interfaces, and low-level robot control.
 icon: microchip
 ---
 

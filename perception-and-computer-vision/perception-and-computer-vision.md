@@ -1,5 +1,5 @@
 ---
-description: Perception and computer vision — cameras, depth sensors, 3D reconstruction, detection, segmentation, and visual understanding.
+description: Perception and computer vision - cameras, depth sensors, 3D reconstruction, detection, segmentation, and visual understanding.
 icon: eye
 ---
 

@@ -1,5 +1,5 @@
 ---
-description: Programming essentials for robotics — C++, Python, algorithms, optimization, and digital twins for building real-time robotic systems.
+description: Programming essentials for robotics - C++, Python, algorithms, optimization, and digital twins for building real-time robotic systems.
 icon: code
 ---
 
