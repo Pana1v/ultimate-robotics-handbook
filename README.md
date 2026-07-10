@@ -1,5 +1,7 @@
 ---
-description: Comprehensive robotics guide covering hardware, ROS 2, SLAM, robot learning, and AI - from fundamentals to production systems.
+description: >-
+  Comprehensive robotics guide covering hardware, ROS 2, SLAM, robot learning,
+  and AI - from fundamentals to production systems.
 icon: hand-wave
 cover: >-
   https://images.unsplash.com/photo-1518314916381-77a37c2a49ae?crop=entropy&cs=srgb&fm=jpg&ixid=M3wxOTcwMjR8MHwxfHNlYXJjaHwxfHxyb2JvdGljc3xlbnwwfHx8fDE3NDYzNjI3NzZ8MA&ixlib=rb-4.0.3&q=85
@@ -7,18 +9,6 @@ coverY: 0
 ---
 
 # Welcome to the Ultimate Robotics Handbook
-
-Explore the **world of robotics** with this comprehensive guide designed to **simplify learning** and accelerate your journey. From the **fundamentals of robotics engineering** to advanced topics like **robotics automation**, **AI integration**, and **control systems**, this handbook covers it all.
-
-Discover key areas including:
-
-* Step-by-step breakdowns of **robotics concepts**
-* Real-world **applications in industry and research**
-* A curated list of **top robotics companies hiring** professionals
-* Insight into **career paths, job roles**, and in-demand **robotics skills**
-* Details on **cutting-edge research**, funded projects, and **leading institutes** pioneering the future of robotics
-
-Whether you're a student, enthusiast, or professional - this is your launchpad into the future of intelligent machines.
 
 > **2026 refresh:** This handbook was overhauled in May 2026 to add **Robot Learning** (imitation, RL, foundation models, world models, sim-to-real), a full **SLAM & State Estimation** section, modern **ROS 2** coverage (with ROS 1 demoted to legacy), a refreshed companies/institutes list, and an **Author's Projects** section showcasing shipped work (Polka, GO-SLAM, BARN Challenge). See the [Author's Note](readme/authors-note.md) for context.
 
