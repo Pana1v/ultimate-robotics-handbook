@@ -165,7 +165,6 @@
 
 * [Career Paths (overview)](career-paths-and-research-opportunities/career-paths-and-research-opportunities.md)
 * [Job Roles In Robotics](career-paths-and-research-opportunities/job-roles-in-robotics.md)
-* [Getting Hired in Robotics](career-paths-and-research-opportunities/getting-hired.md)
 * [Companies Hiring for Robotics](career-paths-and-research-opportunities/companies-hiring-for-robotics.md)
 * [Conferences and Journals](career-paths-and-research-opportunities/conferences-and-journals.md)
 * [Leading Institutes](career-paths-and-research-opportunities/leading-institutes.md)
