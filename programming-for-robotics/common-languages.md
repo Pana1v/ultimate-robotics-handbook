@@ -22,32 +22,17 @@ Everything else is niche. Deep dives for each:
 ### Common Robotics Languages
 
 * **C++**\
-  Direct memory and hardware control, deterministic performance, wide RT and embedded support. The backbone of ROS 2 (`rclcpp`).\
-  – Pros: high speed, extensive libraries (Eigen, PCL, OpenCV, Boost), fine-grained control.\
-  – Cons: steep learning curve, careful memory management, slow compile times.\
-  – Use when: any hot loop, drivers, SLAM, perception, controllers.
+  Direct memory and hardware control, deterministic performance, wide RT and embedded support. The backbone of ROS 2 (`rclcpp`).\ - Pros: high speed, extensive libraries (Eigen, PCL, OpenCV, Boost), fine-grained control.\ - Cons: steep learning curve, careful memory management, slow compile times.\ - Use when: any hot loop, drivers, SLAM, perception, controllers.
 * **Python**\
-  Rapid prototyping, scripting, AI/vision integration. Huge ecosystem (NumPy, SciPy, PyTorch, OpenCV).\
-  – Pros: readable, massive ML ecosystem, fast iteration. `rclpy` is full-featured in ROS 2.\
-  – Cons: GIL prevents true threading, slower than C++ in tight loops, packaging can be painful.\
-  – Use when: ML inference nodes, dashboards, behaviors, anywhere off the hot path.
+  Rapid prototyping, scripting, AI/vision integration. Huge ecosystem (NumPy, SciPy, PyTorch, OpenCV).\ - Pros: readable, massive ML ecosystem, fast iteration. `rclpy` is full-featured in ROS 2.\ - Cons: GIL prevents true threading, slower than C++ in tight loops, packaging can be painful.\ - Use when: ML inference nodes, dashboards, behaviors, anywhere off the hot path.
 * **Rust**\
-  Memory-safe systems language with C++-comparable performance. Official ROS 2 client library is `rclrs` (in active development).\
-  – Pros: no segfaults, fearless concurrency, modern tooling (cargo).\
-  – Cons: smaller robotics ecosystem than C++/Python, learning curve, `rclrs` API still evolving.\
-  – Use when: greenfield systems where safety matters; safety-critical drivers; if your team is Rust-fluent already.
+  Memory-safe systems language with C++-comparable performance. Official ROS 2 client library is `rclrs` (in active development).\ - Pros: no segfaults, fearless concurrency, modern tooling (cargo).\ - Cons: smaller robotics ecosystem than C++/Python, learning curve, `rclrs` API still evolving.\ - Use when: greenfield systems where safety matters; safety-critical drivers; if your team is Rust-fluent already.
 * **MATLAB / Simulink**\
-  Model-based design for kinematics, dynamics, control, and vision. Automatic code generation to embedded targets or ROS nodes.\
-  – Pros: integrated toolboxes (Robotics System Toolbox, Computer Vision), built-in plotting.\
-  – Cons: commercial licensing, less flexible for custom drivers, awkward for production deployment.\
-  – Use when: control system design, simulation, academic research.
+  Model-based design for kinematics, dynamics, control, and vision. Automatic code generation to embedded targets or ROS nodes.\ - Pros: integrated toolboxes (Robotics System Toolbox, Computer Vision), built-in plotting.\ - Cons: commercial licensing, less flexible for custom drivers, awkward for production deployment.\ - Use when: control system design, simulation, academic research.
 * **Hardware Description Languages (VHDL / Verilog / SystemVerilog)**\
-  For FPGAs: ultra-low-latency sensor interfaces, custom co-processors (e.g., event-camera processing).\
-  – Pros: cycle-accurate, parallel hardware acceleration.\
-  – Cons: very steep learning curve, specialized domain.
+  For FPGAs: ultra-low-latency sensor interfaces, custom co-processors (e.g., event-camera processing).\ - Pros: cycle-accurate, parallel hardware acceleration.\ - Cons: very steep learning curve, specialized domain.
 * **Embedded C (with vendor SDKs)**\
-  For bare-metal MCU work: motor controllers, sensor drivers. Often paired with FreeRTOS or Zephyr.\
-  – Use when: writing firmware for the robot's microcontrollers, often bridged to ROS 2 via [micro-ROS](../ros-2/micro-ros.md).
+  For bare-metal MCU work: motor controllers, sensor drivers. Often paired with FreeRTOS or Zephyr.\ - Use when: writing firmware for the robot's microcontrollers, often bridged to ROS 2 via [micro-ROS](../ros-2/micro-ros.md).
 
 Older/niche languages - **C#/.NET** (Windows-only, Microsoft Robotics Developer Studio is effectively dead), **Java** (rare in robotics), **Lisp** (historical AI planning) - you'll encounter only in legacy systems.
 

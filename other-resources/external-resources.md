@@ -115,6 +115,6 @@ The trap to avoid: confusing *awareness* with *competence*. Knowing every VLA re
 ## Where to go next
 
 * [Conferences and Journals](../career-paths-and-research-opportunities/conferences-and-journals.md) - the full venue list and submission calendar behind the "conference cycle" strategy above.
-* [Career in Robotics](../career-paths-and-research-opportunities/career-in-robotics.md) - how these resources map onto actually getting hired.
+* [Getting Hired in Robotics](../career-paths-and-research-opportunities/getting-hired.md) - how these resources map onto actually getting hired.
 * [BARN Challenge](../authors-projects/barn-challenge.md) - a concrete account of entering one of the competitions listed here, solo.
 * [Imitation Learning](../robot-learning/imitation-learning.md) - the hands-on starting point if the LeRobot community pulled you in.

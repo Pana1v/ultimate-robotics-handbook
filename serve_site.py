@@ -216,7 +216,7 @@ def main():
     OUT.mkdir()
 
     # copy asset/widget dirs verbatim
-    for d in ['.gitbook', 'widgets']:
+    for d in ['.gitbook']:
         if Path(d).exists():
             shutil.copytree(d, OUT / d)
 

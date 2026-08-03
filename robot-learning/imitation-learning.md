@@ -74,6 +74,8 @@ for t in range(T):
     execute(action_t)
 ```
 
+<figure><img src="../.gitbook/assets/action-chunking-timeline.gif" alt="Timeline of a policy predicting H future actions, executing them open-loop, with temporal ensembling overlapping chunks"><figcaption></figcaption></figure>
+
 **Why it works:** action chunking is doing two things - reducing the effective horizon (so error compounds less) and making the policy commit to a multi-step plan (so it does not stutter on contact-rich subtasks).
 
 **Practical pointers:**
@@ -81,7 +83,7 @@ for t in range(T):
 - Original code: [https://github.com/tonyzhaozh/act](https://github.com/tonyzhaozh/act)
 - LeRobot has a maintained, clean ACT implementation: [https://github.com/huggingface/lerobot](https://github.com/huggingface/lerobot)
 - Works great on ALOHA, SO-100, SO-101, Koch, GELLO setups
-- ~50–200 demos is enough for simple tasks, ~500–1000 for harder ones
+- ~50-200 demos is enough for simple tasks, ~500-1000 for harder ones
 - Trains in a few hours on a single 4090
 
 ## Diffusion Policy
@@ -112,7 +114,7 @@ Use DDIM or DDPM scheduler. 10-100 denoising steps per action chunk. The slow in
 
 | Aspect | ACT | Diffusion Policy |
 |---|---|---|
-| Inference latency | ~5 ms (single forward pass) | ~50–200 ms (denoising loop) |
+| Inference latency | ~5 ms (single forward pass) | ~50-200 ms (denoising loop) |
 | Handles multimodal demos | Poorly (CVAE helps a bit) | Yes, this is the point |
 | Sample efficiency | Higher | Slightly lower |
 | Implementation complexity | Medium | Medium-high |

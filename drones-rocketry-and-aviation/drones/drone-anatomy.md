@@ -107,7 +107,7 @@ Once assembled, the flight controller needs to be configured [6](https://makerba
 * **ESC Calibration & Motor Setup:** Calibrate ESCs (if needed by your ESC type/firmware) and set motor directions/protocols.
 * **Modes Setup:** Configure flight modes (e.g., Acro, Angle, Horizon for FPV; Position Hold, Return-to-Home for GPS drones).
 * **OSD Setup (if applicable):** Configure what information is displayed on your FPV feed.
-* **Failsafe Setup:** Crucial for safety – configure what the drone does if it loses radio signal (e.g., drop, return-to-home).
+* **Failsafe Setup:** Crucial for safety - configure what the drone does if it loses radio signal (e.g., drop, return-to-home).
 * **PID Tuning (Advanced):** Adjust PID controller gains for optimal flight performance and stability. This is an iterative process and often requires flight testing [8](https://nidar.org.in/gallery-2/).
 
 ### **2.5. Testing and First Flight**

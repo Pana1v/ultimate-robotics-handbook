@@ -17,26 +17,26 @@ Reinforcement Learning (RL) endows robots with the ability to learn control poli
 ### Core RL Algorithms and Resources <a href="#core-rl-algorithms-and-resources" id="core-rl-algorithms-and-resources"></a>
 
 * Value-Based Methods
-  * Q-Learning & SARSA – Tabular methods for discrete state–action spaces
+  * Q-Learning & SARSA - Tabular methods for discrete state-action spaces
   * Sutton & Barto’s “Reinforcement Learning: An Introduction” ([http://incompleteideas.net/book/the-book.html](http://incompleteideas.net/book/the-book.html))
-  * Deep Q-Networks (DQN) & Variants (Double DQN, Dueling DQN) – Neural-network approximators for high-dimensional inputs
+  * Deep Q-Networks (DQN) & Variants (Double DQN, Dueling DQN) - Neural-network approximators for high-dimensional inputs
   * OpenAI Baselines DQN implementation ([https://github.com/openai/baselines](https://github.com/openai/baselines))
 * Policy-Gradient Methods
-  * REINFORCE – Monte-Carlo policy search
-  * Trust Region Policy Optimization (TRPO) and Proximal Policy Optimization (PPO) – Stable on-policy updates
+  * REINFORCE - Monte-Carlo policy search
+  * Trust Region Policy Optimization (TRPO) and Proximal Policy Optimization (PPO) - Stable on-policy updates
   * OpenAI Spinning Up tutorials ([https://spinningup.openai.com](https://spinningup.openai.com/))
-  * Actor-Critic (A2C, A3C) – Combines policy gradient with value estimates
+  * Actor-Critic (A2C, A3C) - Combines policy gradient with value estimates
 * Continuous-Control Algorithms
-  * Deep Deterministic Policy Gradient (DDPG) & Twin Delayed DDPG (TD3) – Off-policy actor-critic for continuous actions
-  * Soft Actor-Critic (SAC) – Maximum-entropy RL for robustness
+  * Deep Deterministic Policy Gradient (DDPG) & Twin Delayed DDPG (TD3) - Off-policy actor-critic for continuous actions
+  * Soft Actor-Critic (SAC) - Maximum-entropy RL for robustness
   * Stable Baselines3 implementations ([https://github.com/DLR-RM/stable-baselines3](https://github.com/DLR-RM/stable-baselines3))
 * Model-Based and Hybrid Methods
-  * Model-Based Policy Optimization (MBPO) – Leverages learned dynamics models
-  * Guided Policy Search – Uses trajectory optimization to supervise policy learning
+  * Model-Based Policy Optimization (MBPO) - Leverages learned dynamics models
+  * Guided Policy Search - Uses trajectory optimization to supervise policy learning
   * Survey: “Reinforcement Learning in Robotic Applications” ([https://doi.org/10.1007/s10462-021-09997-9](https://doi.org/10.1007/s10462-021-09997-9))
 * Multi-Agent and Hierarchical RL
-  * Multi-Agent Deep Q-Learning (MADDPG) – Cooperative and competitive settings
-  * Hierarchical RL (options framework) – Temporal abstractions for long-horizon tasks
+  * Multi-Agent Deep Q-Learning (MADDPG) - Cooperative and competitive settings
+  * Hierarchical RL (options framework) - Temporal abstractions for long-horizon tasks
 
 ### Robotics Applications <a href="#robotics-applications" id="robotics-applications"></a>
 
@@ -61,7 +61,7 @@ Reinforcement Learning (RL) endows robots with the ability to learn control poli
 * ROS RL Packages & ROS-Gym Bridges ([https://github.com/ros-gym](https://github.com/ros-gym))
 * NVIDIA Isaac RL & Isaac Gym ([https://developer.nvidia.com/isaac-gym](https://developer.nvidia.com/isaac-gym))
 * Ray RLlib: Scalable RL library ([https://docs.ray.io/en/latest/rllib.html](https://docs.ray.io/en/latest/rllib.html))
-* Unity ML-Agents: Game-engine–based RL ([https://github.com/Unity-Technologies/ml-agents](https://github.com/Unity-Technologies/ml-agents))
+* Unity ML-Agents: Game-engine-based RL ([https://github.com/Unity-Technologies/ml-agents](https://github.com/Unity-Technologies/ml-agents))
 * Intel Coach: Research RL framework ([https://github.com/intel/coach](https://github.com/intel/coach))
 
 ### Online Courses & Tutorials <a href="#online-courses--tutorials" id="online-courses--tutorials"></a>

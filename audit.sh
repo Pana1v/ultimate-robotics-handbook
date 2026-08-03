@@ -1,75 +1,131 @@
 #!/bin/bash
+# Handbook integrity audit.
+#
+# Checks three things the old version missed:
+#   1. card-grid pages are DISCOVERED, not hardcoded (the old list had a
+#      deleted file in it and silently skipped 8 real pages, including the
+#      20-card root README)
+#   2. every referenced asset actually EXISTS on disk (the old version only
+#      string-matched ".gitbook/assets/", so a deleted asset still passed)
+#   3. inline <figure> images and orphaned assets, which were never checked
 
-echo "=== CARD COVERAGE AUDIT ==="
-echo ""
+cd "$(dirname "$0")" || exit 1
 
-count_cards() {
-  file="$1"
-  [ -f "$file" ] || return
-  
-  section=$(basename $(dirname "$file"))
-  
-  # Use Python to parse the HTML properly
-  python3 <<PYSCRIPT
+python3 <<'PYSCRIPT'
 import re
-with open('$file', 'r') as f:
-  content = f.read()
-  
-# Extract tbody
-match = re.search(r'<tbody>(.*?)</tbody>', content, re.DOTALL)
-if not match:
-  print(f"❌ $section: No card grid found")
-  exit()
+import urllib.parse
+from pathlib import Path
 
-tbody = match.group(1)
+ROOT = Path(".").resolve()
+ASSETS = ROOT / ".gitbook" / "assets"
+SKIP = {"_book", ".git", "gif-staging", "node_modules"}
 
-# Find all card rows (lines starting with <tr><td>card_title)
-rows = re.findall(r'<tr><td>([^<]+)<', tbody)
+def pages():
+    for p in sorted(ROOT.rglob("*.md")):
+        if not SKIP.isdisjoint(p.parts):
+            continue
+        yield p
 
-filled = 0
-empty = 0
-cards_info = []
+def resolve(page, ref):
+    # GitBook wraps paths containing spaces or parens in angle brackets,
+    # e.g. src="<../.gitbook/assets/download (1).png>".
+    ref = urllib.parse.unquote(ref).strip().lstrip("<").rstrip(">")
+    return (page.parent / ref).resolve()
 
-for row in rows:
-  card_title = row.strip()
-  # Check if this row in tbody has a cover
-  row_full = re.search(f'<tr><td>{re.escape(card_title)}<.*?</tr>', tbody, re.DOTALL)
-  if row_full and '.gitbook/assets/' in row_full.group(0):
-    filled += 1
-    # Extract image name
-    img_match = re.search(r'\.gitbook/assets/([^"]+)', row_full.group(0))
-    img = img_match.group(1) if img_match else 'unknown'
-    cards_info.append(f"  ✅ {card_title}")
-  else:
-    empty += 1
-    cards_info.append(f"  ❌ {card_title}")
+card_pages = []
+missing = []
+inline_total = cover_total = 0
+referenced = set()
 
-total = filled + empty
-print(f"📁 {section}")
-for info in cards_info:
-  print(info)
-print(f"  → {filled}/{total} cards have covers ({empty} empty)\n")
+ASSET_REF = re.compile(r"(?:src|href)\s*=\s*\"(<?[^\"]*\.gitbook/assets/[^\"]+>?)\"")
+# Angle-bracket form must be tried first: filenames like "download (1).png"
+# contain a ")" that would otherwise terminate the match early.
+MD_REF = re.compile(r"!\[[^\]]*\]\((<[^>]+>|[^)]+)\)")
 
+print("=== CARD COVERAGE ===\n")
+
+for page in pages():
+    text = page.read_text(encoding="utf-8", errors="ignore")
+    rel = page.relative_to(ROOT)
+
+    # Every asset reference on the page, whatever the syntax.
+    for m in list(ASSET_REF.finditer(text)) + list(MD_REF.finditer(text)):
+        ref = m.group(1)
+        if ".gitbook/assets/" not in ref:
+            continue
+        target = resolve(page, ref)
+        referenced.add(target.name)
+        if not target.exists():
+            missing.append(f"{rel} -> {ref}")
+
+    if 'data-view="cards"' not in text:
+        continue
+    card_pages.append(rel)
+
+    body = re.search(r"<tbody>(.*?)</tbody>", text, re.DOTALL)
+    if not body:
+        print(f"  {rel}: card grid present but no <tbody>")
+        continue
+
+    # Split on row boundaries rather than matching a title pattern, so cards
+    # whose first cell opens with a tag (<td><strong>Hardware</strong>) count.
+    rows = re.findall(r"<tr>(.*?)</tr>", body.group(1), re.DOTALL)
+    filled = broken = empty = 0
+    for row in rows:
+        refs = ASSET_REF.findall(row)
+        if not refs:
+            empty += 1
+        elif all(resolve(page, r).exists() for r in refs):
+            filled += 1
+        else:
+            broken += 1
+    cover_total += len(rows)
+
+    flag = "" if (empty == 0 and broken == 0) else "   <-- needs attention"
+    print(f"  {str(rel):68s} {filled}/{len(rows)} covers"
+          f"{f', {empty} empty' if empty else ''}"
+          f"{f', {broken} BROKEN' if broken else ''}{flag}")
+
+inline_total = sum(
+    len(ASSET_REF.findall(p.read_text(encoding='utf-8', errors='ignore')))
+    for p in pages()
+)
+
+print(f"\n  {len(card_pages)} card-grid pages discovered\n")
+
+print("=== ASSET INTEGRITY ===\n")
+print(f"  {inline_total} local asset references checked")
+if missing:
+    print(f"  {len(missing)} BROKEN:")
+    for m in missing:
+        print(f"    {m}")
+else:
+    print("  0 broken references")
+
+on_disk = {p.name for p in ASSETS.iterdir() if p.is_file()}
+orphans = sorted(on_disk - referenced)
+size = sum((ASSETS / o).stat().st_size for o in orphans)
+print(f"\n  {len(on_disk)} assets on disk, {len(orphans)} orphaned"
+      f" ({size/1e6:.1f} MB)")
+for o in orphans[:15]:
+    print(f"    {o}")
+if len(orphans) > 15:
+    print(f"    ... and {len(orphans)-15} more")
+
+print("\n=== PAGES WITH NO VISUALS ===\n")
+bare = []
+for page in pages():
+    text = page.read_text(encoding="utf-8", errors="ignore")
+    if page.name == "SUMMARY.md":
+        continue
+    if not ASSET_REF.search(text) and not MD_REF.search(text):
+        bare.append((len(text.splitlines()), page.relative_to(ROOT)))
+bare.sort(reverse=True)
+print(f"  {len(bare)} pages have no image, figure, or card cover")
+for n, p in bare[:12]:
+    print(f"    {n:4d} lines  {p}")
+if len(bare) > 12:
+    print(f"    ... and {len(bare)-12} more")
+
+print()
 PYSCRIPT
-}
-
-# Check all sections
-for file in \
-  ros-2/ros-2.md \
-  robot-learning/robot-learning.md \
-  slam-and-state-estimation/slam-and-state-estimation.md \
-  programming-for-robotics/programming-for-robotics.md \
-  foundations/foundations.md \
-  authors-projects/authors-projects.md \
-  widgets/widgets.md \
-  frontiers-and-emerging-fields/frontiers-and-emerging-fields.md \
-  career-paths-and-research-opportunities/career-paths-and-research-opportunities.md \
-  common-mechanisms/common-mechanisms.md \
-  hardware/hardware.md \
-  computer-aided-designs-and-simulations/computer-aided-design-and-simulations.md \
-  drones-rocketry-and-aviation/drones.md \
-  embedded-systems-for-robotics/embedded-systems.md \
-  mathematical-and-programming-foundations/mathematical-and-programming-foundations.md \
-  perception-and-computer-vision/perception-and-computer-vision.md; do
-  count_cards "$file"
-done

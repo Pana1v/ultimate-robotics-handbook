@@ -61,6 +61,8 @@ The original Besl & McKay (1992) algorithm:
 2. Compute the rigid transform minimizing the sum of squared point-to-point distances.
 3. Apply, repeat to convergence.
 
+<figure><img src="../.gitbook/assets/icp-alignment.gif" alt="Two point clouds converging into alignment over successive ICP iterations as the rigid transform is refined"><figcaption></figcaption></figure>
+
 Cost function:
 
 $$

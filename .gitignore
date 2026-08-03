@@ -7,3 +7,6 @@ __pycache__/
 *.pyc
 .venv/
 venv/
+
+# GIF review staging (not published)
+gif-staging/

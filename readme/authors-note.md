@@ -27,13 +27,14 @@ I'm a working robotics engineer based in Bangalore - production GPU-accelerated 
 * 🌐 Portfolio - [panav.netlify.app](https://panav.netlify.app)
 * 💻 GitHub - [github.com/Pana1v](https://github.com/Pana1v)
 * 💼 LinkedIn - [linkedin.com/in/panavraaj](https://www.linkedin.com/in/panavraaj/)
+* 📖 This handbook's source - [github.com/Pana1v/ultimate-robotics-handbook](https://github.com/Pana1v/ultimate-robotics-handbook)
 
 ### My open-source robotics work
 
 If you want to see how the concepts in this handbook translate to shipped code, the [Author's Projects](../authors-projects/authors-projects.md) section walks through them in depth:
 
 * [**Polka**](../authors-projects/polka.md) - ROS 2 multi-LiDAR fusion node (CUDA-accelerated, IMU-deskewed, Humble + Jazzy).
-* [**GO-SLAM**](../authors-projects/go-slam.md) - A full SLAM stack built from scratch (GICP front-end, pose-graph back-end, custom Levenberg–Marquardt solvers, KITTI-benchmarked).
+* [**GO-SLAM**](../authors-projects/go-slam.md) - A full SLAM stack built from scratch (GICP front-end, pose-graph back-end, custom Levenberg-Marquardt solvers, KITTI-benchmarked).
 <!-- LEAP hidden for now
 * [**LEAP**](../authors-projects/leap.md) - Learning-augmented exact optimization for asymmetric pick-and-place sequencing (BRAIn Lab, IIT Patna; manuscript in preparation).
 -->

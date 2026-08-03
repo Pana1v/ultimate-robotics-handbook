@@ -6,7 +6,7 @@ icon: brain
 
 A *world model* is a learned simulator: a neural network that, given an observation and an action, predicts the next observation. If you have a good world model you can do imagination-based planning, sample-efficient RL, and counterfactual reasoning without ever touching the real environment.
 
-World models have been around since Schmidhuber's RNN-based controllers in the early 90s and the Ha & Schmidhuber 2018 "World Models" paper. What changed in the 2022–2026 period is two things:
+World models have been around since Schmidhuber's RNN-based controllers in the early 90s and the Ha & Schmidhuber 2018 "World Models" paper. What changed in the 2022-2026 period is two things:
 
 1. **Diffusion and transformer-based generative models** scaled to the point where you can predict realistic future *images* given past frames + actions, not just low-dimensional latents.
 2. **Video pretraining** at internet scale gives you a strong "world prior" before you even see robot data.
@@ -134,7 +134,7 @@ Hansen, Su, Wang, 2024. [https://arxiv.org/abs/2310.16828](https://arxiv.org/abs
 
 Code: [https://github.com/nicklashansen/tdmpc2](https://github.com/nicklashansen/tdmpc2)
 
-A specific kind of world model + planner combo that has held up well in 2024–2026. Learns a latent dynamics model + a value function, then does *MPC in the latent space* at decision time. Combines the planning-time guarantees of MPC with the learned representations of model-based RL.
+A specific kind of world model + planner combo that has held up well in 2024-2026. Learns a latent dynamics model + a value function, then does *MPC in the latent space* at decision time. Combines the planning-time guarantees of MPC with the learned representations of model-based RL.
 
 For continuous control benchmarks (DMControl, MetaWorld) TD-MPC2 is one of the strongest model-based baselines. The single set of hyperparameters across 80+ tasks is a Dreamer-style win.
 

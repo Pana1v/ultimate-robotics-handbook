@@ -64,14 +64,14 @@ For sim-to-real strategies (domain randomization, system identification, etc.), 
 
 ### Study & Learning Resources <a href="#study--learning-resources" id="study--learning-resources"></a>
 
-* **Digital Twin Consortium** – Authoritative definitions, best practices, and ecosystem initiatives.[5](https://www.motoman.com/en-us/about/blog/digital-twinning-for-common-robot-applications)
-* **Yaskawa Motoman Blog** – Applications of digital twinning in robotics workflows and case studies.3
-* **Nokia Thought Leadership** – Foundations of digital twins for engineering, IoT integration, and analytics.4
-* **IBM What Is a Digital Twin?** – Overview of twin architectures and use cases across industries.[10](https://www.springerprofessional.de/en/the-digital-twin/25442880)
-* **Udemy: Digital Twin Mastery** – Hands-on Python projects and implementation best practices.[7](https://www.digitaltwinconsortium.org/initiatives/the-definition-of-a-digital-twin/)
-* **Coursera: What Is a Digital Twin?** – Types, case studies, and business benefits.[12](https://www.ibm.com/think/topics/what-is-a-digital-twin)
-* **Digital Twin Hub Online Learning** – Ethics, data governance, and ecosystem roadmap modules.[6](https://www.nokia.com/thought-leadership/articles/how-digital-twins-driving-future-of-engineering/)
-* **Springer: The Digital Twin** – In-depth collection of chapters on concepts, technologies, and industry implementations.[8](https://digitaltwinhub.co.uk/online-learning/)
-* **RoboDK: Digital Twins Advantage** – Tutorials on offline robot programming and advanced neural reconstructions.[9](https://www.udemy.com/course/digital-twin/)[11](https://robodk.com/blog/the-digital-twins-advantage/)
+* **Digital Twin Consortium** - Authoritative definitions, best practices, and ecosystem initiatives.[5](https://www.motoman.com/en-us/about/blog/digital-twinning-for-common-robot-applications)
+* **Yaskawa Motoman Blog** - Applications of digital twinning in robotics workflows and case studies.3
+* **Nokia Thought Leadership** - Foundations of digital twins for engineering, IoT integration, and analytics.4
+* **IBM What Is a Digital Twin?** - Overview of twin architectures and use cases across industries.[10](https://www.springerprofessional.de/en/the-digital-twin/25442880)
+* **Udemy: Digital Twin Mastery** - Hands-on Python projects and implementation best practices.[7](https://www.digitaltwinconsortium.org/initiatives/the-definition-of-a-digital-twin/)
+* **Coursera: What Is a Digital Twin?** - Types, case studies, and business benefits.[12](https://www.ibm.com/think/topics/what-is-a-digital-twin)
+* **Digital Twin Hub Online Learning** - Ethics, data governance, and ecosystem roadmap modules.[6](https://www.nokia.com/thought-leadership/articles/how-digital-twins-driving-future-of-engineering/)
+* **Springer: The Digital Twin** - In-depth collection of chapters on concepts, technologies, and industry implementations.[8](https://digitaltwinhub.co.uk/online-learning/)
+* **RoboDK: Digital Twins Advantage** - Tutorials on offline robot programming and advanced neural reconstructions.[9](https://www.udemy.com/course/digital-twin/)[11](https://robodk.com/blog/the-digital-twins-advantage/)
 
 By embedding digital-twin workflows into design, commissioning, and operations, robotics teams can validate complex behaviors virtually, optimize performance continuously, and deploy more reliable, efficient automation.

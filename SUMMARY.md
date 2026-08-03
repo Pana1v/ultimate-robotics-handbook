@@ -127,9 +127,11 @@
 * [Imitation Learning](robot-learning/imitation-learning.md)
 * [Reinforcement Learning (modern)](robot-learning/reinforcement-learning-modern.md)
 * [Foundation Models / VLAs](robot-learning/foundation-models-vla.md)
+* [Tactile Sensing and Touch-Conditioned Policies](robot-learning/tactile-and-touch.md)
 * [World Models](robot-learning/world-models.md)
 * [Sim-to-Real](robot-learning/sim-to-real.md)
 * [Teleoperation and Data Collection](robot-learning/teleop-and-data.md)
+* [Scaling Laws for Robot Data](robot-learning/scaling-laws.md)
 * [Datasets and Benchmarks](robot-learning/datasets-and-benchmarks.md)
 
 ## Frontiers and Emerging Fields
@@ -162,10 +164,10 @@
 ## Career Paths & Research Opportunities
 
 * [Career Paths (overview)](career-paths-and-research-opportunities/career-paths-and-research-opportunities.md)
-* [Career in Robotics](career-paths-and-research-opportunities/career-in-robotics.md)
 * [Job Roles In Robotics](career-paths-and-research-opportunities/job-roles-in-robotics.md)
-* [Conferences and Journals](career-paths-and-research-opportunities/conferences-and-journals.md)
+* [Getting Hired in Robotics](career-paths-and-research-opportunities/getting-hired.md)
 * [Companies Hiring for Robotics](career-paths-and-research-opportunities/companies-hiring-for-robotics.md)
+* [Conferences and Journals](career-paths-and-research-opportunities/conferences-and-journals.md)
 * [Leading Institutes](career-paths-and-research-opportunities/leading-institutes.md)
 
 ## Other Resources

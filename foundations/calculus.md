@@ -77,7 +77,7 @@ This gives four equations for the four unknowns $$C_0, C_1, C_2, C_3$$. Higher-o
 
 ### Dynamics via Lagrange's Equations
 
-Robot dynamics relate joint torques $$\boldsymbol{\tau}$$, positions $$\mathbf{q}$$, velocities $$\dot{\mathbf{q}}$$, and accelerations $$\ddot{\mathbf{q}}$$. The Euler–Lagrange formulation yields the canonical manipulator equation:
+Robot dynamics relate joint torques $$\boldsymbol{\tau}$$, positions $$\mathbf{q}$$, velocities $$\dot{\mathbf{q}}$$, and accelerations $$\ddot{\mathbf{q}}$$. The Euler-Lagrange formulation yields the canonical manipulator equation:
 
 $$
 M(\mathbf{q})\,\ddot{\mathbf{q}} + C(\mathbf{q},\dot{\mathbf{q}})\,\dot{\mathbf{q}} + \mathbf{g}(\mathbf{q}) = \boldsymbol{\tau}
@@ -102,6 +102,8 @@ u(t) = K_P\,e(t) + K_I \int_0^{t} e(\tau)\,d\tau + K_D\,\frac{d}{dt}\,e(t)
 $$
 
 The integral term eliminates steady-state error; the derivative term provides damping. Tuning is mostly empirical - start with P, add D for damping, add I last and sparingly (it causes wind-up).
+
+<figure><img src="../.gitbook/assets/pid-control.gif" alt="PID step response changing shape as P, I, and D gains vary, showing overshoot, settling time, and steady-state error"><figcaption></figcaption></figure>
 
 **Linear Quadratic Regulator (LQR)** solves the continuous-time algebraic Riccati equation to minimize a quadratic cost $$J = \int (\mathbf{x}^\top Q \mathbf{x} + \mathbf{u}^\top R \mathbf{u})\,dt$$. The result is a state-feedback gain $$\mathbf{u} = -K\mathbf{x}$$ that's optimal for the linearized system.
 

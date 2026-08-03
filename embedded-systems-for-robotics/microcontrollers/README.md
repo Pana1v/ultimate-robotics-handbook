@@ -99,7 +99,7 @@ PWM generates variable-width digital pulses to control power delivery to devices
 | --------------- | ------------------------------ | -------------------------------- |
 | **Integration** | CPU, memory, I/O on one chip   | Requires external components     |
 | **Power Use**   | Low (µW to mW)                 | High (Watts)                     |
-| **Cost**        | $0.10 – $10                    | $10 – $1000+                     |
+| **Cost**        | $0.10 - $10                    | $10 - $1000+                     |
 | **Use Case**    | Embedded control (robots, IoT) | General computing (PCs, servers) |
 
 ### Microcontroller vs. Microprocessor

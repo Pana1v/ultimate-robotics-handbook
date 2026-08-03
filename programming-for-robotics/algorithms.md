@@ -20,9 +20,9 @@ Robotics systems rely on a rich toolbox of algorithms for sensing, estimation, c
   [https://www.mdpi.com/2504-446X/7/6/339](https://www.mdpi.com/2504-446X/7/6/339)
 * **Particle Filter / Monte Carlo Localization**: Uses a set of random samples (particles) to represent arbitrary distributions for robot pose\
   [https://arxiv.org/pdf/1301.0607.pdf](https://arxiv.org/pdf/1301.0607.pdf)
-* **FastSLAM / Rao–Blackwellized Particle Filter**: Combines particle filters with per-feature Kalman filters for efficient SLAM\
+* **FastSLAM / Rao-Blackwellized Particle Filter**: Combines particle filters with per-feature Kalman filters for efficient SLAM\
   [https://arxiv.org/pdf/1301.0607.pdf](https://arxiv.org/pdf/1301.0607.pdf)
-* **Moving Average & Savitzky–Golay Filters**: Simple smoothing techniques for sensor signal conditioning
+* **Moving Average & Savitzky-Golay Filters**: Simple smoothing techniques for sensor signal conditioning
 * **Butterworth & Chebyshev Filters**: Frequency-domain filters for removing high-frequency noise
 
 ### Control & Trajectory Tracking <a href="#control--trajectory-tracking" id="control--trajectory-tracking"></a>
@@ -31,7 +31,7 @@ Robotics systems rely on a rich toolbox of algorithms for sensing, estimation, c
 
 <figure><img src="../.gitbook/assets/8oYo.gif" alt=""><figcaption><p>PID Based Balancer</p></figcaption></figure>
 
-* **PID (Proportional–Integral–Derivative)**: Ubiquitous feedback controller for setpoint tracking
+* **PID (Proportional-Integral-Derivative)**: Ubiquitous feedback controller for setpoint tracking
 * **LQR (Linear Quadratic Regulator)**: Optimal state-feedback controller minimizing a quadratic cost
 * **MPC (Model Predictive Control)**: Online optimization of control signals subject to constraints
 * **H∞ Control**: Robust control design against modeling uncertainties
@@ -73,7 +73,7 @@ Robotics systems rely on a rich toolbox of algorithms for sensing, estimation, c
 
 ### Optimization & Numerical Methods <a href="#optimization--numerical-methods" id="optimization--numerical-methods"></a>
 
-* **Gauss–Newton & Levenberg–Marquardt**: Nonlinear least-squares solvers for bundle adjustment, calibration, and pose-graph optimization. See [GO-SLAM](../authors-projects/go-slam.md) for an implementation from scratch.
+* **Gauss-Newton & Levenberg-Marquardt**: Nonlinear least-squares solvers for bundle adjustment, calibration, and pose-graph optimization. See [GO-SLAM](../authors-projects/go-slam.md) for an implementation from scratch.
 * **Gradient Descent & Stochastic Gradient Descent**: Iterative minimization for learning and control parameter tuning
 * **Convex Optimization (CVX, CVXPY)**: Fast solvers for quadratic and semidefinite programs in control and state estimation
 * **Trajectory Optimization (iLQR, DDP)**: Nonlinear optimization of state-action trajectories - the math behind MPC for robotics
@@ -140,8 +140,8 @@ def rrt(start, goal, sample_fn, steer_fn, collision_free, max_iter=5000):
 <figure><img src="../.gitbook/assets/1_TixiOSYxjvmq_Zu177XDow.gif" alt=""><figcaption></figcaption></figure>
 
 * **SIFT / SURF / ORB**: Feature detection and description for landmark recognition and place recognition
-* **FAST & Shi–Tomasi Corner Detectors**: Lightweight keypoint extractors for real-time tracking
-* **Lucas–Kanade & Horn–Schunck Optical Flow**: Dense and sparse methods for image motion estimation
+* **FAST & Shi-Tomasi Corner Detectors**: Lightweight keypoint extractors for real-time tracking
+* **Lucas-Kanade & Horn-Schunck Optical Flow**: Dense and sparse methods for image motion estimation
 * **RANSAC**: Robust model fitting (e.g., fundamental matrix estimation) in the presence of outliers
 * **CNNs (Convolutional Neural Networks)**: Deep learning models for object detection and semantic segmentation
 * **YOLO / SSD / Mask R-CNN**: Real-time detection and instance segmentation frameworks

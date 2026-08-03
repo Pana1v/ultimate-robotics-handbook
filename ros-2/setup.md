@@ -183,7 +183,7 @@ If you only ever use one distro, sure, source it unconditionally in `.bashrc`. T
 
 ### ROS\_DOMAIN\_ID
 
-`ROS_DOMAIN_ID` partitions DDS traffic. Two ROS 2 systems on the same LAN with the same `ROS_DOMAIN_ID` will discover each other; with different IDs they will not. Valid range is roughly `0–101`, default is `0`.
+`ROS_DOMAIN_ID` partitions DDS traffic. Two ROS 2 systems on the same LAN with the same `ROS_DOMAIN_ID` will discover each other; with different IDs they will not. Valid range is roughly `0-101`, default is `0`.
 
 Pick a non-zero value per project so you do not accidentally talk to your office mate's robot during testing. Document it in your robot's setup script.
 
@@ -200,7 +200,7 @@ rosdep install --from-paths src --ignore-src -r -y \
 colcon build --symlink-install --cmake-args -DCMAKE_BUILD_TYPE=Release
 ```
 
-This takes 30–90 minutes on a fast workstation. The result is a workspace in `~/ros2_jazzy/install/` that you source instead of `/opt/ros/jazzy/setup.bash`. Authoritative source: [docs.ros.org/en/jazzy/Installation/Alternatives/Ubuntu-Development-Setup.html](https://docs.ros.org/en/jazzy/Installation/Alternatives/Ubuntu-Development-Setup.html).
+This takes 30-90 minutes on a fast workstation. The result is a workspace in `~/ros2_jazzy/install/` that you source instead of `/opt/ros/jazzy/setup.bash`. Authoritative source: [docs.ros.org/en/jazzy/Installation/Alternatives/Ubuntu-Development-Setup.html](https://docs.ros.org/en/jazzy/Installation/Alternatives/Ubuntu-Development-Setup.html).
 
 In practice, when I need to patch a single Nav2 package I clone just that package into my workspace's `src/` and let colcon's overlay shadow the binary version. Much faster than a full source build.
 
@@ -277,7 +277,7 @@ These are the ones I see junior engineers hit weekly.
 
 * **`--symlink-install` with C++** - symlink install symlinks Python files into `install/`, but C++ binaries are still copied. Editing Python works without rebuilding; editing C++ still needs `colcon build`. Easy to forget.
 
-* **Building in Debug mode by accident** - `colcon build` defaults to no `-DCMAKE_BUILD_TYPE`, which on most compilers means no optimization. Your code will be 5–20x slower than necessary. Always pass `--cmake-args -DCMAKE_BUILD_TYPE=Release` for anything you'll measure.
+* **Building in Debug mode by accident** - `colcon build` defaults to no `-DCMAKE_BUILD_TYPE`, which on most compilers means no optimization. Your code will be 5-20x slower than necessary. Always pass `--cmake-args -DCMAKE_BUILD_TYPE=Release` for anything you'll measure.
 
 * **Stale `build/` after a `package.xml` change** - colcon caches dependency graphs. After changing `package.xml`, sometimes `colcon build` doesn't pick up the new dep. Nuke `build/<pkg>/` and rebuild that package.
 
