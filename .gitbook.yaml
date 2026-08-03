@@ -26,6 +26,7 @@ redirects:
   authors-projects/README: authors-projects/authors-projects.md
   # duplicate career hub folded into the section overview
   career-paths-and-research-opportunities/career-in-robotics: career-paths-and-research-opportunities/career-paths-and-research-opportunities.md
+  career-paths-and-research-opportunities/getting-hired: career-paths-and-research-opportunities/career-paths-and-research-opportunities.md
   # section READMEs folded into their published overview pages
   robot-learning/README: robot-learning/robot-learning.md
   ros-2/README: ros-2/ros-2.md
