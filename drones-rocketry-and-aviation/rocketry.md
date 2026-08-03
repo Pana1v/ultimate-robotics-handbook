@@ -123,7 +123,7 @@ Meticulous assembly is vital for a successful and safe flight [2](https://course
 
 Understanding motor codes is essential for selecting the appropriate motor [4](https://www.flitetest.com/articles/model-rocket-scratch-build).
 
-* **Classification:** Motors are coded by a letter (total impulse/power, e.g., A, B, C – each letter generally doubles the power), a number (average thrust in Newtons), and another number (delay in seconds before the ejection charge).
+* **Classification:** Motors are coded by a letter (total impulse/power, e.g., A, B, C - each letter generally doubles the power), a number (average thrust in Newtons), and another number (delay in seconds before the ejection charge).
   * Example: A **C6-5** motor is "C" power, 6N average thrust, 5-second delay.
 * **Low-Power Motors:** Typically A through G class. Motors up to G class can often be flown without special certification in many areas, but always check local regulations and site permissions.
 * **Safety:** Only use certified, commercially manufactured rocket motors [3](https://edu.estesrockets.com/blogs/teacher-tips/model-rocket-safety-tips)[5](https://edu.estesrockets.com/pages/safety). Never tamper with or attempt to make your own propellant or motors.

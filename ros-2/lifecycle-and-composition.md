@@ -256,7 +256,7 @@ A **composable node** is a node compiled as a shared library and loaded into a *
 
 ### When composition pays off
 
-* **Image / point cloud pipelines** - camera driver, rectification, debayer, perception network. Each stage hands a multi-megabyte message to the next. Intra-process is a 10–100x latency win.
+* **Image / point cloud pipelines** - camera driver, rectification, debayer, perception network. Each stage hands a multi-megabyte message to the next. Intra-process is a 10-100x latency win.
 * **Nav2 stack** - costmap, planner, controller all benefit. Nav2 ships a composable layout out of the box.
 * **Any chain of small nodes that all run on the same robot.**
 

@@ -37,7 +37,7 @@ A decision tree that has saved me about a year of false starts:
 
 1. **Can you write down the dynamics and constraints?** Use classical control. PID still wins most of the things people throw RL at.
 2. **Is the task contact-rich (peg-in-hole, cloth manipulation, deformables)?** Skip analytic models. Go imitation learning or sim RL.
-3. **Can a human teleoperate the task at decent quality?** Start with imitation learning. Diffusion Policy or ACT, \~50–500 demos, two days of work.
+3. **Can a human teleoperate the task at decent quality?** Start with imitation learning. Diffusion Policy or ACT, \~50-500 demos, two days of work.
 4. **Does the task generalize across many objects/scenes/instructions?** This is where VLAs (π0, OpenVLA, RT-2) earn their keep. But you still need task-specific demos for fine-tuning.
 5. **Is the task a locomotion / whole-body control problem?** Sim-based PPO with privileged learning. The ANYmal/Walk-These-Ways recipe is the field standard.
 6. **Do you have no demonstrations, no reward function, no simulator?** You do not have a robot learning problem. You have a problem.

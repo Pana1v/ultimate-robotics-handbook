@@ -79,6 +79,8 @@ The components you actually configure:
 
 Use `BEST_EFFORT` for sensor data (LiDAR, cameras, IMU) where the next sample arrives in a few ms anyway. Use `RELIABLE` for commands and config that must arrive.
 
+<figure><img src="../.gitbook/assets/ros2-qos-reliable-vs-best-effort.gif" alt="Same publisher stream under packet loss: RELIABLE retransmits every sample, BEST_EFFORT drops some at lower latency"><figcaption></figcaption></figure>
+
 **Compatibility rule**: A `BEST_EFFORT` subscriber will not receive from a `RELIABLE` publisher (it can, by spec - but the practical default is no). A `RELIABLE` subscriber will not receive from a `BEST_EFFORT` publisher. **They must match.**
 
 ### Durability
@@ -201,7 +203,7 @@ The cheat sheet I keep in my head:
 
 | Data type                | Reliability   | Durability        | Depth | Example                                |
 | ------------------------ | ------------- | ----------------- | ----- | -------------------------------------- |
-| High-rate sensor         | BEST\_EFFORT  | VOLATILE          | 1–5   | `/scan`, `/camera/image_raw`, `/imu/data` |
+| High-rate sensor         | BEST\_EFFORT  | VOLATILE          | 1-5   | `/scan`, `/camera/image_raw`, `/imu/data` |
 | Velocity command         | RELIABLE      | VOLATILE          | 10    | `/cmd_vel`                             |
 | Joint state              | BEST\_EFFORT  | VOLATILE          | 5     | `/joint_states` (if at high rate)      |
 | Latched config           | RELIABLE      | TRANSIENT\_LOCAL  | 1     | `/map`, `/robot_description`           |

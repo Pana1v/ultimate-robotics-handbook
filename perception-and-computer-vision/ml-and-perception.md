@@ -1,7 +1,20 @@
-# ML and Perception (overview)
+---
+description: How classical computer vision and learned perception fit together in a modern robotics stack, and how to navigate this section - sensing, OpenCV, detection and tracking, vision foundation models, 3D perception, and event cameras.
+icon: eye
+---
+
+# ML and Perception
 
 Modern robot perception spans **classical computer vision** (OpenCV, feature detection, multi-view geometry), **deep learning for vision** (object detection, segmentation, tracking), **3D perception** (NeRF, Gaussian Splatting, monocular depth), and **vision foundation models** (SAM 2, Grounding DINO, Depth Anything, DINOv2). This section covers all of them.
 
-For policy learning (BC, RL, foundation-model VLAs) see the dedicated [Robot Learning](../robot-learning/robot-learning.md) section.
+These are not competing approaches so much as different layers of the same stack. Multi-view geometry, calibration, and epipolar constraints still underwrite anything that needs a verifiable, non-learned guarantee - camera calibration, structure-from-motion, the geometric back end of a SLAM system. Learned models take over wherever the input is too unstructured for a hand-built model to cover: detecting arbitrary objects, segmenting arbitrary scenes, estimating depth from a single image with no baseline at all.
+
+Vision foundation models are the newest layer on top of both - promptable, zero-shot models trained on internet-scale data that generalize to objects and scenes they were never explicitly trained on. Most production perception pipelines in 2026 blend all three: a learned or foundation-model front end feeding a classical geometric back end (a Kalman filter, a bundle adjuster, an occupancy grid) that knows how to fuse noisy estimates into something a planner can actually trust.
+
+For policy learning - behavior cloning, RL, foundation-model VLAs that turn perception into action - see the dedicated [Robot Learning](../robot-learning/robot-learning.md) section. This section stops at *perceiving* the world; that one starts at *acting* on it.
+
+### In this section
+
+Start with sensing hardware if the topic is new to you, then classical CV, then the learned methods roughly in order of how unstructured the problem gets - detection and tracking, foundation vision models, 3D perception, and event cameras. [Example of a Vision Pipeline](example-of-a-vision-pipeline.md) ties several of these together into one worked system.
 
 <table data-view="cards"><thead><tr><th></th><th data-type="content-ref"></th><th data-hidden data-card-cover data-type="files"></th></tr></thead><tbody><tr><td>Cameras, Depth Sensors and LiDAR</td><td><a href="cameras-depth-sensors-and-lidar.md">cameras-depth-sensors-and-lidar.md</a></td><td><a href="../.gitbook/assets/giphy-9.webp">giphy-9.webp</a></td></tr><tr><td>Image Processing (OpenCV)</td><td><a href="image-processing-basics-opencv.md">image-processing-basics-opencv.md</a></td><td><a href="../.gitbook/assets/ball-tracking-animated-02.gif">ball-tracking-animated-02.gif</a></td></tr><tr><td>Object Detection and Tracking</td><td><a href="object-detection-and-tracking.md">object-detection-and-tracking.md</a></td><td><a href="../.gitbook/assets/216924389-9979e1e8-58b1-4b6c-99bf-c32d5f913c1a.gif">216924389-9979e1e8-58b1-4b6c-99bf-c32d5f913c1a.gif</a></td></tr><tr><td>Foundation Vision Models (SAM, DINO, Depth Anything)</td><td><a href="foundation-vision-models.md">foundation-vision-models.md</a></td><td><a href="../.gitbook/assets/216924389-9979e1e8-58b1-4b6c-99bf-c32d5f913c1a.gif">216924389-9979e1e8-58b1-4b6c-99bf-c32d5f913c1a.gif</a></td></tr><tr><td>3D Perception (NeRF, Gaussian Splatting)</td><td><a href="3d-perception.md">3d-perception.md</a></td><td><a href="../.gitbook/assets/giphy-9.webp">giphy-9.webp</a></td></tr><tr><td>Event Cameras</td><td><a href="event-cameras.md">event-cameras.md</a></td><td><a href="../.gitbook/assets/0_MQtVJIoAqO9Txqc4.gif">0_MQtVJIoAqO9Txqc4.gif</a></td></tr><tr><td>Vision Pipeline (example)</td><td><a href="example-of-a-vision-pipeline.md">example-of-a-vision-pipeline.md</a></td><td><a href="../.gitbook/assets/tim-and-eric-mind-blown-2-1.webp">tim-and-eric-mind-blown-2-1.webp</a></td></tr><tr><td>Reinforcement Learning (basics) →</td><td><a href="reinforcement-learning.md">reinforcement-learning.md</a></td><td><a href="../.gitbook/assets/0_MQtVJIoAqO9Txqc4.gif">0_MQtVJIoAqO9Txqc4.gif</a></td></tr></tbody></table>

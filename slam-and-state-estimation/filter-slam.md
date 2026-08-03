@@ -76,6 +76,8 @@ $$
 \mathbf{P} = (\mathbf{I} - \mathbf{K}_t \mathbf{H}_t) \mathbf{P}^-
 $$
 
+<figure><img src="../.gitbook/assets/ekf-covariance-ellipse.gif" alt="Uncertainty ellipse expanding during dead reckoning prediction and contracting after each landmark measurement update"><figcaption></figcaption></figure>
+
 ### Why it became unfashionable
 
 Three reasons:

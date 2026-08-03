@@ -1,10 +1,11 @@
 ---
 icon: buildings
+description: Robotics companies hiring in India and globally, by job role and by domain - humanoids, mobility, warehouse, agriculture, surgical, and defense.
 ---
 
 # Companies Hiring for Robotics
 
-> **Note**: This list reflects a 2026-05 snapshot. The robotics industry moves fast - verify before relying on contact/recruiting info. Funding rounds, acquisitions, and pivots happen monthly, so double-check anything before you act on it.
+> **Note**: This list reflects a 2026-08 snapshot. The robotics industry moves fast - verify before relying on contact/recruiting info. Funding rounds, acquisitions, and pivots happen monthly, so double-check anything before you act on it.
 
 ### **Companies Hiring for Robotics: India and Global Opportunities** <a href="#undefined" id="undefined"></a>
 
@@ -16,22 +17,22 @@ _(Company hiring needs are dynamic. This list provides examples of companies kno
 
 ### **Robotics Job Roles and Hiring Companies (Role-Based View)**
 
-| Job Role                                                     | Top Companies – India                                                                                                      | Top Companies – Global                                                                                                                                |
+| Job Role                                                     | Top Companies - India                                                                                                      | Top Companies - Global                                                                                                                                |
 | ------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Robotics QA / Test Engineer**                              | Tata Consultancy Services, Infosys, ARCAP Innovations, Addverb                                                              | Boston Dynamics, Universal Robots, Agility Robotics, Figure AI, various manufacturing and automation companies                                        |
-| **Sensor Fusion Engineer**                                   | ARCAP Innovations, Quantela, Tata Elxsi, Ati Motors, automotive and autonomous systems companies                            | Waymo, Wayve, Mobileye, NVIDIA, Tesla, Zoox, automotive Tier 1 suppliers                                                                              |
-| **Embedded Systems Engineer (Robotics Focus)**               | Tata Elxsi, Bosch India, Wipro, L\&T Technology Services, Addverb, numerous IoT and electronics firms                       | NVIDIA, Intel, Qualcomm, Apple, ARM, microcontroller manufacturers, consumer electronics, automotive                                                  |
-| **SLAM Engineer**                                            | Ati Motors, GreyOrange, Addverb Technologies, Peer Robotics, Swaayatt Robots, startups in AMRs/drones                       | Skydio, Waymo, Wayve, Anduril, Figure AI, 1X, drone companies, vacuum-robot companies (iRobot), warehouse AMR vendors                                 |
+| **Sensor Fusion Engineer**                                   | ARCAP Innovations, Quantela, Tata Elxsi, Ati Motors, automotive and autonomous systems companies                            | Waymo, Wayve, Mobileye, NVIDIA, Tesla, Zoox, Eternal.ag, automotive Tier 1 suppliers                                                                  |
+| **Embedded Systems Engineer (Robotics Focus)**               | Tata Elxsi, Bosch India, Wipro, L\&T Technology Services, Addverb, numerous IoT and electronics firms                       | NVIDIA, Intel, Qualcomm, Apple, ARM, Eternal.ag, microcontroller manufacturers, consumer electronics, automotive                                      |
+| **SLAM Engineer**                                            | Ati Motors, GreyOrange, Addverb Technologies, Peer Robotics, Swaayatt Robots, startups in AMRs/drones                       | Skydio, Waymo, Wayve, Anduril, Figure AI, 1X, Eternal.ag, drone companies, vacuum-robot companies (iRobot), warehouse AMR vendors                     |
 | **Haptics Engineer**                                         | GE Healthcare India, TCS Research, research labs in IITs/IISc                                                              | Immersion Corporation, Ultraleap, Meta Reality Labs, Apple, Intuitive Surgical, companies developing VR/AR and surgical interfaces                    |
-| **Motion Planning Engineer**                                 | GreyOrange, Addverb, Ati Motors, TCS Research, Swaayatt Robots, AMR and AV companies                                        | Tesla, Zoox, Waymo, Boston Dynamics, Agility Robotics, Figure, 1X, Apptronik, Symbotic                                                                |
+| **Motion Planning Engineer**                                 | GreyOrange, Addverb, Ati Motors, TCS Research, Swaayatt Robots, AMR and AV companies                                        | Tesla, Zoox, Waymo, Boston Dynamics, Agility Robotics, Figure, 1X, Apptronik, Symbotic, Eternal.ag                                                    |
 | **Robot Integration Engineer**                               | ABB India, Yaskawa India, KUKA India, FANUC India, system integrators across industrial automation sectors                 | FANUC, KUKA, Universal Robots, ABB, Yaskawa, system integration firms globally                                                                        |
 | **Fleet Management Engineer (Robotics)**                     | GreyOrange, Locus Robotics (India ops), Addverb Technologies, Hi-Tech Robotics Systemz (Novus Flow)                          | Amazon Robotics, Symbotic, Fetch Robotics (Zebra), Locus Robotics, MiR (Teradyne), warehouse automation providers                                     |
-| **ROS / ROS 2 Developer**                                    | Addverb, Ati Motors, Peer Robotics, TCS Research, robotics startups and R\&D labs                                            | Open Robotics (Intrinsic/Alphabet), Clearpath Robotics, Canonical (Ubuntu Robotics), Picknik, Apex.AI, most ROS-based product companies               |
+| **ROS / ROS 2 Developer**                                    | Addverb, Ati Motors, Peer Robotics, TCS Research, robotics startups and R\&D labs                                            | Open Robotics (Intrinsic/Alphabet), Clearpath Robotics, Canonical (Ubuntu Robotics), Picknik, Apex.AI, Eternal.ag, most ROS-based product companies   |
 | **Field Service Engineer (Robotics)**                        | ABB India, KUKA India, FANUC India, Yaskawa India, companies selling/maintaining industrial robots                          | FANUC, Yaskawa, Rockwell Automation, ABB, KUKA, Universal Robots, other industrial automation solution providers                                      |
 | **Simulation Engineer (Robotics)**                           | Siemens PLM India, Autodesk India, Tata Elxsi, L\&T Technology Services, engineering simulation service providers           | Siemens, Autodesk, Ansys, Dassault Systèmes, NVIDIA (Isaac Sim), MathWorks, companies heavily using simulation for robot development                  |
 | **LiDAR Engineer**                                           | Tata Elxsi, Quantela, AV / surveying / industrial automation companies                                                     | Hesai, Ouster, Innoviz, Luminar, Bosch, Valeo, other LiDAR manufacturers and automotive Tier 1s                                                       |
 | **Safety / Functional Safety Engineer (Robotics/Aerospace)** | ISRO, DRDO, Tata Motors, other automotive and defense organizations                                                        | NASA JPL, ESA, Boeing, Airbus, automotive OEMs, industrial safety consultancies                                                                       |
-| **Human–Robot Interaction (HRI) Designer/Researcher**        | TCS Research, IIT Delhi Robotics Lab, BITS Pilani Robotics, IISc, IIITs, design-focused tech companies                     | Google DeepMind, Microsoft Research, MIT Media Lab, university research labs, social/collaborative robot companies                                    |
+| **Human-Robot Interaction (HRI) Designer/Researcher**        | TCS Research, IIT Delhi Robotics Lab, BITS Pilani Robotics, IISc, IIITs, design-focused tech companies                     | Google DeepMind, Microsoft Research, MIT Media Lab, university research labs, social/collaborative robot companies                                    |
 | **Robot UX / UI Designer**                                   | Flipkart Labs, Cognitive Robotics, Wipro, Myntra, HCLTech, tech companies developing robotic interfaces                    | Apple Human Interface, IDEO, Microsoft Design, consumer robot companies, complex robotic control interface vendors                                    |
 | **Robotics Project Manager**                                 | Larsen & Toubro, Mahindra Group, Siemens India, Tata Projects, major industrial and engineering firms                      | Airbus, Boeing, Honeywell, Bosch, Siemens, large manufacturing and technology companies managing robotics deployments                                 |
 
@@ -67,7 +68,7 @@ The hottest category in robotics 2024-2026. Most are pre-revenue or piloting; va
 
 The space consolidated heavily in 2024-2025. Several formerly-hot startups have shuttered, paused, or pivoted. Verify before sending a resume.
 
-| Company                  | Founded | HQ                       | Focus / Current Status                                                                                  | URL                          |
+| Company                  | Founded | HQ                       | Focus / Current Product                                                                                 | URL                          |
 | ------------------------ | ------- | ------------------------ | ------------------------------------------------------------------------------------------------------- | ---------------------------- |
 | **Waymo**                | 2009    | Mountain View, CA, USA   | Robotaxi (Phoenix, SF, LA, Austin, Miami expansion); Alphabet subsidiary                                | waymo.com                    |
 | **Cruise**               | 2013    | San Francisco, CA, USA   | **GM shut down Cruise's robotaxi program Dec 2024; ~1,000 jobs cut; operations wound down**             | getcruise.com                |
@@ -98,7 +99,22 @@ The most production-deployed category. Mature unit economics, real revenue.
 | **Geek+**                | 2015    | Beijing, China            | Goods-to-person AMRs; large APAC/EMEA deployments                                      | geekplus.com              |
 | **Hai Robotics**         | 2016    | Shenzhen, China           | Autonomous case-handling robots (HaiPick); dense storage focus                          | hairobotics.com           |
 | **Amazon Robotics**      | 2003 (Kiva) | North Reading, MA, USA | Fleet of 750K+ mobile robots across FCs; Sequoia / Sparrow / Proteus lines             | amazon.science/robotics   |
-| **Eternal.ag**           | 2025        | Cologne, Germany        | Fully autonomous greenhouse harvesting robots (tomato focus); exited stealth 2026      | eternal.ag                |
+
+***
+
+### **Agriculture & Field Robotics**
+
+Seasonal, weather-dependent, and brutal on margins - several well-funded players shut down or got absorbed in 2025-2026. But the deployed revenue is real and the hype is far lower than humanoids; labor shortages in harvesting and weeding are the actual driver.
+
+| Company                  | Founded | HQ                          | Focus / Current Product                                                                | URL                       |
+| ------------------------ | ------- | ---------------------------- | -------------------------------------------------------------------------------------- | ------------------------- |
+| **Eternal.ag**           | 2025    | Cologne, Germany             | Fully autonomous greenhouse harvesting robots (tomato focus); exited stealth 2026       | eternal.ag                |
+| **John Deere**           | 1837    | Moline, IL, USA              | Autonomous 8R tractor autonomy kit; See & Spray precision spraying (from Blue River Tech) | deere.com               |
+| **Carbon Robotics**      | 2018    | Seattle, WA, USA             | LaserWeeder autonomous laser-weeding robots for specialty crops                         | carbonrobotics.com        |
+| **Burro**                | 2017    | Philadelphia, PA, USA        | Autonomous harvest-assist and load-hauling robots for orchards and nurseries            | burro.ai                  |
+| **Ecorobotix**           | 2014    | Yverdon-les-Bains, Switzerland | ARA ultra-precision spraying robot; plant-by-plant weed and crop treatment            | ecorobotix.com            |
+
+See also the "Agriculture & food" sub-table under Indian Robotics (Niqo Robotics, Garuda Aerospace, TartanSense) for India-specific players in this space.
 
 ***
 
@@ -199,4 +215,4 @@ Not robot makers per se, but increasingly central to whoever's hiring.
 
 ***
 
-_Last updated: 2026-05_
+_Last updated: 2026-08_

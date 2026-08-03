@@ -85,7 +85,7 @@ Several mathematical tools are commonly used in robot kinematics:
 
 It's important to distinguish kinematics from dynamics:
 
-* **Robot Kinematics:** Focuses purely on the **geometry of motion** – position, velocity, and acceleration – without considering the forces or torques that cause or result from that motion [1](https://en.wikipedia.org/wiki/Robot_kinematics)[4](https://www.meegle.com/en_us/topics/robotics/robot-kinematics). It answers the question: "Given the joint inputs, where is the end-effector?" or "To get the end-effector here, what should the joint inputs be?"
+* **Robot Kinematics:** Focuses purely on the **geometry of motion** - position, velocity, and acceleration - without considering the forces or torques that cause or result from that motion [1](https://en.wikipedia.org/wiki/Robot_kinematics)[4](https://www.meegle.com/en_us/topics/robotics/robot-kinematics). It answers the question: "Given the joint inputs, where is the end-effector?" or "To get the end-effector here, what should the joint inputs be?"
 * **Robot Dynamics:** Studies the relationship between motion and the associated forces and torques, taking into account mass, inertia, friction, and external forces [1](https://en.wikipedia.org/wiki/Robot_kinematics). It answers questions like: "What torques are needed at the joints to achieve this motion?" or "If these forces are applied, how will the robot move?" Kinematics is a necessary prerequisite for studying robot dynamics.
 
 ***

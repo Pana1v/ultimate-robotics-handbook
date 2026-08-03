@@ -62,7 +62,7 @@ Follow the official ROS Wiki for a step-by-step manual installation:
 
 ### **Top ROS 1 Video Playlists & Learning Resources**
 
-* [**Beginner ROS Tutorials Playlist – YouTube**](https://www.youtube.com/playlist?list=PLAjUtIp46jDdv1U7I0tJlJTmjnYcczJSN)[4](https://robocademy.com/2020/04/28/top-free-tutorials-to-learn-ros-robot-operating-system/)
+* [**Beginner ROS Tutorials Playlist - YouTube**](https://www.youtube.com/playlist?list=PLAjUtIp46jDdv1U7I0tJlJTmjnYcczJSN)[4](https://robocademy.com/2020/04/28/top-free-tutorials-to-learn-ros-robot-operating-system/)
 * [**Justin Huang’s ROS Tutorials**](https://www.youtube.com/watch?v=nKIOb6lyrlI\&list=PLn8PRpmsu08pzi6EMiYnR-076Mh-q3tWr)[5](https://www.youtube.com/playlist?list=PLAjUtIp46jDdv1U7I0tJlJTmjnYcczJSN)
 * [**ROBOTIS Free ROS Video Tutorials & Book**](https://robocademy.com/2020/04/28/top-free-tutorials-to-learn-ros-robot-operating-system/)\
   Includes videos and a free ebook for beginners[3](http://wiki.ros.org/noetic/Installation/Ubuntu).

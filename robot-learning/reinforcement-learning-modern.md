@@ -18,7 +18,7 @@ Newcomers see Atari results, OpenAI's hand, and the original DeepMind quadruped 
 
 Real robots have:
 
-* **Slow data.** A 1kHz control loop gets you 3.6M samples in an hour. SAC needs \~1M for cartpole and 10–100M for anything interesting.
+* **Slow data.** A 1kHz control loop gets you 3.6M samples in an hour. SAC needs \~1M for cartpole and 10-100M for anything interesting.
 * **Hardware degradation.** You will break the robot before you finish training. Or your dataset will reflect a robot that no longer exists by the time you converge.
 * **Resets.** "Move the arm back to the start" is itself a non-trivial policy. Autonomous resets are a whole research area.
 * **Safety constraints.** You cannot let the policy go full random-exploration on a $50k arm.
@@ -27,7 +27,7 @@ So either you go to sim (and then have a sim-to-real problem), or you accept tha
 
 ## The legged locomotion playbook: PPO + privileged learning
 
-This is the most successful real-world RL recipe in robotics, full stop. Every quadruped you have seen walking around in 2023–2026 - ANYmal, Spot, Unitree, etc. - uses some descendant of this pipeline.
+This is the most successful real-world RL recipe in robotics, full stop. Every quadruped you have seen walking around in 2023-2026 - ANYmal, Spot, Unitree, etc. - uses some descendant of this pipeline.
 
 The recipe, as established by:
 
@@ -151,7 +151,7 @@ A whole page on this: [Sim-to-Real](sim-to-real.md). The TL;DR for RL specifical
 
 ## Multi-task and large-scale RL
 
-The frontier in 2025–2026 is scaling RL to many tasks and many robots:
+The frontier in 2025-2026 is scaling RL to many tasks and many robots:
 
 * **MTRL / multi-task PPO** - train one policy across many task variations.
 * **PRO-X / Project GR00T** (NVIDIA) - humanoid foundation models trained partly with RL across simulated tasks.

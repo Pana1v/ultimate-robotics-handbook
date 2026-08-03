@@ -194,6 +194,8 @@ The pose-graph optimizer is the easy part. The hard part is:
 3. **Adding** the loop-closure factor with a sensible covariance.
 4. **Surviving** the moment when the optimizer pulls the entire trajectory through the new constraint.
 
+<figure><img src="../.gitbook/assets/pose-graph-loop-closure.gif" alt="A drifted pose graph snapping into a consistent trajectory once a loop closure constraint is added and optimized"><figcaption></figcaption></figure>
+
 Approaches you'll see:
 
 | Approach                                | Used in                                |

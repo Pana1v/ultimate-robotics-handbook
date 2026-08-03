@@ -36,7 +36,7 @@ $$
 \cos \theta = \frac{\mathbf{u}^\top \mathbf{v}}{\|\mathbf{u}\|\,\|\mathbf{v}\|}
 $$
 
-Orthonormal bases (built via Gram–Schmidt) simplify coordinate transforms and least-squares problems. In SLAM and bundle adjustment, this is the foundation of everything.
+Orthonormal bases (built via Gram-Schmidt) simplify coordinate transforms and least-squares problems. In SLAM and bundle adjustment, this is the foundation of everything.
 
 ***
 
@@ -109,7 +109,7 @@ That's 9 entries with 6 constraints → 3 degrees of freedom (as expected for a 
 |---|---|---|---|
 | Rotation matrix $$R$$ | 9 (with 6 constraints) | Compose by multiplication; geometric clarity | Redundant; orthogonality drifts under numerical updates |
 | Euler angles $$(\phi, \theta, \psi)$$ | 3 | Intuitive | **Gimbal lock**; ambiguous (12+ conventions); never use these in production |
-| Axis–angle / rotation vector $$\boldsymbol{\omega} = \theta \hat{\mathbf{u}}$$ | 3 | Minimal; matches Lie-algebra $$\mathfrak{so}(3)$$ | Singular at $$\theta = 0$$ unless using rotation-vector form |
+| Axis-angle / rotation vector $$\boldsymbol{\omega} = \theta \hat{\mathbf{u}}$$ | 3 | Minimal; matches Lie-algebra $$\mathfrak{so}(3)$$ | Singular at $$\theta = 0$$ unless using rotation-vector form |
 | Quaternion $$\mathbf{q} = [q_w, q_x, q_y, q_z]$$ | 4 (with $$\|\mathbf{q}\|=1$$) | No gimbal lock; cheap composition; smooth interpolation (SLERP) | Sign ambiguity ($$\mathbf{q}$$ and $$-\mathbf{q}$$ are the same rotation) |
 
 **Rule of thumb (Pan's field note):** internal storage and computation → quaternions. User input/display → Euler. Math derivations and dynamics → rotation matrices. Conversions are cheap; pick the right tool per layer.
@@ -149,7 +149,7 @@ You don't need to derive this from scratch - GTSAM, Sophus, manif, and `tf2` han
 
 **DH Parameters**
 
-$$(\theta, d, a, \alpha)$$ - the classical Denavit–Hartenberg convention encodes each joint of a kinematic chain in 4 numbers, allowing systematic forward and inverse kinematic derivation. Modified DH (Craig's convention) differs slightly in axis placement; pick one and document it.
+$$(\theta, d, a, \alpha)$$ - the classical Denavit-Hartenberg convention encodes each joint of a kinematic chain in 4 numbers, allowing systematic forward and inverse kinematic derivation. Modified DH (Craig's convention) differs slightly in axis placement; pick one and document it.
 
 In 2026, URDF/xacro + KDL or Pinocchio supersedes hand-derived DH for most production work - but DH still shows up in classical IK papers and in industry textbooks.
 
@@ -171,7 +171,7 @@ $$
 T(\mathbf{q}) = T_{\text{desired}}
 $$
 
-Closed-form or iterative solutions via Newton–Raphson:
+Closed-form or iterative solutions via Newton-Raphson:
 
 $$
 f(\mathbf{q}) = 0

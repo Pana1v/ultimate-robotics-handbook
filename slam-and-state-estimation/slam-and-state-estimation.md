@@ -1,4 +1,5 @@
 ---
+description: SLAM and state estimation - 2D/3D visual/LiDAR SLAM, learned SLAM, sensor fusion, filter and graph backends, benchmarking on real robots.
 icon: route
 ---
 

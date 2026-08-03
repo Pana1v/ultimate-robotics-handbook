@@ -239,7 +239,7 @@ planner_server:
 
 ## Costmap layers
 
-A costmap is a 2D grid of cost values (`0`–`254`, plus `255` for unknown). Each cell's cost is computed by stacking *layers* - independent plugins that each contribute. The order matters: layers execute in sequence, each reading the prior and writing on top.
+A costmap is a 2D grid of cost values (`0`-`254`, plus `255` for unknown). Each cell's cost is computed by stacking *layers* - independent plugins that each contribute. The order matters: layers execute in sequence, each reading the prior and writing on top.
 
 | Layer        | What it does                                                          |
 | ------------ | --------------------------------------------------------------------- |

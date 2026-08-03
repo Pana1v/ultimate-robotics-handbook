@@ -20,10 +20,10 @@
 
 ### LiPo Storage Charging
 
-* **Store at 40–60% charge:** Typically 3.7–3.85V per cell.
+* **Store at 40-60% charge:** Typically 3.7-3.85V per cell.
 * **Avoid full charge or deep discharge before storage:** Both reduce lifespan.
 * **Store in a cool, dry, fireproof container:** Use LiPo bags or metal boxes, away from flammable materials.
-* **Check voltage every 2–3 months:** Recharge if voltage drops below safe range.
+* **Check voltage every 2-3 months:** Recharge if voltage drops below safe range.
 
 ### General Safety Tips
 

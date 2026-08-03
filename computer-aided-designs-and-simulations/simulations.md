@@ -70,7 +70,7 @@ Each of these tools plays a distinct role-from middleware and algorithm prototyp
 * **RoboDK** ([robodk.com](https://robodk.com/))\
   Offline programming and simulation for industrial robot arms, supporting 80+ manufacturers, CAD integration, and collision-free path generation[3](https://blogs.nvidia.com/blog/what-is-robotics-simulation/)[5](https://thinkrobotics.com/blogs/learn/top-5-simulation-software-for-robotics-development).
 * **Unity** ([unity.com](https://unity.com/))\
-  Game-engine–based simulator delivering high-fidelity graphics and physics, extensible via C# scripting for custom robotics scenarios[3](https://blogs.nvidia.com/blog/what-is-robotics-simulation/).
+  Game-engine-based simulator delivering high-fidelity graphics and physics, extensible via C# scripting for custom robotics scenarios[3](https://blogs.nvidia.com/blog/what-is-robotics-simulation/).
 * **AWS RoboMaker** ([aws.amazon.com/robomaker](https://aws.amazon.com/robomaker))\
   Cloud-native simulation service that scales computing resources for large-scale scenario testing and seamless deployment to ROS-based robots[3](https://blogs.nvidia.com/blog/what-is-robotics-simulation/).
 * **Visual Components** ([visualcomponents.com](https://visualcomponents.com/))\

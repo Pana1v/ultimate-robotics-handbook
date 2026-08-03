@@ -69,8 +69,8 @@ micro-ROS targets a long list of hardware. The ones I actually see in the field:
 
 | MCU family       | RAM range    | Notes                                          |
 | ---------------- | ------------ | ---------------------------------------------- |
-| **STM32 F4 / F7 / H7** | 192 KB – 1 MB | The industrial workhorse. STM32CubeIDE integration. |
-| **ESP32** (Xtensa) | 320–520 KB  | Wi-Fi + Bluetooth on board. My go-to for prototypes. |
+| **STM32 F4 / F7 / H7** | 192 KB - 1 MB | The industrial workhorse. STM32CubeIDE integration. |
+| **ESP32** (Xtensa) | 320-520 KB  | Wi-Fi + Bluetooth on board. My go-to for prototypes. |
 | **ESP32-S3 / C3 / C6** | varies    | Newer ESP variants, all supported.            |
 | **RP2040** (Raspberry Pi Pico) | 264 KB | Cheap, dual-core, decent toolchain.    |
 | **Teensy 4.0 / 4.1** | 1 MB        | Arduino-compatible, very fast (Cortex-M7 @ 600 MHz). |
@@ -317,7 +317,7 @@ This is verbose but bulletproof. The examples folder in `micro_ros_arduino` has 
 
 * **Calling `rclc_executor_spin_some` from inside an ISR** - don't. micro-ROS is not interrupt-safe. Spin from the main loop, set flags from ISRs.
 
-* **Stack overflow on FreeRTOS** - micro-ROS tasks need ~10 KB of stack. The default FreeRTOS task stack is 1–2 KB. Bump it.
+* **Stack overflow on FreeRTOS** - micro-ROS tasks need ~10 KB of stack. The default FreeRTOS task stack is 1-2 KB. Bump it.
 
 * **Power-cycling the MCU without restarting the agent** - sometimes the agent doesn't notice the client is gone and refuses to accept a new session. Restart the agent.
 
