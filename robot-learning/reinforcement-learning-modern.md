@@ -169,6 +169,31 @@ In practice for real robots in 2026:
 * Offline RL pretraining + online RL fine-tuning (RLPD, Cal-QL) is a credible recipe and is what SERL effectively does.
 * Pure offline RL on robot data is mostly a research curiosity right now. Use BC + ACT + Diffusion Policy instead unless you have a specific reason.
 
+## Modern RL for robotics (2025-2026 additions)
+
+- **PPO privileged learning** remains the standard for locomotion. A teacher with privileged state (object positions, terrain friction, contacts) trains a student that sees only egocentric observations, distilling simulation knowledge into a deployable policy. This is the default Isaac Lab / RSL-RL workflow for legged robots.
+
+- **SERL and HIL-SERL** (sample-efficient real-world RL): off-policy RL with replay buffers and demonstrations, shown to train manipulation skills on real robots in hours rather than weeks.
+
+- **Eureka** (NVIDIA): LLM-generated reward functions that outperform hand-designed rewards on several manipulation and locomotion tasks.
+
+- **Recap** (Physical Intelligence, pi0.6, late 2025): reinforcement learning from real-world robot experience applied to a flow-matching VLA, improving dexterous manipulation beyond imitation-only baselines.
+
+- **Offline RL** remains mostly a research curiosity for robotics: hard to evaluate, sensitive to data coverage, and rarely beats online RL or imitation on real hardware as of 2025-2026.
+
+- **Trust Region Q-Adjoint Matching** (arXiv:2605.27079): a recent off-policy actor-critic refinement.
+
+### Where RL still sits
+
+For manipulation, imitation plus fine-tuning beats pure RL in sample efficiency. For locomotion, PPO privileged learning in simulation is the deployed recipe. Real-world RL (the SERL family) is the active bridge between simulation policies and physical robots.
+
+### Sources
+
+- NVIDIA, Eureka (LLM-generated rewards), 2024
+- Physical Intelligence, Recap / pi0.6, late 2025
+- arXiv:2605.27079 Trust Region Q-Adjoint Matching
+- SERL / HIL-SERL, real-world sample-efficient RL
+
 ## Libraries
 
 | Library                                                                                                                                       | Purpose                                                        | Notes                                                  |
