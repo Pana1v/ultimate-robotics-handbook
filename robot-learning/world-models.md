@@ -138,6 +138,85 @@ A specific kind of world model + planner combo that has held up well in 2024-202
 
 For continuous control benchmarks (DMControl, MetaWorld) TD-MPC2 is one of the strongest model-based baselines. The single set of hyperparameters across 80+ tasks is a Dreamer-style win.
 
+## New world models, 2025–2026
+
+The 2022–2024 wave (DreamerV3, IRIS, GAIA, Cosmos, Genie, DIAMOND, TD-MPC2) established that generative video models could serve as robot simulators and planners. The 2025–2026 wave goes further: models that plan in latent space without pixel reconstruction, video diffusion models repurposed as closed-loop action-conditioned simulators, cross-view 3D consistency, world foundation models spanning many robot bodies, and the first real-robot deployments of world-model-based policies. Quantified figures below come from arXiv abstracts, project pages, and third-party summaries; where a full paper was not opened, the figure is flagged.
+
+### New architectures and paradigms
+
+**V-JEPA 2-AC** (Assran et al., Meta FAIR, June 2025, [arXiv:2506.09985](https://arxiv.org/abs/2506.09985)). Post-trains frozen V-JEPA 2 video encoders with a small action-conditioned predictor on ~62 hours of DROID robot video to do latent-space future-frame prediction, enabling zero-shot MPC-style planning on Franka arms at ~16 seconds per action (vs ~4 minutes for a Cosmos diffusion baseline). Real-robot: yes — zero-shot manipulation on Franka arms without per-environment data collection or task-specific training.
+
+**DINO-WM** (Zhou, Pan, LeCun, Pinto, v2 Feb 2025, [arXiv:2411.04983](https://arxiv.org/abs/2411.04983)). Learns visual dynamics without pixel reconstruction by using frozen DINOv2 patch features as latent state and a causal-attention ViT to predict future features from offline trajectories, then optimizes action sequences against a goal image at test time. Real-robot: no — simulation across mazes, PushT, Rope, and Granular scenes; strongest gains on PushT, Rope, Granular.
+
+**DUET-DINO** (Nilavadi et al., Sep 2026, [arXiv:2609.10506](https://arxiv.org/abs/2609.10506)). Trains side- and wrist-camera action-conditioned predictors jointly with cross-attention for goal-conditioned 7-DoF planning on DROID and RoboArena trajectories. Real-robot: not reported / unconfirmed.
+
+**VQ-WM** (Xu et al., Oct 2026, [arXiv:2610.25600](https://arxiv.org/abs/2610.25600)). Plans with shortest-path search over vector-quantized latent states using a controller-aware state codebook, then tracks each planned state with a learned continuous controller from visual feedback at a different rate, limiting compounding error. Real-robot: not reported.
+
+### Generative video world models for robotics
+
+**Ctrl-World** (Guo, Shi, Chen, Finn, Oct 2025, [arXiv:2510.10125](https://arxiv.org/pdf/2510.10125)). Fine-tunes a pretrained video diffusion model on DROID to predict multiple camera views jointly and evaluates VLA policies entirely "in imagination," including an interactive keyboard-driven mode. Real-robot: no — ranks policies without physical rollouts.
+
+**GeniWorld** (Gu et al., Aug 2026, [arXiv:2608.06332](https://arxiv.org/abs/2608.06332)). Renders actions as visual representations so a policy or human operator drives an autoregressive Wan2.2 backbone in closed loop; claims robust transfer from fixed-scene demos to unseen scenes. Real-robot: not reported.
+
+**PAIWorld** (Huang et al., Jun 2026, [arXiv:2606.18375](https://arxiv.org/abs/2606.18375)). 3D-consistent multi-view world foundation model with Geometry-Aware Cross-View Attention, Geo-RoPE, and Latent 3D-REPA on a Wan2.1 backbone pretrained on 2.5M multi-view clips. Real-robot: benchmark-only (1st WorldArena, 2nd AgiBot-Challenge2026); real deployment unconfirmed.
+
+**DreamTrue** (Li et al., Oct 2026, [arXiv:2610.12468](https://arxiv.org/abs/2610.12468)). Edits recorded trajectories into actions that may fail, generates the resulting future videos across views and embodiments, and trains with embodied video rewards. Real-robot: challenge-track only (1st, AgiBot World Challenge 2026 world-model track); hardware status unconfirmed.
+
+**PhysGen** (Song et al., Mar 2026, [arXiv:2603.00110](https://arxiv.org/abs/2603.00110)). Uses a pretrained video generator (NOVA backbone) as a stand-in physics simulator; each step yields both a robot action and a predicted video frame. Real-robot: partial — reported real-world Franka tasks at 75% success (per third-party summary).
+
+**PhysWorld** variants: "Robot Learning from a Physical World Model" (Mao et al., Nov 2025, [arXiv:2511.07416](https://arxiv.org/abs/2511.07416)) — zero-shot manipulation transfer via a reconstructed physical world model; real-robot: yes. "PhysWorld: From Real Videos to World Models of Deformable Objects" (Yang et al., Oct 2025, [arXiv:2510.21447](https://arxiv.org/abs/2510.21447)) — real-robot: unclear. "ABot-PhysWorld" (Chen et al., Mar 2026, [arXiv:2603.23376](https://arxiv.org/abs/2603.23376)) — 14B DiT with physics-aware DPO on ~3M robot clips; real-robot: unclear.
+
+### World models with measured real-robot deployment
+
+**GreenWAM** (Sidorov et al., Oct 2026, [arXiv:2610.18774](https://arxiv.org/abs/2610.18774)). A single network (from Cosmos 3 Edge) acts as both world model and policy across 20 robot bodies via a 79-slot shared anatomical action space. Real-robot: yes — beats π0.5- and Cosmos 3 Edge-adapted baselines on a real humanoid; distilled controller runs at 28.3 Hz.
+
+**GRAIL** (Xie et al., NVIDIA, Jun 2026, [arXiv:2606.05160](https://arxiv.org/abs/2606.05160)). Generates humanoid training data from video world models seeded by rendered 3D assets; no physical robot or motion capture needed before deployment. Real-robot: yes — Unitree G1 egocentric visual policies trained only on GRAIL data reached 84% pick-up and 90% stair-climbing.
+
+**Interactive World Simulator** (Wang et al., Mar 2026, [arXiv:2603.08546](https://arxiv.org/abs/2603.08546)). Action-conditioned video world model supporting stable >10-minute rollouts at 15 FPS on a single RTX 4090; policy and simulator drive each other in closed loop. Real-robot: yes (claimed) — simulator performance tracks real hardware; simulator-generated data roughly as useful as real data on rigid/deformable/pile tasks.
+
+**MotionWAM** (Zheng et al., Jun 2026, [arXiv:2606.09215](https://arxiv.org/html/2606.09215v1)). Replaces the VLM backbone of a VLA with a video world model whose denoising features condition the action policy; whole-body motion tokens for locomotion and torso. Real-robot: yes — Unitree G1, nine real-world tasks.
+
+**Flex-π** (Yan et al., Aug 2026, [arXiv:2608.10860](https://arxiv.org/abs/2608.10860)). 6B model outputting future RGB, 3D pointmaps, DINOv3 semantics, and actions from one checkpoint; deployable as VLA, full world-action model, or intermediate points. Real-robot: yes — up to 2–7× gains over baselines on real-world dexterous bimanual manipulation.
+
+### Latent / pixel / hybrid models for robot control
+
+**GPC / Inference-Time Enhancement** (Qi et al., Feb 2025, [arXiv:2502.00622](https://arxiv.org/html/2502.00622)). Freezes a generative policy's weights and improves inference-time execution by sampling action proposals ranked/refined through short look-ahead rollouts in an action-conditioned world model. Real-robot: not reported — speed is the noted limitation (>3 s per decision cycle per a follow-up).
+
+### World foundation models, simulators, and closed-loop evaluation
+
+**GE-Sim 2.0** (Qiu et al., AgiBot, May 2026, [arXiv:2605.27491](https://arxiv.org/abs/2605.27491)). Closed-loop video world simulator: a policy acts inside the simulator, receives generated frames as its next input; trained on thousands of hours of real robot data including failures; a VL world-judge reward scores rollouts frame-by-frame. Real-robot: unclear — no quantitative policy-training results surfaced.
+
+**Benchmarks.** WorldArena (Shang et al., Feb 2026, [arXiv:2602.08971](https://arxiv.org/abs/2602.08971)) — unified benchmark scoring video perception, task functionality, and human evaluation via EWMScore. WorldEval (Li et al., May 2025, [arXiv:2505.19017](https://arxiv.org/abs/2505.19017)) — evaluates real-robot policies inside a world model; correlates with real-world results. dWorldEval (Apr 2026, [arXiv:2604.22152](https://arxiv.org/abs/2604.22152)) — discrete-diffusion world model for policy evaluation on LIBERO, RoboTwin, and real-robot tasks. H2R-Bench (Rong et al., Aug 2026, [arXiv:2608.13049](https://arxiv.org/abs/2608.13049)) — human-to-robot video transfer benchmark. X2Real (Ruan et al., Sep 2026, [arXiv:2609.27449](https://arxiv.org/abs/2609.27449)) — Isaac Lab-Arena-based benchmark predicting real-robot performance from simulated runs (sim/real correlation 0.84). RoboWM-Bench (Apr 2026, [arXiv:2604.19092](https://arxiv.org/pdf/2604.19092)) — evaluates world models by whether actions extracted from generated videos complete tasks.
+
+Quick reference:
+
+| Model/Paper | arXiv | Date | Real-robot? |
+|---|---|---|---|
+| V-JEPA 2-AC | 2506.09985 | Jun 2025 | Yes (Franka) |
+| DINO-WM | 2411.04983 | Feb 2025 | No (sim) |
+| DUET-DINO | 2609.10506 | Sep 2026 | Unclear |
+| Ctrl-World | 2510.10125 | Oct 2025 | No |
+| GeniWorld | 2608.06332 | Aug 2026 | Unclear |
+| PAIWorld | 2606.18375 | Jun 2026 | Benchmark only |
+| DreamTrue | 2610.12468 | Oct 2026 | Challenge track only |
+| PhysGen | 2603.00110 | Mar 2026 | Partial (Franka 75%) |
+| PhysWorld (physical world model) | 2511.07416 | Nov 2025 | Yes |
+| ABot-PhysWorld | 2603.23376 | Mar 2026 | Unclear |
+| GreenWAM | 2610.18774 | Oct 2026 | Yes (humanoid) |
+| GRAIL | 2606.05160 | Jun 2026 | Yes (Unitree G1) |
+| Interactive World Simulator | 2603.08546 | Mar 2026 | Yes (claimed) |
+| GPC / Inference-Time Enhancement | 2502.00622 | Feb 2025 | Not reported |
+| VQ-WM | 2610.25600 | Oct 2026 | Not reported |
+| MotionWAM | 2606.09215 | Jun 2026 | Yes (Unitree G1) |
+| Flex-π | 2608.10860 | Aug 2026 | Yes (bimanual dexterous) |
+| GE-Sim 2.0 | 2605.27491 | May 2026 | Unclear |
+| WorldArena | 2602.08971 | Feb 2026 | No (benchmark) |
+| WorldEval | 2505.19017 | May 2025 | Yes (evaluator) |
+| dWorldEval | 2604.22152 | Apr 2026 | Yes (real-robot tasks) |
+| H2R-Bench | 2608.13049 | Aug 2026 | No |
+| X2Real | 2609.27449 | Sep 2026 | Yes (calibration) |
+| RoboWM-Bench | 2604.19092 | Apr 2026 | Unclear |
+
 ## When to actually use a world model (2026)
 
 Be honest with yourself. World models are oversold in research and undershipped in production. Cases where they genuinely earn their keep:
