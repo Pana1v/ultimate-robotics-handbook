@@ -176,6 +176,30 @@ Before committing to weeks of additional collection, spend an afternoon on this 
 **Field note.** The single most expensive mistake I see teams make is treating a plateaued success rate as a "we need more data" problem and quietly tripling their existing dataset in the exact same room with the exact same objects. It almost never moves the number, because they were already past the saturation point of that axis. The fix is nearly always "go collect in a different kitchen," not "collect more in this one" - but admitting that means admitting the last few weeks of data collection targeted the wrong variable, which is a harder conversation than just scheduling more teleop sessions.
 {% endhint %}
 
+## Robot data scaling laws (2025-2026 position)
+
+Sartor and Thompson's meta-analysis of 327 robot-learning papers (arXiv:2405.14005) reports mean power-law exponents for performance versus data size:
+
+- Overall: -0.276 (131 studies)
+- Seen data, in distribution: -0.389 (15 studies)
+- Unseen data, generalization: -0.155 (27 studies)
+
+Interpretation: performance improves with more data, but generalization to unseen settings improves much more slowly (-0.155 versus -0.389). Robot data is also expensive per unit compared with internet text, so the practical takeaways:
+
+1. **Diversity beats volume.** More embodiments, scenes, objects, and language instructions per dollar outperform more repetitions of the same robot-task pairing.
+
+2. **Cross-embodiment data is the lever.** Open X-Embodiment (22 embodiments, 1M+ trajectories) and OXE-AugE (9 embodiments, 4.4M trajectories after augmentation) exist because scaling within one embodiment plateaus.
+
+3. **Data quality dominates.** Filter failed episodes, validate annotations, and balance teleop sources. Augmentation is cheaper than collecting new real data: cross-painting in OXE-AugE let fine-tuned OpenVLA and pi0 improve real-world success 24-45% on unseen robot-gripper combinations (arXiv:2512.13100).
+
+A 2026 follow-up (arXiv:2607.23108) extends the scaling analysis; check it for updated exponents before citing hard numbers.
+
+### Sources
+
+- arXiv:2405.14005 Neural Scaling Laws in Robotics (Sartor and Thompson)
+- arXiv:2607.23108 (2026 scaling-law follow-up)
+- arXiv:2512.13100 OXE-AugE
+
 ## Further reading
 
 - Kaplan et al., *"Scaling Laws for Neural Language Models"* - [https://arxiv.org/abs/2001.08361](https://arxiv.org/abs/2001.08361)

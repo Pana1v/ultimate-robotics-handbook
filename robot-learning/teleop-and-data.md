@@ -186,6 +186,31 @@ When it silently poisons a dataset: when retargeting errors are systematic rathe
 | **VR (Quest + arm)** | ~$1k + arm | Robot-dependent | Optional | Robot-dependent | Humanoids, immersive |
 | **UMI gripper** | ~$200 (handheld) | Effective 6 | No | "Yes" (you walk) | Scaling data without a robot |
 
+## Teleop hardware (existing plus 2025-2026 emphasis)
+
+Existing: ALOHA, Mobile ALOHA, GELLO, SO-100 / SO-101, Koch, LeKiwi, AnyTeleop, VR teleop, HOMIE, DexCap, UMI, DOBB-E.
+
+2025-2026 emphasis:
+
+- **Embodiment-agnostic UMI data.** RDT2 (arXiv:2602.03310) collected more than 10,000 hours of demonstrations with an enhanced Universal Manipulation Interface that is deliberately embodiment-agnostic. The same human data trains policies that transfer zero-shot to UR5e, Franka, and other bimanual platforms. This shifts teleop data from "one robot, one dataset" to "one interface, many embodiments."
+
+- **LeRobot community datasets** (Hugging Face): the standard open distribution format for teleop-collected RLDS episodes, with SmolVLA fine-tuning recipes.
+
+- **OXE-AugE / AugE-Toolkit** (arXiv:2512.13100): an open augmentation pipeline that re-renders teleop trajectories with cross-painting across nine embodiments, producing 4.4M trajectories from 16 Open X-Embodiment datasets. Use it when you have data for one robot and need policies that generalize to others.
+
+## Data collection practice
+
+- Record at roughly 30 Hz camera, 100 Hz or higher joint state, with language annotations and episode outcomes.
+- Validate completeness and trajectory smoothness before training; filter failed episodes.
+- Balance embodiments rather than maximize total transitions: diversity beats volume (scaling-laws finding, arXiv:2405.14005).
+
+### Sources
+
+- arXiv:2602.03310 RDT2
+- arXiv:2512.13100 OXE-AugE
+- Hugging Face LeRobot
+- arXiv:2405.14005 scaling laws
+
 ## Data quality is everything
 
 You can have the best teleop rig in the world and still collect bad data. The fundamentals:

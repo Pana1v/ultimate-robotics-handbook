@@ -73,6 +73,43 @@ Paper: [https://arxiv.org/abs/2405.12213](https://arxiv.org/abs/2405.12213)
 
 Berkeley's open VLA. Smaller (Octo-Base is ~93M params, Octo-Small ~27M), uses diffusion action heads instead of discrete tokens. Designed for fast fine-tuning and inference. Less flashy than OpenVLA but often a better default for hardware-constrained deployments.
 
+## VLA architecture today (2025-2026)
+
+A VLA has three parts:
+
+1. **Vision encoder:** SigLIP, DINOv2, or a ViT inside a vision-language model (PaliGemma, Gemma3, Qwen2.5-VL, Eagle-2).
+2. **LLM backbone:** PaliGemma 3B (pi0), Gemma3 4B (pi0.7), Qwen2.5-VL-7B (RDT2), Eagle-2 (GR00T N1 System 2).
+3. **Action head:** discrete action tokens (FAST, RVQ), diffusion, or flow matching. Flow matching is the 2025-2026 default: chunked outputs of 30-50 actions sampled in about 10 steps.
+
+## Notable models
+
+- **pi0 / pi0.5 / pi0.6 / pi0.7** (Physical Intelligence): PaliGemma / Gemma3 backbones with flow-matching action experts, trained on more than 10,000 hours of dexterous manipulation across seven robot configurations. pi0.5 (arXiv:2504.16054) adds FAST discrete tokens plus flow matching, described as a System 2 proposing and System 1 acting. pi0.6 adds Recap reinforcement learning from real experience. pi0.7 (2026) is roughly 5B parameters with an 860M action expert.
+
+- **SmolVLA** (arXiv:2506.01844): roughly 450M parameters, flow matching, CPU-capable inference, LeRobot integration.
+
+- **GR00T N1** (arXiv:2503.14734): NVIDIA's dual-system humanoid foundation model. Eagle-2 VLM (System 2, about 10 Hz on an L40 GPU) reasons over scene and language; a diffusion transformer (System 1) emits motor actions. Trained on roughly 50,000 H100 hours of real trajectories, human video, and synthetic data. Tested on the Fourier GR-1 humanoid; checkpoints, data, and Isaac Sim benchmarks are public in NVIDIA/Isaac-GR00T.
+
+- **RDT2-VQ / RDT2-FM** (arXiv:2602.03310): 7B Qwen2.5-VL backbone, more than 10,000 hours of UMI human demonstration data, zero-shot cross-embodiment on unseen robots including UR5e and Franka.
+
+- **Qwen-VLA** (arXiv:2605.30280): DiT-based action decoder on Qwen's vision-language stack with embodiment-aware prompt conditioning, targeting manipulation, navigation, and trajectory prediction across embodiments.
+
+- **OpenVLA / Octo:** 7B-class open VLAs (Prismatic backbone for OpenVLA) that remain the open-source baselines for fine-tuning on LeRobot and Open X-Embodiment data.
+
+## Practical notes
+
+- Inference cost is dominated by the VLM backbone. Small models (SmolVLA) and async stacks (AsyncVLA) are the main paths to real-time deployment.
+- Most public checkpoints are on Hugging Face; fine-tuning recipes live in LeRobot and NVIDIA/Isaac-GR00T.
+- Evaluation has moved from single-robot success rates to cross-embodiment zero-shot transfer (RDT2's 4U) and long-horizon dexterous tasks.
+
+### Sources
+
+- arXiv:2504.16054 pi0.5
+- arXiv:2506.01844 SmolVLA
+- arXiv:2503.14734 GR00T N1
+- arXiv:2602.03310 RDT2
+- arXiv:2605.30280 Qwen-VLA
+- Physical Intelligence, pi0 (2024) and pi0.7 (2026)
+
 ### π0 / π0.5 / π0-FAST (Physical Intelligence, 2024-2026)
 
 Black, Brown, Driess, Esmail, et al. [https://www.physicalintelligence.company/blog/pi0](https://www.physicalintelligence.company/blog/pi0)

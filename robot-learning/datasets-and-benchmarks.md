@@ -213,6 +213,39 @@ SimplerEnv is the most underrated of these - it provides a sim eval that actuall
 | SimplerEnv | Sim | VLA eval matching real | Reproducible VLA evals | Most underrated. |
 | CALVIN | Sim | Long-horizon lang-conditioned | Language IL eval | Solid mid-difficulty bench. |
 
+## Datasets (2025-2026)
+
+| Dataset | Year | Scale | Embodiment | Notes |
+|---|---|---|---|---|
+| Open X-Embodiment (OXE) | 2024-2025 | 1M+ trajectories | 22 embodiments | The cross-embodiment baseline; Octo and OpenVLA pretraining mixture |
+| OXE-AugE | 2025 (arXiv:2512.13100) | 4.4M trajectories | 9 embodiments | AugE-Toolkit cross-painting augmentation of 16 OXE datasets; 24-45% real-success gains on unseen robot-gripper combinations |
+| DROID | 2024 | 76k trajectories | Franka | Real-world manipulation collected across multiple sites |
+| BridgeData V2 | 2023-2024 | — | Multiple | Wide object and variety coverage |
+| RH20T | 2024 | — | Bimanual | Real-world bimanual tasks |
+| RoboSet | 2024 | — | — | — |
+| LeRobot community datasets | 2024-2026 | — | Many | Hugging Face distribution; RLDS format; SmolVLA fine-tuning recipes |
+
+## Benchmarks
+
+- **LIBERO, RoboCasa, BEHAVIOR-1K:** manipulation benchmarks in simulation. RoboCasa adds large-scale simulated data generation for imitation learning.
+- **Habitat, Isaac Lab tasks:** navigation and embodied-AI benchmarks. Isaac Lab is the default for legged locomotion RL with PPO privileged learning.
+- **MetaWorld:** manipulation benchmark suite; still used for SmolVLA fine-tuning evaluations.
+- **BARN:** navigation benchmark of static obstacle worlds; ported to Isaac Lab for reinforcement-learning training.
+- **SimplerEnv, CALVIN:** language-conditioned manipulation benchmarks.
+- **GR00T N1 benchmarks** (NVIDIA/Isaac-GR00T): simulation benchmarks for generalist humanoid policies across embodiments.
+- **RDT2 4U evaluation:** zero-shot transfer across unseen embodiment, scene, object, and language; includes bimanual UR5e and Franka platforms and dynamic table-tennis tasks.
+
+## What changed since 2024
+
+The center of gravity moved from single-robot datasets (DROID, BridgeData) to cross-embodiment collections (Open X-Embodiment, OXE-AugE), and benchmarks now measure zero-shot transfer to unseen robots rather than within-robot generalization only. When citing dataset scale, prefer OXE-AugE's 4.4M augmented trajectories as the current upper bound on open cross-embodiment data.
+
+### Sources
+
+- arXiv:2512.13100 OXE-AugE
+- arXiv:2602.03310 RDT2
+- NVIDIA/Isaac-GR00T repository
+- Hugging Face LeRobot dataset hub
+
 ## Benchmarks specifically for sim-to-real
 
 Most "sim-to-real" papers do not use a shared benchmark - they show the same policy in sim and on their lab's robot, and report success rates. This is a real gap in the field.
