@@ -95,6 +95,67 @@ A VLA has three parts:
 
 - **OpenVLA / Octo:** 7B-class open VLAs (Prismatic backbone for OpenVLA) that remain the open-source baselines for fine-tuning on LeRobot and Open X-Embodiment data.
 
+## New VLAs and action architectures, 2025-2026
+
+Flow matching is now the default action head (π0, SmolVLA, Qwen-VLA, Green-VLA, SimVLA, X-VLA, TurboVLA, BitVLA). The 2025-2026 innovation is mostly *around* flow matching: adaptive inference steps, horizon selection, async chunking, Mamba experts, physical-state targets, and 1-bit / quantized deployment.
+
+### π\*0.6 and π0.7 (Physical Intelligence)
+
+π\*0.6 (arXiv:2511.14759, Nov 2025) extends the π0.5 recipe with reinforcement learning from real-world experience — closing the gap between demonstrator ceiling and real task success. π0.7 (arXiv:2604.15483, Apr 2026) is PI's current flagship: roughly 5B parameters with a Gemma3 4B backbone, MEM-style video-history encoder, and an ~860M flow-matching action expert emitting 50-step chunks. Weights remain closed; only π0-base / OpenPi is openly released. [arxiv:2511.14759](https://arxiv.org/pdf/2511.14759) · [arxiv:2604.15483](https://arxiv.org/abs/2604.15483)
+
+### Qwen-VLA (Qwen / Alibaba, arXiv:2605.30280)
+
+A ~5.15B model (Qwen3.5-4B VLM backbone + ~1.15B DiT flow-matching action decoder) that unifies manipulation, navigation, and trajectory prediction across embodiments via embodiment-aware prompt conditioning — the robot is described in plain text, no retraining per robot. Real-world ALOHA validation: 76.9% average OOD success; 97.9% on LIBERO, 86.1%/87.2% on RoboTwin-Easy/Hard. [arxiv:2605.30280](https://arxiv.org/abs/2605.30280)
+
+### AffordanceVLA (Yu et al., arXiv:2606.06155)
+
+Builds on π0 with a Mixture-of-Transformer and affordance modules (Which2Act / Where2Act / How2Act) as a task-oriented, object-centric intermediate representation bridging VLM semantics and embodied control. 88.3% on basic real-world robot tasks, with ID and OOD sim plus real-world results. [arxiv:2606.06155](https://arxiv.org/abs/2606.06155)
+
+### Green-VLA (Sber Robotics Center, arXiv:2602.00919)
+
+A ~5B model (4B Qwen3-VL backbone + ~1B expert/heads) with a five-stage curriculum (foundational VLM → grounding → multi-embodiment pretrain → embodiment adaptation → RL alignment). A single policy controls humanoids, mobile manipulators, and fixed-base arms. Real-robot: Green humanoid (32 DoF upper body: pick, place, basket retrieval, hand-over, fruit sorting); ALOHA bimanual table cleaning 69.5% first-item success vs 35.6% baseline, ~2x faster. [arxiv:2602.00919](https://arxiv.org/abs/2602.00919)
+
+### SimVLA (arXiv:2602.18224)
+
+A deliberately minimal ~0.5B VLA (SmolVLM-0.5B encoder + small action transformer, flow matching, continuous chunks) with **no robot-data pretraining**, intended as a clean baseline for attributing field gains. Zero-shot performance reportedly level with π0.5. [arxiv:2602.18224](https://arxiv.org/abs/2602.18224)
+
+### BitVLA (arXiv:2506.07530)
+
+The first fully native 1-bit VLA: 2B parameters, BitNet b1.58 ternary weights with a 1.58-bit quantized vision encoder. 11x memory reduction and 4.4x latency reduction vs OpenVLA-OFT while matching its performance, on real-world tasks. [arxiv:2506.07530](https://arxiv.org/abs/2506.07530)
+
+### TurboVLA (arXiv:2607.27205)
+
+A 0.2B / 0.4B model with direct V+L→A interaction (no LLM backbone), running at 32 Hz on an RTX 4090 with <1 GB VRAM and ~31 ms latency. 97.6% average on LIBERO; 0.4B matches larger VLAs on RoboTwin 2.0. Sim-validated only. [arxiv:2607.27205](https://arxiv.org/abs/2607.27205)
+
+### Z-sight (Ye et al., USC/NVIDIA-affiliated, arXiv:2611.24940)
+
+Unifies VLA and latent world modeling: a continuous action expert jointly denoises future spatial tokens and actions in the VLM's native token space, no pixel reconstruction. 81.9% on SIMPLE (+9.6 over baseline), 73.3% on six Unitree G1 tasks (+20 pts), ~110 ms per chunk. Real-robot on Unitree G1. [arxiv:2611.24940](https://arxiv.org/abs/2611.24940)
+
+### VLA-Δ (Lu et al., arXiv:2610.21306)
+
+Adds physical state-change (current→future) as an explicit learning target via large-scale physical state-transition annotations, instead of only mapping observation→action. No inference overhead; competitive SOTA on LIBERO/RoboTwin and outperforms π0.5 in real-robot experiments. [arxiv:2610.21306](https://arxiv.org/abs/2610.21306)
+
+### Action-architecture advances (plug-and-play, no retraining)
+
+| Work | arXiv | What it changes |
+|------|-------|-----------------|
+| **AdaVLA** (adaptive step flow matching) | [2608.29208](https://arxiv.org/abs/2608.29208) | Curvature-based confidence metric dynamically reduces ODE inference steps and adaptively prunes MLP ratios. 1.87x speedup on π0.5, 2.24x on X-VLA (Jetson AGX Orin), negligible success degradation; SmolVLA real-world validation. |
+| **PICES** (perturbation-informed chunk & horizon selection) | [2610.19656](https://arxiv.org/abs/2610.19656) | Generates multiple action chunks from perturbed noise samples within one policy call; differences select per-candidate execution horizons and the chunk to execute. Up to 2.3x wall-clock speedup on Jetson Orin and Thor with improved success; real-manipulation validation. |
+| **FutureRTC** (anticipatory-conditioned action chunking) | [2607.24008](https://arxiv.org/abs/2607.24008) | Plug-and-play async execution: predicts execution-time proprioceptive states and visual representations so chunks computed ahead of execution splice smoothly; no policy modification. Sim and real-world validation under inference delay. |
+| **Mamba SmolVLA expert** | [2608.21407](https://arxiv.org/abs/2608.21407) | Replaces causal self-attention in the SmolVLA action expert with Mamba selective state-space modeling. 24% fewer params at per-action replanning (N=1), matched success; outperforms Transformer by 3.7–7.8% at long horizons (N=25/50). LIBERO sim. |
+| **VLA-Δ** | [2610.21306](https://arxiv.org/abs/2610.21306) | Physical state-transition supervision instead of observation→action only. See above. |
+
+### Edge / on-robot optimized VLAs
+
+| Model | arXiv | Size | Edge claim | Real-robot? |
+|-------|-------|------|-----------|-------------|
+| **SmolVLA** | [2506.01844](https://arxiv.org/abs/2506.01844) | ~450M | CPU-capable inference, ~7x less memory than π0 | Yes (SO-100) |
+| **BitVLA** | [2506.07530](https://arxiv.org/abs/2506.07530) | 2B ternary | 11x memory reduction, 4.4x latency reduction vs OpenVLA-OFT | Yes |
+| **TurboVLA** | [2607.27205](https=2607.27205) | 0.2B / 0.4B | 32 Hz on RTX 4090 with <1 GB VRAM | Sim only |
+| **VLA-ULAP** | [2609.18663](https://arxiv.org/abs/2609.18663) | ULAP ~7.4M | Cloud VLA + ultra-lightweight local predictor interleaved; Jetson Orin Nano 20.7 ms / 0.122 J per inference vs RTX A6000 289.3 ms / 40.46 J; removes 45–77% of cloud VLA calls | Yes (SO-101 physical trials) |
+
+**Quantization studies:** QuantVLA [2602.20309], QVLA [2602.03782], DyQ-VLA [2603.07904], Mix-QVLA [2606.19565], and VLAQuantBench [2609.25376] cover post-training quantization of language backbones + DiT action heads (e.g., W4A8 π0.5 → 1.28 GB from 4.27 GB, 97.6% LIBERO retained).
+
 ## Practical notes
 
 - Inference cost is dominated by the VLM backbone. Small models (SmolVLA) and async stacks (AsyncVLA) are the main paths to real-time deployment.
