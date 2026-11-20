@@ -1,6 +1,8 @@
 ---
-description: Why surgical robots stay teleoperated rather than autonomous, the engineering constraints of operating inside a sterile field, and why regulatory pathways dominate this field's timelines more than the technology does.
-icon: activity
+description: >-
+  Why surgical robots stay teleoperated rather than autonomous, the engineering
+  constraints of operating inside a sterile field, and why regulatory pathways
+  dominate this field's timelines more than the
 ---
 
 # Medical Robotics
@@ -49,14 +51,14 @@ The interesting engineering in medical robotics mostly isn't in an autonomy stac
 
 These constraints are also a useful lens on why surgical robots and industrial robots, despite both being "robot arms," end up as almost entirely different engineering disciplines:
 
-| | Industrial arm | Surgical robot |
-|---|---|---|
-| Primary design goal | Speed, payload, repeatability | Precision, sterility, safety margin |
-| Autonomy | Often fully autonomous, fenced from humans | Teleoperated, human in the loop on every motion |
-| End-effector DOF budget | Whatever the task needs | Squeezed into a few millimeters, cable-driven |
-| Force feedback to operator | Rarely relevant | Recognized gap, still mostly unsolved |
-| Regulatory bar | Industrial safety standards | FDA/CE medical device clearance |
-| Failure consequence | Damaged part, line stoppage | Patient harm |
+|                            | Industrial arm                             | Surgical robot                                  |
+| -------------------------- | ------------------------------------------ | ----------------------------------------------- |
+| Primary design goal        | Speed, payload, repeatability              | Precision, sterility, safety margin             |
+| Autonomy                   | Often fully autonomous, fenced from humans | Teleoperated, human in the loop on every motion |
+| End-effector DOF budget    | Whatever the task needs                    | Squeezed into a few millimeters, cable-driven   |
+| Force feedback to operator | Rarely relevant                            | Recognized gap, still mostly unsolved           |
+| Regulatory bar             | Industrial safety standards                | FDA/CE medical device clearance                 |
+| Failure consequence        | Damaged part, line stoppage                | Patient harm                                    |
 
 ## Rehabilitation and assistive robotics
 
@@ -74,9 +76,9 @@ The part of medical robotics that looks the least like a "robot" in the popular 
 
 <figure><img src="../.gitbook/assets/Microrobot-Uses-Capillary-Forces.gif" alt="Microrobot exploiting capillary forces at a liquid surface to move and manipulate objects at small scale"><figcaption></figcaption></figure>
 
-* **Capsule endoscopy.** Swallowable, camera-equipped capsules (PillCam-style, passive) image the GI tract without an endoscope. The active research frontier is *magnetically actuated* capsules - steer the capsule with an external magnetic field rather than relying on peristalsis to carry it, trading passivity for controllability.
+* **Capsule endoscopy.** Swallowable, camera-equipped capsules (PillCam-style, passive) image the GI tract without an endoscope. The active research frontier is _magnetically actuated_ capsules - steer the capsule with an external magnetic field rather than relying on peristalsis to carry it, trading passivity for controllability.
 * **Continuum and concentric-tube robots.** Instead of rigid links and joints, these use pre-curved, telescoping tubes or cable-actuated flexible backbones to snake through tortuous anatomy a rigid instrument can't reach. Webster & Jones' 2010 review of constant-curvature kinematics is still the standard reference for how these are modeled.
-* **Steerable needles.** A bevel-tipped flexible needle, pushed through soft tissue, naturally curves toward the bevel side; duty-cycled rotation of the needle during insertion controls how much it curves, letting a single needle reach a target around an obstacle a straight needle couldn't. Webster, Kim, Cowan, Chirikjian & Okamura's 2006 nonholonomic model is the foundational paper for this whole sub-area. This is also where diagnostic imaging and robotics actually meet in practice: steerable needles are steered *under* imaging - real-time ultrasound or intraoperative MRI/CT guidance - so the "robot" here is inseparable from the imaging modality that tells it where the target and the needle tip currently are.
+* **Steerable needles.** A bevel-tipped flexible needle, pushed through soft tissue, naturally curves toward the bevel side; duty-cycled rotation of the needle during insertion controls how much it curves, letting a single needle reach a target around an obstacle a straight needle couldn't. Webster, Kim, Cowan, Chirikjian & Okamura's 2006 nonholonomic model is the foundational paper for this whole sub-area. This is also where diagnostic imaging and robotics actually meet in practice: steerable needles are steered _under_ imaging - real-time ultrasound or intraoperative MRI/CT guidance - so the "robot" here is inseparable from the imaging modality that tells it where the target and the needle tip currently are.
 
 These platforms trade the console-plus-master-slave-arm architecture of surgical robots for something closer to guided instrumentation - less like teleoperating a robot, more like a smart, steerable version of a tool that already existed.
 
@@ -86,11 +88,11 @@ These platforms trade the console-plus-master-slave-arm architecture of surgical
 
 This is the section that actually explains why medical robotics moves the way it does. In the US, medical devices are FDA-classified by risk:
 
-| Class | Risk level | Typical pathway | What it requires |
-|---|---|---|---|
-| **Class I** | Low | General controls, often exempt | Basic manufacturing / labeling controls |
-| **Class II** | Moderate | **510(k) premarket notification** | "Substantial equivalence" to an already-cleared predicate device |
-| **Class III** | High, or life-sustaining, or novel | **PMA (Premarket Approval)** | Full clinical trial data - the most rigorous pathway |
+| Class         | Risk level                         | Typical pathway                   | What it requires                                                 |
+| ------------- | ---------------------------------- | --------------------------------- | ---------------------------------------------------------------- |
+| **Class I**   | Low                                | General controls, often exempt    | Basic manufacturing / labeling controls                          |
+| **Class II**  | Moderate                           | **510(k) premarket notification** | "Substantial equivalence" to an already-cleared predicate device |
+| **Class III** | High, or life-sustaining, or novel | **PMA (Premarket Approval)**      | Full clinical trial data - the most rigorous pathway             |
 
 Most commercially deployed surgical robots, including da Vinci-class systems, have historically been cleared as **Class II devices via the 510(k) pathway** - substantially equivalent to a predicate, not proven safe and effective from first principles the way a Class III device would be. This is a well-documented point of controversy: a 2023 study tracing the "ancestry" of 510(k) clearances behind a widely deployed robotic surgical system found that the overwhelming majority of clearances in that chain submitted no clinical data at all, and identified a pattern researchers call **predicate creep** - each new clearance justified by comparison to the previous cleared device rather than to first-principles clinical evidence, so incremental technological change accumulates over years without ever triggering the harder review a Class III device would face.
 
@@ -106,8 +108,8 @@ For who's actually building and hiring in this space, see the Surgical/Medical s
 
 ## Further reading
 
-- Shademan et al., *"Supervised Autonomous Robotic Soft Tissue Surgery"* - [https://www.science.org/doi/abs/10.1126/scitranslmed.aad9398](https://www.science.org/doi/abs/10.1126/scitranslmed.aad9398)
-- Okamura, *"Haptic Feedback in Robot-Assisted Minimally Invasive Surgery"* - [https://pmc.ncbi.nlm.nih.gov/articles/PMC2701448/](https://pmc.ncbi.nlm.nih.gov/articles/PMC2701448/)
-- Webster & Jones, *"Design and Kinematic Modeling of Constant Curvature Continuum Robots: A Review"* - [https://journals.sagepub.com/doi/10.1177/0278364910368147](https://journals.sagepub.com/doi/10.1177/0278364910368147)
-- Webster, Kim, Cowan, Chirikjian & Okamura, *"Nonholonomic Modeling of Needle Steering"* - [https://journals.sagepub.com/doi/10.1177/0278364906065388](https://journals.sagepub.com/doi/10.1177/0278364906065388)
-- Lefkovich & Rothenberg, *"Identification of Predicate Creep Under the 510(k) Process: A Case Study of a Robotic Surgical Device"* - [https://pmc.ncbi.nlm.nih.gov/articles/PMC10047502/](https://pmc.ncbi.nlm.nih.gov/articles/PMC10047502/)
+* Shademan et al., _"Supervised Autonomous Robotic Soft Tissue Surgery"_ - [https://www.science.org/doi/abs/10.1126/scitranslmed.aad9398](https://www.science.org/doi/abs/10.1126/scitranslmed.aad9398)
+* Okamura, _"Haptic Feedback in Robot-Assisted Minimally Invasive Surgery"_ - [https://pmc.ncbi.nlm.nih.gov/articles/PMC2701448/](https://pmc.ncbi.nlm.nih.gov/articles/PMC2701448/)
+* Webster & Jones, _"Design and Kinematic Modeling of Constant Curvature Continuum Robots: A Review"_ - [https://journals.sagepub.com/doi/10.1177/0278364910368147](https://journals.sagepub.com/doi/10.1177/0278364910368147)
+* Webster, Kim, Cowan, Chirikjian & Okamura, _"Nonholonomic Modeling of Needle Steering"_ - [https://journals.sagepub.com/doi/10.1177/0278364906065388](https://journals.sagepub.com/doi/10.1177/0278364906065388)
+* Lefkovich & Rothenberg, _"Identification of Predicate Creep Under the 510(k) Process: A Case Study of a Robotic Surgical Device"_ - [https://pmc.ncbi.nlm.nih.gov/articles/PMC10047502/](https://pmc.ncbi.nlm.nih.gov/articles/PMC10047502/)

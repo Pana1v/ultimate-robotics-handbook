@@ -2,7 +2,7 @@
 icon: code
 ---
 
-# Modern C++ for Robotics
+# C++ for Robotics
 
 C++ is still the language you reach for when latency matters, when you need deterministic timing, or when you're talking to hardware. ROS 2 itself is C++ underneath - `rclpy` is a binding over `rcl`, which is C, which calls into `rcl_cpp` infrastructure for the heavy lifting. If you want to write a node that runs the control loop at 1 kHz without missing a beat, you write it in C++.
 
@@ -126,7 +126,7 @@ Caveat: GCC's ranges implementation was rough before 11.2. On Humble (Ubuntu 22.
 
 ## Eigen - your linear algebra workhorse
 
-Eigen is header-only, expression-template-based, and almost certainly already in your dependency graph (tf2, OpenCV, PCL all use it). Learn it well. Docs: <https://eigen.tuxfamily.org/dox/>
+Eigen is header-only, expression-template-based, and almost certainly already in your dependency graph (tf2, OpenCV, PCL all use it). Learn it well. Docs: [https://eigen.tuxfamily.org/dox/](https://eigen.tuxfamily.org/dox/)
 
 ### Fixed-size vs dynamic-size
 
@@ -184,7 +184,7 @@ void process(const Eigen::Ref<const Eigen::MatrixXd>& m);  // best, accepts bloc
 // If you copy a raw buffer in, make sure layouts match.
 ```
 
-See: <https://eigen.tuxfamily.org/dox/group__TopicPitfalls.html>
+See: [https://eigen.tuxfamily.org/dox/group\_\_TopicPitfalls.html](https://eigen.tuxfamily.org/dox/group__TopicPitfalls.html)
 
 ## Real-time considerations
 
@@ -219,9 +219,9 @@ private:
 
 `std::mutex` can cause priority inversion. For producer/consumer between a real-time thread and a non-RT thread, use a lock-free SPSC queue.
 
-- `boost::lockfree::spsc_queue` - single-producer single-consumer, header-only Boost. <https://www.boost.org/doc/libs/1_85_0/doc/html/boost/lockfree/spsc_queue.html>
-- `folly::ProducerConsumerQueue` - Meta's version, similar API. <https://github.com/facebook/folly>
-- `moodycamel::ReaderWriterQueue` - another popular choice. <https://github.com/cameron314/readerwriterqueue>
+* `boost::lockfree::spsc_queue` - single-producer single-consumer, header-only Boost. [https://www.boost.org/doc/libs/1\_85\_0/doc/html/boost/lockfree/spsc\_queue.html](https://www.boost.org/doc/libs/1_85_0/doc/html/boost/lockfree/spsc_queue.html)
+* `folly::ProducerConsumerQueue` - Meta's version, similar API. [https://github.com/facebook/folly](https://github.com/facebook/folly)
+* `moodycamel::ReaderWriterQueue` - another popular choice. [https://github.com/cameron314/readerwriterqueue](https://github.com/cameron314/readerwriterqueue)
 
 ```cpp
 #include <boost/lockfree/spsc_queue.hpp>
@@ -248,7 +248,7 @@ Also: `noexcept` on functions in the hot path. It lets the compiler emit better 
 
 ## Cache friendliness
 
-Modern CPUs are starving for data, not arithmetic. A cache miss to main memory is ~100 ns. A cache hit is ~1 ns. That's two orders of magnitude.
+Modern CPUs are starving for data, not arithmetic. A cache miss to main memory is \~100 ns. A cache hit is \~1 ns. That's two orders of magnitude.
 
 ### SoA vs AoS
 
@@ -300,19 +300,19 @@ Without reserve, vector doubles its capacity on growth - fine amortized, terribl
 
 This is one of those "you grow into it" things. The STL is good, but the defaults are general-purpose, not robotics-tuned.
 
-| You're tempted to use | But you probably want | Why |
-|---|---|---|
-| `std::list` | `std::vector` | List has terrible cache behavior; insertion-in-middle is rarely the bottleneck |
-| `std::map<K,V>` (small N) | `std::vector<std::pair<K,V>>` + linear scan | For N < ~32, linear scan in cache beats tree traversal |
-| `std::map<K,V>` (large N) | `boost::container::flat_map` | Sorted vector under the hood - log N lookup, cache-friendly |
-| `std::string` for tiny labels | `std::string_view` or fixed-size buffer | SSO helps, but views avoid all allocation |
-| `std::unordered_map` for hot lookups | `absl::flat_hash_map` or `robin_hood::unordered_map` | Open-addressing, ~2x faster in practice |
+| You're tempted to use                | But you probably want                                | Why                                                                            |
+| ------------------------------------ | ---------------------------------------------------- | ------------------------------------------------------------------------------ |
+| `std::list`                          | `std::vector`                                        | List has terrible cache behavior; insertion-in-middle is rarely the bottleneck |
+| `std::map<K,V>` (small N)            | `std::vector<std::pair<K,V>>` + linear scan          | For N < \~32, linear scan in cache beats tree traversal                        |
+| `std::map<K,V>` (large N)            | `boost::container::flat_map`                         | Sorted vector under the hood - log N lookup, cache-friendly                    |
+| `std::string` for tiny labels        | `std::string_view` or fixed-size buffer              | SSO helps, but views avoid all allocation                                      |
+| `std::unordered_map` for hot lookups | `absl::flat_hash_map` or `robin_hood::unordered_map` | Open-addressing, \~2x faster in practice                                       |
 
 Pan's notes folder `/home/pan-navigator/Documents/claude-config/references/cpp_optimizations/` has detailed write-ups on `boost::flatmap`, `dont_need_map`, `no_lists`, `reserve`, `small_strings`, `small_vectors`, and PCL-specific gotchas. Read them before optimizing.
 
 ## PCL gotchas
 
-PCL (Point Cloud Library, <https://pointclouds.org/>) is necessary for most LiDAR/depth work and miserable in equal measure.
+PCL (Point Cloud Library, [https://pointclouds.org/](https://pointclouds.org/)) is necessary for most LiDAR/depth work and miserable in equal measure.
 
 ```cpp
 #include <pcl/point_cloud.h>
@@ -331,10 +331,10 @@ voxel.filter(filtered);
 
 Things to watch for:
 
-- **Compile times.** Each PCL algorithm is a template on the point type. Including `<pcl/filters/voxel_grid.h>` in a header drags the entire template definition into every translation unit. Forward-declare and put PCL includes in `.cpp` files.
-- **Linker errors.** PCL precompiles instantiations for the common types (`PointXYZ`, `PointXYZRGB`, `PointXYZI`, `PointNormal`). If you use a custom point type, you'll get unresolved symbols. Either stick to the common types or define `PCL_NO_PRECOMPILE` before includes.
-- **`pcl_conversions::fromROSMsg` is slow.** It does a memcpy through an intermediate format. For high-rate clouds, write a direct conversion using the cloud's raw byte buffer. Pan's notes have a `pcl_fromROS.md` write-up.
-- **PCL ships its own Eigen.** Sometimes a different version than the system one. ABI mismatches happen. Always rely on the system Eigen and let PCL pick it up.
+* **Compile times.** Each PCL algorithm is a template on the point type. Including `<pcl/filters/voxel_grid.h>` in a header drags the entire template definition into every translation unit. Forward-declare and put PCL includes in `.cpp` files.
+* **Linker errors.** PCL precompiles instantiations for the common types (`PointXYZ`, `PointXYZRGB`, `PointXYZI`, `PointNormal`). If you use a custom point type, you'll get unresolved symbols. Either stick to the common types or define `PCL_NO_PRECOMPILE` before includes.
+* **`pcl_conversions::fromROSMsg` is slow.** It does a memcpy through an intermediate format. For high-rate clouds, write a direct conversion using the cloud's raw byte buffer. Pan's notes have a `pcl_fromROS.md` write-up.
+* **PCL ships its own Eigen.** Sometimes a different version than the system one. ABI mismatches happen. Always rely on the system Eigen and let PCL pick it up.
 
 ## Threading
 
@@ -412,7 +412,7 @@ public:
 RCLCPP_COMPONENTS_REGISTER_NODE(MyNode)
 ```
 
-Then load into a container via `ros2 component load /component_container my_pkg my_pkg::MyNode`. Intra-process communication becomes a pointer pass instead of serialize/deserialize. For perception pipelines passing point clouds between nodes, this is 5-10x faster than separate processes. <https://docs.ros.org/en/jazzy/Concepts/Intermediate/About-Composition.html>
+Then load into a container via `ros2 component load /component_container my_pkg my_pkg::MyNode`. Intra-process communication becomes a pointer pass instead of serialize/deserialize. For perception pipelines passing point clouds between nodes, this is 5-10x faster than separate processes. [https://docs.ros.org/en/jazzy/Concepts/Intermediate/About-Composition.html](https://docs.ros.org/en/jazzy/Concepts/Intermediate/About-Composition.html)
 
 ### Lifecycle nodes - managed state machines
 
@@ -463,15 +463,14 @@ exec.add_node(node);
 exec.spin();
 ```
 
-The default `MutuallyExclusive` group on the default executor means *all* your callbacks serialize on one thread. Surprising amount of robotics C++ code is single-threaded by accident.
+The default `MutuallyExclusive` group on the default executor means _all_ your callbacks serialize on one thread. Surprising amount of robotics C++ code is single-threaded by accident.
 
 ## Further reading
 
-- `/home/pan-navigator/Documents/claude-config/references/cpp_optimizations/` - Pan's curated notes on C++ for robotics performance. Read `index.md` first.
-- *Effective Modern C++* - Scott Meyers. Still the best book for getting modern C++ idioms right.
-- *A Philosophy of Software Design* - John Ousterhout. Not C++ specific, but the chapter on minimizing exceptions matters for RT code.
-- *C++ Concurrency in Action* - Anthony Williams. The threading reference.
-- ROS 2 design docs: <https://design.ros2.org/> - read the executor and intra-process comms ones.
-- `rclcpp` API: <https://docs.ros.org/en/jazzy/p/rclcpp/>
+* _Effective Modern C++_ - Scott Meyers. Still the best book for getting modern C++ idioms right.
+* _A Philosophy of Software Design_ - John Ousterhout. Not C++ specific, but the chapter on minimizing exceptions matters for RT code.
+* _C++ Concurrency in Action_ - Anthony Williams. The threading reference.
+* ROS 2 design docs: [https://design.ros2.org/](https://design.ros2.org/) - read the executor and intra-process comms ones.
+* `rclcpp` API: [https://docs.ros.org/en/jazzy/p/rclcpp/](https://docs.ros.org/en/jazzy/p/rclcpp/)
 
 If you take one thing from this page: profile before you optimize, but know enough about the hardware (cache, allocator, scheduler) that your "vibes" optimizations are at least pointed in the right direction.

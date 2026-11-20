@@ -1,9 +1,12 @@
 ---
-description: Why cameras cannot see slip, force, or contact, the tactile sensor landscape (GelSight/DIGIT, ReSkin/AnySkin, TacTip, wrist F/T), and what it actually takes to get touch into an imitation-learning or VLA policy.
+description: >-
+  Why cameras cannot see slip, force, or contact, the tactile sensor landscape
+  (GelSight/DIGIT, ReSkin/AnySkin, TacTip, wrist F/T), and what it actually
+  takes to get touch into an imitation-learning or
 icon: brain
 ---
 
-# Tactile Sensing & Touch-Conditioned Policies
+# Tactile Sensing and Touch-Conditioned Policies
 
 The [Foundation Models & VLAs](foundation-models-vla.md) page admits the gap this page exists to fill: VLAs "mostly do not have a notion of compliance or force," and force-sensitive contact tasks are "poor without specific force/torque conditioning." Those are not minor caveats. Insertion, cable routing, deformable-object handling, and most of what makes manipulation hard in practice are contact-rich tasks, and a policy trained on RGB and proprioception alone is flying blind through exactly the part of the task where blindness costs you.
 
@@ -13,11 +16,11 @@ Tactile sensing is also the least mature part of the robot learning stack. Visio
 
 A short list of tasks vision genuinely cannot solve on its own:
 
-- **Occlusion at the moment of contact.** The instant a gripper touches an object, the gripper itself, the object, or the hand blocks the camera's view of the exact contact point you need to reason about. Vision is best informed right before contact and right after, and blind during the part that matters.
-- **Slip detection.** A grasped object beginning to slide is a gradual event carried by a high-frequency shear signal at the fingertip. Third-person or wrist cameras running at 10-30Hz, several centimeters away, are a poor sensor for this. By the time slip is visible in RGB, the object has usually already fallen or rotated out of the intended grasp.
-- **Force-controlled insertion.** Peg-in-hole, connector insertion, and similar tasks require knowing whether you are jammed against an edge and building dangerous force, not just where the peg looks like it is. Vision gives you position. It does not give you the one number that tells you to stop pushing.
-- **Deformable objects.** Cloth, food, cables, and packaging do not have a fixed shape vision can key off of. Knowing how much force you are applying, and where, is often the only way to tell "folding the shirt" from "tearing the shirt."
-- **In-hand manipulation.** Once an object is inside a closed hand and being reoriented, external cameras lose the view entirely. The only sensor that can localize the object at that point is whatever is on the fingers themselves.
+* **Occlusion at the moment of contact.** The instant a gripper touches an object, the gripper itself, the object, or the hand blocks the camera's view of the exact contact point you need to reason about. Vision is best informed right before contact and right after, and blind during the part that matters.
+* **Slip detection.** A grasped object beginning to slide is a gradual event carried by a high-frequency shear signal at the fingertip. Third-person or wrist cameras running at 10-30Hz, several centimeters away, are a poor sensor for this. By the time slip is visible in RGB, the object has usually already fallen or rotated out of the intended grasp.
+* **Force-controlled insertion.** Peg-in-hole, connector insertion, and similar tasks require knowing whether you are jammed against an edge and building dangerous force, not just where the peg looks like it is. Vision gives you position. It does not give you the one number that tells you to stop pushing.
+* **Deformable objects.** Cloth, food, cables, and packaging do not have a fixed shape vision can key off of. Knowing how much force you are applying, and where, is often the only way to tell "folding the shirt" from "tearing the shirt."
+* **In-hand manipulation.** Once an object is inside a closed hand and being reoriented, external cameras lose the view entirely. The only sensor that can localize the object at that point is whatever is on the fingers themselves.
 
 ## The sensor landscape
 
@@ -33,10 +36,10 @@ There is no single "tactile sensor." The field is a set of genuinely different p
 
 What you get: the best geometric and shear detail of any tactile sensor family, effectively for free, because it rides on standard vision processing. What it costs you:
 
-- **Bulk.** A camera, lens, and LED ring do not fit into a slim fingertip alongside actuators easily.
-- **Gel wear.** Repeated contact abrades, cuts, and permanently deforms the gel, so it needs periodic replacement and recalibration.
-- **Latency.** Bounded by camera frame rate and any photometric-stereo processing - tens of milliseconds, not the sub-millisecond response of a strain gauge.
-- **Cost.** A camera plus optics plus lighting per finger is a real bill of materials compared to a single sensing chip.
+* **Bulk.** A camera, lens, and LED ring do not fit into a slim fingertip alongside actuators easily.
+* **Gel wear.** Repeated contact abrades, cuts, and permanently deforms the gel, so it needs periodic replacement and recalibration.
+* **Latency.** Bounded by camera frame rate and any photometric-stereo processing - tens of milliseconds, not the sub-millisecond response of a strain gauge.
+* **Cost.** A camera plus optics plus lighting per finger is a real bill of materials compared to a single sensing chip.
 
 ### Magnetic elastomer skins: ReSkin and AnySkin
 
@@ -48,7 +51,7 @@ Tradeoff versus optical tactile: much lower spatial resolution (a sparse taxel r
 
 ### TacTip and biomimetic pin-based designs
 
-**TacTip** (Ward-Cherrier et al., Bristol Robotics Laboratory) is also camera-based, but photographs a sparse array of pins projecting from the inside of a soft dome rather than a continuous gel surface - explicitly modeled on the papillae structure of human fingertip dermis. Contact bends the pins; the camera tracks pin-tip displacement as marker motion, the same way GelSight tracks embedded markers, but as the *entire* signal rather than an addition to a dense image.
+**TacTip** (Ward-Cherrier et al., Bristol Robotics Laboratory) is also camera-based, but photographs a sparse array of pins projecting from the inside of a soft dome rather than a continuous gel surface - explicitly modeled on the papillae structure of human fingertip dermis. Contact bends the pins; the camera tracks pin-tip displacement as marker motion, the same way GelSight tracks embedded markers, but as the _entire_ signal rather than an addition to a dense image.
 
 Because the readout is a small set of tracked points instead of a raw image, TacTip is less sensitive to gel material drift and lighting variation than a dense optical-tactile image, and gives a clean, direct estimate of local shear and normal deformation per pin. It is a good fit for edge detection and contact-geometry estimation where you want a robust, interpretable signal rather than maximum spatial detail.
 
@@ -64,14 +67,14 @@ A 6-axis strain-gauge force/torque sensor mounted between the wrist and end-effe
 
 ### Comparison table
 
-| Sensor family | Sensing principle | Spatial detail | Bandwidth | Durability | Verdict |
-|---|---|---|---|---|---|
-| **GelSight** / **DIGIT** | Camera + illuminated deformable gel | Very high (image-resolution height map) | Camera-frame-rate limited | Gel wears, tears, needs replacement | Best geometric/shear detail, worst bulk and durability |
-| **ReSkin** / **AnySkin** | Magnetometer under magnetic elastomer | Coarse (taxel-level) | High, direct electronic readout | Thin, tough, designed to be swapped | Best durability-to-cost tradeoff; AnySkin adds swap-without-recalibration |
-| **TacTip** | Camera + biomimetic pin array | Medium (pin-count limited) | Camera-frame-rate limited | Pins/dome outlast bare gel skins | Best for edges, shear, contact geometry with less material drift |
-| Capacitive / resistive arrays | Taxel grid, pressure mapping | Low per-taxel, tileable over large area | Fast, simple electronics | Robust but drifts, hysteresis | Best for whole-hand/whole-body coverage, worst precision |
-| **BioTac** lineage (barometric/fluid) | Fluid impedance + vibration + thermal | Low spatial, rich multimodal | High for vibration | Sealed, durable, hard to self-repair | Richest single-sensor multimodality, most complex integration |
-| Wrist F/T | 6-axis strain gauge | None (single aggregate point) | High, mature | Very durable, industrial-grade | Coarse but bulletproof; the default when you need force, not shape |
+| Sensor family                         | Sensing principle                     | Spatial detail                          | Bandwidth                       | Durability                           | Verdict                                                                   |
+| ------------------------------------- | ------------------------------------- | --------------------------------------- | ------------------------------- | ------------------------------------ | ------------------------------------------------------------------------- |
+| **GelSight** / **DIGIT**              | Camera + illuminated deformable gel   | Very high (image-resolution height map) | Camera-frame-rate limited       | Gel wears, tears, needs replacement  | Best geometric/shear detail, worst bulk and durability                    |
+| **ReSkin** / **AnySkin**              | Magnetometer under magnetic elastomer | Coarse (taxel-level)                    | High, direct electronic readout | Thin, tough, designed to be swapped  | Best durability-to-cost tradeoff; AnySkin adds swap-without-recalibration |
+| **TacTip**                            | Camera + biomimetic pin array         | Medium (pin-count limited)              | Camera-frame-rate limited       | Pins/dome outlast bare gel skins     | Best for edges, shear, contact geometry with less material drift          |
+| Capacitive / resistive arrays         | Taxel grid, pressure mapping          | Low per-taxel, tileable over large area | Fast, simple electronics        | Robust but drifts, hysteresis        | Best for whole-hand/whole-body coverage, worst precision                  |
+| **BioTac** lineage (barometric/fluid) | Fluid impedance + vibration + thermal | Low spatial, rich multimodal            | High for vibration              | Sealed, durable, hard to self-repair | Richest single-sensor multimodality, most complex integration             |
+| Wrist F/T                             | 6-axis strain gauge                   | None (single aggregate point)           | High, mature                    | Very durable, industrial-grade       | Coarse but bulletproof; the default when you need force, not shape        |
 
 For the hobby-grade end of contact sensing (bump switches, microswitches, basic FSRs), see [Sensors for Robotics](../embedded-systems-for-robotics/sensors-and-actuators/sensors-for-robotics.md#tactile-and-contact-sensors). That page covers the switch-and-taxel end of the spectrum. This page covers the learning end - sensors rich enough to feed a policy, and what it takes to actually use them.
 
@@ -81,9 +84,9 @@ The single most productive framing in this field has been treating tactile signa
 
 Where it breaks:
 
-- **Non-optical sensors do not produce images.** AnySkin and ReSkin give you a handful of 3-axis magnetic vectors. Capacitive arrays give sparse taxel grids. Wrist F/T gives a single 6-vector. Forcing these into a pseudo-image (interpolating taxels onto a 2D grid) is a legitimate technique, but it is a fabricated image, not a real one, and it discards the actual structure of the sensor.
-- **A single tactile frame is a snapshot; the interesting signal is often temporal.** Slip, shear rate, and vibration/texture are dynamic or spectral phenomena, not spatial ones. A single-frame CNN does not see them natively - you need video encoders, explicit optical-flow-style processing, or frequency-domain features, and single-frame image pretraining does not cover that for free.
-- **Cross-sensor transfer barely exists.** An encoder trained on GelSight images does not transfer cleanly to DIGIT images (different gel, different lighting, different camera), let alone to a magnetic skin's taxel grid. Tactile representation learning is nowhere near as sensor-agnostic as vision representation learning, where SigLIP and DINOv2, trained on arbitrary web photos, transfer broadly across cameras. In practice, a new tactile sensor is closer to a new modality than a new camera.
+* **Non-optical sensors do not produce images.** AnySkin and ReSkin give you a handful of 3-axis magnetic vectors. Capacitive arrays give sparse taxel grids. Wrist F/T gives a single 6-vector. Forcing these into a pseudo-image (interpolating taxels onto a 2D grid) is a legitimate technique, but it is a fabricated image, not a real one, and it discards the actual structure of the sensor.
+* **A single tactile frame is a snapshot; the interesting signal is often temporal.** Slip, shear rate, and vibration/texture are dynamic or spectral phenomena, not spatial ones. A single-frame CNN does not see them natively - you need video encoders, explicit optical-flow-style processing, or frequency-domain features, and single-frame image pretraining does not cover that for free.
+* **Cross-sensor transfer barely exists.** An encoder trained on GelSight images does not transfer cleanly to DIGIT images (different gel, different lighting, different camera), let alone to a magnetic skin's taxel grid. Tactile representation learning is nowhere near as sensor-agnostic as vision representation learning, where SigLIP and DINOv2, trained on arbitrary web photos, transfer broadly across cameras. In practice, a new tactile sensor is closer to a new modality than a new camera.
 
 ## Getting touch into a policy
 
@@ -117,20 +120,20 @@ Tactile sensor (GelSight / DIGIT / AnySkin)
   action chunk (position/velocity + gripper)
 ```
 
-This is the version that ships in most papers, and it has a specific, important failure: bolting a tactile encoder onto a policy that still emits position or velocity targets does not give that policy a notion of compliance. The encoder can perfectly represent "I am slipping" and the policy can still have no way to *act* on it, because nothing downstream turns that signal into a force adjustment. The more serious architectures (recent tactile-augmented VLA work like **Tactile-VLA**, Huang et al., and **VLA-Touch**, Bi et al., both make this point explicitly) pair the tactile signal with a hybrid position-force controller: the VLA's output is not the final motor command, it is a target that a downstream compliant controller executes using the tactile or force signal as feedback, the same way [VLAs](foundation-models-vla.md) already keep a classical impedance controller downstream of the action head rather than commanding joint torques directly. Tactile conditioning without that downstream force loop is decoration, not control.
+This is the version that ships in most papers, and it has a specific, important failure: bolting a tactile encoder onto a policy that still emits position or velocity targets does not give that policy a notion of compliance. The encoder can perfectly represent "I am slipping" and the policy can still have no way to _act_ on it, because nothing downstream turns that signal into a force adjustment. The more serious architectures (recent tactile-augmented VLA work like **Tactile-VLA**, Huang et al., and **VLA-Touch**, Bi et al., both make this point explicitly) pair the tactile signal with a hybrid position-force controller: the VLA's output is not the final motor command, it is a target that a downstream compliant controller executes using the tactile or force signal as feedback, the same way [VLAs](foundation-models-vla.md) already keep a classical impedance controller downstream of the action head rather than commanding joint torques directly. Tactile conditioning without that downstream force loop is decoration, not control.
 
 Practical problems that show up regardless of architecture:
 
-- **Modality imbalance and scarcity.** Tactile datasets are minuscule next to vision-language corpora. There is no web-scale tactile pretraining corpus, so tactile encoders cannot ride on internet-scale pretraining the way vision encoders do, and every tactile-augmented policy is training its touch representation nearly from scratch on a few hundred or thousand demos.
-- **The policy will happily learn to ignore the tactile channel.** If a task is solvable from vision and proprioception alone within the training distribution, gradient descent has no reason to use the extra tactile stream. The model quietly stops attending to it, and you only discover this the first time touch was actually load-bearing and the policy fails anyway.
-- **Sensor-to-sensor transfer is not solved.** Train against your specific tactile sensor instance and do not expect that to transfer to a different unit, let alone a different sensor family, without retraining or an explicit sensor-invariant scheme.
-- **Timing mismatch.** Tactile signals often run at a different rate than vision, sometimes much higher. Fusing them at the same timestep the way you fuse two camera views is not free; naive synchronization silently discards the bandwidth advantage some tactile sensors have.
+* **Modality imbalance and scarcity.** Tactile datasets are minuscule next to vision-language corpora. There is no web-scale tactile pretraining corpus, so tactile encoders cannot ride on internet-scale pretraining the way vision encoders do, and every tactile-augmented policy is training its touch representation nearly from scratch on a few hundred or thousand demos.
+* **The policy will happily learn to ignore the tactile channel.** If a task is solvable from vision and proprioception alone within the training distribution, gradient descent has no reason to use the extra tactile stream. The model quietly stops attending to it, and you only discover this the first time touch was actually load-bearing and the policy fails anyway.
+* **Sensor-to-sensor transfer is not solved.** Train against your specific tactile sensor instance and do not expect that to transfer to a different unit, let alone a different sensor family, without retraining or an explicit sensor-invariant scheme.
+* **Timing mismatch.** Tactile signals often run at a different rate than vision, sometimes much higher. Fusing them at the same timestep the way you fuse two camera views is not free; naive synchronization silently discards the bandwidth advantage some tactile sensors have.
 
 ## Data collection for tactile - the actual hard part
 
 The same lesson from [Imitation Learning](imitation-learning.md) applies here, worse. Most teleop rigs described in [Teleoperation & Data Collection](teleop-and-data.md) - ALOHA, GELLO, SO-100/101 leader-follower setups - give the human operator no force feedback at all. The operator is moving a lightweight leader arm with encoders on it, feeling nothing about what the follower's fingers are actually touching. VR teleop is no better: stereoscopic passthrough vision, still no haptics.
 
-This means the demonstrations you collect literally lack the signal you are trying to teach a policy to use. The tactile sensor on the follower still records real readings, so it is not that touch data is absent from the dataset. It is that the human's actions were never *informed* by touch, because the human never felt it. A policy trained on "vision-and-touch-blind human actions, plus touch sensor readings recorded after the fact" is learning a correlation between contact events and whatever the operator happened to do, not the causal control law a touch-aware human would actually have used. That gap is easy to miss because the dataset looks complete: every field is populated, tactile included. The problem is upstream, in what the demonstrator could perceive while generating the label.
+This means the demonstrations you collect literally lack the signal you are trying to teach a policy to use. The tactile sensor on the follower still records real readings, so it is not that touch data is absent from the dataset. It is that the human's actions were never _informed_ by touch, because the human never felt it. A policy trained on "vision-and-touch-blind human actions, plus touch sensor readings recorded after the fact" is learning a correlation between contact events and whatever the operator happened to do, not the causal control law a touch-aware human would actually have used. That gap is easy to miss because the dataset looks complete: every field is populated, tactile included. The problem is upstream, in what the demonstrator could perceive while generating the label.
 
 A handful of rigs address this directly with force-feedback leader arms or haptic gloves, closing the loop so the operator actually feels what the robot feels. These remain rarer and more expensive than plain leader-follower teleop, and none of the popular open-source stacks (GELLO, SO-100/101) include haptics out of the box. Tactile sensors also add wiring and, for camera-based designs, another video stream per finger, which is real data-engineering overhead most vision-only pipelines do not have to budget for.
 
@@ -148,25 +151,25 @@ Domain randomization for tactile has to randomize things vision sim-to-real neve
 
 **Works, in narrow production use:**
 
-- Slip detection as a scalar auxiliary signal driving a simple regrasp trigger, rather than as a primary control input. Narrow, well-scoped, and it does not require the tactile channel to carry the whole policy.
-- Force/tactile-driven compliant control as a classical or RL controller *downstream* of a coarse vision-based approach phase - vision gets the gripper close, a force-controlled search-and-insert routine finishes the job. This is a hybrid architecture, not an end-to-end tactile-conditioned policy, and it is the pattern most deployed contact-rich manipulation actually uses.
-- Wrist F/T for coarse impedance control in industrial-style force control. Mature, unglamorous, works.
-- Vision-plus-tactile grasp-outcome prediction (the Calandra et al. lineage) as an offline or auxiliary signal for grasp planning.
+* Slip detection as a scalar auxiliary signal driving a simple regrasp trigger, rather than as a primary control input. Narrow, well-scoped, and it does not require the tactile channel to carry the whole policy.
+* Force/tactile-driven compliant control as a classical or RL controller _downstream_ of a coarse vision-based approach phase - vision gets the gripper close, a force-controlled search-and-insert routine finishes the job. This is a hybrid architecture, not an end-to-end tactile-conditioned policy, and it is the pattern most deployed contact-rich manipulation actually uses.
+* Wrist F/T for coarse impedance control in industrial-style force control. Mature, unglamorous, works.
+* Vision-plus-tactile grasp-outcome prediction (the Calandra et al. lineage) as an offline or auxiliary signal for grasp planning.
 
 **Still mostly research:**
 
-- End-to-end tactile-augmented VLAs that meaningfully change generalist behavior based on touch. Work like **Tactile-VLA** and **VLA-Touch** shows the direction - tactile tokens or signals feeding a pretrained VLA, gated or refined through a hybrid position-force controller - and both report zero-shot generalization on contact-rich tasks from only a handful of demonstrations. Those are the authors' own claims, not independently replicated results, and they remain single-lab demonstrations on a small number of tasks, not a default architecture the way vision-language conditioning already is.
-- Sensor-agnostic tactile representation learning: an encoder that transfers across GelSight, DIGIT, AnySkin, and whatever comes next the way DINOv2 transfers across arbitrary cameras. Open problem.
-- Sim-to-real for contact-rich tactile tasks at anything like the maturity of visual or locomotion sim-to-real. Not there yet.
-- A large-scale, cross-lab tactile pretraining corpus analogous to Open X-Embodiment for vision-action data. Does not exist yet. Tactile datasets remain small, sensor-specific, and collected by individual labs.
+* End-to-end tactile-augmented VLAs that meaningfully change generalist behavior based on touch. Work like **Tactile-VLA** and **VLA-Touch** shows the direction - tactile tokens or signals feeding a pretrained VLA, gated or refined through a hybrid position-force controller - and both report zero-shot generalization on contact-rich tasks from only a handful of demonstrations. Those are the authors' own claims, not independently replicated results, and they remain single-lab demonstrations on a small number of tasks, not a default architecture the way vision-language conditioning already is.
+* Sensor-agnostic tactile representation learning: an encoder that transfers across GelSight, DIGIT, AnySkin, and whatever comes next the way DINOv2 transfers across arbitrary cameras. Open problem.
+* Sim-to-real for contact-rich tactile tasks at anything like the maturity of visual or locomotion sim-to-real. Not there yet.
+* A large-scale, cross-lab tactile pretraining corpus analogous to Open X-Embodiment for vision-action data. Does not exist yet. Tactile datasets remain small, sensor-specific, and collected by individual labs.
 
 ## Further reading
 
-- Yuan, Dong & Adelson, *"GelSight: High-Resolution Robot Tactile Sensors for Estimating Geometry and Force"* - [https://www.mdpi.com/1424-8220/17/12/2762](https://www.mdpi.com/1424-8220/17/12/2762)
-- Lambeta et al., *"DIGIT: A Novel Design for a Low-Cost Compact High-Resolution Tactile Sensor with Application to In-Hand Manipulation"* - [https://arxiv.org/abs/2005.14679](https://arxiv.org/abs/2005.14679)
-- Bhirangi et al., *"ReSkin: Versatile, Replaceable, Lasting Tactile Skins"* - [https://arxiv.org/abs/2111.00071](https://arxiv.org/abs/2111.00071)
-- Bhirangi et al., *"AnySkin: Plug-and-play Skin Sensing for Robotic Touch"* - [https://arxiv.org/abs/2409.08276](https://arxiv.org/abs/2409.08276)
-- Ward-Cherrier et al., *"The TacTip Family: Soft Optical Tactile Sensors with 3D-Printed Biomimetic Morphologies"* - [https://journals.sagepub.com/doi/10.1089/soro.2017.0052](https://journals.sagepub.com/doi/10.1089/soro.2017.0052)
-- Calandra et al., *"The Feeling of Success: Does Touch Sensing Help Predict Grasp Outcomes?"* - [https://arxiv.org/abs/1710.05512](https://arxiv.org/abs/1710.05512)
-- Huang et al., *"Tactile-VLA: Unlocking Vision-Language-Action Model's Physical Knowledge for Tactile Generalization"* - [https://arxiv.org/abs/2507.09160](https://arxiv.org/abs/2507.09160)
-- Bi et al., *"VLA-Touch: Enhancing Vision-Language-Action Models with Dual-Level Tactile Feedback"* - [https://arxiv.org/abs/2507.17294](https://arxiv.org/abs/2507.17294)
+* Yuan, Dong & Adelson, _"GelSight: High-Resolution Robot Tactile Sensors for Estimating Geometry and Force"_ - [https://www.mdpi.com/1424-8220/17/12/2762](https://www.mdpi.com/1424-8220/17/12/2762)
+* Lambeta et al., _"DIGIT: A Novel Design for a Low-Cost Compact High-Resolution Tactile Sensor with Application to In-Hand Manipulation"_ - [https://arxiv.org/abs/2005.14679](https://arxiv.org/abs/2005.14679)
+* Bhirangi et al., _"ReSkin: Versatile, Replaceable, Lasting Tactile Skins"_ - [https://arxiv.org/abs/2111.00071](https://arxiv.org/abs/2111.00071)
+* Bhirangi et al., _"AnySkin: Plug-and-play Skin Sensing for Robotic Touch"_ - [https://arxiv.org/abs/2409.08276](https://arxiv.org/abs/2409.08276)
+* Ward-Cherrier et al., _"The TacTip Family: Soft Optical Tactile Sensors with 3D-Printed Biomimetic Morphologies"_ - [https://journals.sagepub.com/doi/10.1089/soro.2017.0052](https://journals.sagepub.com/doi/10.1089/soro.2017.0052)
+* Calandra et al., _"The Feeling of Success: Does Touch Sensing Help Predict Grasp Outcomes?"_ - [https://arxiv.org/abs/1710.05512](https://arxiv.org/abs/1710.05512)
+* Huang et al., _"Tactile-VLA: Unlocking Vision-Language-Action Model's Physical Knowledge for Tactile Generalization"_ - [https://arxiv.org/abs/2507.09160](https://arxiv.org/abs/2507.09160)
+* Bi et al., _"VLA-Touch: Enhancing Vision-Language-Action Models with Dual-Level Tactile Feedback"_ - [https://arxiv.org/abs/2507.17294](https://arxiv.org/abs/2507.17294)

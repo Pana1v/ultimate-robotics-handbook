@@ -1,5 +1,8 @@
 ---
-description: How classical computer vision and learned perception fit together in a modern robotics stack, and how to navigate this section - sensing, OpenCV, detection and tracking, vision foundation models, 3D perception, and event cameras.
+description: >-
+  How classical computer vision and learned perception fit together in a modern
+  robotics stack, and how to navigate this section - sensing, OpenCV, detection
+  and tracking, vision foundation models, 3D p
 icon: eye
 ---
 
@@ -11,7 +14,7 @@ These are not competing approaches so much as different layers of the same stack
 
 Vision foundation models are the newest layer on top of both - promptable, zero-shot models trained on internet-scale data that generalize to objects and scenes they were never explicitly trained on. Most production perception pipelines in 2026 blend all three: a learned or foundation-model front end feeding a classical geometric back end (a Kalman filter, a bundle adjuster, an occupancy grid) that knows how to fuse noisy estimates into something a planner can actually trust.
 
-For policy learning - behavior cloning, RL, foundation-model VLAs that turn perception into action - see the dedicated [Robot Learning](../robot-learning/robot-learning.md) section. This section stops at *perceiving* the world; that one starts at *acting* on it.
+For policy learning - behavior cloning, RL, foundation-model VLAs that turn perception into action - see the dedicated [Robot Learning](../robot-learning/robot-learning.md) section. This section stops at _perceiving_ the world; that one starts at _acting_ on it.
 
 ### In this section
 

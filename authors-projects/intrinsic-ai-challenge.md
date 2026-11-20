@@ -1,17 +1,16 @@
 ---
+description: >-
+  A solo entry to Intrinsic's AI for Industry Challenge - fiber-optic cable
+  insertion with ACT and SmolVLA, a ladder of perception approaches, and the
+  data wall that separates a 286/300 ground-truth sco
 icon: plug
-description: A solo entry to Intrinsic's AI for Industry Challenge - fiber-optic cable insertion with ACT and SmolVLA, a ladder of perception approaches, and the data wall that separates a 286/300 ground-truth score from a real-world one.
 ---
 
-# Intrinsic AI for Industry Challenge - Learning to Plug a Cable
+# Intrinsic AI Challenge - Cable Insertion
 
 > Intrinsic's (Alphabet) **AI for Industry Challenge**: autonomously plug a fiber-optic cable into a port reachable by a robot arm. I worked through the full stack of approaches - hand-coded state machines, classical CV, learned perception, and finally imitation learning - and ran straight into **the data wall**. Scored **286 / 300** with perfect pose information; the real-world evaluation was a different animal entirely.
 
-**Role:** Solo entrant
-**Platform:** UR5e arm + Robotiq gripper, force/torque sensing
-**Stack:** Python, ResNet18, U-Net, YOLO, ACT (Action Chunking Transformer), SmolVLA
-**Task:** Fiber-optic cable insertion into a board-mounted port
-**Source:** Full write-up - [A Journey Through the Intrinsic AI for Industry Challenge](https://pana1v.substack.com/p/a-journey-through-the-intrinsic-ai) (May 2026)
+**Role:** Solo entrant **Platform:** UR5e arm + Robotiq gripper, force/torque sensing **Stack:** Python, ResNet18, U-Net, YOLO, ACT (Action Chunking Transformer), SmolVLA **Task:** Fiber-optic cable insertion into a board-mounted port **Source:** Full write-up - [A Journey Through the Intrinsic AI for Industry Challenge](https://pana1v.substack.com/p/a-journey-through-the-intrinsic-ai) (May 2026)
 
 ***
 
@@ -26,12 +25,12 @@ The challenge ran in two regimes:
 
 These are not two difficulty settings on the same problem - they stress entirely different parts of the stack:
 
-| | Ground-truth mode | Perception mode |
-|---|---|---|
-| What's actually being tested | Motion planning + contact handling | All of that, *plus* perceiving the port under distractors and board-pose randomization |
-| Main bottleneck | Force/torque-guided insertion quality | Demonstration coverage of the scene distribution |
-| What carries over from the other mode | - | The insertion primitive itself (approach/align/insert) transfers; the perception problem does not |
-| Score reached | **286 / 300** (scripted FSM: 280+) | <!-- AUTHOR: insert final perception-mode score --> |
+|                                       | Ground-truth mode                     | Perception mode                                                                                   |
+| ------------------------------------- | ------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| What's actually being tested          | Motion planning + contact handling    | All of that, _plus_ perceiving the port under distractors and board-pose randomization            |
+| Main bottleneck                       | Force/torque-guided insertion quality | Demonstration coverage of the scene distribution                                                  |
+| What carries over from the other mode | -                                     | The insertion primitive itself (approach/align/insert) transfers; the perception problem does not |
+| Score reached                         | **286 / 300** (scripted FSM: 280+)    |                                                                                                   |
 
 ***
 
@@ -67,19 +66,19 @@ I did not start with learning. I climbed the ladder of increasing sophistication
 
 As a quick reference, the same progression compressed:
 
-| Stage | Approach | Why it moved on | Score |
-|---|---|---|---|
-| 1 | Hand-coded FSM, ground-truth mode | Baseline - proves the task is solvable with free perception | **280+** |
-| 2 | Classical CV, blob detection | Brittle to lighting, distractors, board-pose changes | - |
-| 3 | Learned perception (ResNet18 / U-Net) | Data-hungry, wobbly out of distribution | - |
-| 4 | YOLO-based detection | Detection accuracy did not translate to insertion-grade pose accuracy | - |
-| 5 | Imitation learning (ACT, SmolVLA) | End-to-end, learns contact behavior directly instead of bolting a primitive onto perception | **286/300** (ground-truth) |
+| Stage | Approach                              | Why it moved on                                                                             | Score                      |
+| ----- | ------------------------------------- | ------------------------------------------------------------------------------------------- | -------------------------- |
+| 1     | Hand-coded FSM, ground-truth mode     | Baseline - proves the task is solvable with free perception                                 | **280+**                   |
+| 2     | Classical CV, blob detection          | Brittle to lighting, distractors, board-pose changes                                        | -                          |
+| 3     | Learned perception (ResNet18 / U-Net) | Data-hungry, wobbly out of distribution                                                     | -                          |
+| 4     | YOLO-based detection                  | Detection accuracy did not translate to insertion-grade pose accuracy                       | -                          |
+| 5     | Imitation learning (ACT, SmolVLA)     | End-to-end, learns contact behavior directly instead of bolting a primitive onto perception | **286/300** (ground-truth) |
 
 ***
 
 ## ACT vs SmolVLA - two answers to the data wall
 
-By the time I got to imitation learning, the lesson from stages 1-4 was already clear: perception could get me *close* to the port, but "close" is not "inserted," and closing that last gap needed something that could learn contact behavior end-to-end rather than a hand-tuned insertion primitive bolted onto a perception pipeline. ACT and SmolVLA are both credible answers to that, but they trade off differently, and the trade-off matters for a task this contact-sensitive.
+By the time I got to imitation learning, the lesson from stages 1-4 was already clear: perception could get me _close_ to the port, but "close" is not "inserted," and closing that last gap needed something that could learn contact behavior end-to-end rather than a hand-tuned insertion primitive bolted onto a perception pipeline. ACT and SmolVLA are both credible answers to that, but they trade off differently, and the trade-off matters for a task this contact-sensitive.
 
 **ACT (Action Chunking Transformer)** - see [Imitation Learning](../robot-learning/imitation-learning.md) for the full mechanism - predicts a chunk of future actions at once instead of one step at a time, which compresses the effective control horizon. That is exactly the property you want for a fast, contact-rich insertion motion: low inference latency (a single forward pass, single-digit milliseconds), good sample efficiency, and a policy that commits to a short multi-step plan instead of dithering at the moment of contact. The cost is that ACT is narrow - it is trained for this task, on this setup, and does not carry language conditioning or broad visual generalization with it.
 
@@ -87,15 +86,13 @@ By the time I got to imitation learning, the lesson from stages 1-4 was already 
 
 Neither model choice fixed the actual problem. **Both are bounded by the same demonstration coverage**, and that is the whole thesis of this page: the model was not what determined whether the policy generalized to the evaluator's randomized scenes. The data was.
 
-| | ACT | SmolVLA |
-|---|---|---|
-| Inference latency | Single forward pass, low milliseconds | Higher - a larger VLA backbone, not built for this control rate |
-| Language conditioning | None | Yes |
-| Visual generalization | Only what this task's demos taught it | Inherits some breadth from VLA pretraining |
-| Compute to fine-tune | Modest, single consumer GPU territory | Modest for a VLA - designed for consumer-grade hardware, per its authors |
-| What it needed from me | Task-specific demos, nothing else | Same demos, plus whatever its pretraining already covered |
-
-<!-- AUTHOR: insert comparative success rates / behavior differences observed between the ACT and SmolVLA policies once finalized -->
+|                        | ACT                                   | SmolVLA                                                                  |
+| ---------------------- | ------------------------------------- | ------------------------------------------------------------------------ |
+| Inference latency      | Single forward pass, low milliseconds | Higher - a larger VLA backbone, not built for this control rate          |
+| Language conditioning  | None                                  | Yes                                                                      |
+| Visual generalization  | Only what this task's demos taught it | Inherits some breadth from VLA pretraining                               |
+| Compute to fine-tune   | Modest, single consumer GPU territory | Modest for a VLA - designed for consumer-grade hardware, per its authors |
+| What it needed from me | Task-specific demos, nothing else     | Same demos, plus whatever its pretraining already covered                |
 
 ***
 
@@ -105,20 +102,16 @@ The binding constraint was never the model architecture. It was **data** - speci
 
 > With perfect pose information I hit **286 / 300**. The same policy in the randomized real-world evaluation fell apart - not because the policy was wrong, but because my demonstrations did not cover the multi-NIC, randomized-board scenes the evaluator generated.
 
-<!-- AUTHOR: insert the actual perception-mode / randomized-evaluation score here once finalized -->
-
 [Imitation Learning](../robot-learning/imitation-learning.md) puts the general principle bluntly: diversity matters more than count, and 200 diverse demonstrations beat 1000 collected from the same starting state. My demonstration set did not have enough coverage of the distractor-port and board-pose randomization the evaluator generated - which is a data problem, not a model problem, and no amount of swapping ACT for SmolVLA (or back) was going to fix it.
 
-<!-- AUTHOR: insert total demo count collected, and the split between the ACT and SmolVLA training sets -->
-
-This is the gap the [Robot Learning](../robot-learning/robot-learning.md) section of this handbook keeps coming back to: imitation learning is only as good as its demonstration coverage, and collecting that coverage is the actual job. Domain randomization in *simulation* is cheap; domain randomization in *teleop data* is expensive human time. See [Teleoperation and Data Collection](../robot-learning/teleop-and-data.md) for the techniques this project leaned on.
+This is the gap the [Robot Learning](../robot-learning/robot-learning.md) section of this handbook keeps coming back to: imitation learning is only as good as its demonstration coverage, and collecting that coverage is the actual job. Domain randomization in _simulation_ is cheap; domain randomization in _teleop data_ is expensive human time. See [Teleoperation and Data Collection](../robot-learning/teleop-and-data.md) for the techniques this project leaned on.
 
 ***
 
 ## What I would do differently
 
 * **Budget the data, not the model.** I spent too long swapping perception backbones (ResNet to U-Net to YOLO) when the leverage was in demonstration diversity.
-* **Randomize the demos, not just the sim.** Coverage of distractors and board pose at *collection* time would have closed most of the sim-to-eval gap.
+* **Randomize the demos, not just the sim.** Coverage of distractors and board pose at _collection_ time would have closed most of the sim-to-eval gap.
 * **Keep the FSM as a fallback.** The 280+ scripted baseline is a real safety net; a learned policy that can hand off to a scripted insert under uncertainty is more robust than either alone.
 * **Budget reset time and discard rate honestly.** [Teleoperation & Data Collection](../robot-learning/teleop-and-data.md) makes the point that the real cost of a demo is reset overhead and discard rate, not the wage of the person driving the rig. In hindsight I was collecting to a demo-count target instead of a coverage target, which is the wrong unit to optimize.
 
@@ -130,8 +123,8 @@ The full narrative - with the dead ends, the scores at each stage, and the SmolV
 
 ## Further reading
 
-- Zhao et al., *"Learning Fine-Grained Bimanual Manipulation with Low-Cost Hardware"* (ACT/ALOHA) - [https://arxiv.org/abs/2304.13705](https://arxiv.org/abs/2304.13705)
-- Shukor et al., *"SmolVLA: A Vision-Language-Action Model for Affordable and Efficient Robotics"* - [https://arxiv.org/abs/2506.01844](https://arxiv.org/abs/2506.01844)
+* Zhao et al., _"Learning Fine-Grained Bimanual Manipulation with Low-Cost Hardware"_ (ACT/ALOHA) - [https://arxiv.org/abs/2304.13705](https://arxiv.org/abs/2304.13705)
+* Shukor et al., _"SmolVLA: A Vision-Language-Action Model for Affordable and Efficient Robotics"_ - [https://arxiv.org/abs/2506.01844](https://arxiv.org/abs/2506.01844)
 
 ***
 
