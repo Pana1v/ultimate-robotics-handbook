@@ -94,6 +94,33 @@ They randomized a giant list of parameters (object mass, friction, hand dynamics
 
 This is the conceptual basis for the **history-based policy** trick used in legged locomotion. Stack 5-50 past observations as input, give the policy enough capacity (recurrent or transformer), and it will learn to estimate environment parameters from observation history.
 
+## Sim-to-real techniques (2025-2026)
+
+- **Domain randomization and system ID** remain the baseline: randomize friction, mass, latency, and camera noise in simulation; identify real-world dynamics parameters to narrow the reality gap. Reality-gap diagnostics use open-loop replay: replay recorded real actions in simulation and compare state trajectories to the real execution.
+
+- **Privileged learning** (teacher-student distillation) is now the standard pipeline for locomotion and manipulation: train a teacher with full state in simulation, distill to a student with egocentric observations, and deploy zero-shot on real hardware. This is the default RSL-RL / Isaac Lab workflow.
+
+- **World models for sim-to-real:** NVIDIA Cosmos (2025) is a family of world foundation models for physical AI, including video-conditioned world models that generate plausible future frames for planning and data augmentation. Google DeepMind's Genie 1 and 2 and NVIDIA's earlier GAIA-1 and GAIA-2 are the related video-world-model line. DreamerV3, DayDreamer, IRIS, and TD-MPC2 remain the model-based reinforcement learning references.
+
+- **Simulators:** Isaac Lab (NVIDIA) is the default RL gym for robot-learning tasks. Genesis (2024-2025) is a fast GPU-accelerated multi-physics simulator gaining traction for learning. MuJoCo remains the standard for manipulation benchmarks.
+
+- **Data-level sim-to-real:** OXE-AugE (arXiv:2512.13100) uses simulation-grounded cross-painting to re-render real Open X-Embodiment trajectories with other robot embodiments, effectively turning single-embodiment data into cross-embodiment training data. Fine-tuning OpenVLA and pi0 on it improved real-world success 24-45% on unseen robot-gripper combinations across four manipulation tasks.
+
+## Reality gap checklist
+
+- Match camera intrinsics, latency, and exposure between simulation and reality.
+- Randomize dynamics, not only appearance.
+- Validate with open-loop replay before closed-loop deployment.
+- Keep a simulation-parallel policy for every real deployment (hardware-abstraction-layer pattern).
+
+### Sources
+
+- NVIDIA Cosmos world foundation models, 2025
+- Genesis simulator
+- Isaac Lab / RSL-RL
+- arXiv:2512.13100 OXE-AugE
+- arXiv:2602.03310 RDT2 (cross-embodiment zero-shot transfer)
+
 ## Strategy 4: Real-to-Sim (data-driven simulators)
 
 Instead of trying to handcraft a simulator that matches reality, *learn the simulator* from real-world data.

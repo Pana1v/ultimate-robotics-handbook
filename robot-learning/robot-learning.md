@@ -9,6 +9,28 @@ Robot learning is the part of the field that exploded between 2022 and 2026. If 
 
 This section covers the modern paradigm: how robots learn skills from data instead of being programmed with closed-form controllers. It is opinionated. The field moves fast and a lot of what gets shipped in demos does not survive contact with a real factory floor.
 
+## 2025-2026 state of the field
+
+Robot learning in 2025-2026 is defined by three shifts:
+
+1. **From specialist to generalist.** Single models now cover multiple tasks, robots, and sensory inputs. Vision-language-action (VLA) models pair a pretrained vision-language backbone with an action head and are fine-tuned or prompted for new robots without retraining from scratch.
+
+2. **From autoregressive tokens and diffusion to flow matching.** Flow-matching action experts emit chunks of 30-50 future actions in about 10 inference steps. Examples: π0 (2024), SmolVLA (2025), RDT2-FM (2026), π0.5 / π0.6 / π0.7 (2025-2026).
+
+3. **From single-robot data to cross-embodiment data at scale.** Open X-Embodiment covers 22 embodiments with 1M+ trajectories; OXE-AugE covers 9 embodiments with 4.4M trajectories after augmentation. Zero-shot cross-robot transfer is now a measurable target, led by RDT2's 4U setting: unseen embodiment, scene, object, and language at once.
+
+Deployability improved as well: SmolVLA at roughly 450M parameters trains on a single GPU and can run on CPU, and asynchronous inference stacks such as AsyncVLA decouple action execution from perception so control rates stay high.
+
+Data remains the bottleneck. Sartor and Thompson's meta-analysis of 327 robot-learning papers finds mean power-law exponents of -0.389 on seen data and -0.155 on unseen data, so generalization gains from more data are slower than in-domain gains (arXiv:2405.14005). Diversity beats raw volume.
+
+### Sources
+
+- Sartor and Thompson, Neural Scaling Laws in Robotics, arXiv:2405.14005
+- Shukor et al., SmolVLA, arXiv:2506.01844
+- NVIDIA, GR00T N1, arXiv:2503.14734
+- Liu et al., RDT2, arXiv:2602.03310
+- Ji et al., OXE-AugE, arXiv:2512.13100
+
 ### In this section
 
 <table data-view="cards"><thead><tr><th></th><th data-type="content-ref"></th><th data-hidden data-card-cover data-type="files"></th></tr></thead><tbody><tr><td>Imitation Learning</td><td><a href="imitation-learning.md">imitation-learning.md</a></td><td><a href="../.gitbook/assets/fetch_e1.gif">fetch_e1.gif</a></td></tr><tr><td>Reinforcement Learning (modern)</td><td><a href="reinforcement-learning-modern.md">reinforcement-learning-modern.md</a></td><td><a href="../.gitbook/assets/Digit_RL_1.gif">Digit_RL_1.gif</a></td></tr><tr><td>Foundation Models / VLAs</td><td><a href="foundation-models-vla.md">foundation-models-vla.md</a></td><td><a href="../.gitbook/assets/vla-demo.gif">vla-demo.gif</a></td></tr><tr><td>World Models</td><td><a href="world-models.md">world-models.md</a></td><td><a href="../.gitbook/assets/world-models.gif">world-models.gif</a></td></tr><tr><td>Sim-to-Real</td><td><a href="sim-to-real.md">sim-to-real.md</a></td><td><a href="../.gitbook/assets/DesignValidateObjectDetectionMotionPlanningGazeboExample_01.gif">DesignValidateObjectDetectionMotionPlanningGazeboExample_01.gif</a></td></tr><tr><td>Teleoperation and Data Collection</td><td><a href="teleop-and-data.md">teleop-and-data.md</a></td><td><a href="../.gitbook/assets/1586981532434-robot-handCloseClaw (2).gif">1586981532434-robot-handCloseClaw (2).gif</a></td></tr><tr><td>Datasets and Benchmarks</td><td><a href="datasets-and-benchmarks.md">datasets-and-benchmarks.md</a></td><td><a href="../.gitbook/assets/robot-datasets.gif">robot-datasets.gif</a></td></tr></tbody></table>

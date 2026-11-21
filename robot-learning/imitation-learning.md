@@ -124,6 +124,29 @@ Use DDIM or DDPM scheduler. 10-100 denoising steps per action chunk. The slow in
 **Field note.** In production, ACT still wins for short-horizon pick-place at 100Hz because diffusion inference latency is brutal. Diffusion Policy wins anywhere the task is multimodal (e.g., bimanual manipulation where the same goal can be achieved with either hand leading). Most real deployments I have seen in 2025 use ACT or one of its descendants for the low-level controller and reserve diffusion for slower high-level skill selection. New work like consistency-distilled diffusion policies is closing the latency gap.
 {% endhint %}
 
+## New: flow-matching and cross-embodiment imitation policies (2025-2026)
+
+- **Flow matching policies.** Flow matching is now the dominant continuous-action head for imitation learning. It trains a model to predict a velocity field that transports noise to demonstrated actions, then samples an action trajectory in 10-50 flow steps. It matches or beats diffusion on manipulation benchmarks with faster sampling (pi0, SmolVLA, RDT2-FM).
+
+- **SmolVLA** (arXiv:2506.01844, Hugging Face, June 2025): roughly 450M-parameter VLA with a compact VLM backbone plus a flow-matching action expert. Outputs 50-action chunks in 10 flow steps. Designed to train on a single GPU and run on consumer hardware including CPU. Released with LeRobot-compatible checkpoints.
+
+- **RDT-1B / RDT2** (Tsinghua thu-ml). RDT2 (arXiv:2602.03310, preprint February 2026; checkpoints released September 2025) is a 7B-parameter model on Qwen2.5-VL trained on more than 10,000 hours of embodiment-agnostic UMI demonstration data. Two variants: RDT2-VQ (autoregressive RVQ action tokens) and RDT2-FM (flow-matching expert for lower latency). Demonstrates zero-shot cross-embodiment transfer on unseen bimanual platforms (UR5e, Franka) including dynamic tasks such as table tennis.
+
+- **AsyncVLA** (arXiv:2511.14148): asynchronous flow matching that runs perception and action prediction on separate schedules, raising closed-loop control rates without changing the policy.
+
+- **HPT** (Heterogeneous Pretrained Transformer): cross-embodiment pretraining that aligns proprioceptive and visual inputs across robot types before imitation fine-tuning.
+
+### Where imitation learning still stands
+
+BC and DAgger remain the baseline for narrow, single-robot tasks. ACT (action chunking plus temporal ensembling) and Diffusion Policy remain the standard open-source recipes in LeRobot. The 2025-2026 additions are chiefly about scale, cross-embodiment transfer, and inference speed rather than a new objective.
+
+### Sources
+
+- arXiv:2506.01844 SmolVLA
+- arXiv:2602.03310 RDT2
+- arXiv:2511.14148 AsyncVLA
+- Hugging Face LeRobot checkpoints
+
 ## Recent work (2024-2026)
 
 The field has not stood still. A non-exhaustive list of what is worth knowing:

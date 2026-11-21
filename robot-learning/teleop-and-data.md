@@ -137,6 +137,37 @@ For humanoid teleop, this is arguably the dominant paradigm in 2026. For arm-onl
 
 Exoskeletons and marker-based gloves sit on the same axis as AnyTeleop and VR hand-tracking above, just at the opposite end of it. Vision-based tracking is hardware-free and scales to as many operators as you have cameras, but it is noisy and latent. Worn hardware is precise and low-latency, but every operator needs a fitted rig and every session needs calibration. Neither wins outright - which one to use is a question of whether your bottleneck is operator throughput or demo precision, not a question of which is "better" in the abstract.
 
+## 2025-2026 teleop systems
+
+A wave of cheaper, more portable, and more capable teleop rigs shipped between 2025 and 2026. Several open-source both hardware and software, and several collect data without the physical robot present.
+
+### ViHaTeleop (Zhu et al., IROS 2026)
+A $550, 0.7 kg visual-haptic teleop system with SLAM wrist tracking, camera hand tracking, and per-finger vibrotactile feedback for dexterous manipulation learning. Validated on six contact-critical tasks with nine participants. [arxiv:2608.16572](https://arxiv.org/abs/2608.16572)
+
+### TRIP-Bag (Myers et al., Mar 2026)
+A portable, suitcase-contained "puppeteer-style" joint-to-joint teleop system that sets up in under five minutes for high-fidelity manipulation data collection anywhere. Validated with a non-expert user study and benchmark policies trained on collected data. [arxiv:2603.09226](https://arxiv.org/abs/2603.09226)
+
+### ModPack (Citron et al., Jul 2026)
+A modular, wearable-backpack teleop interface with plug-and-play modules (joint-level teleop with haptics, mobile manipulation, active perception) for bimanual mobile manipulation. Hardware and software open-sourced; validated on two robot platforms with real-world mobile tasks. [arxiv:2607.19479](https://arxiv.org/abs/2607.19479)
+
+### DEX-Mouse (Koh et al., Apr 2026)
+A sub-$150, calibration-free handheld force-feedback interface that mounts the target robot hand on the operator's forearm for robot-aligned dexterous data. BOM, CAD, and firmware open-sourced; 86.67% task completion in a user study. [arxiv:2604.15013](https://arxiv.org/abs/2604.15013)
+
+### YUBI (Ohkawa et al., Jun 2026)
+A finger-aligned, "yielding" bimanual gripper with VR-based 6-DoF tracking. Produced 8,434 hours / 1.2M episodes across 119 tasks, and transfers one policy zero-shot across UR, Franka, and ELEY embodiments. Hardware open-sourced. [arxiv:2606.10244](https://arxiv.org/abs/2606.10244)
+
+### FastUMI-100K (Liu et al., Oct 2025)
+A 100K+ trajectory UMI-style multimodal dataset across 54 tasks and household environments, with wrist fisheye video, end-effector states, and text annotations (120-500 frames per trajectory). Baseline policies succeed on real-world tasks. [arxiv:2510.08022](https://arxiv.org/abs/2510.08022)
+
+### FreeTacMan (Wu et al., Jun 2025 / rev. Mar 2026)
+A robot-free wearable visuo-tactile gripper plus optical tracking system collecting 10k trajectories across 50 contact-rich tasks (3M+ visuo-tactile image pairs). Policies trained on self-collected data succeed on real hardware. [arxiv:2506.01941](https://arxiv.org/abs/2506.01941)
+
+### RoboPocket (Fang et al., Mar 2026 / CoRL 2026)
+A smartphone-based, robot-free policy-iteration system: on-device sensing plus AR visual foresight of the policy's predicted trajectory enables targeted corrective collection. Achieves roughly 2x sample efficiency on diverse real manipulation tasks. [arxiv:2603.05504](https://arxiv.org/abs/2603.05504)
+
+### AXIS (Wang et al., Sep 2026)
+A community-driven, browser-based data engine covering 207 tasks and 50K+ trajectories, evaluated on a shared dual-arm humanoid at the ICRA 2026 REAL-I Challenge. [arxiv:2607.21588](https://arxiv.org/abs/2607.21588)
+
 UMI deserves special attention: it dramatically reduces the cost of data collection by **decoupling demonstration from the robot**. You can record 100 hours of cooking demos with a UMI gripper for the cost of a few groceries; mapping those to a robot is a post-processing step. As of 2026 this is one of the more promising directions for *scaling* data collection.
 
 ## Egocentric human video as a data source
@@ -153,6 +184,15 @@ The hard part is the embodiment gap, and it is severe:
 - **Viewpoint mismatch.** Egocentric video is head-mounted; the deployment camera is usually wrist- or scene-mounted. Even the visual input distribution does not match.
 
 What you get from the video is *observed*: hand and object pose in 3D, recoverable via pose estimation. What you need is *inferred*: the actual action, the grasp strategy, the contact forces, and often the subtask boundaries. All of that inference runs through the retargeting problem below, and today it is lossy enough that human video is mostly used to pretrain visual or representational backbones (see R3M, below) rather than to supply action labels directly. That is why, as of 2026, this remains a promising direction rather than a solved one: the data is abundant, but turning it into something a policy can act on is a research problem, not an engineering one.
+
+### 2025-2026: egocentric video → robot actions
+
+The gap between "abundant human video" and "executable robot actions" narrowed in 2025-2026:
+
+- **EgoEngine** (Liu et al., Jun 2026): Transforms egocentric RGB video into (i) a robot observation video preserving scene and temporal alignment, and (ii) an executable robot action trajectory under feasibility constraints — the first zero-shot visuomotor dexterous policy from human video without real-robot demonstrations. Validated in sim and on real robots. [arxiv:2606.12604](https://arxiv.org/abs/2606.12604)
+- **Scalable VLA Model Pretraining with Real-Life Human Activity Videos** (Li et al., Oct 2025): A fully automated pipeline turning unscripted egocentric human hand videos into atomic segments, language descriptions, and framewise 3D hand + camera motion (1M episodes / 26M frames), used to pretrain a dexterous-hand VLA. Real-robot fine-tuning improves success and generalization. [arxiv:2510.21571](https://arxiv.org/abs/2510.21571)
+
+No 2025-2026 paper directly converts Ego4D/Ego-Exo4D into robot actions at scale; EgoEngine and the human-activity VLA pipeline are the closest egocentric → robot leads. Supporting ego-exo datasets and meshes (Ego-Exo4D Human Meshes, EgoLive, EgoVerse) are emerging for human→robot transfer.
 
 ## Multi-embodiment retargeting
 
@@ -173,6 +213,10 @@ When retargeting helps: when source and target are close in kinematics (matched 
 
 When it silently poisons a dataset: when retargeting errors are systematic rather than random. An IK solver that consistently picks an unnatural elbow configuration, or a gripper mapping that gets contact timing subtly wrong, produces trajectories that are physically valid and look like normal training data - nothing in the schema or shape checks later on this page will catch them. Only a behavioral eval on the target robot will, and by then the bad data has already been trained on. This is the embodiment gap from the previous section, run at its hardest setting: human video retargeting, with no ground-truth robot action ever available to check the result against.
 
+### Cross-embodiment data collection (2025-2026)
+
+**RoboWheel** (Zhang et al., Dec 2025): A data engine that converts monocular RGB(D) human hand–object interaction video into cross-embodiment supervision via HOI reconstruction, RL-based physical refinement, retargeting to arms/dexterous hands/humanoids, and Isaac Sim domain randomization. Requires only a single monocular camera at collection time (no teleop rig); validated with VLA and imitation-learning architectures at parity with teleop-collected data. [arxiv:2512.02729](https://arxiv.org/abs/2512.02729)
+
 ## Comparison table
 
 | Rig | Cost (USD) | DOF | Hands? | Mobile? | Best for |
@@ -185,6 +229,58 @@ When it silently poisons a dataset: when retargeting errors are systematic rathe
 | **AnyTeleop** | ~$500 (camera + robot) | Robot-dependent | Yes (hand-tracked) | Robot-dependent | Hardware-free, dexterous hands |
 | **VR (Quest + arm)** | ~$1k + arm | Robot-dependent | Optional | Robot-dependent | Humanoids, immersive |
 | **UMI gripper** | ~$200 (handheld) | Effective 6 | No | "Yes" (you walk) | Scaling data without a robot |
+| **ViHaTeleop** | ~$550 | dexterous (hand-tracked) | Yes | Static | Contact-critical dexterous tasks |
+| **TRIP-Bag** | not disclosed | joint-to-joint | No | Portable (suitcase) | Anywhere, <5 min setup |
+| **DEX-Mouse** | <$150 | dexterous hand | Yes | Static | Forearm-mounted dexterous data |
+| **YUBI** | not disclosed | bimanual | Yes | Static | Cross-embodiment transfer |
+| **FastUMI-100K** | UMI-class | Effective 6 | No | Yes | 100K+ UMI-style dataset |
+| **FreeTacMan** | wearable tactile | visuo-tactile | No | No | Robot-free contact-rich collection |
+| **RoboPocket** | smartphone | on-device sensing | No | No | Robot-free policy-iteration collection |
+
+## Teleop hardware (existing plus 2025-2026 emphasis)
+
+Existing: ALOHA, Mobile ALOHA, GELLO, SO-100 / SO-101, Koch, LeKiwi, AnyTeleop, VR teleop, HOMIE, DexCap, UMI, DOBB-E.
+
+2025-2026 emphasis:
+
+- **Embodiment-agnostic UMI data.** RDT2 (arXiv:2602.03310) collected more than 10,000 hours of demonstrations with an enhanced Universal Manipulation Interface that is deliberately embodiment-agnostic. The same human data trains policies that transfer zero-shot to UR5e, Franka, and other bimanual platforms. This shifts teleop data from "one robot, one dataset" to "one interface, many embodiments."
+
+- **LeRobot community datasets** (Hugging Face): the standard open distribution format for teleop-collected RLDS episodes, with SmolVLA fine-tuning recipes.
+
+- **OXE-AugE / AugE-Toolkit** (arXiv:2512.13100): an open augmentation pipeline that re-renders teleop trajectories with cross-painting across nine embodiments, producing 4.4M trajectories from 16 Open X-Embodiment datasets. Use it when you have data for one robot and need policies that generalize to others.
+- **Beyond OXE-AugE:** VLM-driven relabeling and trajectory stitching (**TREAD**, arxiv:2606.10918), sim-to-realistic video transfer preserving actions (**Seeing Realism from Simulation**, arxiv:2605.02757), and wet-lab sim augmentation with automatic success filtering (**Pipette**, arxiv:2606.12936). All expand datasets without new collection; TREAD is benchmark-only, the other two report real-robot gains.
+
+## Algorithmic data collection methods
+
+Between 2025 and 2026, collection shifted from "buy better hardware" to "collect smarter data." These methods are primarily algorithmic — they change *what* gets collected, not just the rig:
+
+### Uncertainty Comes for Free (He et al., Feb 2025 / rev. Oct 2025)
+Diffusion policies compute their own uncertainty at deployment and request human help only in high-uncertainty states; that same signal drives efficient fine-tuning data collection, improving real-robot success by ~47% on average. [arxiv:2503.01876](https://arxiv.org/abs/2503.01876)
+
+### Adversarial Data Collection (ADC) (Huang et al., Mar 2025 / IROS 2025)
+A human-in-the-loop framework where an adversarial operator perturbs object states, conditions, and commands mid-episode while the tele-operator adapts, compressing failure recovery into minimal demos. 20% of ADC data beats full static datasets. [arxiv:2503.11646](https://arxiv.org/abs/2503.11646)
+
+### Mulligan (Ankile et al., Oct 2026)
+Makes the initial-state distribution a decision — start at observed failures or untried states — plus a value function trained on failures. Yields +10 to +34 percentage points of real-task success versus uniform sampling at equal data budget. Validated on 2,550 held-out blinded real episodes plus two sim tasks. [arxiv:2610.05882](https://arxiv.org/abs/2610.05882)
+
+### Robotic Data Inoculation (Li et al., Oct 2026)
+Shared-control inoculation: a human teleoperates while an online-trained residual policy perturbs commands, steering collection toward states the learner would err on, while human corrections become recovery demos. Validated on three real-world tasks against BC and offline-RL baselines. [arxiv:2610.39054](https://arxiv.org/abs/2610.39054)
+
+### RoboCade (Mirchandani et al., Dec 2025 / ICRA 2026)
+A gamified remote teleoperation platform (leaderboards, badges, progress bars) that engages novice users. Co-training on collected data improves target-task success by +16 to +56 percentage points. [arxiv:2512.21235](https://arxiv.org/abs/2512.21235)
+
+## Data collection practice
+
+- Record at roughly 30 Hz camera, 100 Hz or higher joint state, with language annotations and episode outcomes.
+- Validate completeness and trajectory smoothness before training; filter failed episodes.
+- Balance embodiments rather than maximize total transitions: diversity beats volume (scaling-laws finding, arXiv:2405.14005).
+
+### Sources
+
+- arXiv:2602.03310 RDT2
+- arXiv:2512.13100 OXE-AugE
+- Hugging Face LeRobot
+- arXiv:2405.14005 scaling laws
 
 ## Data quality is everything
 
@@ -282,6 +378,13 @@ In 2026 there are basically two dominant formats:
 
 LeRobot is easier for individuals/small labs. RLDS is the standard for big VLA training. Tools exist to convert between them.
 
+A few 2025-2026 alternatives and pipelines are worth knowing:
+
+- **Robo-DM** (Berkeley AUTOLAB, ICRA 2025): A self-contained EBML-based container for large robot datasets, claiming up to 70x (lossy) space savings over RLDS on Open X-Embodiment data. The clearest distinct alternative container format; LeRobot and RLDS remain the training targets.
+- **REAL-I Challenge data pipeline** (Wang et al., Sep 2026 / ICRA 2026): Records ROS bags (RGB, optional depth, state, actions) and converts them to LeRobot for training; compares curation, staged adaptation, and action-space design on a shared dual-arm humanoid. [arxiv:2609.13679](https://arxiv.org/abs/2609.13679)
+- **Pipette** (Liu et al., Jun 2026): Converts wet-lab HDF5 to LeRobot, removing stale frames, aligning streams, and resampling to 10 Hz as part of a wet-lab sim + data-augmentation platform. [arxiv:2606.12936](https://arxiv.org/abs/2606.12936)
+- **VLA-Δ** (Lu et al., Oct 2026): Uses LeRobot v3 as the common trajectory format for a large-scale physical state-transition annotation pipeline; real-robot experiments outperform pi0.5. [arxiv:2610.21306](https://arxiv.org/abs/2610.21306)
+
 For your own datasets: just use LeRobot's format. Re-inventing data formats is a rite of passage and a waste of a week.
 
 ## Tooling for data collection workflows
@@ -332,3 +435,28 @@ A real production-grade pipeline is more elaborate (CI on the dataset, regressio
 - Nair et al., *"R3M: A Universal Visual Representation for Robot Manipulation"* - [https://arxiv.org/abs/2203.12601](https://arxiv.org/abs/2203.12601)
 - Grauman et al., *"Ego4D: Around the World in 3,000 Hours of Egocentric Video"* - [https://arxiv.org/abs/2110.07058](https://arxiv.org/abs/2110.07058)
 - LeRobot teleop documentation - [https://huggingface.co/docs/lerobot/](https://huggingface.co/docs/lerobot/)
+
+### 2025-2026 additions
+
+- Zhu et al., *"ViHaTeleop: A Low-Cost Visual-Haptic Teleoperation System for Dexterous Manipulation Learning"* (IROS 2026) - [arxiv:2608.16572](https://arxiv.org/abs/2608.16572)
+- Myers et al., *"TRIP-Bag: A Portable Puppeteer-Style Teleoperation System"* - [arxiv:2603.09226](https://arxiv.org/abs/2603.09226)
+- Citron et al., *"ModPack: A Modular Wearable Teleop Interface for Bimanual Mobile Manipulation"* - [arxiv:2607.19479](https://arxiv.org/abs/2607.19479)
+- Koh et al., *"DEX-Mouse: A Low-Cost Calibration-Free Handheld Force-Feedback Interface"* - [arxiv:2604.15013](https://arxiv.org/abs/2604.15013)
+- Ohkawa et al., *"YUBI: A Yielding Bimanual Gripper for VR Teleoperation"* - [arxiv:2606.10244](https://arxiv.org/abs/2606.10244)
+- Liu et al., *"FastUMI-100K: A Large-Scale UMI-Style Multimodal Dataset"* - [arxiv:2510.08022](https://arxiv.org/abs/2510.08022)
+- Wu et al., *"FreeTacMan: Robot-Free Wearable Visuo-Tactile Data Collection"* - [arxiv:2506.01941](https://arxiv.org/abs/2506.01941)
+- Fang et al., *"RoboPocket: Smartphone-Based Robot-Free Policy-Iteration Data Collection"* (CoRL 2026) - [arxiv:2603.05504](https://arxiv.org/abs/2603.05504)
+- He et al., *"Uncertainty Comes for Free: Uncertainty-Guided Human-in-the-Loop Data Collection"* - [arxiv:2503.01876](https://arxiv.org/abs/2503.01876)
+- Huang et al., *"Adversarial Data Collection for Imitation Learning"* (IROS 2025) - [arxiv:2503.11646](https://arxiv.org/abs/2503.11646)
+- Ankile et al., *"Mulligan: Performance-Guided On-Robot Data Collection"* - [arxiv:2610.05882](https://arxiv.org/abs/2610.05882)
+- Li et al., *"Robotic Data Inoculation: Shared-Control Perturbation for Targeted Collection"* - [arxiv:2610.39054](https://arxiv.org/abs/2610.39054)
+- Mirchandani et al., *"RoboCade: Gamified Remote Teleoperation for Data Collection"* (ICRA 2026) - [arxiv:2512.21235](https://arxiv.org/abs/2512.21235)
+- Kuramshin et al., *"TREAD: VLM-Driven Relabeling and Trajectory Stitching"* - [arxiv:2606.10918](https://arxiv.org/abs/2606.10918)
+- Hui et al., *"Seeing Realism from Simulation"* (ICML 2026) - [arxiv:2605.02757](https://arxiv.org/abs/2605.02757)
+- Liu et al., *"Pipette: Wet-Lab Sim Augmentation for Robot Learning"* - [arxiv:2606.12936](https://arxiv.org/abs/2606.12936)
+- Liu et al., *"EgoEngine: Egocentric Video to Executable Robot Actions"* - [arxiv:2606.12604](https://arxiv.org/abs/2606.12604)
+- Li et al., *"Scalable VLA Model Pretraining with Real-Life Human Activity Videos"* - [arxiv:2510.21571](https://arxiv.org/abs/2510.21571)
+- Zhang et al., *"RoboWheel: Monocular Human Video to Cross-Embodiment Robot Supervision"* - [arxiv:2512.02729](https://arxiv.org/abs/2512.02729)
+- Wang et al., *"REAL-I Challenge: ROS Bags to LeRobot for Dual-Arm Humanoid Training"* (ICRA 2026) - [arxiv:2609.13679](https://arxiv.org/abs/2609.13679)
+- Lu et al., *"VLA-Δ: Multi-Source Physical State-Transition Annotation"* - [arxiv:2610.21306](https://arxiv.org/abs/2610.21306)
+- Berkeley AUTOLAB, *"Robo-DM: EBML Container for Large Robot Datasets"* (ICRA 2025) - [Berkeley PDF](https://autolab.berkeley.edu/assets/publications/media/2025_ICRA_DataLoader_final_v3.pdf)
